@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Skilliant user portal for finding and booking trusted labour." />
+  <title>Skilliant | User Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+      <a class="brand" href="#dashboard" aria-label="Skilliant home"><span class="brand-mark">S</span><span>skilliant</span></a>
+      <nav class="nav-links">
+        <a class="nav-link active" href="#dashboard" data-page="dashboard"><span>⌂</span>Dashboard</a>
+        <a class="nav-link" href="#find-labour" data-page="find-labour"><span>⌕</span>Find Labour</a>
+        <a class="nav-link" href="#bookings" data-page="bookings"><span>▣</span>My Bookings <b id="bookingBadge">2</b></a>
+        <a class="nav-link" href="#notifications" data-page="notifications"><span>♧</span>Notifications <b id="noticeBadge">3</b></a>
+      </nav>
+      <div class="sidebar-help">
+        <span class="help-icon">?</span>
+        <div><strong>Need help?</strong><small>Our team is here for you</small></div>
+        <button class="text-btn" id="helpBtn">Contact us</button>
+      </div>
+      <div class="profile-mini"><div class="avatar avatar-blue">SS</div><div><strong>Shreeya</strong><small>Verified user</small></div><button aria-label="Open account menu">⌄</button></div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="menu-btn" id="menuBtn" aria-label="Open navigation">☰</button>
+        <div class="location"><span>⌖</span><div><small>YOUR LOCATION</small><strong>Indiranagar, Bengaluru</strong></div><button aria-label="Change location">⌄</button></div>
+        <div class="top-actions"><button class="icon-btn notification-btn" id="notificationBtn" aria-label="Notifications">♧<i></i></button><button class="avatar avatar-orange" aria-label="Account">SS</button></div>
+      </header>
+
+      <section class="page active" id="dashboard">
+        <div class="heading-row"><div><p class="eyebrow">TUESDAY, 05 AUGUST</p><h1>Good morning, Shreeya <span>👋</span></h1><p class="subtext">Here’s what’s happening with your bookings today.</p></div><button class="primary-btn" data-go="find-labour"><span>+</span> Find Labour</button></div>
+        <section class="welcome-card">
+          <div class="welcome-copy"><p class="eyebrow">SKILLIANT CARE</p><h2>Great work starts with<br /><em>the right hands.</em></h2><p>Find skilled, verified professionals for every job — right when you need them.</p><button class="white-btn" data-go="find-labour">Explore professionals <span>→</span></button></div>
+          <div class="art" aria-hidden="true"><div class="sun"></div><div class="person person-one"><i></i><b></b></div><div class="person person-two"><i></i><b></b></div><div class="plant"><i></i><i></i><i></i></div></div>
+        </section>
+        <section class="section-block"><div class="section-title"><div><h2>Quick actions</h2><p>Get things done, faster.</p></div></div><div class="quick-grid">
+          <button class="quick-card" data-go="find-labour"><span class="quick-icon blue">⌕</span><strong>Find Labour</strong><small>Browse skilled professionals</small><i>→</i></button>
+          <button class="quick-card" data-go="bookings"><span class="quick-icon orange">▣</span><strong>My Bookings</strong><small>Manage your work requests</small><i>→</i></button>
+          <button class="quick-card" id="rebookBtn"><span class="quick-icon purple">↻</span><strong>Rebook</strong><small>Hire someone you worked with</small><i>→</i></button>
+        </div></section>
+        <section class="two-col"><div class="section-block"><div class="section-title"><div><h2>Upcoming bookings</h2><p>Don’t miss your scheduled work.</p></div><button class="link-btn" data-go="bookings">View all →</button></div><div id="dashboardBookings"></div></div>
+          <div class="section-block"><div class="section-title"><div><h2>Popular near you</h2><p>People are booking these skills.</p></div></div><div class="chips"><button>Electrician</button><button>Plumber</button><button>Painter</button><button>Carpenter</button><button>Cleaner</button><button>+ More</button></div></div></section>
+      </section>
+
+      <section class="page" id="find-labour">
+        <div class="heading-row compact"><div><p class="eyebrow">SKILLED PROFESSIONALS</p><h1>Find the right hands</h1><p class="subtext">Browse verified talent available near you.</p></div></div>
+        <div class="search-bar"><span>⌕</span><input id="searchInput" type="search" placeholder="Search by skill or name..." /><button id="filterToggle" class="filter-btn">☷ Filters <b id="filterCount">0</b></button></div>
+        <div class="content-grid"><aside class="filter-panel" id="filterPanel"><div class="filter-heading"><h3>Filters</h3><button id="clearFilters">Clear all</button></div><fieldset><legend>Service category</legend><label><input type="checkbox" value="Electrician" class="category-filter" /> Electrician</label><label><input type="checkbox" value="Plumber" class="category-filter" /> Plumber</label><label><input type="checkbox" value="Carpenter" class="category-filter" /> Carpenter</label><label><input type="checkbox" value="Painter" class="category-filter" /> Painter</label></fieldset><fieldset><legend>Availability</legend><label><input type="radio" name="availability" value="today" /> Available today</label><label><input type="radio" name="availability" value="week" /> This week</label></fieldset><fieldset><legend>Rating</legend><label><input type="radio" name="rating" value="4.5" /> 4.5 & above</label><label><input type="radio" name="rating" value="4" /> 4.0 & above</label></fieldset></aside><div class="labour-area"><div class="results-top"><p><strong id="resultCount">6</strong> professionals found near you</p><select id="sortSelect" aria-label="Sort listings"><option value="recommended">Recommended</option><option value="rating">Top rated</option><option value="price">Lowest price</option></select></div><div class="labour-grid" id="labourGrid"></div></div></div>
+      </section>
+
+      <section class="page" id="bookings"><div class="heading-row compact"><div><p class="eyebrow">YOUR WORK REQUESTS</p><h1>My bookings</h1><p class="subtext">Stay on top of every job, from request to completion.</p></div><button class="primary-btn" data-go="find-labour">+ New booking</button></div><div class="booking-tabs" role="tablist"><button class="active" data-tab="active">Active <span id="activeCount">2</span></button><button data-tab="upcoming">Upcoming <span id="upcomingCount">1</span></button><button data-tab="past">Past bookings</button></div><div id="bookingList" class="booking-list"></div></section>
+
+      <section class="page" id="notifications"><div class="heading-row compact"><div><p class="eyebrow">STAY UPDATED</p><h1>Notifications</h1><p class="subtext">Updates about your bookings and account.</p></div><button id="markRead" class="secondary-btn">Mark all as read</button></div><div class="notification-list" id="notificationList"></div></section>
+    </main>
+  </div>
+  <div class="overlay" id="overlay"></div>
+  <dialog id="bookingDialog"><button class="close-dialog" aria-label="Close">×</button><form id="bookingForm"><p class="eyebrow">BOOK A PROFESSIONAL</p><h2>Book <span id="bookName"></span></h2><p class="dialog-intro" id="bookMeta"></p><label>Choose a date<input required type="date" id="bookingDate" /></label><label>Preferred time<select id="bookingTime"><option>09:00 AM – 12:00 PM</option><option>12:00 PM – 03:00 PM</option><option>03:00 PM – 06:00 PM</option></select></label><label>Tell us about the work<textarea id="bookingNote" rows="3" placeholder="Briefly describe what you need..." required></textarea></label><button class="primary-btn full" type="submit">Send booking request →</button></form></dialog>
+  <dialog id="confirmationDialog"><div class="success-mark">✓</div><h2>Booking request sent!</h2><p>Your request has been shared with <strong id="confirmedName"></strong>. We’ll notify you once it is accepted.</p><button class="primary-btn full close-confirm">View my bookings</button><button class="text-center close-confirm">Keep exploring</button></dialog>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
