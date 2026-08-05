@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skilliant – Online Labour Finding Platform | Admin Portal</title>
+    <meta name="description" content="Skilliant Admin Portal - Manage Users, Labourers, Contractors, Bookings, Payments, Wallets, Analytics, and Website Settings.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Login Container -->
+    <div class="login-container" id="loginContainer" style="display: none;">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <span class="material-icons-round">construction</span>
+                    </div>
+                    <span class="logo-text">Skilliant Admin</span>
+                </div>
+                <h2>Welcome Back</h2>
+                <p>Sign in to manage the platform</p>
+            </div>
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <div class="input-with-icon">
+                        <span class="material-icons-round">email</span>
+                        <input type="email" id="loginEmail" placeholder="admin@skilliant.com" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <div class="input-with-icon">
+                        <span class="material-icons-round">lock</span>
+                        <input type="password" id="loginPassword" placeholder="Enter password" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Sidebar Overlay (Mobile) -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- Sidebar Navigation (Day 1 Feature) -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <span class="material-icons-round">construction</span>
+                    </div>
+                    <span class="logo-text">Skilliant</span>
+                </div>
+                <button class="sidebar-close" id="sidebarClose" aria-label="Close sidebar">
+                    <span class="material-icons-round">close</span>
+                </button>
+            </div>
+            
+            <nav class="sidebar-nav" id="sidebarNav" aria-label="Main Navigation">
+                <div class="nav-section">
+                    <span class="nav-section-title">Overview</span>
+                    <a href="#dashboard" class="nav-item active" data-page="dashboard">
+                        <span class="material-icons-round">dashboard</span>
+                        <span class="nav-text">Dashboard</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <span class="nav-section-title">Day 2: Talent & Users</span>
+                    <a href="#users" class="nav-item" data-page="users">
+                        <span class="material-icons-round">people</span>
+                        <span class="nav-text">Users</span>
+                    </a>
+                    <a href="#labour" class="nav-item" data-page="labour">
+                        <span class="material-icons-round">engineering</span>
+                        <span class="nav-text">Labourers</span>
+                    </a>
+                    <a href="#contractors" class="nav-item" data-page="contractors">
+                        <span class="material-icons-round">business</span>
+                        <span class="nav-text">Contractors</span>
+                    </a>
+                    <a href="#categories" class="nav-item" data-page="categories">
+                        <span class="material-icons-round">category</span>
+                        <span class="nav-text">Categories</span>
+                    </a>
+                    <a href="#skills" class="nav-item" data-page="skills">
+                        <span class="material-icons-round">psychology</span>
+                        <span class="nav-text">Skills</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <span class="nav-section-title">Day 3: Operations</span>
+                    <a href="#bookings" class="nav-item" data-page="bookings">
+                        <span class="material-icons-round">book_online</span>
+                        <span class="nav-text">Bookings</span>
+                    </a>
+                    <a href="#payments" class="nav-item" data-page="payments">
+                        <span class="material-icons-round">payments</span>
+                        <span class="nav-text">Payments</span>
+                    </a>
+                    <a href="#wallet" class="nav-item" data-page="wallet">
+                        <span class="material-icons-round">account_balance_wallet</span>
+                        <span class="nav-text">Wallet</span>
+                    </a>
+                    <a href="#reports" class="nav-item" data-page="reports">
+                        <span class="material-icons-round">assessment</span>
+                        <span class="nav-text">Reports</span>
+                    </a>
+                    <a href="#reviews" class="nav-item" data-page="reviews">
+                        <span class="material-icons-round">star</span>
+                        <span class="nav-text">Reviews</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <span class="nav-section-title">Day 4: Analytics</span>
+                    <a href="#revenue" class="nav-item" data-page="revenue">
+                        <span class="material-icons-round">trending_up</span>
+                        <span class="nav-text">Revenue Dashboard</span>
+                    </a>
+                    <a href="#booking-analytics" class="nav-item" data-page="booking-analytics">
+                        <span class="material-icons-round">analytics</span>
+                        <span class="nav-text">Booking Analytics</span>
+                    </a>
+                    <a href="#user-growth" class="nav-item" data-page="user-growth">
+                        <span class="material-icons-round">group_add</span>
+                        <span class="nav-text">User Growth</span>
+                    </a>
+                    <a href="#export-reports" class="nav-item" data-page="export-reports">
+                        <span class="material-icons-round">download</span>
+                        <span class="nav-text">Export Report UI</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <span class="nav-section-title">Day 5: Administration</span>
+                    <a href="#notifications" class="nav-item" data-page="notifications">
+                        <span class="material-icons-round">notifications</span>
+                        <span class="nav-text">Notifications</span>
+                        <span class="nav-badge">4</span>
+                    </a>
+                    <a href="#support-tickets" class="nav-item" data-page="support-tickets">
+                        <span class="material-icons-round">support_agent</span>
+                        <span class="nav-text">Support Tickets</span>
+                        <span class="nav-badge" style="background:#EF4444;">2</span>
+                    </a>
+                    <a href="#settings" class="nav-item" data-page="settings">
+                        <span class="material-icons-round">settings</span>
+                        <span class="nav-text">Website Settings</span>
+                    </a>
+                    <a href="#roles" class="nav-item" data-page="roles">
+                        <span class="material-icons-round">admin_panel_settings</span>
+                        <span class="nav-text">Role Management</span>
+                    </a>
+                    <a href="#activity-logs" class="nav-item" data-page="activity-logs">
+                        <span class="material-icons-round">history</span>
+                        <span class="nav-text">Activity Logs</span>
+                    </a>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="sidebar-user-avatar">SA</div>
+                    <div class="sidebar-user-info">
+                        <span class="sidebar-user-name">Alex Morgan</span>
+                        <span class="sidebar-user-role">Super Admin</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <div class="main-wrapper">
+            <!-- Header (Day 1 Feature) -->
+            <header class="header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menuToggle" aria-label="Toggle Mobile Menu">
+                        <span class="material-icons-round">menu</span>
+                    </button>
+                    <div class="breadcrumb" id="breadcrumb">
+                        <span class="material-icons-round">home</span>
+                        <span>/ Dashboard</span>
+                    </div>
+                </div>
+
+                <div class="header-right">
+                    <div class="header-search">
+                        <span class="material-icons-round search-icon">search</span>
+                        <input type="text" id="globalSearchInput" placeholder="Search users, bookings, skills..." aria-label="Global Search">
+                    </div>
+
+                    <div class="header-actions">
+                        <button class="header-action-btn" id="headerNotifBtn" title="Notifications">
+                            <span class="material-icons-round">notifications</span>
+                            <span class="header-badge">4</span>
+                        </button>
+
+                        <button class="header-action-btn" id="themeToggleBtn" title="Toggle Dark/Light Mode">
+                            <span class="material-icons-round">dark_mode</span>
+                        </button>
+
+                        <div class="header-profile" id="headerProfileBtn">
+                            <div class="header-profile-avatar">AM</div>
+                            <span class="header-profile-name">Alex M.</span>
+                            <span class="material-icons-round">expand_more</span>
+
+                            <div class="profile-dropdown" id="profileDropdown">
+                                <a href="#settings" class="profile-dropdown-item">
+                                    <span class="material-icons-round">settings</span> Settings
+                                </a>
+                                <a href="#roles" class="profile-dropdown-item">
+                                    <span class="material-icons-round">shield</span> Permissions
+                                </a>
+                                <div class="profile-dropdown-divider"></div>
+                                <a href="#" class="profile-dropdown-item text-danger" id="logoutBtn">
+                                    <span class="material-icons-round">logout</span> Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Dynamic Page Content Container -->
+            <main class="main-content" id="mainContent" role="main"></main>
+        </div>
+    </div>
+
+    <!-- Reusable Modal Overlay -->
+    <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true">
+        <div class="modal-card" id="modalCard">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Modal Title</h3>
+                <button class="btn-icon" id="modalCloseBtn" aria-label="Close modal">
+                    <span class="material-icons-round">close</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+            <div class="modal-footer" id="modalFooter">
+                <button class="btn btn-outline" id="modalCancelBtn">Cancel</button>
+                <button class="btn btn-primary" id="modalSubmitBtn">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+    <!-- JavaScript Module Scripts -->
+    <script src="js/services/dataService.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/modals.js"></script>
+    <script src="js/notifications.js"></script>
+    <script src="js/sidebar.js"></script>
+    
+    <!-- Day 1 to Day 5 Page Controllers -->
+    <script src="js/pages/dashboard.js"></script>
+    <script src="js/pages/users.js"></script>
+    <script src="js/pages/labour.js"></script>
+    <script src="js/pages/contractors.js"></script>
+    <script src="js/pages/categories.js"></script>
+    <script src="js/pages/skills.js"></script>
+    <script src="js/pages/bookings.js"></script>
+    <script src="js/pages/payments.js"></script>
+    <script src="js/pages/wallet.js"></script>
+    <script src="js/pages/reports.js"></script>
+    <script src="js/pages/reviews.js"></script>
+    <script src="js/pages/revenue.js"></script>
+    <script src="js/pages/booking-analytics.js"></script>
+    <script src="js/pages/user-growth.js"></script>
+    <script src="js/pages/export-reports.js"></script>
+    <script src="js/pages/notifications.js"></script>
+    <script src="js/pages/support-tickets.js"></script>
+    <script src="js/pages/settings.js"></script>
+    <script src="js/pages/roles.js"></script>
+    <script src="js/pages/activity-logs.js"></script>
+    
+    <!-- App Entry Point -->
+    <script src="js/app.js"></script>
+</body>
+</html>

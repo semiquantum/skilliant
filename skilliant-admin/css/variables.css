@@ -1,0 +1,78 @@
+:root {
+    /* Brand Primary Colors */
+    --primary-navy: #1E3A8A;
+    --primary-blue: #2563EB;
+    --primary-blue-hover: #1D4ED8;
+    --primary-blue-light: #EFF6FF;
+    
+    /* Brand Accent Colors (Orange) */
+    --accent-orange: #F97316;
+    --accent-orange-bright: #FF6B00;
+    --accent-orange-hover: #EA580C;
+    --accent-orange-light: #FFF7ED;
+    
+    /* Neutral & Background Colors */
+    --bg-main: #F1F5F9;
+    --bg-card: rgba(255, 255, 255, 0.85);
+    --bg-card-hover: rgba(255, 255, 255, 0.95);
+    --bg-sidebar: #0F172A;
+    --bg-header: rgba(255, 255, 255, 0.88);
+    
+    /* Glassmorphism Effects */
+    --glass-bg: rgba(255, 255, 255, 0.75);
+    --glass-border: rgba(255, 255, 255, 0.5);
+    --glass-blur: blur(14px);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.08);
+    
+    /* Text Colors */
+    --text-main: #0F172A;
+    --text-muted: #64748B;
+    --text-light: #94A3B8;
+    --text-white: #FFFFFF;
+    
+    /* Status Colors */
+    --success: #10B981;
+    --success-bg: #ECFDF5;
+    --warning: #F59E0B;
+    --warning-bg: #FFFBEB;
+    --danger: #EF4444;
+    --danger-bg: #FEF2F2;
+    --info: #3B82F6;
+    --info-bg: #EFF6FF;
+    
+    /* Borders & Shadows */
+    --border-color: #E2E8F0;
+    --border-radius-sm: 8px;
+    --border-radius-md: 12px;
+    --border-radius-lg: 16px;
+    --border-radius-xl: 24px;
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    
+    /* Typography */
+    --font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+    --transition-fast: 0.08s ease;
+    --transition-normal: 0.15s ease;
+    --transition-slow: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    
+    /* Layout Sizes */
+    --sidebar-width: 270px;
+    --sidebar-collapsed-width: 80px;
+    --header-height: 72px;
+}
+
+[data-theme="dark"] {
+    --bg-main: #0B0F19;
+    --bg-card: rgba(30, 41, 59, 0.7);
+    --bg-card-hover: rgba(30, 41, 59, 0.85);
+    --bg-sidebar: #090D16;
+    --bg-header: rgba(15, 23, 42, 0.85);
+    --glass-bg: rgba(15, 23, 42, 0.75);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    --text-main: #F8FAFC;
+    --text-muted: #94A3B8;
+    --text-light: #64748B;
+    --border-color: #1E293B;
+}
