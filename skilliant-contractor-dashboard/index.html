@@ -1,163 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
     <title>Skilliant | Labour Portal</title>
 
     <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <!-- Font Awesome -->
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- CSS -->
+
+    <link rel="stylesheet"
+        href="css/style.css">
+
 </head>
 
 <body>
 
 <div class="container">
 
-    <!-- ================= SIDEBAR ================= -->
+<!-- ========================================= -->
+<!--                SIDEBAR                    -->
+<!-- ========================================= -->
 
-    <aside class="sidebar">
+<aside class="sidebar">
 
-        <div class="logo">
+    <div class="logo">
 
-            <i class="fa-solid fa-user-helmet-safety"></i>
+        <i class="fa-solid fa-user-helmet-safety"></i>
 
-            <h2>Skilliant</h2>
+        <h2>Skilliant</h2>
+
+    </div>
+
+    <ul class="menu">
+
+        <li class="active"
+            onclick="showPage('dashboard',this)">
+
+            <i class="fa-solid fa-house"></i>
+
+            Dashboard
+
+        </li>
+
+        <li
+            onclick="showPage('jobs',this)">
+
+            <i class="fa-solid fa-briefcase"></i>
+
+            Jobs
+
+        </li>
+
+        <li
+            onclick="showPage('analytics',this)">
+
+            <i class="fa-solid fa-chart-column"></i>
+
+            Analytics
+
+        </li>
+
+        <li
+            onclick="showPage('wallet',this)">
+
+            <i class="fa-solid fa-wallet"></i>
+
+            Wallet
+
+        </li>
+
+        <li
+            onclick="openLogoutModal()">
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+            Logout
+
+        </li>
+
+    </ul>
+
+</aside>
+
+<!-- ========================================= -->
+<!--              MAIN CONTENT                 -->
+<!-- ========================================= -->
+
+<div class="main-content">
+
+<header class="topbar">
+
+    <div>
+
+        <h1>Labour Portal</h1>
+
+        <p id="greeting">
+
+            Welcome Back 👋
+
+        </p>
+
+    </div>
+
+    <div class="topbar-right">
+
+        <div class="search-box">
+
+            <i class="fa-solid fa-search"></i>
+
+            <input
+                type="text"
+                placeholder="Search jobs...">
 
         </div>
 
-        <ul class="menu">
+        <button class="icon">
 
-            <li class="active"
-            onclick="showPage('dashboard',this)">
+            <i class="fa-regular fa-bell"></i>
 
-                <i class="fa-solid fa-house"></i>
+            <span class="badge">
 
-                Dashboard
+                3
 
-            </li>
+            </span>
 
-            <li
-            onclick="showPage('jobs',this)">
+        </button>
 
-                <i class="fa-solid fa-briefcase"></i>
+        <div class="profile">
 
-                Jobs
-
-            </li>
-
-            <li
-            onclick="showPage('analytics',this)">
-
-                <i class="fa-solid fa-chart-column"></i>
-
-                Analytics
-
-            </li>
-
-            <li>
-
-                <i class="fa-solid fa-right-from-bracket"></i>
-
-                Logout
-
-            </li>
-
-        </ul>
-
-    </aside>
-
-    <!-- ================= MAIN ================= -->
-
-    <div class="main-content">
-
-        <!-- HEADER -->
-
-        <header class="topbar">
+            <img
+                src="https://i.pravatar.cc/100?img=12"
+                alt="Profile">
 
             <div>
 
-                <h1>
-                    Labour Portal
-                </h1>
+                <h4>
 
-                <p>
-                    Welcome back 👋
-                </p>
+                    Rahul Sharma
 
-            </div>
+                </h4>
 
-            <div class="topbar-right">
+                <span>
 
-                <div class="search-box">
+                    Electrician
 
-                    <i class="fa-solid fa-search"></i>
-
-                    <input
-                    type="text"
-                    placeholder="Search jobs...">
-
-                </div>
-
-                <button class="icon">
-
-                    <i class="fa-regular fa-bell"></i>
-
-                    <span class="badge">
-                        3
-                    </span>
-
-                </button>
-
-                <div class="profile">
-
-                    <img
-                    src="https://i.pravatar.cc/100?img=12">
-
-                    <div>
-
-                        <h4>
-                            Rahul Sharma
-                        </h4>
-
-                        <span>
-                            Electrician
-                        </span>
-
-                    </div>
-
-                </div>
+                </span>
 
             </div>
 
-        </header>
+        </div>
 
-        <!-- ========================================= -->
-        <!-- DASHBOARD PAGE START -->
-        <!-- ========================================= -->
+    </div>
 
-        <section
-        id="dashboard"
-        class="page active-page">
+</header>
 
-            <!-- Dashboard starts in Part 2 -->
-             <!-- ================= WELCOME BANNER ================= -->
+<!-- ========================================= -->
+<!--             DASHBOARD PAGE                -->
+<!-- ========================================= -->
+
+<section
+id="dashboard"
+class="page active-page">
 
 <div class="welcome-banner">
 
     <div class="welcome-text">
 
-        <h2 id="greeting">
-            Good Morning, Rahul 👋
+        <h2>
+
+            Welcome Back 👋
+
         </h2>
 
         <p>
-            Welcome back! Here's your work summary for today.
+
+            Here is your work summary for today.
+
         </p>
 
     </div>
@@ -170,11 +209,11 @@
 
 </div>
 
-<!-- ================= TOP CARDS ================= -->
+<!-- Dashboard Cards -->
 
 <div class="dashboard-cards">
 
-    <div class="card earnings">
+    <div class="card glass">
 
         <div class="card-icon blue">
 
@@ -189,14 +228,16 @@
             <h2>₹850</h2>
 
             <span class="success">
+
                 +₹200 than yesterday
+
             </span>
 
         </div>
 
     </div>
 
-    <div class="card completed">
+    <div class="card glass">
 
         <div class="card-icon green">
 
@@ -208,15 +249,17 @@
 
             <p>Completed Jobs</p>
 
-            <h2 class="counter">125</h2>
+            <h2 class="counter">
 
-            <span>Overall Completed</span>
+                125
+
+            </h2>
 
         </div>
 
     </div>
 
-    <div class="card pending">
+    <div class="card glass">
 
         <div class="card-icon orange">
 
@@ -228,15 +271,17 @@
 
             <p>Pending Jobs</p>
 
-            <h2>05</h2>
+            <h2>
 
-            <span>Need Attention</span>
+                05
+
+            </h2>
 
         </div>
 
     </div>
 
-    <div class="card rating">
+    <div class="card glass">
 
         <div class="card-icon yellow">
 
@@ -246,11 +291,13 @@
 
         <div>
 
-            <p>Customer Rating</p>
+            <p>Rating</p>
 
-            <h2>4.8</h2>
+            <h2>
 
-            <span>Excellent</span>
+                4.8
+
+            </h2>
 
         </div>
 
@@ -258,11 +305,13 @@
 
 </div>
 
-<!-- ================= TODAY'S JOBS ================= -->
-
 <div class="section-title">
 
-    <h2>Today's Jobs</h2>
+    <h2>
+
+        Today's Jobs
+
+    </h2>
 
     <button class="view-all">
 
@@ -286,9 +335,17 @@
 
             <div>
 
-                <h3>AC Repair</h3>
+                <h3>
 
-                <p>10:00 AM</p>
+                    AC Repair
+
+                </h3>
+
+                <p>
+
+                    10:00 AM
+
+                </p>
 
             </div>
 
@@ -314,9 +371,17 @@
 
             <div>
 
-                <h3>Plumbing</h3>
+                <h3>
 
-                <p>2:00 PM</p>
+                    Plumbing
+
+                </h3>
+
+                <p>
+
+                    2:00 PM
+
+                </p>
 
             </div>
 
@@ -342,9 +407,17 @@
 
             <div>
 
-                <h3>Painting</h3>
+                <h3>
 
-                <p>5:30 PM</p>
+                    Painting
+
+                </h3>
+
+                <p>
+
+                    5:30 PM
+
+                </p>
 
             </div>
 
@@ -360,15 +433,17 @@
 
 </div>
 
-<!-- ================= PERFORMANCE ================= -->
-
 <div class="dashboard-bottom">
 
-    <div class="performance-card">
+    <div class="performance-card glass">
 
         <div class="section-title">
 
-            <h2>Weekly Target</h2>
+            <h3>
+
+                Weekly Target
+
+            </h3>
 
         </div>
 
@@ -394,7 +469,7 @@
 
                 <p>
 
-                    Complete 3 more jobs to reach your weekly goal.
+                    Complete 3 more jobs to reach your goal.
 
                 </p>
 
@@ -404,15 +479,15 @@
 
     </div>
 
-    <div class="activity-card">
+    <div class="activity-card glass">
 
         <div class="section-title">
 
-            <h2>
+            <h3>
 
                 Recent Activity
 
-            </h2>
+            </h3>
 
         </div>
 
@@ -422,25 +497,11 @@
 
                 <i class="fa-solid fa-circle-check"></i>
 
-                AC Repair completed
+                AC Repair Completed
 
                 <span>
 
                     ₹850
-
-                </span>
-
-            </li>
-
-            <li>
-
-                <i class="fa-solid fa-circle-check"></i>
-
-                Plumbing Accepted
-
-                <span>
-
-                    Today
 
                 </span>
 
@@ -454,7 +515,21 @@
 
                 <span>
 
-                    Customer
+                    Today
+
+                </span>
+
+            </li>
+
+            <li>
+
+                <i class="fa-solid fa-briefcase"></i>
+
+                Plumbing Accepted
+
+                <span>
+
+                    2 PM
 
                 </span>
 
@@ -467,528 +542,1075 @@
 </div>
 
 </section>
+<!-- ========================================= -->
+<!--                JOBS PAGE                  -->
+<!-- ========================================= -->
 
-<!-- ================= JOBS PAGE STARTS HERE ================= -->
+<section id="jobs" class="page">
 
-<section
-id="jobs"
-class="page">
-<!-- ================= PAGE TITLE ================= -->
+    <!-- Page Header -->
 
-<div class="page-header">
-
-    <div>
-        <h2>Jobs Management</h2>
-        <p>Manage incoming requests and active jobs</p>
-    </div>
-
-    <button class="primary-btn">
-        <i class="fa-solid fa-filter"></i>
-        Filter
-    </button>
-
-</div>
-
-<!-- ================= INCOMING REQUESTS ================= -->
-
-<div class="section-title">
-
-    <h3>Incoming Requests</h3>
-
-    <span>02 New</span>
-
-</div>
-
-<div class="request-grid">
-
-    <!-- Request Card -->
-
-    <div class="request-card glass">
-
-        <div class="customer-info">
-
-            <img src="https://i.pravatar.cc/80?img=21">
-
-            <div>
-
-                <h4>Rahul Sharma</h4>
-
-                <p>AC Repair</p>
-
-                <small>
-                    Today • 10:00 AM
-                </small>
-
-            </div>
-
-        </div>
-
-        <div class="request-price">
-
-            ₹450
-
-        </div>
-
-        <div class="request-actions">
-
-            <button
-            class="accept-btn"
-            onclick="openAcceptModal()">
-
-                <i class="fa-solid fa-check"></i>
-
-                Accept
-
-            </button>
-
-            <button
-            class="reject-btn"
-            onclick="openRejectModal()">
-
-                <i class="fa-solid fa-xmark"></i>
-
-                Reject
-
-            </button>
-
-        </div>
-
-    </div>
-
-    <!-- Request Card -->
-
-    <div class="request-card glass">
-
-        <div class="customer-info">
-
-            <img src="https://i.pravatar.cc/80?img=22">
-
-            <div>
-
-                <h4>Amit Verma</h4>
-
-                <p>Plumbing Work</p>
-
-                <small>
-
-                    Today • 2:00 PM
-
-                </small>
-
-            </div>
-
-        </div>
-
-        <div class="request-price">
-
-            ₹650
-
-        </div>
-
-        <div class="request-actions">
-
-            <button
-            class="accept-btn"
-            onclick="openAcceptModal()">
-
-                Accept
-
-            </button>
-
-            <button
-            class="reject-btn"
-            onclick="openRejectModal()">
-
-                Reject
-
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-<!-- ================= CURRENT JOB ================= -->
-
-<div class="section-title">
-
-    <h3>Current Active Job</h3>
-
-</div>
-
-<div class="active-job glass">
-
-    <div class="active-top">
+    <div class="page-header">
 
         <div>
 
-            <h3>
+            <h2>Jobs Management</h2>
 
-                AC Repair
+            <p>Manage incoming requests and current jobs</p>
 
-            </h3>
+        </div>
+
+        <button class="primary-btn">
+
+            <i class="fa-solid fa-filter"></i>
+
+            Filter
+
+        </button>
+
+    </div>
+
+    <!-- Incoming Requests -->
+
+    <div class="section-title">
+
+        <h3>Incoming Requests</h3>
+
+        <span>02 New Requests</span>
+
+    </div>
+
+    <div class="request-grid">
+
+        <!-- Request 1 -->
+
+        <div class="request-card glass">
+
+            <div class="customer-info">
+
+                <img src="https://i.pravatar.cc/80?img=21" alt="Customer">
+
+                <div>
+
+                    <h4>Rahul Sharma</h4>
+
+                    <p>AC Repair</p>
+
+                    <small>Today • 10:00 AM</small>
+
+                </div>
+
+            </div>
+
+            <div class="request-price">
+
+                ₹450
+
+            </div>
+
+            <div class="request-actions">
+
+                <button
+                    class="accept-btn"
+                    onclick="openAcceptModal()">
+
+                    <i class="fa-solid fa-check"></i>
+
+                    Accept
+
+                </button>
+
+                <button
+                    class="reject-btn"
+                    onclick="openRejectModal()">
+
+                    <i class="fa-solid fa-xmark"></i>
+
+                    Reject
+
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- Request 2 -->
+
+        <div class="request-card glass">
+
+            <div class="customer-info">
+
+                <img src="https://i.pravatar.cc/80?img=22" alt="Customer">
+
+                <div>
+
+                    <h4>Amit Verma</h4>
+
+                    <p>Plumbing Work</p>
+
+                    <small>Today • 2:00 PM</small>
+
+                </div>
+
+            </div>
+
+            <div class="request-price">
+
+                ₹650
+
+            </div>
+
+            <div class="request-actions">
+
+                <button
+                    class="accept-btn"
+                    onclick="openAcceptModal()">
+
+                    Accept
+
+                </button>
+
+                <button
+                    class="reject-btn"
+                    onclick="openRejectModal()">
+
+                    Reject
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Current Job -->
+
+    <div class="section-title">
+
+        <h3>Current Active Job</h3>
+
+    </div>
+
+    <div class="active-job glass">
+
+        <div class="active-top">
+
+            <div>
+
+                <h3>AC Repair</h3>
+
+                <p>Customer : Rahul Sharma</p>
+
+            </div>
+
+            <span class="working">
+
+                In Progress
+
+            </span>
+
+        </div>
+
+        <div class="job-info-grid">
+
+            <div>
+
+                <i class="fa-solid fa-location-dot"></i>
+
+                Panaji, Goa
+
+            </div>
+
+            <div>
+
+                <i class="fa-solid fa-clock"></i>
+
+                10:00 AM
+
+            </div>
+
+            <div>
+
+                <i class="fa-solid fa-phone"></i>
+
+                +91 9876543210
+
+            </div>
+
+            <div>
+
+                <i class="fa-solid fa-indian-rupee-sign"></i>
+
+                ₹450
+
+            </div>
+
+        </div>
+
+        <button
+            class="primary-btn"
+            onclick="openDetailsModal()">
+
+            View Details
+
+        </button>
+
+    </div>
+
+    <!-- Job Timeline -->
+
+    <div class="section-title">
+
+        <h3>Job Timeline</h3>
+
+    </div>
+
+    <div class="timeline-card glass">
+
+        <div class="timeline-item completed">
+
+            <div class="timeline-icon">
+
+                <i class="fa-solid fa-circle-check"></i>
+
+            </div>
+
+            <div>
+
+                <h4>Request Received</h4>
+
+                <small>09:30 AM</small>
+
+            </div>
+
+        </div>
+
+        <div class="timeline-item completed">
+
+            <div class="timeline-icon">
+
+                <i class="fa-solid fa-circle-check"></i>
+
+            </div>
+
+            <div>
+
+                <h4>Job Accepted</h4>
+
+                <small>09:35 AM</small>
+
+            </div>
+
+        </div>
+
+        <div class="timeline-item active">
+
+            <div class="timeline-icon">
+
+                <i class="fa-solid fa-person-running"></i>
+
+            </div>
+
+            <div>
+
+                <h4>Work Started</h4>
+
+                <small>10:00 AM</small>
+
+            </div>
+
+        </div>
+
+        <div class="timeline-item">
+
+            <div class="timeline-icon">
+
+                <i class="fa-regular fa-circle"></i>
+
+            </div>
+
+            <div>
+
+                <h4>Work Completed</h4>
+
+                <small>Pending</small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ========================================= -->
+<!--            ANALYTICS PAGE                 -->
+<!-- ========================================= -->
+
+<section id="analytics" class="page">
+
+    <!-- Analytics Header -->
+
+    <div class="page-header">
+
+        <div>
+
+            <h2>Analytics Dashboard</h2>
+
+            <p>Track your earnings and performance</p>
+
+        </div>
+
+        <button class="primary-btn">
+
+            <i class="fa-solid fa-download"></i>
+
+            Export Report
+
+        </button>
+
+    </div>
+
+    <!-- Analytics Cards -->
+
+    <div class="analytics-cards">
+
+        <div class="analytics-card glass">
+
+            <i class="fa-solid fa-wallet"></i>
+
+            <h3>Monthly Earnings</h3>
+
+            <h2>₹25,800</h2>
+
+            <span class="success">
+
+                +18% This Month
+
+            </span>
+
+        </div>
+
+        <div class="analytics-card glass">
+
+            <i class="fa-solid fa-calendar-check"></i>
+
+            <h3>Jobs Completed</h3>
+
+            <h2>102</h2>
+
+            <span>
+
+                This Month
+
+            </span>
+
+        </div>
+
+        <div class="analytics-card glass">
+
+            <i class="fa-solid fa-star"></i>
+
+            <h3>Customer Rating</h3>
+
+            <h2>4.8</h2>
+
+            <span>
+
+                Excellent
+
+            </span>
+
+        </div>
+
+        <div class="analytics-card glass">
+
+            <i class="fa-solid fa-bullseye"></i>
+
+            <h3>Weekly Target</h3>
+
+            <h2>85%</h2>
+
+            <span>
+
+                Achieved
+
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- Charts + Calendar -->
+
+    <div class="analytics-grid">
+
+        <!-- Weekly Earnings -->
+
+        <div class="glass chart-card">
+
+            <div class="section-title">
+
+                <h3>Weekly Earnings</h3>
+
+            </div>
+
+            <div class="chart">
+
+                <div class="bar">
+                    <span style="height:60%"></span>
+                    <label>Mon</label>
+                </div>
+
+                <div class="bar">
+                    <span style="height:80%"></span>
+                    <label>Tue</label>
+                </div>
+
+                <div class="bar">
+                    <span style="height:45%"></span>
+                    <label>Wed</label>
+                </div>
+
+                <div class="bar">
+                    <span style="height:90%"></span>
+                    <label>Thu</label>
+                </div>
+
+                <div class="bar">
+                    <span style="height:70%"></span>
+                    <label>Fri</label>
+                </div>
+
+                <div class="bar">
+                    <span style="height:100%"></span>
+                    <label>Sat</label>
+                </div>
+
+                <div class="bar">
+                    <span style="height:65%"></span>
+                    <label>Sun</label>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Calendar -->
+
+        <div class="glass calendar-card">
+
+            <div class="section-title">
+
+                <h3>Availability</h3>
+
+            </div>
+
+            <div class="calendar-grid">
+
+                <div>Sun</div>
+                <div>Mon</div>
+                <div>Tue</div>
+                <div>Wed</div>
+                <div>Thu</div>
+                <div>Fri</div>
+                <div>Sat</div>
+
+                <span></span>
+                <span></span>
+
+                <span class="available">1</span>
+                <span class="available">2</span>
+                <span class="busy">3</span>
+                <span class="available">4</span>
+                <span class="available">5</span>
+
+                <span class="available">6</span>
+                <span class="busy">7</span>
+                <span class="available">8</span>
+                <span class="available">9</span>
+                <span class="holiday">10</span>
+                <span class="available">11</span>
+                <span class="busy">12</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Weekly Performance -->
+
+    <div class="performance-wrapper">
+
+        <div class="glass performance-card">
+
+            <div class="section-title">
+
+                <h3>Weekly Performance</h3>
+
+            </div>
+
+            <div class="performance-item">
+
+                <span>Completed Jobs</span>
+
+                <strong>18</strong>
+
+            </div>
+
+            <div class="progress-line">
+
+                <div style="width:90%"></div>
+
+            </div>
+
+            <div class="performance-item">
+
+                <span>Pending Jobs</span>
+
+                <strong>04</strong>
+
+            </div>
+
+            <div class="progress-line orange">
+
+                <div style="width:40%"></div>
+
+            </div>
+
+            <div class="performance-item">
+
+                <span>Cancelled Jobs</span>
+
+                <strong>02</strong>
+
+            </div>
+
+            <div class="progress-line red">
+
+                <div style="width:20%"></div>
+
+            </div>
+
+        </div>
+
+        <!-- Rating -->
+
+        <div class="glass rating-card">
+
+            <div class="section-title">
+
+                <h3>Customer Reviews</h3>
+
+            </div>
+
+            <h1>
+
+                4.8 ⭐
+
+            </h1>
 
             <p>
 
-                Rahul Sharma
+                Based on 250+ Reviews
+
+            </p>
+
+            <div class="stars">
+
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star-half-stroke"></i>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ========================================= -->
+<!--              WALLET PAGE                  -->
+<!-- ========================================= -->
+
+<section id="wallet" class="page">
+
+    <!-- Wallet Header -->
+
+    <div class="page-header">
+
+        <div>
+
+            <h2>Wallet Dashboard</h2>
+
+            <p>Manage your earnings and withdrawals</p>
+
+        </div>
+
+        <button
+            class="primary-btn"
+            onclick="openWithdrawModal()">
+
+            <i class="fa-solid fa-money-bill-transfer"></i>
+
+            Withdraw
+
+        </button>
+
+    </div>
+
+    <!-- Wallet Cards -->
+
+    <div class="wallet-cards">
+
+        <!-- Balance -->
+
+        <div class="wallet-card balance-card">
+
+            <div class="wallet-top">
+
+                <div>
+
+                    <p>Available Balance</p>
+
+                    <h1 id="walletBalance">
+
+                        ₹18,750
+
+                    </h1>
+
+                </div>
+
+                <div class="wallet-icon">
+
+                    <i class="fa-solid fa-wallet"></i>
+
+                </div>
+
+            </div>
+
+            <small>
+
+                Last updated just now
+
+            </small>
+
+        </div>
+
+        <!-- Monthly Income -->
+
+        <div class="wallet-card income-card">
+
+            <i class="fa-solid fa-arrow-trend-up"></i>
+
+            <h2>
+
+                ₹25,800
+
+            </h2>
+
+            <p>
+
+                Monthly Earnings
 
             </p>
 
         </div>
 
-        <span class="working">
+        <!-- Withdraw -->
 
-            In Progress
+        <div class="wallet-card withdraw-card">
 
-        </span>
+            <i class="fa-solid fa-money-bill-wave"></i>
 
-    </div>
+            <h2>
 
-    <div class="job-info-grid">
+                ₹7,050
 
-        <div>
+            </h2>
 
-            <i class="fa-solid fa-location-dot"></i>
+            <p>
 
-            Panaji, Goa
+                Total Withdrawn
+
+            </p>
 
         </div>
 
-        <div>
+        <!-- Pending -->
+
+        <div class="wallet-card pending-card">
 
             <i class="fa-solid fa-clock"></i>
 
-            10:00 AM
+            <h2>
 
-        </div>
+                ₹1,250
 
-        <div>
+            </h2>
 
-            <i class="fa-solid fa-phone"></i>
+            <p>
 
-            +91 9876543210
+                Pending Settlement
 
-        </div>
-
-        <div>
-
-            <i class="fa-solid fa-indian-rupee-sign"></i>
-
-            ₹450
+            </p>
 
         </div>
 
     </div>
 
-    <button
-    class="primary-btn"
-    onclick="openDetailsModal()">
+    <!-- Payment Details -->
 
-        View Details
+    <div class="wallet-grid">
 
-    </button>
+        <!-- Bank -->
 
-</div>
+        <div class="glass payment-card">
 
-<!-- ================= JOB TIMELINE ================= -->
+            <div class="section-title">
 
-<div class="section-title">
+                <h3>
 
-    <h3>Job Timeline</h3>
+                    Bank Account
 
-</div>
+                </h3>
 
-<div class="timeline-card glass">
+                <button class="edit-btn">
 
-    <div class="timeline-item completed">
+                    Edit
 
-        <div class="timeline-icon">
+                </button>
 
-            <i class="fa-solid fa-circle-check"></i>
+            </div>
 
-        </div>
+            <div class="payment-row">
 
-        <div>
+                <span>
 
-            <h4>
+                    Bank
 
-                Request Received
+                </span>
 
-            </h4>
+                <strong>
 
-            <small>
+                    State Bank of India
 
-                9:30 AM
+                </strong>
 
-            </small>
+            </div>
 
-        </div>
+            <div class="payment-row">
 
-    </div>
+                <span>
 
-    <div class="timeline-item completed">
+                    Account
 
-        <div class="timeline-icon">
+                </span>
 
-            <i class="fa-solid fa-circle-check"></i>
+                <strong>
 
-        </div>
+                    XXXX XXXX 4567
 
-        <div>
+                </strong>
 
-            <h4>
+            </div>
 
-                Job Accepted
+            <div class="payment-row">
 
-            </h4>
+                <span>
 
-            <small>
+                    IFSC
 
-                9:35 AM
+                </span>
 
-            </small>
+                <strong>
 
-        </div>
+                    SBIN0001234
 
-    </div>
+                </strong>
 
-    <div class="timeline-item active">
-
-        <div class="timeline-icon">
-
-            <i class="fa-solid fa-person-running"></i>
+            </div>
 
         </div>
 
-        <div>
+        <!-- UPI -->
 
-            <h4>
+        <div class="glass payment-card">
 
-                Work Started
+            <div class="section-title">
 
-            </h4>
+                <h3>
 
-            <small>
+                    UPI Details
 
-                10:00 AM
+                </h3>
 
-            </small>
+                <button class="edit-btn">
 
-        </div>
+                    Edit
 
-    </div>
+                </button>
 
-    <div class="timeline-item">
+            </div>
 
-        <div class="timeline-icon">
+            <div class="upi-box">
 
-            <i class="fa-regular fa-circle"></i>
+                <i class="fa-brands fa-google-pay"></i>
 
-        </div>
+                <div>
 
-        <div>
+                    <h4>
 
-            <h4>
+                        rahul@okaxis
 
-                Work Completed
+                    </h4>
 
-            </h4>
+                    <span>
 
-            <small>
+                        Verified ✔
 
-                Pending
+                    </span>
 
-            </small>
+                </div>
+
+            </div>
 
         </div>
 
     </div>
 
-</div>
+    <!-- Recent Transactions -->
+
+    <div class="section-title">
+
+        <h3>
+
+            Recent Transactions
+
+        </h3>
+
+    </div>
+
+    <div class="transaction-table">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Date</th>
+
+                    <th>Type</th>
+
+                    <th>Amount</th>
+
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td>05 Aug</td>
+
+                    <td class="credit">
+
+                        Credit
+
+                    </td>
+
+                    <td>
+
+                        +₹850
+
+                    </td>
+
+                    <td>
+
+                        Success
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>04 Aug</td>
+
+                    <td class="debit">
+
+                        Withdraw
+
+                    </td>
+
+                    <td>
+
+                        -₹2,000
+
+                    </td>
+
+                    <td>
+
+                        Success
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>03 Aug</td>
+
+                    <td class="credit">
+
+                        Credit
+
+                    </td>
+
+                    <td>
+
+                        +₹650
+
+                    </td>
+
+                    <td>
+
+                        Pending
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>02 Aug</td>
+
+                    <td class="credit">
+
+                        Credit
+
+                    </td>
+
+                    <td>
+
+                        +₹450
+
+                    </td>
+
+                    <td>
+
+                        Success
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
 
 </section>
+<!-- ========================================= -->
+<!--          WITHDRAW MONEY MODAL             -->
+<!-- ========================================= -->
 
-<!-- ================= ANALYTICS PAGE START ================= -->
+<div class="modal" id="withdrawModal">
 
-<section
-id="analytics"
-class="page">
-<!-- ================= ANALYTICS HEADER ================= -->
+    <div class="modal-content withdraw-modal">
 
-<div class="page-header">
+        <span class="close" onclick="closeWithdrawModal()">
 
-    <div>
-        <h2>Analytics Dashboard</h2>
-        <p>Track your earnings and performance</p>
-    </div>
-
-    <button class="primary-btn">
-        <i class="fa-solid fa-download"></i>
-        Export Report
-    </button>
-
-</div>
-
-<!-- ================= ANALYTICS CARDS ================= -->
-
-<div class="analytics-cards">
-
-    <div class="analytics-card glass">
-
-        <i class="fa-solid fa-wallet"></i>
-
-        <h3>Monthly Earnings</h3>
-
-        <h2>₹25,800</h2>
-
-        <span class="success">
-
-            +18% This Month
+            &times;
 
         </span>
 
-    </div>
+        <div class="withdraw-header">
 
-    <div class="analytics-card glass">
+            <div class="withdraw-icon">
 
-        <i class="fa-solid fa-calendar-check"></i>
+                <i class="fa-solid fa-wallet"></i>
 
-        <h3>Jobs Completed</h3>
+            </div>
 
-        <h2>102</h2>
+            <h2>Withdraw Money</h2>
 
-        <span>
-
-            This Month
-
-        </span>
-
-    </div>
-
-    <div class="analytics-card glass">
-
-        <i class="fa-solid fa-star"></i>
-
-        <h3>Customer Rating</h3>
-
-        <h2>4.8</h2>
-
-        <span>
-
-            Excellent
-
-        </span>
-
-    </div>
-
-    <div class="analytics-card glass">
-
-        <i class="fa-solid fa-bullseye"></i>
-
-        <h3>Target</h3>
-
-        <h2>85%</h2>
-
-        <span>
-
-            Weekly Goal
-
-        </span>
-
-    </div>
-
-</div>
-
-<!-- ================= CHART SECTION ================= -->
-
-<div class="analytics-grid">
-
-    <div class="glass chart-card">
-
-        <div class="section-title">
-
-            <h3>Weekly Earnings</h3>
+            <p>Transfer your wallet balance to your bank account.</p>
 
         </div>
 
-        <div class="chart">
+        <div class="available-balance">
 
-            <div class="bar">
-                <span style="height:60%"></span>
-                <label>Mon</label>
-            </div>
+            <span>Available Balance</span>
 
-            <div class="bar">
-                <span style="height:80%"></span>
-                <label>Tue</label>
-            </div>
+            <h1 id="modalBalance">₹18,750</h1>
 
-            <div class="bar">
-                <span style="height:45%"></span>
-                <label>Wed</label>
-            </div>
+        </div>
 
-            <div class="bar">
-                <span style="height:90%"></span>
-                <label>Thu</label>
-            </div>
+        <div class="input-group">
 
-            <div class="bar">
-                <span style="height:70%"></span>
-                <label>Fri</label>
-            </div>
+            <label>Withdraw Amount</label>
 
-            <div class="bar">
-                <span style="height:100%"></span>
-                <label>Sat</label>
-            </div>
+            <input
+                type="number"
+                id="withdrawAmount"
+                placeholder="Enter amount">
 
-            <div class="bar">
-                <span style="height:65%"></span>
-                <label>Sun</label>
+        </div>
+
+        <div class="input-group">
+
+            <label>Payment Method</label>
+
+            <select id="paymentMethod">
+
+                <option>Bank Account</option>
+
+                <option>UPI</option>
+
+            </select>
+
+        </div>
+
+        <div class="payment-preview">
+
+            <i class="fa-solid fa-building-columns"></i>
+
+            <div>
+
+                <strong>State Bank of India</strong>
+
+                <p>XXXX XXXX 4567</p>
+
             </div>
 
         </div>
 
-    </div>
+        <div class="modal-buttons">
 
-    <!-- ================= CALENDAR ================= -->
+            <button
+                id="withdrawBtn"
+                class="primary-btn">
 
-    <div class="glass calendar-card">
+                Withdraw Now
 
-        <div class="section-title">
+            </button>
 
-            <h3>Availability</h3>
+            <button
+                class="secondary-btn"
+                onclick="closeWithdrawModal()">
 
-        </div>
+                Cancel
 
-        <div class="calendar-grid">
-
-            <div>Sun</div>
-            <div>Mon</div>
-            <div>Tue</div>
-            <div>Wed</div>
-            <div>Thu</div>
-            <div>Fri</div>
-            <div>Sat</div>
-
-            <span></span>
-            <span></span>
-
-            <span class="available">1</span>
-            <span class="available">2</span>
-            <span class="busy">3</span>
-            <span class="available">4</span>
-            <span class="available">5</span>
-
-            <span class="available">6</span>
-            <span class="busy">7</span>
-            <span class="available">8</span>
-            <span class="available">9</span>
-            <span class="holiday">10</span>
-            <span class="available">11</span>
-            <span class="busy">12</span>
+            </button>
 
         </div>
 
@@ -996,135 +1618,87 @@ class="page">
 
 </div>
 
-<!-- ================= PERFORMANCE ================= -->
+<!-- ========================================= -->
+<!--          SUCCESS POPUP                    -->
+<!-- ========================================= -->
 
-<div class="performance-wrapper">
+<div
+class="success-popup"
+id="successPopup">
 
-    <div class="glass performance-card">
+    <i class="fa-solid fa-circle-check"></i>
 
-        <div class="section-title">
+    <h2>Withdrawal Successful</h2>
 
-            <h3>Weekly Performance</h3>
-
-        </div>
-
-        <div class="performance-item">
-
-            <span>Completed Jobs</span>
-
-            <strong>18</strong>
-
-        </div>
-
-        <div class="progress-line">
-
-            <div style="width:90%"></div>
-
-        </div>
-
-        <div class="performance-item">
-
-            <span>Pending Jobs</span>
-
-            <strong>04</strong>
-
-        </div>
-
-        <div class="progress-line orange">
-
-            <div style="width:40%"></div>
-
-        </div>
-
-        <div class="performance-item">
-
-            <span>Cancelled</span>
-
-            <strong>02</strong>
-
-        </div>
-
-        <div class="progress-line red">
-
-            <div style="width:20%"></div>
-
-        </div>
-
-    </div>
-
-    <div class="glass rating-card">
-
-        <div class="section-title">
-
-            <h3>Customer Reviews</h3>
-
-        </div>
-
-        <h1>4.8 ⭐</h1>
-
-        <p>
-
-            Based on 250+ Reviews
-
-        </p>
-
-        <div class="stars">
-
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star-half-stroke"></i>
-
-        </div>
-
-    </div>
+    <p>Your money has been transferred successfully.</p>
 
 </div>
 
-</section>
-
-<!-- ================= MODALS START ================= -->
- <!-- ================= JOB DETAILS MODAL ================= -->
+<!-- ========================================= -->
+<!--          JOB DETAILS MODAL                -->
+<!-- ========================================= -->
 
 <div class="modal" id="detailsModal">
 
     <div class="modal-content">
 
-        <span class="close" onclick="closeDetailsModal()">&times;</span>
+        <span class="close"
+            onclick="closeDetailsModal()">
+
+            &times;
+
+        </span>
 
         <h2>Job Details</h2>
 
         <div class="modal-body">
 
             <div class="detail-item">
+
                 <strong>Customer</strong>
+
                 <span>Rahul Sharma</span>
+
             </div>
 
             <div class="detail-item">
+
                 <strong>Phone</strong>
+
                 <span>+91 9876543210</span>
+
             </div>
 
             <div class="detail-item">
+
                 <strong>Address</strong>
+
                 <span>Panaji, Goa</span>
+
             </div>
 
             <div class="detail-item">
+
                 <strong>Service</strong>
+
                 <span>AC Repair</span>
+
             </div>
 
             <div class="detail-item">
+
                 <strong>Amount</strong>
+
                 <span>₹450</span>
+
             </div>
 
             <div class="detail-item">
+
                 <strong>Description</strong>
+
                 <span>Gas refill and complete AC servicing required.</span>
+
             </div>
 
         </div>
@@ -1133,7 +1707,9 @@ class="page">
 
 </div>
 
-<!-- ================= ACCEPT MODAL ================= -->
+<!-- ========================================= -->
+<!--          ACCEPT MODAL                     -->
+<!-- ========================================= -->
 
 <div class="modal" id="acceptModal">
 
@@ -1143,18 +1719,24 @@ class="page">
 
         <h2>Accept Job?</h2>
 
-        <p>
-            Are you sure you want to accept this request?
-        </p>
+        <p>Are you sure you want to accept this request?</p>
 
         <div class="modal-buttons">
 
-            <button class="primary-btn" onclick="acceptJob()">
+            <button
+                class="primary-btn"
+                onclick="acceptJob()">
+
                 Accept
+
             </button>
 
-            <button class="secondary-btn" onclick="closeAcceptModal()">
+            <button
+                class="secondary-btn"
+                onclick="closeAcceptModal()">
+
                 Cancel
+
             </button>
 
         </div>
@@ -1163,7 +1745,9 @@ class="page">
 
 </div>
 
-<!-- ================= REJECT MODAL ================= -->
+<!-- ========================================= -->
+<!--          REJECT MODAL                     -->
+<!-- ========================================= -->
 
 <div class="modal" id="rejectModal">
 
@@ -1173,18 +1757,24 @@ class="page">
 
         <h2>Reject Job?</h2>
 
-        <p>
-            This request will be removed from your list.
-        </p>
+        <p>This request will be removed from your list.</p>
 
         <div class="modal-buttons">
 
-            <button class="danger-btn" onclick="rejectJob()">
+            <button
+                class="danger-btn"
+                onclick="rejectJob()">
+
                 Reject
+
             </button>
 
-            <button class="secondary-btn" onclick="closeRejectModal()">
+            <button
+                class="secondary-btn"
+                onclick="closeRejectModal()">
+
                 Cancel
+
             </button>
 
         </div>
@@ -1193,37 +1783,56 @@ class="page">
 
 </div>
 
-<!-- ================= PROFILE DROPDOWN ================= -->
+<!-- ========================================= -->
+<!--          PROFILE DROPDOWN                 -->
+<!-- ========================================= -->
 
-<div class="profile-dropdown" id="profileDropdown">
+<div
+class="profile-dropdown"
+id="profileDropdown">
 
     <ul>
 
         <li>
+
             <i class="fa-solid fa-user"></i>
+
             My Profile
+
         </li>
 
         <li>
+
             <i class="fa-solid fa-gear"></i>
+
             Settings
+
         </li>
 
         <li>
+
             <i class="fa-solid fa-bell"></i>
+
             Notifications
+
         </li>
 
-        <li onclick="openLogoutModal()">
+        <li
+            onclick="openLogoutModal()">
+
             <i class="fa-solid fa-right-from-bracket"></i>
+
             Logout
+
         </li>
 
     </ul>
 
 </div>
 
-<!-- ================= LOGOUT MODAL ================= -->
+<!-- ========================================= -->
+<!--          LOGOUT MODAL                     -->
+<!-- ========================================= -->
 
 <div class="modal" id="logoutModal">
 
@@ -1233,18 +1842,22 @@ class="page">
 
         <h2>Logout</h2>
 
-        <p>
-            Are you sure you want to logout?
-        </p>
+        <p>Are you sure you want to logout?</p>
 
         <div class="modal-buttons">
 
             <button class="danger-btn">
+
                 Logout
+
             </button>
 
-            <button class="secondary-btn" onclick="closeLogoutModal()">
+            <button
+                class="secondary-btn"
+                onclick="closeLogoutModal()">
+
                 Stay Logged In
+
             </button>
 
         </div>
@@ -1259,7 +1872,8 @@ class="page">
 </div>
 <!-- End Container -->
 
-<script src="js/script.js"></script>
+<script src="js/app.js"></script>
 
 </body>
+
 </html>

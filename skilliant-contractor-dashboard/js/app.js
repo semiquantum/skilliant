@@ -666,3 +666,194 @@ console.log(
 "%c✔ Labour Portal Loaded Successfully",
 "color:#2563EB;font-size:16px;font-weight:bold;"
 );
+/* ==========================================
+        DAY 4 - WALLET
+========================================== */
+
+const withdrawModal = document.getElementById("withdrawModal");
+
+const withdrawInput = document.getElementById("withdrawAmount");
+
+const walletBalance = document.getElementById("walletBalance");
+
+/* ==========================================
+        OPEN MODAL
+========================================== */
+
+function openWithdrawModal(){
+
+    withdrawModal.style.display="flex";
+
+}
+
+/* ==========================================
+        CLOSE MODAL
+========================================== */
+
+function closeWithdrawModal(){
+
+    withdrawModal.style.display="none";
+
+}
+
+/* ==========================================
+        WITHDRAW MONEY
+========================================== */
+
+function withdrawMoney(){
+
+    let amount = parseFloat(withdrawInput.value);
+
+    if(isNaN(amount) || amount<=0){
+
+        showToast("Enter a valid amount","error");
+
+        return;
+
+    }
+
+    let currentBalance = parseFloat(
+
+        walletBalance.innerText
+        .replace("₹","")
+        .replace(",","")
+
+    );
+
+    if(amount>currentBalance){
+
+        showToast("Insufficient Balance","error");
+
+        return;
+
+    }
+
+    currentBalance -= amount;
+
+    walletBalance.innerHTML="₹"+currentBalance.toLocaleString();
+
+    addTransaction(amount);
+
+    closeWithdrawModal();
+
+    withdrawInput.value="";
+
+    showToast("₹"+amount+" Withdraw Successful","success");
+
+}
+
+/* ==========================================
+        ADD TRANSACTION
+========================================== */
+
+function addTransaction(amount){
+
+    const tbody=document.querySelector(".transaction-table tbody");
+
+    const row=document.createElement("tr");
+
+    const today=new Date();
+
+    const date=today.getDate()+" "+
+    today.toLocaleString("default",{month:"short"});
+
+    row.innerHTML=`
+
+        <td>${date}</td>
+
+        <td class="debit">
+
+            Withdraw
+
+        </td>
+
+        <td>
+
+            -₹${amount}
+
+        </td>
+
+        <td>
+
+            Success
+
+        </td>
+
+    `;
+
+    tbody.prepend(row);
+
+}
+
+/* ==========================================
+        CLOSE MODAL OUTSIDE
+========================================== */
+
+window.addEventListener("click",(e)=>{
+
+    if(e.target==withdrawModal){
+
+        closeWithdrawModal();
+
+    }
+
+});
+/* ==========================================
+      DAY 4 ENHANCEMENTS
+========================================== */
+
+const successPopup=document.getElementById("successPopup");
+
+function showSuccessPopup(){
+
+    successPopup.classList.add("show");
+
+    setTimeout(()=>{
+
+        successPopup.classList.remove("show");
+
+    },2500);
+
+}
+
+/* ==========================================
+      ENHANCED WITHDRAW
+========================================== */
+
+const withdrawButton=document.querySelector(
+"#withdrawModal .primary-btn"
+);
+
+if(withdrawButton){
+
+    withdrawButton.addEventListener("click",function(){
+
+        const amount=parseFloat(withdrawInput.value);
+
+        if(isNaN(amount) || amount<=0){
+
+            return;
+
+        }
+
+        this.disabled=true;
+
+        const original=this.innerHTML;
+
+        this.innerHTML='<span class="loader"></span> Processing...';
+
+        setTimeout(()=>{
+
+            withdrawMoney();
+
+            showSuccessPopup();
+
+            this.disabled=false;
+
+            this.innerHTML=original;
+
+        },1800);
+
+    });
+
+}
