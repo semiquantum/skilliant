@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Skilliant Contractor Portal - Project Management Module">
+  <title>Project Management | Skilliant Contractor Portal</title>
+  <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/project.css">
+</head>
+<body>
+  <!-- Ambient Glass Background Glow Elements -->
+  <div class="bg-glow glow-blue"></div>
+  <div class="bg-glow glow-orange"></div>
+
+  <div class="app-container" id="app">
+    
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ================= 1. RESPONSIVE SIDEBAR ================= -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo">
+          <div class="logo-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#FF6B00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2 17L12 22L22 17" stroke="#3B82F6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2 12L12 17L22 12" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="brand-text">
+            <span class="brand-name">Skilliant</span>
+            <span class="brand-badge">Contractor</span>
+          </div>
+        </a>
+        <button class="icon-btn sidebar-collapse-btn" id="sidebarCollapseBtn" aria-label="Collapse Sidebar" title="Collapse Sidebar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 18l-6-6 6-6"/>
+          </svg>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">MAIN MENU</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="index.html#dashboard" class="nav-link">
+              <span class="nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+              </span>
+              <span class="nav-label">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="labour.html" class="nav-link">
+              <span class="nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </span>
+              <span class="nav-label">Labour</span>
+              <span class="nav-tag orange-tag" id="sidebarLabourCount">148</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="projects.html" class="nav-link active">
+              <span class="nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+              </span>
+              <span class="nav-label">Projects</span>
+              <span class="nav-tag blue-tag" id="sidebarProjectCount">6 Active</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="wallet.html" class="nav-link">
+              <span class="nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><path d="M16 14h2"/></svg>
+              </span>
+              <span class="nav-label">Wallet</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="nav-section-label">ORGANIZATION</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="company.html" class="nav-link">
+              <span class="nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M9 8h1"/><path d="M9 12h1"/><path d="M9 16h1"/><path d="M14 8h1"/><path d="M14 12h1"/><path d="M14 16h1"/><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>
+              </span>
+              <span class="nav-label">Company</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="company.html#documents" class="nav-link">
+              <span class="nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </span>
+              <span class="nav-label">Documents</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="company.html#settings" class="nav-link">
+              <span class="nav-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              </span>
+              <span class="nav-label">Settings</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Sidebar User Widget Footer -->
+      <div class="sidebar-user">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Contractor Profile" class="user-avatar">
+        <div class="user-info">
+          <span class="user-name">Apex Buildcon</span>
+          <span class="user-role">Verified Contractor</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ================= 2. MAIN CONTENT WRAPPER ================= -->
+    <main class="main-wrapper">
+      
+      <!-- Top Navbar Header -->
+      <header class="header">
+        <div class="header-left">
+          <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Navigation">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div>
+            <h1 class="page-title">Active Projects & Team Management</h1>
+            <p class="page-subtitle">Active Projects, Assign Labour, Project Details, Team Overview & Attendance UI</p>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <div class="search-box">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="globalSearchInput" placeholder="Search projects, workers... (Ctrl+K)" />
+          </div>
+
+          <button class="btn btn-primary" id="openAddProjectModalBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>+ Add Project</span>
+          </button>
+
+          <button class="btn btn-secondary" id="quickAttendanceBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <span>Log Attendance</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Body Container -->
+      <div class="content-body">
+
+        <!-- ================= 3. SECTION NAVIGATION TABS ================= -->
+        <div class="main-tab-bar">
+          <button class="section-tab-btn active" id="tabProjectsBtn" data-target="viewProjects">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            <span>Active Projects</span>
+            <span class="tab-badge" id="badgeTotalProjects">6</span>
+          </button>
+
+          <button class="section-tab-btn" id="tabTeamBtn" data-target="viewTeam">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span>Team Overview</span>
+          </button>
+          
+          <button class="section-tab-btn" id="tabAttendanceBtn" data-target="viewAttendance">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 14l2 2 4-4"/></svg>
+            <span>Attendance UI</span>
+          </button>
+        </div>
+
+        <!-- ================= 4. SUMMARY STATISTICS CARDS ================= -->
+        <div class="summary-stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+          <div class="project-stat-card">
+            <div class="stat-info">
+              <div class="stat-label">Active Projects</div>
+              <div class="stat-value" id="statActiveProjects">6</div>
+              <div class="stat-subtext" id="statSubProjects">4 In Progress • 2 Planning</div>
+            </div>
+            <div class="stat-icon-wrapper stat-icon-blue">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            </div>
+          </div>
+
+          <div class="project-stat-card">
+            <div class="stat-info">
+              <div class="stat-label">Team Overview (Assigned)</div>
+              <div class="stat-value" id="statAssignedCrew">18 Workers</div>
+              <div class="stat-subtext" id="statSubCrew">Deployed across active sites</div>
+            </div>
+            <div class="stat-icon-wrapper stat-icon-green">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+          </div>
+
+          <div class="project-stat-card">
+            <div class="stat-info">
+              <div class="stat-label">Avg Attendance & Progress</div>
+              <div class="stat-value" id="statAvgProgress">94.5%</div>
+              <div class="stat-subtext" id="statSubProgress">Daily shift compliance</div>
+            </div>
+            <div class="stat-icon-wrapper stat-icon-purple">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW 1: PROJECTS OVERVIEW (DEFAULT) -->
+        <div id="viewProjects" class="view-pane active">
+          
+          <!-- Filter & Search Toolbar -->
+          <div class="glass-card controls-toolbar mb-4">
+            <div class="toolbar-left">
+              <!-- Search Bar -->
+              <div class="search-box-wrapper">
+                <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="projectSearchInput" class="search-input-field" placeholder="Search project, client, location...">
+              </div>
+
+              <!-- Filter by Status -->
+              <div class="filter-group">
+                <label for="filterStatusSelect">Status:</label>
+                <select id="filterStatusSelect" class="toolbar-select">
+                  <option value="all">All Statuses</option>
+                  <option value="in_progress">In Progress</option>
+                  <option value="planning">Planning</option>
+                  <option value="on_hold">On Hold</option>
+                  <option value="delayed">Delayed</option>
+                  <option value="completed">Completed</option>
+                </select>
+              </div>
+
+              <!-- Filter by Category -->
+              <div class="filter-group">
+                <label for="filterCategorySelect">Category:</label>
+                <select id="filterCategorySelect" class="toolbar-select">
+                  <option value="all">All Categories</option>
+                  <option value="Infrastructure">Infrastructure</option>
+                  <option value="Residential">Residential</option>
+                  <option value="Commercial">Commercial</option>
+                </select>
+              </div>
+
+              <!-- Sort Option -->
+              <div class="filter-group">
+                <label for="sortProjectSelect">Sort:</label>
+                <select id="sortProjectSelect" class="toolbar-select">
+                  <option value="deadline_asc">Deadline (Earliest)</option>
+                  <option value="progress_desc">Progress (High to Low)</option>
+                  <option value="budget_desc">Budget (High to Low)</option>
+                  <option value="name_asc">Project Name (A-Z)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Toolbar Right: View Mode Toggle -->
+            <div class="toolbar-right">
+              <div class="view-switcher">
+                <button class="view-btn active" id="viewCardsBtn" title="Cards Grid View">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                </button>
+                <button class="view-btn" id="viewTableBtn" title="Table View">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project Cards View Grid -->
+          <div id="projectsCardsGrid" class="projects-cards-grid">
+            <!-- Dynamic project cards rendered via js/project.js -->
+          </div>
+
+          <!-- Project Table View Container (Hidden by default) -->
+          <div id="projectTableContainer" class="project-table-container" style="display: none;">
+            <table class="project-table">
+              <thead>
+                <tr>
+                  <th>Project & Client</th>
+                  <th>Location</th>
+                  <th>Budget / Spent</th>
+                  <th>Deadline</th>
+                  <th>Status</th>
+                  <th>Progress</th>
+                  <th>Assigned Crew</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="projectTableBody">
+                <!-- Dynamic rows rendered via js/project.js -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Empty State -->
+          <div id="emptyState" class="empty-state" style="display: none;">
+            <div class="empty-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
+            </div>
+            <h4 class="empty-title">No Projects Found</h4>
+            <p class="empty-sub">No projects matched your search or filter parameters. Try resetting filters or adding a new project.</p>
+            <button class="btn btn-secondary" id="resetProjectFiltersBtn">Reset Filters</button>
+          </div>
+
+        </div>
+
+        <!-- VIEW 2: ATTENDANCE INTERFACE -->
+        <div id="viewAttendance" class="view-pane" style="display: none;">
+          <div class="attendance-panel">
+            <div class="attendance-header-bar">
+              <div class="attendance-title-group">
+                <h3>Attendance UI - Daily Attendance Logger</h3>
+                <p>Record site attendance for assigned workforce across active project sites</p>
+              </div>
+
+              <div class="attendance-selectors">
+                <div class="filter-group">
+                  <label for="attProjectSelect">Select Project:</label>
+                  <select id="attProjectSelect" class="toolbar-select">
+                    <!-- Dynamic project options -->
+                  </select>
+                </div>
+
+                <div class="filter-group">
+                  <label for="attDatePicker">Date:</label>
+                  <input type="date" id="attDatePicker" class="attendance-date-picker">
+                </div>
+
+                <button class="btn btn-secondary" id="attMarkAllPresentBtn">Mark All Present</button>
+              </div>
+            </div>
+
+            <!-- Attendance Summary Badges Bar -->
+            <div class="attendance-summary-bar">
+              <div class="att-sum-card present">
+                <div class="label">Present</div>
+                <div class="count" id="attCountPresent">0</div>
+              </div>
+              <div class="att-sum-card absent">
+                <div class="label">Absent</div>
+                <div class="count" id="attCountAbsent">0</div>
+              </div>
+              <div class="att-sum-card late">
+                <div class="label">Late</div>
+                <div class="count" id="attCountLate">0</div>
+              </div>
+              <div class="att-sum-card half_day">
+                <div class="label">Half Day</div>
+                <div class="count" id="attCountHalfDay">0</div>
+              </div>
+              <div class="att-sum-card total">
+                <div class="label">Total Roster</div>
+                <div class="count" id="attCountTotal">0</div>
+              </div>
+            </div>
+
+            <!-- Worker List Roster for Attendance Marking -->
+            <div id="attendanceWorkerGrid" class="attendance-worker-grid">
+              <!-- Rendered dynamically -->
+            </div>
+
+            <div class="d-flex justify-content-end gap-3 mt-4 pt-3 border-top border-glass">
+              <button class="btn btn-primary btn-lg" id="saveAttendanceBtn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                <span>Save Attendance Log</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- VIEW 3: TEAM OVERVIEW -->
+        <div id="viewTeam" class="view-pane" style="display: none;">
+          <div class="glass-card p-4">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+              <div>
+                <h3 class="font-heading fs-5 text-white">Team Overview - Site Labour Deployment</h3>
+                <p class="text-muted fs-7">Overview of skilled labour deployment across all active sites</p>
+              </div>
+              <button class="btn btn-primary" id="openAssignLabourGlobalBtn">Assign Labour</button>
+            </div>
+
+            <div id="teamOverviewRoster" class="team-overview-roster">
+              <!-- Rendered dynamically via js/project.js -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ================= 5. MODALS ================= -->
+
+  <!-- MODAL 1: ADD / EDIT PROJECT FORM MODAL -->
+  <div class="modal-overlay" id="projectFormModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="projectModalTitle">Create New Project</h3>
+        <button class="modal-close-btn" id="closeProjectModalBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <form id="projectForm">
+        <div class="modal-body">
+          <input type="hidden" id="projectIdInput">
+          
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label class="form-label" for="projectNameInput">Project Name *</label>
+              <input type="text" id="projectNameInput" class="form-input" placeholder="e.g. Metro Line 4 Station 12" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="clientInput">Client Name *</label>
+              <input type="text" id="clientInput" class="form-input" placeholder="e.g. Mumbai Metro Rail Corporation" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="locationInput">Location *</label>
+              <input type="text" id="locationInput" class="form-input" placeholder="e.g. Ghatkopar East, Mumbai" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="budgetInput">Total Budget (₹) *</label>
+              <input type="number" id="budgetInput" class="form-input" placeholder="14500000" min="0" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="spentInput">Spent Amount (₹)</label>
+              <input type="number" id="spentInput" class="form-input" placeholder="9425000" min="0" value="0">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="startDateInput">Start Date *</label>
+              <input type="date" id="startDateInput" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="deadlineInput">Deadline *</label>
+              <input type="date" id="deadlineInput" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="statusInput">Project Status *</label>
+              <select id="statusInput" class="form-select" required>
+                <option value="in_progress">In Progress</option>
+                <option value="planning">Planning</option>
+                <option value="on_hold">On Hold</option>
+                <option value="delayed">Delayed</option>
+                <option value="completed">Completed</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="categoryInput">Category *</label>
+              <select id="categoryInput" class="form-select" required>
+                <option value="Infrastructure">Infrastructure</option>
+                <option value="Residential">Residential</option>
+                <option value="Commercial">Commercial</option>
+                <option value="Industrial">Industrial</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="progressInput">Progress Percentage (0-100%)</label>
+              <input type="number" id="progressInput" class="form-input" min="0" max="100" value="0">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="siteManagerInput">Site Manager Info</label>
+              <input type="text" id="siteManagerInput" class="form-input" placeholder="e.g. Er. Alok Sharma (+91 98200 11223)">
+            </div>
+
+            <div class="form-group full-width">
+              <label class="form-label" for="descriptionInput">Project Scope & Details</label>
+              <textarea id="descriptionInput" class="form-textarea" placeholder="Brief description of work scope, major tasks, and site notes..."></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancelProjectFormBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="saveProjectBtn">Save Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: ASSIGN LABOUR MODAL -->
+  <div class="modal-overlay" id="assignLabourModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title">Assign Labour to Project</h3>
+          <p class="text-muted fs-8 mt-1" id="assignModalProjectSub">Project: Metro Line 4 - Station 12</p>
+        </div>
+        <button class="modal-close-btn" id="closeAssignModalBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <input type="text" id="assignLabourSearchInput" class="search-input-field" placeholder="Search worker by name or skill...">
+          <select id="assignLabourSkillFilter" class="toolbar-select">
+            <option value="all">All Skills</option>
+            <option value="Mason">Mason</option>
+            <option value="Electrician">Electrician</option>
+            <option value="Plumber">Plumber</option>
+            <option value="Welder">Welder</option>
+            <option value="Carpenter">Carpenter</option>
+            <option value="Helper">Helper</option>
+            <option value="Painter">Painter</option>
+          </select>
+        </div>
+
+        <div class="labour-selection-list" id="labourSelectionList">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="closeAssignFooterBtn">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: PROJECT DETAILS MODAL -->
+  <div class="modal-overlay" id="projectDetailsModal">
+    <div class="modal-content" style="max-width: 740px;">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title" id="detailsProjectTitle">Project Details</h3>
+          <span class="status-badge mt-1" id="detailsProjectStatus">In Progress</span>
+        </div>
+        <button class="modal-close-btn" id="closeProjectDetailsBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body" id="projectDetailsBody">
+        <!-- Rendered dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="editProjectFromDetailsBtn">Edit Project</button>
+        <button class="btn btn-primary" id="closeDetailsFooterBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 4: DELETE CONFIRMATION MODAL -->
+  <div class="modal-overlay" id="deleteConfirmModal">
+    <div class="modal-content" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3 class="modal-title text-danger">Delete Project</h3>
+        <button class="modal-close-btn" id="closeDeleteModalBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body text-center py-4">
+        <div class="text-danger mb-3">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <h4 class="text-white fs-6 mb-2">Are you sure?</h4>
+        <p class="text-muted fs-7">You are about to delete <strong id="deleteProjectTargetName" class="text-white">this project</strong>. Assigned labour associations will be reset.</p>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button class="btn btn-secondary" id="cancelDeleteBtn">Cancel</button>
+        <button class="btn btn-danger" id="confirmDeleteBtn">Delete Project</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="js/app.js"></script>
+  <script src="js/project.js"></script>
+</body>
+</html>

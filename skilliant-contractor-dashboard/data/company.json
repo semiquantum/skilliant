@@ -1,0 +1,145 @@
+{
+  "companyProfile": {
+    "name": "Apex Infrastructure Solutions Ltd.",
+    "tagline": "Premier Commercial & Industrial Construction Contractor",
+    "gstin": "27AAACA1234H1Z5",
+    "registrationNumber": "CIN-U45200MH2014PLC258901",
+    "labourLicenseNumber": "MH-LL-2021-99402",
+    "category": "Class-A General Engineering Contractor",
+    "establishedYear": 2014,
+    "employeeCount": 185,
+    "operatingCities": ["Mumbai", "Pune", "Navi Mumbai", "Thane", "Nagpur"],
+    "primaryContact": {
+      "name": "Vikramaditya Shinde",
+      "designation": "Managing Director / Principal Contractor",
+      "phone": "+91 98201 44521",
+      "email": "vikram@apexinfra.com"
+    },
+    "registeredAddress": "Suite 402, Apex Industrial Towers, BKC Commercial Complex, Bandra East, Mumbai, Maharashtra 400051",
+    "bio": "Apex Infrastructure Solutions Ltd. is a Class-A licensed general contracting firm specializing in large-scale urban infrastructure, commercial high-rises, metro transit developments, and highway bridges across Western India.",
+    "verificationStatus": "Verified Contractor",
+    "trustScore": 98.4
+  },
+  "documents": [
+    {
+      "id": "doc_1",
+      "title": "GST Registration Certificate",
+      "category": "Tax Registration",
+      "documentNumber": "27AAACA1234H1Z5",
+      "issuedBy": "Government of India - GST Portal",
+      "issueDate": "2017-07-01",
+      "expiryDate": "Permanent",
+      "status": "Verified",
+      "fileSize": "1.8 MB",
+      "fileType": "PDF"
+    },
+    {
+      "id": "doc_2",
+      "title": "Contract Labour (R&A) Act License",
+      "category": "Labour Compliance",
+      "documentNumber": "MH-LL-2021-99402",
+      "issuedBy": "Office of Labour Commissioner, Maharashtra",
+      "issueDate": "2021-04-15",
+      "expiryDate": "2027-04-14",
+      "status": "Verified",
+      "fileSize": "2.4 MB",
+      "fileType": "PDF"
+    },
+    {
+      "id": "doc_3",
+      "title": "Workmen Compensation Insurance Policy",
+      "category": "Site Safety Insurance",
+      "documentNumber": "ICICI-LOMB-WC-883910",
+      "issuedBy": "ICICI Lombard General Insurance",
+      "issueDate": "2025-11-01",
+      "expiryDate": "2026-10-31",
+      "status": "Expiring Soon",
+      "fileSize": "3.1 MB",
+      "fileType": "PDF"
+    },
+    {
+      "id": "doc_4",
+      "title": "EPFO & ESIC Registration Certificate",
+      "category": "Labour Welfare",
+      "documentNumber": "MH/BAN/0048291/000",
+      "issuedBy": "Employees' Provident Fund Organisation",
+      "issueDate": "2015-06-10",
+      "expiryDate": "Permanent",
+      "status": "Verified",
+      "fileSize": "1.2 MB",
+      "fileType": "PDF"
+    },
+    {
+      "id": "doc_5",
+      "title": "Updated Director Aadhar & PAN Proofs",
+      "category": "KYC Verification",
+      "documentNumber": "PAN: AAACA1234H",
+      "issuedBy": "Income Tax Department",
+      "issueDate": "2026-01-10",
+      "expiryDate": "N/A",
+      "status": "Pending Audit",
+      "fileSize": "4.5 MB",
+      "fileType": "ZIP"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "notif_101",
+      "type": "payment",
+      "title": "Weekly Wage Escrow Released",
+      "message": "₹1,42,000 released successfully to Ramesh Maurya Mason Crew for Metro Line 4 Site.",
+      "timestamp": "10 minutes ago",
+      "isRead": false
+    },
+    {
+      "id": "notif_102",
+      "type": "site",
+      "title": "Attendance Alert: Weather Delay",
+      "message": "Heavy monsoon rainfall reported at Thane Flyover Site 04. 12 workers marked weather delay.",
+      "timestamp": "2 hours ago",
+      "isRead": false
+    },
+    {
+      "id": "notif_103",
+      "type": "labour",
+      "title": "New Qualified Mason Crew Available",
+      "message": "15 Certified Shuttering Carpenters matching your criteria registered near Navi Mumbai.",
+      "timestamp": "5 hours ago",
+      "isRead": false
+    },
+    {
+      "id": "notif_104",
+      "type": "compliance",
+      "title": "Workmen Insurance Renewal Reminder",
+      "message": "Your Workmen Compensation Insurance Policy expires in 85 days. Please re-upload renewed policy.",
+      "timestamp": "1 day ago",
+      "isRead": true
+    }
+  ],
+  "settings": {
+    "emailNotifications": true,
+    "smsAlerts": true,
+    "twoFactorAuth": true,
+    "autoEscrowRelease": false,
+    "escrowThreshold": 50000,
+    "currencyFormat": "INR (₹)"
+  },
+  "faqs": [
+    {
+      "question": "How does the Skilliant Escrow Guarantee system protect contractors?",
+      "answer": "Skilliant holds labour payments in a secure Escrow wallet. Funds are only transferred to the Labour Crew Lead after work milestone verification or weekly attendance sign-off, eliminating fraud and site payment disputes."
+    },
+    {
+      "question": "What is the process to request additional certified labour during site emergencies?",
+      "answer": "Use the 'Quick Hire Labour' button on your dashboard or call our 24/7 Site Emergency Hotline (+91 1800 233 8899). Skilliant dispatches verified standby crews within 4 to 6 hours."
+    },
+    {
+      "question": "How do I download tax-compliant GST invoices for labour payouts?",
+      "answer": "Navigate to the Wallet & Payments section, locate any transaction under Transaction History, and click 'View Invoice'. You can view, print, or download official PDF invoices directly."
+    },
+    {
+      "question": "What documents are required to maintain a 100% Contractor Trust Badge?",
+      "answer": "Contractors must maintain valid GST Registration, Labour License (R&A Act), Workmen Compensation Insurance Policy, and Director KYC documents."
+    }
+  ]
+}

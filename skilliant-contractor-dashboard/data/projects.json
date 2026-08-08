@@ -1,0 +1,140 @@
+[
+  {
+    "id": "PRJ-201",
+    "name": "Metro Line 4 - Station 12 Construction",
+    "client": "Mumbai Metro Rail Corporation (MMRC)",
+    "location": "Ghatkopar East, Mumbai, MH",
+    "budget": 14500000,
+    "spent": 9425000,
+    "startDate": "2026-01-15",
+    "deadline": "2026-11-30",
+    "status": "in_progress",
+    "category": "Infrastructure",
+    "progress": 65,
+    "siteManager": "Er. Alok Sharma (+91 98200 11223)",
+    "description": "Construction of elevated metro platform, structural steel framework, concourse level tiling, and utility integration.",
+    "assignedLabour": ["LAB-101", "LAB-104", "LAB-108", "LAB-110", "LAB-112"],
+    "attendanceLog": {
+      "2026-08-06": {
+        "LAB-101": "present",
+        "LAB-104": "present",
+        "LAB-108": "late",
+        "LAB-110": "present",
+        "LAB-112": "half_day"
+      }
+    }
+  },
+  {
+    "id": "PRJ-202",
+    "name": "Verdana Luxury Towers - Phase 2",
+    "client": "Verdana Infrastructure Ltd",
+    "location": "Powai, Mumbai, MH",
+    "budget": 28000000,
+    "spent": 21500000,
+    "startDate": "2025-08-01",
+    "deadline": "2026-10-15",
+    "status": "in_progress",
+    "category": "Residential",
+    "progress": 82,
+    "siteManager": "Ar. Rajesh Mehta (+91 97110 44332)",
+    "description": "High-rise 32-story residential tower interior finishing, plumbing network installation, electrical wiring, and exterior glazing.",
+    "assignedLabour": ["LAB-102", "LAB-106", "LAB-109", "LAB-111"],
+    "attendanceLog": {
+      "2026-08-06": {
+        "LAB-102": "present",
+        "LAB-106": "present",
+        "LAB-109": "absent",
+        "LAB-111": "present"
+      }
+    }
+  },
+  {
+    "id": "PRJ-203",
+    "name": "Highway Flyover Extension & Widening",
+    "client": "NHAI Maharashtra Circle",
+    "location": "Bhiwandi Bypass, Thane, MH",
+    "budget": 19200000,
+    "spent": 8600000,
+    "startDate": "2026-03-01",
+    "deadline": "2027-02-28",
+    "status": "delayed",
+    "category": "Infrastructure",
+    "progress": 42,
+    "siteManager": "Er. Manoj Patil (+91 99300 88776)",
+    "description": "Four-lane flyover expansion, pillar pier reinforcement, asphalt paving, and drainage culvert installation.",
+    "assignedLabour": ["LAB-104", "LAB-108", "LAB-112"],
+    "attendanceLog": {
+      "2026-08-06": {
+        "LAB-104": "present",
+        "LAB-108": "late",
+        "LAB-112": "present"
+      }
+    }
+  },
+  {
+    "id": "PRJ-204",
+    "name": "Apex Tech Park Block C Commercial Hub",
+    "client": "Apex Infraworks Pvt Ltd",
+    "location": "BKC, Mumbai, MH",
+    "budget": 35000000,
+    "spent": 33200000,
+    "startDate": "2025-05-10",
+    "deadline": "2026-08-31",
+    "status": "completed",
+    "category": "Commercial",
+    "progress": 100,
+    "siteManager": "Er. Vikramaditya Roy (+91 98190 22110)",
+    "description": "Commercial IT park building handover, HVAC ducting, fire safety systems setup, and smart facade installation.",
+    "assignedLabour": ["LAB-102", "LAB-106"],
+    "attendanceLog": {
+      "2026-08-06": {
+        "LAB-102": "present",
+        "LAB-106": "present"
+      }
+    }
+  },
+  {
+    "id": "PRJ-205",
+    "name": "Seaside Residential Complex",
+    "client": "Coastline Housing Co",
+    "location": "Worli Sea Face, Mumbai, MH",
+    "budget": 22500000,
+    "spent": 3375000,
+    "startDate": "2026-06-15",
+    "deadline": "2027-08-30",
+    "status": "planning",
+    "category": "Residential",
+    "progress": 15,
+    "siteManager": "Er. Sneha Kulkarni (+91 97680 55443)",
+    "description": "Luxury sea-facing apartment complex foundation piling, basement excavation, and soil stabilization.",
+    "assignedLabour": ["LAB-106", "LAB-110"],
+    "attendanceLog": {
+      "2026-08-06": {
+        "LAB-106": "present",
+        "LAB-110": "present"
+      }
+    }
+  },
+  {
+    "id": "PRJ-206",
+    "name": "Greenfield Eco Housing Phase 2",
+    "client": "Greenfield Developers",
+    "location": "Kalyan Shilphata, Thane, MH",
+    "budget": 16000000,
+    "spent": 7200000,
+    "startDate": "2026-02-01",
+    "deadline": "2026-12-15",
+    "status": "on_hold",
+    "category": "Residential",
+    "progress": 45,
+    "siteManager": "Er. Pankaj Tripathi (+91 98211 66778)",
+    "description": "Suburban eco-housing project featuring solar grid integration, rainwater harvesting units, and brickwork masonry.",
+    "assignedLabour": ["LAB-101", "LAB-109"],
+    "attendanceLog": {
+      "2026-08-06": {
+        "LAB-101": "absent",
+        "LAB-109": "half_day"
+      }
+    }
+  }
+]

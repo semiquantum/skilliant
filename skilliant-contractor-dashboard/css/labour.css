@@ -1,0 +1,452 @@
+/* ==========================================================================
+   SKILLIANT CONTRACTOR PORTAL - LABOUR MANAGEMENT MODULE STYLES
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Toolbar & Controls Bar
+   -------------------------------------------------------------------------- */
+.controls-toolbar {
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  font-weight: 600;
+}
+
+.toolbar-select {
+  height: 38px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 0 12px;
+  color: var(--text-main);
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.toolbar-select option {
+  background: var(--bg-card-solid);
+  color: var(--text-main);
+}
+
+.toolbar-select:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+}
+
+/* View Switcher Toggle */
+.toolbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.view-switch-group {
+  display: flex;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 3px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border);
+}
+
+.view-switch-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.view-switch-btn.active {
+  background: var(--primary-blue);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+/* --------------------------------------------------------------------------
+   2. Labour Cards Grid View
+   -------------------------------------------------------------------------- */
+.labour-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 20px;
+}
+
+.labour-card {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  transition: all var(--transition-normal);
+}
+
+.labour-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--glass-border-hover);
+  box-shadow: var(--shadow-soft), var(--shadow-glow-blue);
+}
+
+.card-top-bar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.worker-profile-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.worker-photo {
+  width: 54px;
+  height: 54px;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+  border: 2px solid var(--glass-border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.worker-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.worker-name {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.worker-skill-badge {
+  display: inline-block;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--accent-orange);
+  background: rgba(255, 107, 0, 0.12);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  width: fit-content;
+}
+
+.card-action-menu {
+  position: relative;
+}
+
+.card-details-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 0;
+  border-top: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.detail-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.82rem;
+}
+
+.detail-label {
+  color: var(--text-dim);
+}
+
+.detail-value {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.star-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--status-yellow);
+  font-weight: 700;
+}
+
+.rate-tag {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  color: var(--status-green);
+}
+
+.card-footer-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+}
+
+/* --------------------------------------------------------------------------
+   3. Table View Specifics
+   -------------------------------------------------------------------------- */
+.labour-table-container {
+  padding: 20px;
+}
+
+.table-worker-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.table-worker-photo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--primary-blue);
+}
+
+/* --------------------------------------------------------------------------
+   4. Reusable Glassmorphism Modals
+   -------------------------------------------------------------------------- */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 8, 15, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 500;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.modal-backdrop.active {
+  display: flex;
+  opacity: 1;
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 580px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: rgba(17, 24, 39, 0.95);
+  border: 1px solid var(--glass-border-hover);
+  box-shadow: var(--shadow-soft), var(--shadow-glow-blue);
+  transform: scale(0.95);
+  transition: transform var(--transition-bounce);
+}
+
+.modal-backdrop.active .modal-card {
+  transform: scale(1);
+}
+
+.modal-lg { max-width: 740px; }
+.modal-sm { max-width: 420px; }
+
+.modal-header {
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.modal-header h2 {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 1.6rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: color var(--transition-fast);
+}
+
+.modal-close-btn:hover {
+  color: var(--text-main);
+}
+
+.modal-form {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modal-body {
+  padding: 24px;
+}
+
+.modal-footer {
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  border-top: 1px solid var(--glass-border);
+}
+
+.justify-center { justify-content: center; }
+.text-center { text-align: center; }
+
+/* Details Modal Layout */
+.profile-modal-grid {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 24px;
+}
+
+.profile-modal-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  padding-right: 20px;
+  border-right: 1px solid var(--glass-border);
+}
+
+.details-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: var(--radius-xl);
+  object-fit: cover;
+  border: 3px solid var(--primary-blue);
+  box-shadow: var(--shadow-glow-blue);
+}
+
+.profile-modal-right {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.details-info-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.info-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.info-val {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+/* Delete Warning Modal */
+.delete-icon-warning {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(255, 107, 0, 0.15);
+  border: 1px solid rgba(255, 107, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px auto;
+}
+
+.delete-warning-text {
+  font-size: 1.05rem;
+  margin-bottom: 6px;
+}
+
+.delete-sub-text {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+}
+
+/* Empty State */
+.empty-state {
+  padding: 60px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.empty-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .controls-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .toolbar-left {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .profile-modal-grid {
+    grid-template-columns: 1fr;
+  }
+  .profile-modal-left {
+    border-right: none;
+    border-bottom: 1px solid var(--glass-border);
+    padding-right: 0;
+    padding-bottom: 20px;
+  }
+}
