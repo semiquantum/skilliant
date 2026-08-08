@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Skilliant - User Portal</title>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- ==============================
+         MOBILE OVERLAY
+    =============================== -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+
+    <!-- ==============================
+         SIDEBAR
+    =============================== -->
+    <aside class="sidebar" id="sidebar">
+
+        <!-- Logo -->
+        <div class="sidebar-logo">
+            <div class="logo-icon">S</div>
+
+            <div class="logo-text">
+                <h2>Skilliant</h2>
+                <span>User Portal</span>
+            </div>
+        </div>
+
+
+        <!-- Close button for mobile -->
+        <button class="sidebar-close" id="sidebarClose">
+            ×
+        </button>
+
+
+        <!-- Navigation -->
+        <nav class="sidebar-nav">
+
+            <p class="nav-title">MAIN MENU</p>
+
+            <button class="nav-item active" data-section="dashboard">
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </button>
+
+            <button class="nav-item" data-section="search">
+                <span class="nav-icon">⌕</span>
+                <span>Search Labour</span>
+            </button>
+
+            <button class="nav-item" data-section="bookings">
+                <span class="nav-icon">▣</span>
+                <span>My Bookings</span>
+            </button>
+
+            <button class="nav-item" data-section="favourites">
+                <span class="nav-icon">♡</span>
+                <span>Favourite Labour</span>
+            </button>
+
+            <p class="nav-title">PAYMENTS</p>
+
+            <button class="nav-item" data-section="wallet">
+                <span class="nav-icon">◉</span>
+                <span>Wallet</span>
+            </button>
+
+            <button class="nav-item" data-section="payments">
+                <span class="nav-icon">₹</span>
+                <span>Payment History</span>
+            </button>
+
+            <p class="nav-title">ACCOUNT</p>
+
+            <button class="nav-item" data-section="addresses">
+                <span class="nav-icon">⌖</span>
+                <span>Saved Addresses</span>
+            </button>
+
+            <button class="nav-item" data-section="reviews">
+                <span class="nav-icon">★</span>
+                <span>Reviews & Ratings</span>
+            </button>
+
+            <button class="nav-item" data-section="notifications">
+                <span class="nav-icon">🔔</span>
+                <span>Notifications</span>
+                <span class="notification-count">3</span>
+            </button>
+
+            <button class="nav-item" data-section="support">
+                <span class="nav-icon">?</span>
+                <span>Support</span>
+            </button>
+
+            <button class="nav-item" data-section="settings">
+                <span class="nav-icon">⚙</span>
+                <span>Settings</span>
+            </button>
+
+        </nav>
+
+
+        <!-- Sidebar User -->
+        <div class="sidebar-user">
+
+            <div class="user-avatar">
+                S
+            </div>
+
+            <div class="sidebar-user-info">
+                <strong id="sidebarUserName">Shreeya</strong>
+                <span>User</span>
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ==============================
+         MAIN CONTENT
+    =============================== -->
+    <main class="main-content">
+
+
+        <!-- ==============================
+             TOP NAVBAR
+        =============================== -->
+        <header class="top-navbar">
+
+            <div class="navbar-left">
+
+                <button class="menu-toggle" id="menuToggle">
+                    ☰
+                </button>
+
+                <div>
+                    <h1 id="pageTitle">Dashboard</h1>
+                    <p id="pageSubtitle">
+                        Welcome back to Skilliant
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="navbar-right">
+
+                <!-- Search -->
+                <button class="navbar-icon-btn" title="Search">
+                    ⌕
+                </button>
+
+                <!-- Notification -->
+                <button
+                    class="navbar-icon-btn notification-btn"
+                    id="notificationButton"
+                    title="Notifications"
+                >
+                    🔔
+                    <span class="notification-dot"></span>
+                </button>
+
+
+                <!-- User -->
+                <div class="navbar-user">
+
+                    <div class="navbar-avatar">
+                        S
+                    </div>
+
+                    <div class="navbar-user-info">
+                        <strong id="navbarUserName">Shreeya</strong>
+                        <span>Customer</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ==============================
+             PAGE CONTAINER
+        =============================== -->
+        <div class="page-container">
+
+
+            <!-- ==================================================
+                 DASHBOARD SECTION
+            =================================================== -->
+            <section
+                class="page-section active"
+                id="dashboard"
+            >
+
+                <!-- Welcome Card -->
+                <div class="welcome-card">
+
+                    <div class="welcome-content">
+
+                        <span class="welcome-label">
+                            Welcome back 👋
+                        </span>
+
+                        <h2>
+                            Hello, <span id="welcomeUserName">
+                                Shreeya
+                            </span>!
+                        </h2>
+
+                        <p>
+                            Find trusted professionals for your
+                            everyday needs.
+                        </p>
+
+                        <button
+                            class="primary-btn"
+                            data-section-link="search"
+                        >
+                            Find a Labour
+                        </button>
+
+                    </div>
+
+                    <div class="welcome-illustration">
+                        👷
+                    </div>
+
+                </div>
+
+
+                <!-- Dashboard Statistics -->
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon blue">
+                            ▣
+                        </div>
+
+                        <div>
+                            <span>Total Bookings</span>
+                            <h3 id="totalBookings">12</h3>
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon orange">
+                            ◷
+                        </div>
+
+                        <div>
+                            <span>Active Bookings</span>
+                            <h3 id="activeBookings">2</h3>
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon green">
+                            ✓
+                        </div>
+
+                        <div>
+                            <span>Completed</span>
+                            <h3 id="completedBookings">8</h3>
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon purple">
+                            ₹
+                        </div>
+
+                        <div>
+                            <span>Wallet Balance</span>
+                            <h3 id="dashboardWallet">
+                                ₹2,450
+                            </h3>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Quick Actions -->
+                <div class="section-header">
+
+                    <div>
+                        <h2>Quick Actions</h2>
+                        <p>Access frequently used features</p>
+                    </div>
+
+                </div>
+
+
+                <div class="quick-actions">
+
+                    <button
+                        class="quick-action-card"
+                        data-section-link="search"
+                    >
+                        <span class="quick-icon">🔍</span>
+                        <strong>Search Labour</strong>
+                        <small>Find professionals</small>
+                    </button>
+
+
+                    <button
+                        class="quick-action-card"
+                        data-section-link="bookings"
+                    >
+                        <span class="quick-icon">📅</span>
+                        <strong>My Bookings</strong>
+                        <small>Manage bookings</small>
+                    </button>
+
+
+                    <button
+                        class="quick-action-card"
+                        data-section-link="wallet"
+                    >
+                        <span class="quick-icon">💳</span>
+                        <strong>Add Money</strong>
+                        <small>Recharge wallet</small>
+                    </button>
+
+
+                    <button
+                        class="quick-action-card"
+                        data-section-link="support"
+                    >
+                        <span class="quick-icon">🎧</span>
+                        <strong>Get Support</strong>
+                        <small>Contact support</small>
+                    </button>
+
+                </div>
+
+
+                <!-- Dashboard Columns -->
+                <div class="dashboard-grid">
+
+
+                    <!-- Recent Bookings -->
+                    <div class="dashboard-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <h2>Recent Bookings</h2>
+                                <p>Your latest labour bookings</p>
+                            </div>
+
+                            <button
+                                class="text-btn"
+                                data-section-link="bookings"
+                            >
+                                View All
+                            </button>
+
+                        </div>
+
+                        <div id="recentBookingsList">
+                            <!-- Generated by JavaScript -->
+                        </div>
+
+                    </div>
+
+
+                    <!-- Notifications -->
+                    <div class="dashboard-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <h2>Notifications</h2>
+                                <p>Latest updates</p>
+                            </div>
+
+                            <button
+                                class="text-btn"
+                                data-section-link="notifications"
+                            >
+                                View All
+                            </button>
+
+                        </div>
+
+                        <div id="dashboardNotifications">
+                            <!-- Generated by JavaScript -->
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Active / Upcoming Booking -->
+                <div class="dashboard-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <h2>Upcoming Booking</h2>
+                            <p>Your next scheduled service</p>
+                        </div>
+
+                        <span class="status-badge confirmed">
+                            Confirmed
+                        </span>
+
+                    </div>
+
+                    <div id="upcomingBooking">
+                        <!-- Generated by JavaScript -->
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ==================================================
+                 SEARCH LABOUR
+            =================================================== -->
+            <section
+                class="page-section"
+                id="search"
+            >
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>Search Labour</h2>
+                        <p>
+                            Find skilled professionals near you
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <!-- Search Bar -->
+                <div class="search-container">
+
+                    <div class="search-input-wrapper">
+
+                        <span>🔍</span>
+
+                        <input
+                            type="text"
+                            id="labourSearch"
+                            placeholder="Search by name or skill..."
+                        >
+
+                    </div>
+
+                    <button
+                        class="primary-btn"
+                        id="searchButton"
+                    >
+                        Search
+                    </button>
+
+                </div>
+
+
+                <!-- Filters -->
+                <div class="filter-panel">
+
+                    <div class="filter-group">
+
+                        <label>Category</label>
+
+                        <select id="categoryFilter">
+
+                            <option value="all">
+                                All Categories
+                            </option>
+
+                            <option value="Electrician">
+                                Electrician
+                            </option>
+
+                            <option value="Plumber">
+                                Plumber
+                            </option>
+
+                            <option value="Carpenter">
+                                Carpenter
+                            </option>
+
+                            <option value="Painter">
+                                Painter
+                            </option>
+
+                            <option value="Cleaner">
+                                Cleaner
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="filter-group">
+
+                        <label>Location</label>
+
+                        <select id="locationFilter">
+
+                            <option value="all">
+                                All Locations
+                            </option>
+
+                            <option value="Mumbai">
+                                Mumbai
+                            </option>
+
+                            <option value="Thane">
+                                Thane
+                            </option>
+
+                            <option value="Navi Mumbai">
+                                Navi Mumbai
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="filter-group">
+
+                        <label>Minimum Rating</label>
+
+                        <select id="ratingFilter">
+
+                            <option value="0">
+                                Any Rating
+                            </option>
+
+                            <option value="4">
+                                4★ & above
+                            </option>
+
+                            <option value="4.5">
+                                4.5★ & above
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="filter-group">
+
+                        <label>Availability</label>
+
+                        <select id="availabilityFilter">
+
+                            <option value="all">
+                                Any Availability
+                            </option>
+
+                            <option value="Available">
+                                Available
+                            </option>
+
+                            <option value="Busy">
+                                Busy
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <button
+                        class="secondary-btn"
+                        id="clearFilters"
+                    >
+                        Clear Filters
+                    </button>
+
+                </div>
+
+
+                <!-- Labour Cards -->
+                <div
+                    class="labour-grid"
+                    id="labourGrid"
+                >
+                    <!-- Generated by JavaScript -->
+                </div>
+
+            </section>
+
+
+            <!-- ==================================================
+                 BOOKINGS
+            =================================================== -->
+            <section
+                class="page-section"
+                id="bookings"
+            >
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>My Bookings</h2>
+                        <p>Manage all your labour bookings</p>
+                    </div>
+
+                </div>
+
+
+                <div class="tabs">
+
+                    <button
+                        class="tab-btn active"
+                        data-booking-tab="all"
+                    >
+                        All
+                    </button>
+
+                    <button
+                        class="tab-btn"
+                        data-booking-tab="active"
+                    >
+                        Active
+                    </button>
+
+                    <button
+                        class="tab-btn"
+                        data-booking-tab="upcoming"
+                    >
+                        Upcoming
+                    </button>
+
+                    <button
+                        class="tab-btn"
+                        data-booking-tab="completed"
+                    >
+                        Completed
+                    </button>
+
+                    <button
+                        class="tab-btn"
+                        data-booking-tab="cancelled"
+                    >
+                        Cancelled
+                    </button>
+
+                </div>
+
+
+                <div id="bookingsList">
+                    <!-- Generated by JavaScript -->
+                </div>
+
+            </section>
+
+
+            <!-- ==================================================
+                 WALLET
+            =================================================== -->
+            <section
+                class="page-section"
+                id="wallet"
+            >
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>My Wallet</h2>
+                        <p>Manage your wallet balance</p>
+                    </div>
+
+                </div>
+
+
+                <div class="wallet-grid">
+
+                    <div class="wallet-balance-card">
+
+                        <span>Available Balance</span>
+
+                        <h2 id="walletBalance">
+                            ₹2,450
+                        </h2>
+
+                        <button
+                            class="primary-btn"
+                            id="addMoneyButton"
+                        >
+                            + Add Money
+                        </button>
+
+                    </div>
+
+
+                    <div class="wallet-summary">
+
+                        <div>
+                            <span>Total Added</span>
+                            <strong>₹8,500</strong>
+                        </div>
+
+                        <div>
+                            <span>Total Spent</span>
+                            <strong>₹6,050</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="dashboard-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <h2>Recent Transactions</h2>
+                            <p>Your wallet activity</p>
+                        </div>
+
+                    </div>
+
+                    <div id="transactionsList">
+                        <!-- Generated by JavaScript -->
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ==================================================
+                 PAYMENT HISTORY
+            =================================================== -->
+            <section
+                class="page-section"
+                id="payments"
+            >
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>Payment History</h2>
+                        <p>View all your payments</p>
+                    </div>
+
+                </div>
+
+                <div class="dashboard-panel">
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>Transaction ID</th>
+                                    <th>Date</th>
+                                    <th>Service</th>
+                                    <th>Amount</th>
+                                    <th>Method</th>
+                                    <th>Status</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="paymentTableBody">
+                                <!-- Generated by JavaScript -->
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ==================================================
+                 ADDRESSES
+            =================================================== -->
+            <section
+                class="page-section"
+                id="addresses"
+            >
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>Saved Addresses</h2>
+                        <p>Manage your service addresses</p>
+                    </div>
+
+                    <button
+                        class="primary-btn"
+                        id="addAddressButton"
+                    >
+                        + Add Address
+                    </button>
+
+                </div>
+
+
+                <div
+                    class="address-grid"
+                    id="addressGrid"
+                >
+                    <!-- Generated by JavaScript -->
+                </div>
+
+            </section>
+
+
+            <!-- ==================================================
+                 FAVOURITES
+            =================================================== -->
+            <section
+                class="page-section"
+                id="favourites"
+            >
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>Favourite Labour</h2>
+                        <p>Your saved professionals</p>
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="labour-grid"
+                    id="favouritesGrid"
+                >
+                    <!-- Generated by JavaScript -->
+                </div>
+
+            </section>
+
+
+            <!-- ==================================================
+                 REVIEWS
+            =================================================== -->
+            <section
+                class="page-section"
+                id="reviews"
+            >
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>Reviews & Ratings</h2>
+                        <p>Manage your reviews</p>
+                    </div>
+
+                </div>
+
+
+                <div id="reviewsList">
+                    <!-- Generated by JavaScript -->
+                </div>
+
+            </section>
+
+
+            <!-- ==================================================
+                 NOTIFICATIONS
+            =================================================== -->
+            <section
+                class="page-section"
+                id="notifications"
+            >
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>Notifications</h2>
+                        <p>Stay updated with your bookings</p>
+                    </div>
+
+                    <button
+                        class="secondary-btn"
+                        id="markNotificationsRead"
+                    >
+                        Mark All Read
+                    </button>
+
+                </div>
+
+
+                <div
+                    class="notifications-list"
+                    id="notificationsList"
+                >
+                    <!-- Generated by JavaScript -->
+                </div>
+
+            </section>
+
+
+            <!-- ==================================================
+                 SUPPORT
+            =================================================== -->
+            <section
+                class="page-section"
+                id="support"
+            >
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>Support Center</h2>
+                        <p>We're here to help you</p>
+                    </div>
+
+                    <button
+                        class="primary-btn"
+                        id="createTicketButton"
+                    >
+                        + Create Ticket
+                    </button>
+
+                </div>
+
+
+                <div
+                    class="support-list"
+                    id="supportList"
+                >
+                    <!-- Generated by JavaScript -->
+                </div>
+
+            </section>
+
+
+            <!-- ==================================================
+                 SETTINGS
+            =================================================== -->
+            <section
+                class="page-section"
+                id="settings"
+            >
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>Settings</h2>
+                        <p>Manage your account preferences</p>
+                    </div>
+
+                </div>
+
+
+                <div class="settings-container">
+
+
+                    <div class="settings-card">
+
+                        <h3>Account Settings</h3>
+
+                        <div class="setting-row">
+
+                            <div>
+                                <strong>Edit Profile</strong>
+                                <span>
+                                    Update your personal information
+                                </span>
+                            </div>
+
+                            <button
+                                class="secondary-btn"
+                                data-section-link="profile"
+                            >
+                                Edit
+                            </button>
+
+                        </div>
+
+
+                        <div class="setting-row">
+
+                            <div>
+                                <strong>Change Password</strong>
+                                <span>
+                                    Update your account password
+                                </span>
+                            </div>
+
+                            <button
+                                class="secondary-btn"
+                                id="changePasswordButton"
+                            >
+                                Change
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="settings-card">
+
+                        <h3>Notification Settings</h3>
+
+                        <div class="setting-row">
+
+                            <div>
+                                <strong>Booking Notifications</strong>
+                                <span>
+                                    Receive booking updates
+                                </span>
+                            </div>
+
+                            <label class="switch">
+
+                                <input
+                                    type="checkbox"
+                                    id="bookingNotifications"
+                                    checked
+                                >
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="setting-row">
+
+                            <div>
+                                <strong>Promotional Notifications</strong>
+                                <span>
+                                    Receive offers and promotions
+                                </span>
+                            </div>
+
+                            <label class="switch">
+
+                                <input
+                                    type="checkbox"
+                                    id="promoNotifications"
+                                    checked
+                                >
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="settings-card">
+
+                        <h3>Preferences</h3>
+
+                        <div class="form-group">
+
+                            <label>Language</label>
+
+                            <select id="languageSetting">
+
+                                <option>English</option>
+                                <option>Hindi</option>
+                                <option>Marathi</option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Theme</label>
+
+                            <select id="themeSetting">
+
+                                <option value="light">
+                                    Light
+                                </option>
+
+                                <option value="dark">
+                                    Dark
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        class="danger-btn"
+                        id="logoutButton"
+                    >
+                        Logout
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- ==================================================
+                 PROFILE
+            =================================================== -->
+            <section
+                class="page-section"
+                id="profile"
+            >
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>My Profile</h2>
+                        <p>Manage your personal information</p>
+                    </div>
+
+                </div>
+
+
+                <div class="profile-container">
+
+                    <div class="profile-header">
+
+                        <div class="large-avatar">
+                            S
+                        </div>
+
+                        <div>
+
+                            <h2 id="profileDisplayName">
+                                Shreeya Shrivastava
+                            </h2>
+
+                            <p>Skilliant User</p>
+
+                            <button
+                                class="secondary-btn"
+                                id="changePhotoButton"
+                            >
+                                Change Photo
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <form id="profileForm">
+
+                        <div class="form-grid">
+
+                            <div class="form-group">
+
+                                <label>Full Name</label>
+
+                                <input
+                                    type="text"
+                                    id="profileName"
+                                    value="Shreeya Shrivastava"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>Email</label>
+
+                                <input
+                                    type="email"
+                                    id="profileEmail"
+                                    value="shreeya@example.com"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>Phone Number</label>
+
+                                <input
+                                    type="tel"
+                                    id="profilePhone"
+                                    value="+91 9876543210"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>Location</label>
+
+                                <input
+                                    type="text"
+                                    id="profileLocation"
+                                    value="Mumbai, Maharashtra"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="primary-btn"
+                        >
+                            Save Changes
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- ==============================
+         MODAL
+    =============================== -->
+    <div
+        class="modal-overlay"
+        id="modalOverlay"
+    >
+
+        <div
+            class="modal"
+            id="modalContent"
+        >
+
+            <!-- JavaScript will insert modal content -->
+
+        </div>
+
+    </div>
+
+
+    <!-- ==============================
+         TOAST
+    =============================== -->
+    <div
+        class="toast"
+        id="toast"
+    >
+        <span id="toastMessage">
+            Success!
+        </span>
+    </div>
+
+
+    <!-- ==============================
+         JAVASCRIPT FILES
+    =============================== -->
+
+    <script src="js/data.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+</html>
