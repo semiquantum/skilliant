@@ -1,5 +1,6 @@
 /**
- * Skilliant Admin Portal - Notifications & Toast System
+ * Skilliant Admin Portal — Notifications & Toast System
+ * Bug fix: was using material-icons icon names in FA6 context.
  */
 
 const Toast = {
@@ -11,19 +12,24 @@ const Toast = {
 
     show(message, type = 'info', duration = 3500) {
         if (!this.container) this.init();
+        if (!this.container) return;
 
         const toast = document.createElement('div');
         toast.className = `toast toast-${type}`;
-        
+        toast.setAttribute('role', 'status');
+        toast.setAttribute('aria-live', 'polite');
+
+        // FA6 icon names (was broken with material-icons names)
         const icons = {
-            success: 'check_circle',
-            warning: 'warning',
-            danger: 'error',
-            info: 'info'
+            success: 'fa-circle-check',
+            warning: 'fa-triangle-exclamation',
+            danger:  'fa-circle-xmark',
+            error:   'fa-circle-xmark',
+            info:    'fa-circle-info'
         };
 
         toast.innerHTML = `
-            <span class="material-icons-round text-${type === 'info' ? 'primary' : type}">${icons[type] || 'info'}</span>
+            <i class="fa-solid ${icons[type] || icons.info}" aria-hidden="true"></i>
             <span>${message}</span>
         `;
 
