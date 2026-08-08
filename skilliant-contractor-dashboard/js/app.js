@@ -1,44 +1,79 @@
-/* ==========================================
+/* =========================================================
    SKILLIANT LABOUR PORTAL
-   SCRIPT.JS
-   PART 1
-========================================== */
+   app.js
+   CLEAN MASTER VERSION
+========================================================= */
 
-/* ==========================================
-   SELECTORS
-========================================== */
 
-const pages = document.querySelectorAll(".page");
-const menuItems = document.querySelectorAll(".menu li");
+/* =========================================================
+   BASIC HELPERS
+========================================================= */
 
-/* ==========================================
+function getElement(id) {
+    return document.getElementById(id);
+}
+
+
+/* =========================================================
    PAGE NAVIGATION
-========================================== */
+========================================================= */
 
-function showPage(pageId, element) {
+function showPage(pageId, clickedItem) {
 
-    // Hide all pages
-    pages.forEach(page => {
+    const pages =
+        document.querySelectorAll(".page");
+
+    const menuItems =
+        document.querySelectorAll(".menu li");
+
+
+    pages.forEach(function(page) {
+
         page.classList.remove("active-page");
+        page.classList.remove("active");
+
         page.style.display = "none";
+
     });
 
-    // Show selected page
-    const selectedPage = document.getElementById(pageId);
 
-    if (selectedPage) {
-        selectedPage.classList.add("active-page");
-        selectedPage.style.display = "block";
+    const selectedPage =
+        document.getElementById(pageId);
+
+
+    if (!selectedPage) {
+
+        console.error(
+            "Page not found:",
+            pageId
+        );
+
+        return;
+
     }
 
-    // Active menu item
-    menuItems.forEach(item => item.classList.remove("active"));
 
-    if (element) {
-        element.classList.add("active");
+    selectedPage.classList.add(
+        "active-page"
+    );
+
+    selectedPage.style.display = "block";
+
+
+    menuItems.forEach(function(item) {
+
+        item.classList.remove("active");
+
+    });
+
+
+    if (clickedItem) {
+
+        clickedItem.classList.add("active");
+
     }
 
-    // Scroll to top
+
     window.scrollTo({
         top: 0,
         behavior: "smooth"
@@ -46,814 +81,2113 @@ function showPage(pageId, element) {
 
 }
 
-/* ==========================================
+
+/* =========================================================
    DEFAULT PAGE
-========================================== */
+========================================================= */
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
 
-    // Hide every page
-    pages.forEach(page => {
-        page.style.display = "none";
-    });
+        const pages =
+            document.querySelectorAll(".page");
 
-    // Show Dashboard
-    const dashboard = document.getElementById("dashboard");
+        const menuItems =
+            document.querySelectorAll(".menu li");
 
-    if (dashboard) {
-        dashboard.style.display = "block";
-        dashboard.classList.add("active-page");
+
+        pages.forEach(function(page) {
+
+            page.style.display = "none";
+
+        });
+
+
+        const dashboard =
+            document.getElementById("dashboard");
+
+
+        if (dashboard) {
+
+            dashboard.style.display = "block";
+
+            dashboard.classList.add(
+                "active-page"
+            );
+
+        }
+
+
+        if (menuItems.length > 0) {
+
+            menuItems[0].classList.add(
+                "active"
+            );
+
+        }
+
     }
+);
 
-    // First menu active
-    if (menuItems.length > 0) {
-        menuItems[0].classList.add("active");
-    }
 
-});
-
-/* ==========================================
+/* =========================================================
    GREETING
-========================================== */
+========================================================= */
 
-const greeting = document.getElementById("greeting");
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
 
-if (greeting) {
+        const greeting =
+            document.getElementById("greeting");
 
-    const hour = new Date().getHours();
 
-    if (hour < 12) {
+        if (!greeting) return;
 
-        greeting.innerHTML = "Good Morning, Rahul 👋";
 
-    } else if (hour < 17) {
+        const hour =
+            new Date().getHours();
 
-        greeting.innerHTML = "Good Afternoon, Rahul ☀️";
 
-    } else {
+        if (hour < 12) {
 
-        greeting.innerHTML = "Good Evening, Rahul 🌙";
+            greeting.innerHTML =
+                "Good Morning, Rahul 👋";
 
-    }
+        } else if (hour < 17) {
 
-}
-
-/* ==========================================
-   COUNTER ANIMATION
-========================================== */
-
-const counters = document.querySelectorAll(".counter");
-
-function animateCounter(counter) {
-
-    const target = Number(counter.innerText);
-
-    let count = 0;
-
-    const speed = Math.max(1, target / 80);
-
-    const update = () => {
-
-        count += speed;
-
-        if (count < target) {
-
-            counter.innerText = Math.ceil(count);
-
-            requestAnimationFrame(update);
+            greeting.innerHTML =
+                "Good Afternoon, Rahul ☀️";
 
         } else {
 
-            counter.innerText = target;
+            greeting.innerHTML =
+                "Good Evening, Rahul 🌙";
 
         }
 
-    };
+    }
+);
 
-    update();
 
-}
+/* =========================================================
+   COUNTER ANIMATION
+========================================================= */
 
-counters.forEach(counter => {
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
 
-    animateCounter(counter);
+        const counters =
+            document.querySelectorAll(
+                ".counter"
+            );
 
-});
 
-/* ==========================================
-   BAR CHART ANIMATION
-========================================== */
+        counters.forEach(function(counter) {
 
-window.addEventListener("load", () => {
+            const target =
+                Number(
+                    counter.innerText
+                );
 
-    const bars = document.querySelectorAll(".bar span");
 
-    bars.forEach(bar => {
+            let count = 0;
 
-        const finalHeight = bar.style.height;
 
-        bar.style.height = "0";
+            const speed =
+                Math.max(
+                    1,
+                    target / 80
+                );
 
-        setTimeout(() => {
 
-            bar.style.height = finalHeight;
+            function update() {
 
-        }, 300);
+                count += speed;
 
-    });
 
-});
+                if (count < target) {
 
-/* ==========================================
+                    counter.innerText =
+                        Math.ceil(count);
+
+                    requestAnimationFrame(
+                        update
+                    );
+
+                } else {
+
+                    counter.innerText =
+                        target;
+
+                }
+
+            }
+
+
+            update();
+
+        });
+
+    }
+);
+
+
+
+
+
+/* =========================================================
    PROFILE IMAGE EFFECT
-========================================== */
+========================================================= */
 
-const profileImage = document.querySelector(".profile img");
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
 
-if (profileImage) {
+        const profileImage =
+            document.querySelector(
+                ".profile img"
+            );
 
-    profileImage.addEventListener("mouseenter", () => {
 
-        profileImage.style.transform = "scale(1.08)";
+        if (!profileImage) return;
 
-    });
 
-    profileImage.addEventListener("mouseleave", () => {
+        profileImage.addEventListener(
+            "mouseenter",
+            function() {
 
-        profileImage.style.transform = "scale(1)";
+                profileImage.style.transform =
+                    "scale(1.08)";
 
-    });
+            }
+        );
+
+
+        profileImage.addEventListener(
+            "mouseleave",
+            function() {
+
+                profileImage.style.transform =
+                    "scale(1)";
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================================================
+   MODALS
+========================================================= */
+
+function openModal(id) {
+
+    const modal =
+        document.getElementById(id);
+
+
+    if (!modal) return;
+
+
+    modal.classList.add("active");
+
+    modal.style.display = "flex";
 
 }
 
-console.log("✔ JS Part 1 Loaded");
-/* ==========================================
-   SKILLIANT LABOUR PORTAL
-   SCRIPT.JS
-   PART 2
-========================================== */
 
-/* ==========================================
-   MODAL SELECTORS
-========================================== */
+function closeModal(id) {
 
-const detailsModal = document.getElementById("detailsModal");
-const acceptModal = document.getElementById("acceptModal");
-const rejectModal = document.getElementById("rejectModal");
-const logoutModal = document.getElementById("logoutModal");
+    const modal =
+        document.getElementById(id);
 
-/* ==========================================
-   MODAL FUNCTIONS
-========================================== */
+
+    if (!modal) return;
+
+
+    modal.classList.remove("active");
+
+    modal.style.display = "none";
+
+}
+
+
+/* =========================================================
+   JOB DETAILS MODAL
+========================================================= */
 
 function openDetailsModal() {
-
-    if(detailsModal){
-
-        detailsModal.style.display = "flex";
-
-    }
-
+    openModal("detailsModal");
 }
+
 
 function closeDetailsModal() {
-
-    if(detailsModal){
-
-        detailsModal.style.display = "none";
-
-    }
-
+    closeModal("detailsModal");
 }
+
+
+/* =========================================================
+   ACCEPT MODAL
+========================================================= */
 
 function openAcceptModal() {
-
-    if(acceptModal){
-
-        acceptModal.style.display = "flex";
-
-    }
-
+    openModal("acceptModal");
 }
+
 
 function closeAcceptModal() {
-
-    if(acceptModal){
-
-        acceptModal.style.display = "none";
-
-    }
-
+    closeModal("acceptModal");
 }
+
+
+/* =========================================================
+   REJECT MODAL
+========================================================= */
 
 function openRejectModal() {
-
-    if(rejectModal){
-
-        rejectModal.style.display = "flex";
-
-    }
-
+    openModal("rejectModal");
 }
+
 
 function closeRejectModal() {
-
-    if(rejectModal){
-
-        rejectModal.style.display = "none";
-
-    }
-
+    closeModal("rejectModal");
 }
+
+
+/* =========================================================
+   LOGOUT MODAL
+========================================================= */
 
 function openLogoutModal() {
-
-    if(logoutModal){
-
-        logoutModal.style.display = "flex";
-
-    }
-
+    openModal("logoutModal");
 }
+
 
 function closeLogoutModal() {
-
-    if(logoutModal){
-
-        logoutModal.style.display = "none";
-
-    }
-
+    closeModal("logoutModal");
 }
 
-/* ==========================================
-   JOB ACTIONS
-========================================== */
 
-function acceptJob(){
+/* =========================================================
+   JOB ACTIONS
+========================================================= */
+
+function acceptJob() {
 
     closeAcceptModal();
 
-    showToast("Job Accepted Successfully ✅","success");
+    showToast(
+        "Job Accepted Successfully ✅",
+        "success"
+    );
 
 }
 
-function rejectJob(){
+
+function rejectJob() {
 
     closeRejectModal();
 
-    showToast("Job Rejected ❌","error");
-
-}
-
-/* ==========================================
-   CLOSE MODAL ON OUTSIDE CLICK
-========================================== */
-
-window.addEventListener("click",(e)=>{
-
-    if(e.target===detailsModal){
-
-        closeDetailsModal();
-
-    }
-
-    if(e.target===acceptModal){
-
-        closeAcceptModal();
-
-    }
-
-    if(e.target===rejectModal){
-
-        closeRejectModal();
-
-    }
-
-    if(e.target===logoutModal){
-
-        closeLogoutModal();
-
-    }
-
-});
-
-/* ==========================================
-   ESC KEY
-========================================== */
-
-document.addEventListener("keydown",(e)=>{
-
-    if(e.key==="Escape"){
-
-        closeDetailsModal();
-
-        closeAcceptModal();
-
-        closeRejectModal();
-
-        closeLogoutModal();
-
-    }
-
-});
-
-/* ==========================================
-   PROFILE DROPDOWN
-========================================== */
-
-const profile = document.querySelector(".profile");
-const profileDropdown = document.getElementById("profileDropdown");
-
-if(profile && profileDropdown){
-
-    profile.addEventListener("click",(e)=>{
-
-        e.stopPropagation();
-
-        if(profileDropdown.style.display==="block"){
-
-            profileDropdown.style.display="none";
-
-        }
-
-        else{
-
-            profileDropdown.style.display="block";
-
-        }
-
-    });
-
-    document.addEventListener("click",()=>{
-
-        profileDropdown.style.display="none";
-
-    });
-
-}
-
-/* ==========================================
-   TOAST MESSAGE
-========================================== */
-
-function showToast(message,type){
-
-    const toast=document.createElement("div");
-
-    toast.className="toast";
-
-    toast.innerHTML=message;
-
-    if(type==="success"){
-
-        toast.style.background="#22C55E";
-
-    }
-
-    else{
-
-        toast.style.background="#EF4444";
-
-    }
-
-    document.body.appendChild(toast);
-
-    setTimeout(()=>{
-
-        toast.classList.add("show");
-
-    },100);
-
-    setTimeout(()=>{
-
-        toast.classList.remove("show");
-
-        setTimeout(()=>{
-
-            toast.remove();
-
-        },300);
-
-    },2500);
-
-}
-
-console.log("✔ JS Part 2 Loaded");
-/* ==========================================
-   SKILLIANT LABOUR PORTAL
-   SCRIPT.JS
-   PART 3
-========================================== */
-
-/* ==========================================
-   SEARCH JOBS
-========================================== */
-
-const searchInput = document.querySelector(".search-box input");
-
-if(searchInput){
-
-    searchInput.addEventListener("keyup",function(){
-
-        const value = this.value.toLowerCase();
-
-        const cards = document.querySelectorAll(".job-card,.request-card");
-
-        cards.forEach(card=>{
-
-            const text = card.innerText.toLowerCase();
-
-            if(text.includes(value)){
-
-                card.style.display="";
-
-            }
-
-            else{
-
-                card.style.display="none";
-
-            }
-
-        });
-
-    });
-
-}
-
-/* ==========================================
-   CALENDAR
-========================================== */
-
-const dates = document.querySelectorAll(".calendar-grid span");
-
-dates.forEach(date=>{
-
-    date.addEventListener("click",function(){
-
-        if(this.innerHTML==="") return;
-
-        dates.forEach(d=>{
-
-            d.classList.remove("selected-date");
-
-        });
-
-        this.classList.add("selected-date");
-
-    });
-
-});
-
-/* ==========================================
-   NOTIFICATION BUTTON
-========================================== */
-
-const bell = document.querySelector(".icon");
-
-if(bell){
-
-    bell.addEventListener("click",()=>{
-
-        showToast("🔔 You have 3 new notifications","success");
-
-    });
-
-}
-
-/* ==========================================
-   RIPPLE EFFECT
-========================================== */
-
-const buttons = document.querySelectorAll("button");
-
-buttons.forEach(button=>{
-
-    button.addEventListener("click",function(e){
-
-        const ripple = document.createElement("span");
-
-        ripple.className="ripple";
-
-        ripple.style.left=e.offsetX+"px";
-
-        ripple.style.top=e.offsetY+"px";
-
-        this.appendChild(ripple);
-
-        setTimeout(()=>{
-
-            ripple.remove();
-
-        },600);
-
-    });
-
-});
-
-/* ==========================================
-   CARD HOVER EFFECT
-========================================== */
-
-const glassCards=document.querySelectorAll(".glass,.card");
-
-glassCards.forEach(card=>{
-
-    card.addEventListener("mouseenter",()=>{
-
-        card.style.transform="translateY(-6px)";
-
-    });
-
-    card.addEventListener("mouseleave",()=>{
-
-        card.style.transform="translateY(0px)";
-
-    });
-
-});
-
-/* ==========================================
-   BUTTON HOVER EFFECT
-========================================== */
-
-const primaryButtons=document.querySelectorAll(
-".primary-btn,.accept-btn,.reject-btn,.danger-btn,.secondary-btn"
-);
-
-primaryButtons.forEach(btn=>{
-
-    btn.addEventListener("mouseenter",()=>{
-
-        btn.style.transform="translateY(-2px)";
-
-    });
-
-    btn.addEventListener("mouseleave",()=>{
-
-        btn.style.transform="translateY(0px)";
-
-    });
-
-});
-
-/* ==========================================
-   LIVE DATE
-========================================== */
-
-const today=new Date();
-
-const currentDay=today.getDate();
-
-dates.forEach(date=>{
-
-    if(date.innerText==currentDay){
-
-        date.classList.add("selected-date");
-
-    }
-
-});
-
-/* ==========================================
-   PAGE LOADER EFFECT
-========================================== */
-
-window.addEventListener("load",()=>{
-
-    document.body.style.opacity="0";
-
-    requestAnimationFrame(()=>{
-
-        document.body.style.transition="opacity .4s";
-
-        document.body.style.opacity="1";
-
-    });
-
-});
-
-/* ==========================================
-   SIDEBAR ACTIVE ICON EFFECT
-========================================== */
-
-menuItems.forEach(item=>{
-
-    item.addEventListener("mouseenter",()=>{
-
-        item.style.transform="translateX(6px)";
-
-    });
-
-    item.addEventListener("mouseleave",()=>{
-
-        if(!item.classList.contains("active")){
-
-            item.style.transform="translateX(0px)";
-
-        }
-
-    });
-
-});
-
-/* ==========================================
-   CONSOLE
-========================================== */
-
-console.log(
-"%c✔ Labour Portal Loaded Successfully",
-"color:#2563EB;font-size:16px;font-weight:bold;"
-);
-/* ==========================================
-        DAY 4 - WALLET
-========================================== */
-
-const withdrawModal = document.getElementById("withdrawModal");
-
-const withdrawInput = document.getElementById("withdrawAmount");
-
-const walletBalance = document.getElementById("walletBalance");
-
-/* ==========================================
-        OPEN MODAL
-========================================== */
-
-function openWithdrawModal(){
-
-    withdrawModal.style.display="flex";
-
-}
-
-/* ==========================================
-        CLOSE MODAL
-========================================== */
-
-function closeWithdrawModal(){
-
-    withdrawModal.style.display="none";
-
-}
-
-/* ==========================================
-        WITHDRAW MONEY
-========================================== */
-
-function withdrawMoney(){
-
-    let amount = parseFloat(withdrawInput.value);
-
-    if(isNaN(amount) || amount<=0){
-
-        showToast("Enter a valid amount","error");
-
-        return;
-
-    }
-
-    let currentBalance = parseFloat(
-
-        walletBalance.innerText
-        .replace("₹","")
-        .replace(",","")
-
+    showToast(
+        "Job Rejected ❌",
+        "error"
     );
 
-    if(amount>currentBalance){
+}
 
-        showToast("Insufficient Balance","error");
 
-        return;
+/* =========================================================
+   OUTSIDE MODAL CLICK
+========================================================= */
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+        const modals =
+            document.querySelectorAll(
+                ".modal"
+            );
+
+
+        modals.forEach(function(modal) {
+
+            if (
+                event.target === modal
+            ) {
+
+                modal.classList.remove(
+                    "active"
+                );
+
+                modal.style.display =
+                    "none";
+
+            }
+
+        });
 
     }
-
-    currentBalance -= amount;
-
-    walletBalance.innerHTML="₹"+currentBalance.toLocaleString();
-
-    addTransaction(amount);
-
-    closeWithdrawModal();
-
-    withdrawInput.value="";
-
-    showToast("₹"+amount+" Withdraw Successful","success");
-
-}
-
-/* ==========================================
-        ADD TRANSACTION
-========================================== */
-
-function addTransaction(amount){
-
-    const tbody=document.querySelector(".transaction-table tbody");
-
-    const row=document.createElement("tr");
-
-    const today=new Date();
-
-    const date=today.getDate()+" "+
-    today.toLocaleString("default",{month:"short"});
-
-    row.innerHTML=`
-
-        <td>${date}</td>
-
-        <td class="debit">
-
-            Withdraw
-
-        </td>
-
-        <td>
-
-            -₹${amount}
-
-        </td>
-
-        <td>
-
-            Success
-
-        </td>
-
-    `;
-
-    tbody.prepend(row);
-
-}
-
-/* ==========================================
-        CLOSE MODAL OUTSIDE
-========================================== */
-
-window.addEventListener("click",(e)=>{
-
-    if(e.target==withdrawModal){
-
-        closeWithdrawModal();
-
-    }
-
-});
-/* ==========================================
-      DAY 4 ENHANCEMENTS
-========================================== */
-
-const successPopup=document.getElementById("successPopup");
-
-function showSuccessPopup(){
-
-    successPopup.classList.add("show");
-
-    setTimeout(()=>{
-
-        successPopup.classList.remove("show");
-
-    },2500);
-
-}
-
-/* ==========================================
-      ENHANCED WITHDRAW
-========================================== */
-
-const withdrawButton=document.querySelector(
-"#withdrawModal .primary-btn"
 );
 
-if(withdrawButton){
 
-    withdrawButton.addEventListener("click",function(){
+/* =========================================================
+   ESC KEY
+========================================================= */
 
-        const amount=parseFloat(withdrawInput.value);
+document.addEventListener(
+    "keydown",
+    function(event) {
 
-        if(isNaN(amount) || amount<=0){
+        if (event.key !== "Escape") {
+            return;
+        }
+
+
+        document
+            .querySelectorAll(".modal")
+            .forEach(function(modal) {
+
+                modal.classList.remove(
+                    "active"
+                );
+
+                modal.style.display =
+                    "none";
+
+            });
+
+
+        const dropdown =
+            document.getElementById(
+                "profileDropdown"
+            );
+
+
+        if (dropdown) {
+
+            dropdown.classList.remove(
+                "show"
+            );
+
+            dropdown.style.display =
+                "none";
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   PROFILE DROPDOWN
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        const profile =
+            document.querySelector(
+                ".profile"
+            );
+
+
+        const profileDropdown =
+            document.getElementById(
+                "profileDropdown"
+            );
+
+
+        if (
+            !profile ||
+            !profileDropdown
+        ) {
 
             return;
 
         }
 
-        this.disabled=true;
 
-        const original=this.innerHTML;
+        profile.addEventListener(
+            "click",
+            function(event) {
 
-        this.innerHTML='<span class="loader"></span> Processing...';
+                event.stopPropagation();
 
-        setTimeout(()=>{
 
-            withdrawMoney();
+                profileDropdown.classList.toggle(
+                    "show"
+                );
 
-            showSuccessPopup();
 
-            this.disabled=false;
+                if (
+                    profileDropdown.classList.contains(
+                        "show"
+                    )
+                ) {
 
-            this.innerHTML=original;
+                    profileDropdown.style.display =
+                        "block";
 
-        },1800);
+                } else {
 
-    });
+                    profileDropdown.style.display =
+                        "none";
+
+                }
+
+            }
+        );
+
+
+        document.addEventListener(
+            "click",
+            function() {
+
+                profileDropdown.classList.remove(
+                    "show"
+                );
+
+                profileDropdown.style.display =
+                    "none";
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToast(message, type) {
+
+    const toast =
+        document.createElement("div");
+
+
+    toast.className =
+        "toast";
+
+
+    toast.innerHTML =
+        message;
+
+
+    if (type === "success") {
+
+        toast.style.background =
+            "#22C55E";
+
+    } else {
+
+        toast.style.background =
+            "#EF4444";
+
+    }
+
+
+    document.body.appendChild(
+        toast
+    );
+
+
+    setTimeout(function() {
+
+        toast.classList.add(
+            "show"
+        );
+
+    }, 100);
+
+
+    setTimeout(function() {
+
+        toast.classList.remove(
+            "show"
+        );
+
+
+        setTimeout(function() {
+
+            toast.remove();
+
+        }, 300);
+
+    }, 2500);
 
 }
+
+
+/* =========================================================
+   SEARCH JOBS
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        const searchInput =
+            document.querySelector(
+                ".search-box input"
+            );
+
+
+        if (!searchInput) return;
+
+
+        searchInput.addEventListener(
+            "keyup",
+            function() {
+
+                const value =
+                    this.value.toLowerCase();
+
+
+                const cards =
+                    document.querySelectorAll(
+                        ".job-card, .request-card"
+                    );
+
+
+                cards.forEach(function(card) {
+
+                    const text =
+                        card.innerText
+                            .toLowerCase();
+
+
+                    card.style.display =
+                        text.includes(value)
+                            ? ""
+                            : "none";
+
+                });
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================================================
+   CALENDAR
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        const dates =
+            document.querySelectorAll(
+                ".calendar-grid span"
+            );
+
+
+        dates.forEach(function(date) {
+
+            date.addEventListener(
+                "click",
+                function() {
+
+                    if (
+                        this.innerHTML.trim() === ""
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    dates.forEach(
+                        function(d) {
+
+                            d.classList.remove(
+                                "selected-date"
+                            );
+
+                        }
+                    );
+
+
+                    this.classList.add(
+                        "selected-date"
+                    );
+
+                }
+            );
+
+        });
+
+
+        const today =
+            new Date();
+
+
+        const currentDay =
+            today.getDate();
+
+
+        dates.forEach(function(date) {
+
+            if (
+                date.innerText.trim() ==
+                currentDay
+            ) {
+
+                date.classList.add(
+                    "selected-date"
+                );
+
+            }
+
+        });
+
+    }
+);
+
+
+/* =========================================================
+   NOTIFICATION BELL
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        const bell =
+            document.querySelector(
+                ".icon"
+            );
+
+
+        if (!bell) return;
+
+
+        bell.addEventListener(
+            "click",
+            function() {
+
+                showToast(
+                    "🔔 You have 3 new notifications",
+                    "success"
+                );
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================================================
+   RIPPLE EFFECT
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        const buttons =
+            document.querySelectorAll(
+                "button"
+            );
+
+
+        buttons.forEach(function(button) {
+
+            button.addEventListener(
+                "click",
+                function(event) {
+
+                    const ripple =
+                        document.createElement(
+                            "span"
+                        );
+
+
+                    ripple.className =
+                        "ripple";
+
+
+                    ripple.style.left =
+                        event.offsetX + "px";
+
+
+                    ripple.style.top =
+                        event.offsetY + "px";
+
+
+                    this.appendChild(
+                        ripple
+                    );
+
+
+                    setTimeout(
+                        function() {
+
+                            ripple.remove();
+
+                        },
+                        600
+                    );
+
+                }
+            );
+
+        });
+
+    }
+);
+
+
+/* =========================================================
+   DAY 4 - WALLET
+========================================================= */
+
+function openWithdrawModal() {
+    openModal("withdrawModal");
+}
+
+
+function closeWithdrawModal() {
+    closeModal("withdrawModal");
+}
+
+
+function withdrawMoney() {
+
+    const withdrawInput =
+        document.getElementById(
+            "withdrawAmount"
+        );
+
+
+    const walletBalance =
+        document.getElementById(
+            "walletBalance"
+        );
+
+
+    if (
+        !withdrawInput ||
+        !walletBalance
+    ) {
+
+        return;
+
+    }
+
+
+    const amount =
+        parseFloat(
+            withdrawInput.value
+        );
+
+
+    if (
+        isNaN(amount) ||
+        amount <= 0
+    ) {
+
+        showToast(
+            "Enter a valid amount",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const currentBalance =
+        parseFloat(
+            walletBalance.innerText
+                .replace("₹", "")
+                .replace(/,/g, "")
+        );
+
+
+    if (
+        amount > currentBalance
+    ) {
+
+        showToast(
+            "Insufficient Balance",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const newBalance =
+        currentBalance - amount;
+
+
+    walletBalance.innerHTML =
+        "₹" +
+        newBalance.toLocaleString(
+            "en-IN"
+        );
+
+
+    addTransaction(amount);
+
+
+    closeWithdrawModal();
+
+
+    withdrawInput.value = "";
+
+
+    showToast(
+        "₹" +
+        amount +
+        " Withdraw Successful",
+        "success"
+    );
+
+}
+
+
+function addTransaction(amount) {
+
+    const tbody =
+        document.querySelector(
+            ".transaction-table tbody"
+        );
+
+
+    if (!tbody) return;
+
+
+    const row =
+        document.createElement("tr");
+
+
+    const today =
+        new Date();
+
+
+    const date =
+        today.getDate() +
+        " " +
+        today.toLocaleString(
+            "default",
+            {
+                month: "short"
+            }
+        );
+
+
+    row.innerHTML = `
+
+        <td>${date}</td>
+
+        <td class="debit">
+            Withdraw
+        </td>
+
+        <td>
+            -₹${amount}
+        </td>
+
+        <td>
+            Success
+        </td>
+
+    `;
+
+
+    tbody.prepend(row);
+
+}
+
+
+/* =========================================================
+   DAY 4 SUCCESS POPUP
+========================================================= */
+
+function showSuccessPopup() {
+
+    const popup =
+        document.getElementById(
+            "successPopup"
+        );
+
+
+    if (!popup) return;
+
+
+    popup.classList.add(
+        "show"
+    );
+
+
+    setTimeout(function() {
+
+        popup.classList.remove(
+            "show"
+        );
+
+    }, 2500);
+
+}
+
+
+/* =========================================================
+   PROFILE PAGE
+========================================================= */
+
+function openProfilePage() {
+
+    showPage(
+        "profilePage"
+    );
+
+}
+
+
+/* =========================================================
+   PROFILE EDIT
+========================================================= */
+
+function openProfileEditModal() {
+    openModal("profileEditModal");
+}
+
+
+function closeProfileEditModal() {
+    closeModal("profileEditModal");
+}
+
+
+function saveProfile() {
+
+    const nameInput =
+        document.getElementById(
+            "profileName"
+        );
+
+
+    const professionInput =
+        document.getElementById(
+            "profileProfession"
+        );
+
+
+    const locationInput =
+        document.getElementById(
+            "profileLocation"
+        );
+
+
+    const aboutInput =
+        document.getElementById(
+            "profileAbout"
+        );
+
+
+    if (
+        !nameInput ||
+        !professionInput ||
+        !locationInput
+    ) {
+
+        return;
+
+    }
+
+
+    const name =
+        nameInput.value.trim();
+
+
+    const profession =
+        professionInput.value.trim();
+
+
+    const location =
+        locationInput.value.trim();
+
+
+    const about =
+        aboutInput
+            ? aboutInput.value.trim()
+            : "";
+
+
+    if (
+        !name ||
+        !profession ||
+        !location
+    ) {
+
+        alert(
+            "Please fill all required profile fields."
+        );
+
+        return;
+
+    }
+
+
+    const profileName =
+        document.querySelector(
+            ".profile-information h2"
+        );
+
+
+    const profileRole =
+        document.querySelector(
+            ".profile-role"
+        );
+
+
+    const profileLocation =
+        document.querySelector(
+            ".profile-location"
+        );
+
+
+    const aboutText =
+        document.querySelector(
+            ".about-text"
+        );
+
+
+    if (profileName) {
+
+        profileName.textContent =
+            name;
+
+    }
+
+
+    if (profileRole) {
+
+        profileRole.innerHTML =
+            '<i class="fa-solid fa-bolt"></i> ' +
+            profession;
+
+    }
+
+
+    if (profileLocation) {
+
+        profileLocation.innerHTML =
+            '<i class="fa-solid fa-location-dot"></i> ' +
+            location;
+
+    }
+
+
+    if (
+        aboutText &&
+        about
+    ) {
+
+        aboutText.textContent =
+            about;
+
+    }
+
+
+    closeProfileEditModal();
+
+
+    showDay5Notification(
+        "Profile updated successfully!"
+    );
+
+}
+
+
+/* =========================================================
+   SKILLS
+========================================================= */
+
+function openSkillsModal() {
+    openModal("skillsModal");
+}
+
+
+function closeSkillsModal() {
+    closeModal("skillsModal");
+}
+
+
+function addSkill() {
+
+    const input =
+        document.getElementById(
+            "newSkill"
+        );
+
+
+    if (!input) return;
+
+
+    const skill =
+        input.value.trim();
+
+
+    if (!skill) {
+
+        alert(
+            "Please enter a skill."
+        );
+
+        input.focus();
+
+        return;
+
+    }
+
+
+    const container =
+        document.querySelector(
+            ".skills-container"
+        );
+
+
+    if (!container) return;
+
+
+    const skillTag =
+        document.createElement(
+            "span"
+        );
+
+
+    skillTag.className =
+        "skill-tag";
+
+
+    skillTag.innerHTML = `
+
+        <i class="fa-solid fa-circle-check"></i>
+
+        ${skill}
+
+    `;
+
+
+    container.appendChild(
+        skillTag
+    );
+
+
+    input.value = "";
+
+
+    closeSkillsModal();
+
+
+    showDay5Notification(
+        "New skill added successfully!"
+    );
+
+}
+
+
+/* =========================================================
+   EXPERIENCE
+========================================================= */
+
+function openExperienceModal() {
+    openModal("experienceModal");
+}
+
+
+function closeExperienceModal() {
+    closeModal("experienceModal");
+}
+
+
+function addExperience() {
+
+    const title =
+        getElement(
+            "experienceTitle"
+        );
+
+
+    const company =
+        getElement(
+            "experienceCompany"
+        );
+
+
+    const duration =
+        getElement(
+            "experienceDuration"
+        );
+
+
+    const description =
+        getElement(
+            "experienceDescription"
+        );
+
+
+    if (
+        !title ||
+        !company ||
+        !duration
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        !title.value.trim() ||
+        !company.value.trim() ||
+        !duration.value.trim()
+    ) {
+
+        alert(
+            "Please fill Job Title, Company and Duration."
+        );
+
+        return;
+
+    }
+
+
+    const timeline =
+        document.querySelector(
+            ".experience-timeline"
+        );
+
+
+    if (!timeline) return;
+
+
+    const item =
+        document.createElement(
+            "div"
+        );
+
+
+    item.className =
+        "experience-item";
+
+
+    item.innerHTML = `
+
+        <div class="experience-icon">
+
+            <i class="fa-solid fa-briefcase"></i>
+
+        </div>
+
+        <div class="experience-content">
+
+            <div class="experience-heading">
+
+                <div>
+
+                    <h4>
+                        ${title.value.trim()}
+                    </h4>
+
+                    <p>
+                        ${company.value.trim()}
+                    </p>
+
+                </div>
+
+                <span>
+                    ${duration.value.trim()}
+                </span>
+
+            </div>
+
+            <p>
+                ${
+                    description
+                        ? description.value.trim()
+                        : "Professional work experience."
+                }
+            </p>
+
+        </div>
+
+    `;
+
+
+    timeline.insertBefore(
+        item,
+        timeline.firstElementChild
+    );
+
+
+    title.value = "";
+    company.value = "";
+    duration.value = "";
+
+
+    if (description) {
+        description.value = "";
+    }
+
+
+    closeExperienceModal();
+
+
+    showDay5Notification(
+        "Experience added successfully!"
+    );
+
+}
+
+
+/* =========================================================
+   CERTIFICATES
+========================================================= */
+
+function openCertificateModal() {
+    openModal("certificateModal");
+}
+
+
+function closeCertificateModal() {
+    closeModal("certificateModal");
+}
+
+
+function addCertificate() {
+
+    const name =
+        getElement(
+            "certificateName"
+        );
+
+
+    const issuer =
+        getElement(
+            "certificateIssuer"
+        );
+
+
+    const date =
+        getElement(
+            "certificateDate"
+        );
+
+
+    const certificateId =
+        getElement(
+            "certificateId"
+        );
+
+
+    if (
+        !name ||
+        !issuer ||
+        !date
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        !name.value.trim() ||
+        !issuer.value.trim() ||
+        !date.value
+    ) {
+
+        alert(
+            "Please fill Certificate Name, Issued By and Issue Date."
+        );
+
+        return;
+
+    }
+
+
+    const grid =
+        document.querySelector(
+            ".certificate-grid"
+        );
+
+
+    if (!grid) return;
+
+
+    const parts =
+        date.value.split("-");
+
+
+    const formattedDate =
+        new Date(
+            Number(parts[0]),
+            Number(parts[1]) - 1
+        ).toLocaleString(
+            "en-US",
+            {
+                month: "long"
+            }
+        ) +
+        " " +
+        parts[0];
+
+
+    const card =
+        document.createElement(
+            "div"
+        );
+
+
+    card.className =
+        "glass certificate-card";
+
+
+    const idText =
+        certificateId &&
+        certificateId.value.trim()
+            ? `
+                <small class="certificate-id">
+                    ID: ${certificateId.value.trim()}
+                </small>
+              `
+            : "";
+
+
+    card.innerHTML = `
+
+        <div class="certificate-icon">
+
+            <i class="fa-solid fa-certificate"></i>
+
+        </div>
+
+        <div class="certificate-content">
+
+            <h3>
+                ${name.value.trim()}
+            </h3>
+
+            <p>
+                ${issuer.value.trim()}
+            </p>
+
+            <span>
+                Issued: ${formattedDate}
+            </span>
+
+            ${idText}
+
+        </div>
+
+        <button
+            class="certificate-view"
+            onclick="viewCertificate('${name.value.trim()}')">
+
+            <i class="fa-solid fa-eye"></i>
+
+        </button>
+
+    `;
+
+
+    grid.appendChild(card);
+
+
+    name.value = "";
+    issuer.value = "";
+    date.value = "";
+
+
+    if (certificateId) {
+        certificateId.value = "";
+    }
+
+
+    closeCertificateModal();
+
+
+    showDay5Notification(
+        "Certificate added successfully!"
+    );
+
+}
+
+
+function viewCertificate(name) {
+
+    showDay5Notification(
+        "Opening " + name
+    );
+
+}
+
+
+/* =========================================================
+   PORTFOLIO
+========================================================= */
+
+function openPortfolioModal() {
+    openModal("portfolioModal");
+}
+
+
+function closePortfolioModal() {
+    closeModal("portfolioModal");
+}
+
+
+function addPortfolioProject() {
+
+    const title =
+        getElement(
+            "portfolioTitle"
+        );
+
+
+    const category =
+        getElement(
+            "portfolioCategory"
+        );
+
+
+    const description =
+        getElement(
+            "portfolioDescription"
+        );
+
+
+    const image =
+        getElement(
+            "portfolioImage"
+        );
+
+
+    if (
+        !title ||
+        !category ||
+        !description
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        !title.value.trim() ||
+        !description.value.trim()
+    ) {
+
+        alert(
+            "Please enter Project Name and Description."
+        );
+
+        return;
+
+    }
+
+
+    const grid =
+        document.querySelector(
+            ".portfolio-grid"
+        );
+
+
+    if (!grid) return;
+
+
+    const defaultImage =
+        "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=800&q=80";
+
+
+    const projectImage =
+        image &&
+        image.value.trim()
+            ? image.value.trim()
+            : defaultImage;
+
+
+    const card =
+        document.createElement(
+            "div"
+        );
+
+
+    card.className =
+        "portfolio-card glass";
+
+
+    card.innerHTML = `
+
+        <img
+            src="${projectImage}"
+            alt="${title.value.trim()}"
+            onerror="this.src='${defaultImage}'">
+
+        <div class="portfolio-content">
+
+            <span class="portfolio-category">
+                ${category.value}
+            </span>
+
+            <h3>
+                ${title.value.trim()}
+            </h3>
+
+            <p>
+                ${description.value.trim()}
+            </p>
+
+            <div class="portfolio-footer">
+
+                <span>
+
+                    <i class="fa-solid fa-calendar"></i>
+
+                    ${new Date().toLocaleDateString(
+                        "en-US",
+                        {
+                            month: "short",
+                            year: "numeric"
+                        }
+                    )}
+
+                </span>
+
+                <span>
+
+                    <i class="fa-solid fa-star"></i>
+
+                    New
+
+                </span>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    grid.insertBefore(
+        card,
+        grid.firstElementChild
+    );
+
+
+    title.value = "";
+    description.value = "";
+
+
+    if (image) {
+        image.value = "";
+    }
+
+
+    closePortfolioModal();
+
+
+    showDay5Notification(
+        "Portfolio project added successfully!"
+    );
+
+}
+
+
+/* =========================================================
+   DAY 5 NOTIFICATION
+========================================================= */
+
+function showDay5Notification(message) {
+
+    let notification =
+        document.getElementById(
+            "day5Notification"
+        );
+
+
+    if (!notification) {
+
+        notification =
+            document.createElement(
+                "div"
+            );
+
+
+        notification.id =
+            "day5Notification";
+
+
+        notification.className =
+            "day5-notification";
+
+
+        document.body.appendChild(
+            notification
+        );
+
+    }
+
+
+    notification.innerHTML = `
+
+        <i class="fa-solid fa-circle-check"></i>
+
+        <span>
+            ${message}
+        </span>
+
+    `;
+
+
+    notification.classList.add(
+        "show"
+    );
+
+
+    setTimeout(function() {
+
+        notification.classList.remove(
+            "show"
+        );
+
+    }, 2500);
+
+}
+
+
+/* =========================================================
+   PROFILE DATA REFRESH
+========================================================= */
+
+function refreshProfileData() {
+
+    const nameInput =
+        getElement(
+            "profileName"
+        );
+
+
+    const professionInput =
+        getElement(
+            "profileProfession"
+        );
+
+
+    const locationInput =
+        getElement(
+            "profileLocation"
+        );
+
+
+    const profileName =
+        document.querySelector(
+            ".profile-information h2"
+        );
+
+
+    const profileRole =
+        document.querySelector(
+            ".profile-role"
+        );
+
+
+    const profileLocation =
+        document.querySelector(
+            ".profile-location"
+        );
+
+
+    if (
+        nameInput &&
+        profileName
+    ) {
+
+        nameInput.value =
+            profileName.textContent.trim();
+
+    }
+
+
+    if (
+        professionInput &&
+        profileRole
+    ) {
+
+        professionInput.value =
+            profileRole.textContent.trim();
+
+    }
+
+
+    if (
+        locationInput &&
+        profileLocation
+    ) {
+
+        locationInput.value =
+            profileLocation.textContent.trim();
+
+    }
+
+}
+
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        const switches =
+            document.querySelectorAll(
+                ".settings-card .switch input"
+            );
+
+
+        switches.forEach(function(toggle) {
+
+            toggle.addEventListener(
+                "change",
+                function() {
+
+                    showDay5Notification(
+                        this.checked
+                            ? "Setting enabled"
+                            : "Setting disabled"
+                    );
+
+                }
+            );
+
+        });
+
+
+        const languageSelect =
+            document.querySelector(
+                ".settings-select"
+            );
+
+
+        if (languageSelect) {
+
+            languageSelect.addEventListener(
+                "change",
+                function() {
+
+                    showDay5Notification(
+                        "Language changed to " +
+                        this.value
+                    );
+
+                }
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   DAY 5 SIDEBAR ITEMS
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        const menu =
+            document.querySelector(
+                ".menu"
+            );
+
+
+        if (!menu) return;
+
+
+        const existingProfile =
+            document.querySelector(
+                '[data-day5-menu="profile"]'
+            );
+
+
+        if (existingProfile) {
+            return;
+        }
+
+
+        const logoutItem =
+            Array.from(
+                menu.querySelectorAll("li")
+            ).find(function(item) {
+
+                return item.textContent
+                    .trim()
+                    .toLowerCase()
+                    .includes("logout");
+
+            });
+
+
+        if (!logoutItem) return;
+
+
+        const day5Items = [
+
+            {
+                id: "profilePage",
+                icon: "fa-user",
+                text: "Profile"
+            },
+
+            {
+                id: "certificates",
+                icon: "fa-certificate",
+                text: "Certificates"
+            },
+
+            {
+                id: "portfolio",
+                icon: "fa-images",
+                text: "Portfolio"
+            },
+
+            {
+                id: "reviews",
+                icon: "fa-star",
+                text: "Reviews"
+            },
+
+            {
+                id: "settings",
+                icon: "fa-gear",
+                text: "Settings"
+            }
+
+        ];
+
+
+        day5Items.forEach(function(item) {
+
+            const li =
+                document.createElement(
+                    "li"
+                );
+
+
+            li.setAttribute(
+                "data-day5-menu",
+                item.text.toLowerCase()
+            );
+
+
+            li.innerHTML = `
+
+                <i class="fa-solid ${item.icon}"></i>
+
+                ${item.text}
+
+            `;
+
+
+            li.addEventListener(
+                "click",
+                function() {
+
+                    showPage(
+                        item.id,
+                        li
+                    );
+
+                }
+            );
+
+
+            menu.insertBefore(
+                li,
+                logoutItem
+            );
+
+        });
+
+    }
+);
+
+
+/* =========================================================
+   PROFILE EDIT BUTTON
+========================================================= */
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+        const button =
+            event.target.closest(
+                ".profile-edit-btn"
+            );
+
+
+        if (!button) return;
+
+
+        refreshProfileData();
+
+    }
+);
+
+
+/* =========================================================
+   PAGE LOADER
+========================================================= */
+
+window.addEventListener(
+    "load",
+    function() {
+
+        document.body.style.opacity =
+            "0";
+
+
+        requestAnimationFrame(
+            function() {
+
+                document.body.style.transition =
+                    "opacity .4s";
+
+                document.body.style.opacity =
+                    "1";
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================================================
+   FINAL CONSOLE MESSAGE
+========================================================= */
+
+console.log(
+    "✔ Skilliant Labour Portal loaded successfully"
+);

@@ -2740,3 +2740,1322 @@ width:100%;
     color:#64748B;
 
 }
+/* ==========================================
+   DAY 5 - PROFILE PAGE
+========================================== */
+
+/* Profile Header */
+
+.profile-page-header {
+    position: relative;
+    background: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+}
+
+.profile-cover {
+    height: 150px;
+    background: linear-gradient(
+        135deg,
+        #1565c0,
+        #2196f3,
+        #ff9800
+    );
+    position: relative;
+}
+
+.profile-cover::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(255,255,255,0.25),
+            transparent 35%
+        );
+}
+
+.profile-main {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    padding: 0 30px 30px;
+    position: relative;
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    position: relative;
+    margin-top: -55px;
+    border: 5px solid #ffffff;
+    flex-shrink: 0;
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-online {
+    position: absolute;
+    right: 5px;
+    bottom: 8px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #22c55e;
+    border: 3px solid #ffffff;
+}
+
+.profile-information {
+    flex: 1;
+    padding-top: 15px;
+}
+
+.profile-information h2 {
+    margin: 0 0 5px;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.profile-role,
+.profile-location {
+    margin: 5px 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.profile-role i {
+    color: #ff9800;
+    margin-right: 6px;
+}
+
+.profile-location i {
+    color: #2196f3;
+    margin-right: 6px;
+}
+
+.profile-rating {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.profile-rating i {
+    color: #f59e0b;
+}
+
+.profile-rating span {
+    color: #64748b;
+    font-size: 13px;
+}
+
+.profile-edit-btn {
+    align-self: flex-end;
+}
+
+
+/* ==========================================
+   PROFILE STATISTICS
+========================================== */
+
+.profile-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.profile-stat-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.05);
+    transition: 0.3s ease;
+}
+
+.profile-stat-card:hover {
+    transform: translateY(-4px);
+}
+
+.profile-stat-card > i {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: rgba(33, 150, 243, 0.1);
+    color: #2196f3;
+    font-size: 20px;
+}
+
+.profile-stat-card strong {
+    display: block;
+    font-size: 20px;
+    color: #1e293b;
+}
+
+.profile-stat-card span {
+    display: block;
+    color: #64748b;
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+
+/* ==========================================
+   DAY 5 GRID
+========================================== */
+
+.day5-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.profile-section-card {
+    padding: 25px;
+    margin-bottom: 25px;
+}
+
+.profile-section-card .section-title {
+    margin-bottom: 20px;
+}
+
+.profile-section-card .section-title h3 {
+    margin-bottom: 4px;
+}
+
+.profile-section-card .section-title p {
+    margin: 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+
+/* ==========================================
+   SKILLS
+========================================== */
+
+.skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.skill-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 13px;
+    border-radius: 30px;
+    background: rgba(33, 150, 243, 0.09);
+    color: #1565c0;
+    border: 1px solid rgba(33, 150, 243, 0.15);
+    font-size: 13px;
+    font-weight: 500;
+    transition: 0.3s ease;
+}
+
+.skill-tag:hover {
+    background: #2196f3;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.skill-tag i {
+    font-size: 12px;
+}
+
+
+/* ==========================================
+   ABOUT
+========================================== */
+
+.about-text {
+    color: #64748b;
+    line-height: 1.8;
+    font-size: 14px;
+}
+
+
+/* ==========================================
+   EXPERIENCE TIMELINE
+========================================== */
+
+.experience-timeline {
+    position: relative;
+    padding-left: 15px;
+}
+
+.experience-item {
+    display: flex;
+    gap: 18px;
+    position: relative;
+    padding-bottom: 30px;
+}
+
+.experience-item:last-child {
+    padding-bottom: 0;
+}
+
+.experience-item:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: 20px;
+    top: 45px;
+    bottom: 0;
+    width: 2px;
+    background: #e2e8f0;
+}
+
+.experience-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(33, 150, 243, 0.1);
+    color: #2196f3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.experience-content {
+    flex: 1;
+}
+
+.experience-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.experience-heading h4 {
+    margin: 0;
+    color: #1e293b;
+    font-size: 16px;
+}
+
+.experience-heading p {
+    margin: 4px 0;
+    color: #2196f3;
+    font-size: 13px;
+}
+
+.experience-heading > span {
+    color: #64748b;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.experience-content > p {
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.7;
+    margin-top: 8px;
+}
+
+
+/* ==========================================
+   DAY 5 BUTTONS
+========================================== */
+
+.profile-section-card .edit-btn,
+.settings-card .edit-btn {
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.profile-section-card .edit-btn:hover,
+.settings-card .edit-btn:hover {
+    transform: translateY(-2px);
+}
+/* ==========================================
+   DAY 5 - CERTIFICATES
+========================================== */
+
+.certificate-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.certificate-card {
+    padding: 22px;
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    position: relative;
+    transition: 0.3s ease;
+}
+
+.certificate-card:hover {
+    transform: translateY(-5px);
+}
+
+.certificate-icon {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 152, 0, 0.12);
+    color: #f57c00;
+    font-size: 22px;
+}
+
+.certificate-content {
+    padding-right: 30px;
+}
+
+.certificate-content h3 {
+    margin: 0 0 6px;
+    color: #1e293b;
+    font-size: 15px;
+}
+
+.certificate-content p {
+    margin: 0 0 7px;
+    color: #64748b;
+    font-size: 12px;
+}
+
+.certificate-content span {
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+.certificate-view {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 9px;
+    background: rgba(33, 150, 243, 0.1);
+    color: #2196f3;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.certificate-view:hover {
+    background: #2196f3;
+    color: white;
+}
+
+
+/* ==========================================
+   DAY 5 - PORTFOLIO
+========================================== */
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+.portfolio-card {
+    overflow: hidden;
+    transition: 0.3s ease;
+}
+
+.portfolio-card:hover {
+    transform: translateY(-6px);
+}
+
+.portfolio-card > img {
+    width: 100%;
+    height: 190px;
+    display: block;
+    object-fit: cover;
+}
+
+.portfolio-content {
+    padding: 20px;
+}
+
+.portfolio-category {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background: rgba(33, 150, 243, 0.1);
+    color: #1565c0;
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.portfolio-content h3 {
+    margin: 0 0 8px;
+    font-size: 17px;
+    color: #1e293b;
+}
+
+.portfolio-content p {
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.portfolio-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #eef2f7;
+    padding-top: 13px;
+}
+
+.portfolio-footer span {
+    color: #64748b;
+    font-size: 11px;
+}
+
+.portfolio-footer i {
+    color: #f59e0b;
+    margin-right: 4px;
+}
+
+
+/* ==========================================
+   DAY 5 - REVIEWS
+========================================== */
+
+.review-summary {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 40px;
+    padding: 30px;
+    margin-bottom: 25px;
+    align-items: center;
+}
+
+.review-score {
+    text-align: center;
+}
+
+.review-score h1 {
+    font-size: 48px;
+    margin: 0;
+    color: #1e293b;
+}
+
+.review-score .stars {
+    margin: 8px 0;
+}
+
+.review-score p {
+    color: #64748b;
+    font-size: 12px;
+}
+
+.stars {
+    display: flex;
+    gap: 4px;
+    color: #f59e0b;
+}
+
+.rating-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.rating-row {
+    display: grid;
+    grid-template-columns: 15px 20px 1fr 40px;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.rating-row i {
+    color: #f59e0b;
+    font-size: 11px;
+}
+
+.rating-progress {
+    height: 8px;
+    border-radius: 20px;
+    background: #e9eef5;
+    overflow: hidden;
+}
+
+.rating-progress div {
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #2196f3, #ff9800);
+}
+
+.reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.review-card {
+    padding: 22px;
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-bottom: 15px;
+}
+
+.review-header img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.review-header > div {
+    flex: 1;
+}
+
+.review-header h4 {
+    margin: 0 0 5px;
+    color: #1e293b;
+}
+
+.review-header .stars {
+    font-size: 11px;
+}
+
+.review-header > span {
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+.review-card > p {
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+
+/* ==========================================
+   DAY 5 - SETTINGS
+========================================== */
+
+.settings-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.settings-card {
+    padding: 25px;
+}
+
+.settings-heading {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #edf1f6;
+    margin-bottom: 5px;
+}
+
+.settings-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(33, 150, 243, 0.1);
+    color: #2196f3;
+}
+
+.settings-heading h3 {
+    margin: 0 0 3px;
+    color: #1e293b;
+    font-size: 16px;
+}
+
+.settings-heading p {
+    margin: 0;
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+.settings-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 17px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.settings-row:last-child {
+    border-bottom: none;
+}
+
+.settings-row strong {
+    display: block;
+    color: #334155;
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+.settings-row span {
+    color: #94a3b8;
+    font-size: 11px;
+}
+
+.settings-select {
+    border: 1px solid #dce4ee;
+    border-radius: 8px;
+    padding: 8px 12px;
+    background: white;
+    color: #334155;
+    outline: none;
+}
+
+
+/* ==========================================
+   DAY 5 - TOGGLE SWITCH
+========================================== */
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 45px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    border-radius: 30px;
+    background: #cbd5e1;
+    transition: 0.3s ease;
+}
+
+.slider::before {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    left: 3px;
+    top: 3px;
+    border-radius: 50%;
+    background: white;
+    transition: 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.switch input:checked + .slider {
+    background: #2196f3;
+}
+
+.switch input:checked + .slider::before {
+    transform: translateX(21px);
+}
+
+
+/* ==========================================
+   DAY 5 - MOBILE RESPONSIVE
+========================================== */
+
+@media (max-width: 1100px) {
+
+    .certificate-grid,
+    .portfolio-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .profile-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+@media (max-width: 800px) {
+
+    .profile-main {
+        flex-wrap: wrap;
+        padding: 0 20px 25px;
+    }
+
+    .profile-information {
+        min-width: calc(100% - 145px);
+    }
+
+    .profile-edit-btn {
+        width: 100%;
+    }
+
+    .day5-grid,
+    .settings-grid,
+    .review-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .certificate-grid,
+    .portfolio-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .review-summary {
+        gap: 25px;
+    }
+
+}
+
+@media (max-width: 550px) {
+
+    .profile-cover {
+        height: 120px;
+    }
+
+    .profile-main {
+        gap: 15px;
+    }
+
+    .profile-avatar {
+        width: 90px;
+        height: 90px;
+        margin-top: -45px;
+    }
+
+    .profile-online {
+        width: 15px;
+        height: 15px;
+        right: 2px;
+        bottom: 5px;
+    }
+
+    .profile-information {
+        padding-top: 10px;
+        min-width: 0;
+    }
+
+    .profile-information h2 {
+        font-size: 19px;
+    }
+
+    .profile-role,
+    .profile-location {
+        font-size: 11px;
+    }
+
+    .profile-stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .profile-stat-card {
+        padding: 14px;
+        gap: 10px;
+    }
+
+    .profile-stat-card > i {
+        width: 38px;
+        height: 38px;
+        font-size: 15px;
+    }
+
+    .profile-stat-card strong {
+        font-size: 16px;
+    }
+
+    .profile-stat-card span {
+        font-size: 10px;
+    }
+
+    .settings-row {
+        align-items: flex-start;
+    }
+
+    .rating-row {
+        grid-template-columns: 15px 15px 1fr 35px;
+    }
+
+}
+/* ==========================================
+   DAY 5 - MODALS
+========================================== */
+
+#profileEditModal .modal-content,
+#skillsModal .modal-content,
+#experienceModal .modal-content,
+#certificateModal .modal-content,
+#portfolioModal .modal-content {
+    width: min(550px, 92%);
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 20px;
+    padding: 30px;
+}
+
+/* Modal Heading */
+
+#profileEditModal .modal-content h2,
+#skillsModal .modal-content h2,
+#experienceModal .modal-content h2,
+#certificateModal .modal-content h2,
+#portfolioModal .modal-content h2 {
+    margin: 0 0 6px;
+    color: #1e293b;
+    font-size: 22px;
+}
+
+#profileEditModal .modal-content > p,
+#skillsModal .modal-content > p,
+#experienceModal .modal-content > p,
+#certificateModal .modal-content > p,
+#portfolioModal .modal-content > p {
+    color: #64748b;
+    font-size: 13px;
+    margin-bottom: 22px;
+}
+
+
+/* ==========================================
+   FORM GROUPS
+========================================== */
+
+#profileEditModal .input-group,
+#skillsModal .input-group,
+#experienceModal .input-group,
+#certificateModal .input-group,
+#portfolioModal .input-group {
+    margin-bottom: 18px;
+}
+
+#profileEditModal .input-group label,
+#skillsModal .input-group label,
+#experienceModal .input-group label,
+#certificateModal .input-group label,
+#portfolioModal .input-group label {
+    display: block;
+    margin-bottom: 7px;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#profileEditModal .input-group input,
+#profileEditModal .input-group textarea,
+#skillsModal .input-group input,
+#skillsModal .input-group textarea,
+#experienceModal .input-group input,
+#experienceModal .input-group textarea,
+#certificateModal .input-group input,
+#certificateModal .input-group textarea,
+#portfolioModal .input-group input,
+#portfolioModal .input-group textarea,
+#portfolioModal .input-group select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #dce4ee;
+    border-radius: 10px;
+    background: #f8fafc;
+    color: #1e293b;
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+    transition: 0.25s ease;
+    box-sizing: border-box;
+}
+
+#profileEditModal .input-group textarea,
+#experienceModal .input-group textarea,
+#portfolioModal .input-group textarea {
+    resize: vertical;
+    min-height: 90px;
+}
+
+#profileEditModal .input-group input:focus,
+#profileEditModal .input-group textarea:focus,
+#skillsModal .input-group input:focus,
+#experienceModal .input-group input:focus,
+#experienceModal .input-group textarea:focus,
+#certificateModal .input-group input:focus,
+#portfolioModal .input-group input:focus,
+#portfolioModal .input-group textarea:focus,
+#portfolioModal .input-group select:focus {
+    border-color: #2196f3;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+
+/* ==========================================
+   MODAL BUTTONS
+========================================== */
+
+#profileEditModal .modal-buttons,
+#skillsModal .modal-buttons,
+#experienceModal .modal-buttons,
+#certificateModal .modal-buttons,
+#portfolioModal .modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+#profileEditModal .primary-btn,
+#skillsModal .primary-btn,
+#experienceModal .primary-btn,
+#certificateModal .primary-btn,
+#portfolioModal .primary-btn {
+    border: none;
+    cursor: pointer;
+}
+
+#profileEditModal .secondary-btn,
+#skillsModal .secondary-btn,
+#experienceModal .secondary-btn,
+#certificateModal .secondary-btn,
+#portfolioModal .secondary-btn {
+    cursor: pointer;
+}
+
+
+/* ==========================================
+   MODAL CLOSE BUTTON
+========================================== */
+
+#profileEditModal .close,
+#skillsModal .close,
+#experienceModal .close,
+#certificateModal .close,
+#portfolioModal .close {
+    position: absolute;
+    right: 18px;
+    top: 15px;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #f1f5f9;
+    color: #64748b;
+    font-size: 22px;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+#profileEditModal .close:hover,
+#skillsModal .close:hover,
+#experienceModal .close:hover,
+#certificateModal .close:hover,
+#portfolioModal .close:hover {
+    background: #fee2e2;
+    color: #ef4444;
+    transform: rotate(90deg);
+}
+
+
+/* ==========================================
+   MODAL SCROLLBAR
+========================================== */
+
+#profileEditModal .modal-content::-webkit-scrollbar,
+#skillsModal .modal-content::-webkit-scrollbar,
+#experienceModal .modal-content::-webkit-scrollbar,
+#certificateModal .modal-content::-webkit-scrollbar,
+#portfolioModal .modal-content::-webkit-scrollbar {
+    width: 5px;
+}
+
+#profileEditModal .modal-content::-webkit-scrollbar-thumb,
+#skillsModal .modal-content::-webkit-scrollbar-thumb,
+#experienceModal .modal-content::-webkit-scrollbar-thumb,
+#certificateModal .modal-content::-webkit-scrollbar-thumb,
+#portfolioModal .modal-content::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+
+/* ==========================================
+   MOBILE MODALS
+========================================== */
+
+@media (max-width: 550px) {
+
+    #profileEditModal .modal-content,
+    #skillsModal .modal-content,
+    #experienceModal .modal-content,
+    #certificateModal .modal-content,
+    #portfolioModal .modal-content {
+        padding: 22px;
+        width: 94%;
+    }
+
+    #profileEditModal .modal-buttons,
+    #skillsModal .modal-buttons,
+    #experienceModal .modal-buttons,
+    #certificateModal .modal-buttons,
+    #portfolioModal .modal-buttons {
+        flex-direction: column;
+    }
+
+    #profileEditModal .modal-buttons button,
+    #skillsModal .modal-buttons button,
+    #experienceModal .modal-buttons button,
+    #certificateModal .modal-buttons button,
+    #portfolioModal .modal-buttons button {
+        width: 100%;
+    }
+
+}
+/* ==========================================
+   DAY 5 - NOTIFICATION & DROPDOWN
+========================================== */
+
+.day5-notification {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 14px 20px;
+
+    background: #ffffff;
+    color: #1e293b;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.15);
+
+    border-left: 4px solid #22c55e;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    transform: translateX(130%);
+    opacity: 0;
+
+    transition:
+        transform 0.35s ease,
+        opacity 0.35s ease;
+}
+
+.day5-notification.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.day5-notification i {
+    color: #22c55e;
+    font-size: 18px;
+}
+
+
+/* ==========================================
+   PROFILE DROPDOWN
+========================================== */
+
+.profile-dropdown {
+    position: fixed;
+    top: 75px;
+    right: 25px;
+
+    width: 210px;
+
+    background: #ffffff;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.12);
+
+    padding: 8px;
+
+    z-index: 9998;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateY(-10px);
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease,
+        visibility 0.25s ease;
+}
+
+.profile-dropdown.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.profile-dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.profile-dropdown li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 12px 13px;
+
+    border-radius: 9px;
+
+    color: #475569;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.profile-dropdown li:hover {
+    background: #f1f5f9;
+    color: #2196f3;
+}
+
+.profile-dropdown li i {
+    width: 18px;
+    text-align: center;
+    color: #64748b;
+}
+
+.profile-dropdown li:hover i {
+    color: #2196f3;
+}
+
+
+/* ==========================================
+   PROFILE CLICK EFFECT
+========================================== */
+
+.profile {
+    cursor: pointer;
+}
+
+.profile:hover {
+    opacity: 0.85;
+}
+
+
+/* ==========================================
+   CERTIFICATE ID
+========================================== */
+
+.certificate-id {
+    display: block;
+    margin-top: 5px;
+    color: #94a3b8;
+    font-size: 10px;
+}
+
+
+/* ==========================================
+   DAY 5 MOBILE NOTIFICATION
+========================================== */
+
+@media (max-width: 550px) {
+
+    .day5-notification {
+        left: 15px;
+        right: 15px;
+        bottom: 15px;
+
+        justify-content: center;
+
+        text-align: center;
+    }
+
+    .profile-dropdown {
+        right: 15px;
+        top: 70px;
+        width: 190px;
+    }
+
+}
+/* =========================================================
+   WEEKLY EARNINGS CHART - FINAL FIX
+========================================================= */
+
+.analytics-grid .chart-card .chart {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    gap: 20px;
+    padding: 30px 20px 0;
+    box-sizing: border-box;
+}
+
+.analytics-grid .chart-card .chart .bar {
+    height: 100%;
+    flex: 1;
+    max-width: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    position: relative;
+}
+
+.analytics-grid .chart-card .chart .bar span {
+    display: block !important;
+    width: 38px !important;
+    min-height: 10px !important;
+    background: #2563eb !important;
+    border-radius: 8px 8px 3px 3px !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transition: height 0.4s ease;
+}
+
+.analytics-grid .chart-card .chart .bar label {
+    display: block !important;
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #64748b;
+    text-align: center;
+}
