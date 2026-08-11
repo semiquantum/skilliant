@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
             reviews: 120,
             price: 500,
             availability: "Available",
-            image: "https://i.pravatar.cc/300?img=12"
+            image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=85"
         },
         {
             id: 2,
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
             reviews: 98,
             price: 600,
             availability: "Available",
-            image: "https://i.pravatar.cc/300?img=13"
+            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=85"
         },
         {
             id: 3,
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
             reviews: 85,
             price: 700,
             availability: "Busy",
-            image: "https://i.pravatar.cc/300?img=14"
+            image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=600&q=85"
         },
         {
             id: 4,
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
             reviews: 75,
             price: 450,
             availability: "Available",
-            image: "https://i.pravatar.cc/300?img=15"
+            image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=85"
         }
     ];
 
@@ -99,6 +99,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const defaultTickets = [];
 
     const defaultWallet = 0;
+
+    const defaultTodos = [];
 
 
     // =================================================
@@ -186,6 +188,41 @@ document.addEventListener("DOMContentLoaded", () => {
         )
     );
 
+    let todos = getStorageData(
+        "todos",
+        defaultTodos
+    );
+
+    // Refresh only the old placeholder avatar URLs. Any user-added
+    // labour image remains unchanged.
+    const professionalLabourImages = [
+        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=85",
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=85",
+        "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=600&q=85",
+        "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=85"
+    ];
+
+    let refreshedLabourImages = false;
+
+    labourers = labourers.map((labour, index) => {
+
+        if (
+            String(labour.image || "").includes("i.pravatar.cc") ||
+            labour.image === "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=85"
+        ) {
+            refreshedLabourImages = true;
+
+            return {
+                ...labour,
+                image: professionalLabourImages[
+                    index % professionalLabourImages.length
+                ]
+            };
+        }
+
+        return labour;
+    });
+
 
     // =================================================
     // INITIALIZE DATA
@@ -262,10 +299,24 @@ document.addEventListener("DOMContentLoaded", () => {
                 JSON.stringify(defaultWallet)
             );
         }
+
+        if (!localStorage.getItem("todos")) {
+            localStorage.setItem(
+                "todos",
+                JSON.stringify(defaultTodos)
+            );
+        }
     }
 
 
     initializeData();
+
+    if (refreshedLabourImages) {
+        localStorage.setItem(
+            "labourers",
+            JSON.stringify(labourers)
+        );
+    }
 
 
     // =================================================
@@ -351,6 +402,11 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem(
             "wallet",
             JSON.stringify(wallet)
+        );
+
+        localStorage.setItem(
+            "todos",
+            JSON.stringify(todos)
         );
     }
 
@@ -539,6 +595,11 @@ document.addEventListener("DOMContentLoaded", () => {
         bookings: {
             title: "My Bookings",
             subtitle: "Manage your labour bookings"
+        },
+
+        todos: {
+            title: "Todo List",
+            subtitle: "Manage your daily tasks efficiently"
         },
 
         favourites: {
@@ -1017,6 +1078,36 @@ document.addEventListener("DOMContentLoaded", () => {
                 upcoming.innerHTML =
                     "<p>No upcoming bookings.</p>";
             }
+        }
+
+
+        const dashboardTodos =
+            document.getElementById("dashboardTodos");
+
+        if (dashboardTodos) {
+            const today = new Date().toISOString().slice(0, 10);
+            const todayTodos = todos.filter(todo =>
+                !todo.completed && todo.date === today
+            );
+
+            dashboardTodos.innerHTML = todayTodos.length
+                ? todayTodos.slice(0, 4).map(todo => `
+                    <button class="dashboard-todo-item" data-dashboard-todo="${todo.id}">
+                        <span class="dashboard-todo-priority priority-${escapeHTML(String(todo.priority || "Medium")).toLowerCase()}"></span>
+                        <span>
+                            <strong>${escapeHTML(todo.title)}</strong>
+                            <small>${todo.time ? `Due ${escapeHTML(todo.time)}` : "Due today"}</small>
+                        </span>
+                        <span class="dashboard-todo-arrow">→</span>
+                    </button>
+                `).join("")
+                : `
+                    <div class="dashboard-todo-empty">
+                        <span>✓</span>
+                        <p>No pending tasks for today.</p>
+                        <button class="text-btn" data-add-todo>Add a task</button>
+                    </div>
+                `;
         }
     }
 
@@ -2120,6 +2211,675 @@ document.addEventListener("DOMContentLoaded", () => {
         renderBookings();
 
         renderDashboard();
+    }
+
+
+    // =================================================
+    // TODO LIST
+    // =================================================
+
+    let currentTodoTab = "all";
+    let todoSearchTerm = "";
+    let todoCategoryFilter = "all";
+    let reminderTimer;
+
+    function getTodoDateTime(todo) {
+
+        if (!todo.date) {
+            return null;
+        }
+
+        const time = todo.time || "23:59";
+        const dateTime = new Date(`${todo.date}T${time}`);
+
+        return Number.isNaN(dateTime.getTime())
+            ? null
+            : dateTime;
+    }
+
+    function getTodoTiming(todo) {
+
+        if (todo.completed || !todo.date) {
+            return "";
+        }
+
+        const dueDate = getTodoDateTime(todo);
+
+        if (!dueDate) {
+            return "";
+        }
+
+        const difference = dueDate.getTime() - Date.now();
+
+        if (difference < 0) {
+            return "overdue";
+        }
+
+        if (difference <= 24 * 60 * 60 * 1000) {
+            return "due-soon";
+        }
+
+        return "";
+    }
+
+    function getTodoCategories() {
+
+        return [...new Set(
+            todos
+                .map(todo => String(todo.category || "").trim())
+                .filter(Boolean)
+        )].sort((first, second) => first.localeCompare(second));
+    }
+
+    function getTodoSubtasks(todo) {
+
+        return Array.isArray(todo.subtasks)
+            ? todo.subtasks
+            : [];
+    }
+
+    function getTodoProgress(todo) {
+
+        const subtasks = getTodoSubtasks(todo);
+
+        if (!subtasks.length) {
+            return null;
+        }
+
+        const completed = subtasks.filter(item => item.completed).length;
+
+        return {
+            completed,
+            total: subtasks.length,
+            percent: Math.round((completed / subtasks.length) * 100)
+        };
+    }
+
+    function getLinkedName(items, id) {
+
+        if (!id) {
+            return "";
+        }
+
+        const item = items.find(candidate => String(candidate.id) === String(id));
+
+        return item
+            ? item.name || item.labour || item.labourName || item.service || "Linked item"
+            : "Linked item";
+    }
+
+    function getNextTodoDate(date, repeat) {
+
+        const nextDate = new Date(`${date}T00:00:00`);
+
+        if (repeat === "Daily") {
+            nextDate.setDate(nextDate.getDate() + 1);
+        }
+
+        if (repeat === "Weekly") {
+            nextDate.setDate(nextDate.getDate() + 7);
+        }
+
+        if (repeat === "Monthly") {
+            nextDate.setMonth(nextDate.getMonth() + 1);
+        }
+
+        return nextDate.toISOString().slice(0, 10);
+    }
+
+    function formatTodoDate(date) {
+
+        if (!date) {
+            return "No date";
+        }
+
+        const parsedDate = new Date(`${date}T00:00:00`);
+
+        if (Number.isNaN(parsedDate.getTime())) {
+            return date;
+        }
+
+        return parsedDate.toLocaleDateString(
+            "en-IN",
+            {
+                day: "numeric",
+                month: "short",
+                year: "numeric"
+            }
+        );
+    }
+
+    function getFilteredTodos() {
+
+        const search = todoSearchTerm.toLowerCase();
+
+        return todos
+            .filter(todo => {
+
+                if (currentTodoTab === "pending") {
+                    return !todo.completed;
+                }
+
+                if (currentTodoTab === "completed") {
+                    return todo.completed;
+                }
+
+                return true;
+            })
+            .filter(todo => {
+
+                if (
+                    todoCategoryFilter !== "all" &&
+                    todo.category !== todoCategoryFilter
+                ) {
+                    return false;
+                }
+
+                return [
+                    todo.title,
+                    todo.description,
+                    todo.category,
+                    todo.priority,
+                    getTodoSubtasks(todo).map(item => item.title).join(" ")
+                ]
+                    .join(" ")
+                    .toLowerCase()
+                    .includes(search);
+            })
+            .sort((first, second) => {
+
+                if (
+                    Number.isFinite(first.order) &&
+                    Number.isFinite(second.order) &&
+                    first.order !== second.order
+                ) {
+                    return first.order - second.order;
+                }
+
+                if (first.completed !== second.completed) {
+                    return Number(first.completed) - Number(second.completed);
+                }
+
+                return `${first.date || "9999-12-31"} ${first.time || "99:99"}`
+                    .localeCompare(
+                        `${second.date || "9999-12-31"} ${second.time || "99:99"}`
+                    );
+            });
+    }
+
+    function renderTodos() {
+
+        const container = document.getElementById("todoList");
+
+        if (!container) {
+            return;
+        }
+
+        const filteredTodos = getFilteredTodos();
+
+        document
+            .querySelectorAll("[data-todo-tab]")
+            .forEach(tab => {
+
+                tab.classList.toggle(
+                    "active",
+                    tab.dataset.todoTab === currentTodoTab
+                );
+            });
+
+        const categorySelect =
+            document.getElementById("todoCategoryFilter");
+
+        if (categorySelect) {
+            categorySelect.innerHTML = `
+                <option value="all">All Categories</option>
+                ${getTodoCategories().map(category => `
+                    <option value="${escapeHTML(category)}" ${todoCategoryFilter === category ? "selected" : ""}>
+                        ${escapeHTML(category)}
+                    </option>
+                `).join("")}
+            `;
+        }
+
+        if (!filteredTodos.length) {
+
+            const hasTodos = todos.length > 0;
+
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="todo-empty-icon">✓</div>
+                    <h3>${hasTodos ? "No matching tasks" : "No tasks yet"}</h3>
+                    <p>${hasTodos
+                        ? "Try changing your search or filter."
+                        : "Add your first todo to keep your day on track."}</p>
+                    ${hasTodos ? "" : `
+                        <button class="primary-btn" data-add-todo>
+                            + Add Todo
+                        </button>
+                    `}
+                </div>
+            `;
+
+            return;
+        }
+
+        container.innerHTML = filteredTodos.map(todo => {
+
+            const timing = getTodoTiming(todo);
+            const progress = getTodoProgress(todo);
+            const labourName = getLinkedName(labourers, todo.labourId);
+            const bookingName = getLinkedName(bookings, todo.bookingId);
+
+            return `
+            <article
+                class="todo-card ${todo.completed ? "completed" : ""} ${timing}"
+                data-todo-id="${todo.id}"
+                draggable="true"
+            >
+                <span class="todo-drag-handle" title="Drag to reorder" aria-hidden="true">⋮⋮</span>
+                <button
+                    class="todo-check ${todo.completed ? "checked" : ""}"
+                    data-toggle-todo="${todo.id}"
+                    aria-label="Mark ${escapeHTML(todo.title)} as ${todo.completed ? "pending" : "completed"}"
+                    title="Mark as ${todo.completed ? "pending" : "completed"}"
+                >
+                    ${todo.completed ? "✓" : ""}
+                </button>
+
+                <div class="todo-card-content">
+                    <div class="todo-card-heading">
+                        <div>
+                            <h3>${escapeHTML(todo.title)}</h3>
+                            ${todo.description
+                                ? `<p>${escapeHTML(todo.description)}</p>`
+                                : ""}
+                        </div>
+
+                        <div class="todo-badges">
+                            ${timing ? `
+                                <span class="todo-badge timing-${timing}">
+                                    ${timing === "overdue" ? "Overdue" : "Due soon"}
+                                </span>
+                            ` : ""}
+                            <span class="todo-badge priority-${escapeHTML(String(todo.priority || "Medium")).toLowerCase()}">
+                                ${escapeHTML(todo.priority || "Medium")}
+                            </span>
+                            <span class="todo-badge category-badge">
+                                ${escapeHTML(todo.category)}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="todo-card-footer">
+                        <div class="todo-schedule">
+                            <span>📅 ${escapeHTML(formatTodoDate(todo.date))}</span>
+                            ${todo.time ? `<span>🕒 ${escapeHTML(todo.time)}</span>` : ""}
+                        </div>
+
+                        ${(labourName || bookingName || todo.repeat && todo.repeat !== "None") ? `
+                            <div class="todo-links">
+                                ${labourName ? `<span>👷 ${escapeHTML(labourName)}</span>` : ""}
+                                ${bookingName ? `<span>📌 ${escapeHTML(bookingName)}</span>` : ""}
+                                ${todo.repeat && todo.repeat !== "None" ? `<span>↻ ${escapeHTML(todo.repeat)}</span>` : ""}
+                            </div>
+                        ` : ""}
+
+                        ${progress ? `
+                            <div class="todo-progress">
+                                <div class="todo-progress-label">
+                                    <span>Subtasks</span>
+                                    <strong>${progress.completed}/${progress.total}</strong>
+                                </div>
+                                <div class="todo-progress-track">
+                                    <span style="width:${progress.percent}%"></span>
+                                </div>
+                                <div class="todo-subtasks">
+                                    ${getTodoSubtasks(todo).map((subtask, index) => `
+                                        <button
+                                            class="todo-subtask ${subtask.completed ? "done" : ""}"
+                                            data-toggle-subtask="${todo.id}"
+                                            data-subtask-index="${index}"
+                                        >
+                                            <span>${subtask.completed ? "✓" : ""}</span>
+                                            ${escapeHTML(subtask.title)}
+                                        </button>
+                                    `).join("")}
+                                </div>
+                            </div>
+                        ` : ""}
+
+                        <div class="todo-actions">
+                            <button class="text-btn" data-edit-todo="${todo.id}">Edit</button>
+                            <button class="danger-btn" data-delete-todo="${todo.id}">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        `;
+        }).join("");
+
+        initializeTodoDragAndDrop();
+    }
+
+    function initializeTodoDragAndDrop() {
+
+        const cards = document.querySelectorAll(".todo-card[draggable]");
+
+        cards.forEach(card => {
+
+            card.addEventListener("dragstart", event => {
+                event.dataTransfer.effectAllowed = "move";
+                event.dataTransfer.setData("text/plain", card.dataset.todoId);
+                card.classList.add("dragging");
+            });
+
+            card.addEventListener("dragend", () => {
+                card.classList.remove("dragging");
+                document.querySelectorAll(".todo-card").forEach(item =>
+                    item.classList.remove("drag-over")
+                );
+            });
+
+            card.addEventListener("dragover", event => {
+                event.preventDefault();
+                card.classList.add("drag-over");
+            });
+
+            card.addEventListener("dragleave", () => {
+                card.classList.remove("drag-over");
+            });
+
+            card.addEventListener("drop", event => {
+                event.preventDefault();
+
+                const draggedId = event.dataTransfer.getData("text/plain");
+                const targetId = card.dataset.todoId;
+
+                if (!draggedId || draggedId === targetId) {
+                    return;
+                }
+
+                const orderedIds = [...document.querySelectorAll(".todo-card")]
+                    .map(item => item.dataset.todoId);
+                const fromIndex = orderedIds.indexOf(draggedId);
+                const targetIndex = orderedIds.indexOf(targetId);
+
+                orderedIds.splice(fromIndex, 1);
+                orderedIds.splice(targetIndex, 0, draggedId);
+
+                todos = todos.map(todo => ({
+                    ...todo,
+                    order: orderedIds.includes(String(todo.id))
+                        ? orderedIds.indexOf(String(todo.id))
+                        : todo.order || todos.length
+                }));
+
+                saveData();
+                renderTodos();
+            });
+        });
+    }
+
+    function openTodoModal(existing = null) {
+
+        const todo = existing || {
+            title: "",
+            description: "",
+            date: "",
+            time: "",
+            priority: "Medium",
+            category: "Personal"
+        };
+
+        openModal(`
+            <div class="modal-header">
+                <h2>${existing ? "Edit Todo" : "Add Todo"}</h2>
+                <button type="button" data-close-modal aria-label="Close modal">×</button>
+            </div>
+
+            <form id="todoForm" class="modal-body">
+                <div class="form-group">
+                    <label for="todoTitle">Todo Title</label>
+                    <input id="todoTitle" name="title" type="text" maxlength="100"
+                        value="${escapeHTML(todo.title)}" required autofocus>
+                </div>
+
+                <div class="form-group">
+                    <label for="todoDescription">Todo Description</label>
+                    <textarea id="todoDescription" name="description" maxlength="500"
+                        placeholder="Add helpful details (optional)">${escapeHTML(todo.description)}</textarea>
+                </div>
+
+                <div class="todo-form-grid">
+                    <div class="form-group">
+                        <label for="todoDate">Todo Date</label>
+                        <input id="todoDate" name="date" type="date" value="${escapeHTML(todo.date)}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="todoTime">Todo Time</label>
+                        <input id="todoTime" name="time" type="time" value="${escapeHTML(todo.time)}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="todoPriority">Priority</label>
+                        <select id="todoPriority" name="priority">
+                            ${["Low", "Medium", "High"].map(priority => `
+                                <option value="${priority}" ${todo.priority === priority ? "selected" : ""}>
+                                    ${priority}
+                                </option>
+                            `).join("")}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="todoCategory">Category</label>
+                        <input id="todoCategory" name="category" type="text" list="todoCategories"
+                            value="${escapeHTML(todo.category)}" maxlength="40" required>
+                        <datalist id="todoCategories">
+                            ${[...new Set(["Personal", "Work", "Booking", "Other", ...getTodoCategories()])]
+                                .map(category => `<option value="${escapeHTML(category)}">`)
+                                .join("")}
+                        </datalist>
+                    </div>
+                </div>
+
+                <div class="todo-form-grid">
+                    <div class="form-group">
+                        <label for="todoRepeat">Repeat</label>
+                        <select id="todoRepeat" name="repeat">
+                            ${["None", "Daily", "Weekly", "Monthly"].map(repeat => `
+                                <option value="${repeat}" ${(todo.repeat || "None") === repeat ? "selected" : ""}>
+                                    ${repeat}
+                                </option>
+                            `).join("")}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="todoLabour">Link a labourer</label>
+                        <select id="todoLabour" name="labourId">
+                            <option value="">No labourer linked</option>
+                            ${labourers.map(labour => `
+                                <option value="${labour.id}" ${String(todo.labourId || "") === String(labour.id) ? "selected" : ""}>
+                                    ${escapeHTML(labour.name)} · ${escapeHTML(labour.skill)}
+                                </option>
+                            `).join("")}
+                        </select>
+                    </div>
+
+                    <div class="form-group todo-booking-field">
+                        <label for="todoBooking">Link a booking</label>
+                        <select id="todoBooking" name="bookingId">
+                            <option value="">No booking linked</option>
+                            ${bookings.map(booking => `
+                                <option value="${booking.id}" ${String(todo.bookingId || "") === String(booking.id) ? "selected" : ""}>
+                                    ${escapeHTML(booking.labour || booking.labourName || "Booking")} · ${escapeHTML(booking.date || "")}
+                                </option>
+                            `).join("")}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="todoSubtasks">Subtasks</label>
+                    <textarea id="todoSubtasks" name="subtasks" maxlength="1000"
+                        placeholder="One subtask per line (optional)">${escapeHTML(getTodoSubtasks(todo).map(item => item.title).join("\n"))}</textarea>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="secondary-btn" data-close-modal>Cancel</button>
+                    <button type="submit" class="primary-btn">
+                        ${existing ? "Save Changes" : "Add Todo"}
+                    </button>
+                </div>
+            </form>
+        `);
+
+        const form = document.getElementById("todoForm");
+
+        form?.addEventListener("submit", event => {
+
+            event.preventDefault();
+
+            const formData = new FormData(form);
+            const title = formData.get("title").trim();
+            const existingSubtasks = getTodoSubtasks(todo);
+            const subtasks = formData
+                .get("subtasks")
+                .split("\n")
+                .map(item => item.trim())
+                .filter(Boolean)
+                .map(subtaskTitle => {
+                    const savedSubtask = existingSubtasks.find(item =>
+                        item.title === subtaskTitle
+                    );
+
+                    return {
+                        title: subtaskTitle,
+                        completed: savedSubtask ? savedSubtask.completed : false
+                    };
+                });
+
+            if (!title) {
+                showToast("Please enter a todo title.", "error");
+                return;
+            }
+
+            const todoData = {
+                title,
+                description: formData.get("description").trim(),
+                date: formData.get("date"),
+                time: formData.get("time"),
+                priority: formData.get("priority"),
+                category: formData.get("category").trim(),
+                repeat: formData.get("repeat"),
+                labourId: formData.get("labourId"),
+                bookingId: formData.get("bookingId"),
+                subtasks
+            };
+
+            if (existing) {
+                todos = todos.map(item =>
+                    String(item.id) === String(existing.id)
+                        ? { ...item, ...todoData }
+                        : item
+                );
+            } else {
+                todos.unshift({
+                    id: Date.now(),
+                    completed: false,
+                    createdAt: new Date().toISOString(),
+                    order: todos.length,
+                    ...todoData
+                });
+            }
+
+            saveData();
+            closeModal();
+            renderTodos();
+            renderDashboard();
+            showToast(existing ? "Todo updated successfully." : "Todo added successfully.");
+        });
+    }
+
+    function confirmDeleteTodo(id) {
+
+        const todo = todos.find(item => String(item.id) === String(id));
+
+        if (!todo) {
+            return;
+        }
+
+        openModal(`
+            <div class="modal-header">
+                <h2>Delete Todo</h2>
+                <button type="button" data-close-modal aria-label="Close modal">×</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <strong>${escapeHTML(todo.title)}</strong>? This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="secondary-btn" data-close-modal>Cancel</button>
+                <button type="button" class="danger-btn" data-confirm-delete-todo="${todo.id}">Delete Todo</button>
+            </div>
+        `);
+    }
+
+    document.getElementById("addTodoButton")?.addEventListener(
+        "click",
+        () => openTodoModal()
+    );
+
+    document.getElementById("todoSearch")?.addEventListener(
+        "input",
+        event => {
+            todoSearchTerm = event.target.value.trim();
+            renderTodos();
+        }
+    );
+
+    document.querySelectorAll("[data-todo-tab]").forEach(tab => {
+        tab.addEventListener("click", () => {
+            currentTodoTab = tab.dataset.todoTab;
+            renderTodos();
+        });
+    });
+
+    document.getElementById("todoCategoryFilter")?.addEventListener(
+        "change",
+        event => {
+            todoCategoryFilter = event.target.value;
+            renderTodos();
+        }
+    );
+
+    function checkTodoReminders() {
+
+        const reminderWindow = 15 * 60 * 1000;
+        let hasNewReminder = false;
+
+        todos.forEach(todo => {
+            const dueDate = getTodoDateTime(todo);
+
+            if (
+                todo.completed ||
+                !dueDate ||
+                todo.remindedAt ||
+                dueDate.getTime() < Date.now() ||
+                dueDate.getTime() - Date.now() > reminderWindow
+            ) {
+                return;
+            }
+
+            todo.remindedAt = new Date().toISOString();
+            hasNewReminder = true;
+            showToast(`Reminder: ${todo.title} is due soon.`, "info");
+        });
+
+        if (hasNewReminder) {
+            saveData();
+        }
     }
 
 
@@ -3615,6 +4375,133 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
 
+            const addTodoButton =
+                event.target.closest("[data-add-todo]");
+
+            if (addTodoButton) {
+                openTodoModal();
+                return;
+            }
+
+
+            const toggleTodoButton =
+                event.target.closest("[data-toggle-todo]");
+
+            if (toggleTodoButton) {
+                const todo = todos.find(item =>
+                    String(item.id) === String(toggleTodoButton.dataset.toggleTodo)
+                );
+
+                if (todo) {
+                    todo.completed = !todo.completed;
+
+                    if (
+                        todo.completed &&
+                        todo.repeat &&
+                        todo.repeat !== "None" &&
+                        todo.date
+                    ) {
+                        todos.push({
+                            ...todo,
+                            id: Date.now(),
+                            date: getNextTodoDate(todo.date, todo.repeat),
+                            completed: false,
+                            createdAt: new Date().toISOString(),
+                            order: todos.length,
+                            remindedAt: "",
+                            subtasks: getTodoSubtasks(todo).map(subtask => ({
+                                ...subtask,
+                                completed: false
+                            }))
+                        });
+                    }
+
+                    saveData();
+                    renderTodos();
+                    renderDashboard();
+                    showToast(
+                        todo.completed && todo.repeat && todo.repeat !== "None"
+                            ? "Todo completed. Its next occurrence was added."
+                            : todo.completed
+                                ? "Todo marked as completed."
+                                : "Todo marked as pending."
+                    );
+                }
+
+                return;
+            }
+
+
+            const subtaskButton =
+                event.target.closest("[data-toggle-subtask]");
+
+            if (subtaskButton) {
+                const todo = todos.find(item =>
+                    String(item.id) === String(subtaskButton.dataset.toggleSubtask)
+                );
+                const index = Number(subtaskButton.dataset.subtaskIndex);
+
+                if (todo && getTodoSubtasks(todo)[index]) {
+                    todo.subtasks[index].completed = !todo.subtasks[index].completed;
+                    saveData();
+                    renderTodos();
+                    renderDashboard();
+                }
+
+                return;
+            }
+
+
+            const editTodoButton =
+                event.target.closest("[data-edit-todo]");
+
+            if (editTodoButton) {
+                const todo = todos.find(item =>
+                    String(item.id) === String(editTodoButton.dataset.editTodo)
+                );
+
+                if (todo) {
+                    openTodoModal(todo);
+                }
+
+                return;
+            }
+
+
+            const deleteTodoButton =
+                event.target.closest("[data-delete-todo]");
+
+            if (deleteTodoButton) {
+                confirmDeleteTodo(deleteTodoButton.dataset.deleteTodo);
+                return;
+            }
+
+
+            const confirmDeleteTodoButton =
+                event.target.closest("[data-confirm-delete-todo]");
+
+            if (confirmDeleteTodoButton) {
+                const id = confirmDeleteTodoButton.dataset.confirmDeleteTodo;
+
+                todos = todos.filter(item => String(item.id) !== String(id));
+                saveData();
+                closeModal();
+                renderTodos();
+                renderDashboard();
+                showToast("Todo deleted.");
+                return;
+            }
+
+
+            const dashboardTodoButton =
+                event.target.closest("[data-dashboard-todo]");
+
+            if (dashboardTodoButton) {
+                navigateTo("todos");
+                return;
+            }
+
+
             // Favourite
             const favouriteButton =
                 event.target.closest(
@@ -3815,6 +4702,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 renderBookings();
                 break;
 
+            case "todos":
+                renderTodos();
+                break;
+
             case "favourites":
                 renderFavourites();
                 break;
@@ -3867,6 +4758,15 @@ document.addEventListener("DOMContentLoaded", () => {
     renderLabourers();
 
     renderBookings();
+
+    renderTodos();
+
+    checkTodoReminders();
+
+    reminderTimer = window.setInterval(
+        checkTodoReminders,
+        60 * 1000
+    );
 
     renderWallet();
 

@@ -47,7 +47,7 @@ const defaultLabourers = [
         reviews: 124,
         price: 500,
         availability: "Available",
-        image: "https://i.pravatar.cc/150?img=12"
+        image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=85"
     },
     {
         id: 2,
@@ -60,7 +60,7 @@ const defaultLabourers = [
         reviews: 98,
         price: 450,
         availability: "Available",
-        image: "https://i.pravatar.cc/150?img=13"
+        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=85"
     },
     {
         id: 3,
@@ -73,7 +73,7 @@ const defaultLabourers = [
         reviews: 156,
         price: 700,
         availability: "Busy",
-        image: "https://i.pravatar.cc/150?img=14"
+        image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=600&q=85"
     },
     {
         id: 4,
@@ -86,7 +86,7 @@ const defaultLabourers = [
         reviews: 76,
         price: 600,
         availability: "Available",
-        image: "https://i.pravatar.cc/150?img=15"
+        image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=85"
     },
     {
         id: 5,
@@ -99,7 +99,7 @@ const defaultLabourers = [
         reviews: 112,
         price: 800,
         availability: "Available",
-        image: "https://i.pravatar.cc/150?img=16"
+        image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600&q=85"
     },
     {
         id: 6,
@@ -112,7 +112,7 @@ const defaultLabourers = [
         reviews: 64,
         price: 350,
         availability: "Available",
-        image: "https://i.pravatar.cc/150?img=17"
+        image: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?auto=format&fit=crop&w=600&q=85"
     },
     {
         id: 7,
@@ -125,7 +125,7 @@ const defaultLabourers = [
         reviews: 81,
         price: 400,
         availability: "Available",
-        image: "https://i.pravatar.cc/150?img=18"
+        image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=600&q=85"
     },
     {
         id: 8,
@@ -138,7 +138,7 @@ const defaultLabourers = [
         reviews: 143,
         price: 900,
         availability: "Available",
-        image: "https://i.pravatar.cc/150?img=19"
+        image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=85"
     }
 ];
 
