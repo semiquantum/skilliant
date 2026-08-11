@@ -2191,3 +2191,1337 @@ window.addEventListener(
 console.log(
     "✔ Skilliant Labour Portal loaded successfully"
 );
+
+/* =========================================================
+   DAY 1 - TODO LIST MODULE
+   Vanilla JavaScript + localStorage
+========================================================= */
+
+(function () {
+
+    "use strict";
+
+    const TODO_STORAGE_KEY =
+        "skilliant_day1_todos";
+
+    const TodoState = {
+        tasks: [],
+        filter: "all",
+        search: "",
+        editingId: null,
+        deletingId: null
+    };
+
+
+    function todoToday() {
+
+        const date = new Date();
+
+        return [
+            date.getFullYear(),
+            String(date.getMonth() + 1).padStart(2, "0"),
+            String(date.getDate()).padStart(2, "0")
+        ].join("-");
+
+    }
+
+
+    function todoId() {
+
+        return (
+            Date.now().toString(36) +
+            Math.random().toString(36).slice(2, 8)
+        );
+
+    }
+
+
+    function todoEscape(value) {
+
+        return String(value || "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+
+    }
+
+
+    function todoFormatDate(value) {
+
+        if (!value) return "No date";
+
+        const date =
+            new Date(value + "T00:00:00");
+
+        if (Number.isNaN(date.getTime())) {
+            return "No date";
+        }
+
+        return date.toLocaleDateString(
+            "en-IN",
+            {
+                day: "numeric",
+                month: "short",
+                year: "numeric"
+            }
+        );
+
+    }
+
+
+    function todoFormatTime(value) {
+
+        if (!value) return "";
+
+        const parts = value.split(":");
+
+        let hour = Number(parts[0]);
+
+        const minute = parts[1];
+
+        const suffix =
+            hour >= 12 ? "PM" : "AM";
+
+        hour =
+            hour % 12 || 12;
+
+        return `${hour}:${minute} ${suffix}`;
+
+    }
+
+
+    function todoIsOverdue(task) {
+
+        if (
+            task.completed ||
+            !task.date
+        ) {
+            return false;
+        }
+
+        const deadline =
+            new Date(
+                `${task.date}T${task.time || "23:59"}`
+            );
+
+        return deadline < new Date();
+
+    }
+
+
+    function todoSave() {
+
+        localStorage.setItem(
+            TODO_STORAGE_KEY,
+            JSON.stringify(TodoState.tasks)
+        );
+
+    }
+
+
+    function todoLoad() {
+
+        try {
+
+            const saved =
+                localStorage.getItem(
+                    TODO_STORAGE_KEY
+                );
+
+            if (saved) {
+
+                const parsed =
+                    JSON.parse(saved);
+
+                if (Array.isArray(parsed)) {
+
+                    TodoState.tasks =
+                        parsed;
+
+                    return;
+
+                }
+
+            }
+
+        } catch (error) {
+
+            console.warn(
+                "Todo storage could not be loaded.",
+                error
+            );
+
+        }
+
+
+        TodoState.tasks =
+            todoDemoTasks();
+
+        todoSave();
+
+    }
+
+
+    function todoDemoTasks() {
+
+        const today =
+            todoToday();
+
+        return [
+
+            {
+                id: todoId(),
+                title: "Complete electrical inspection",
+                description:
+                    "Inspect wiring and electrical connections at the assigned site.",
+                date: today,
+                time: "10:00",
+                priority: "high",
+                category: "Repair",
+                completed: false,
+                createdAt: Date.now()
+            },
+
+            {
+                id: todoId(),
+                title: "Purchase construction materials",
+                description:
+                    "Collect the required materials for tomorrow's work.",
+                date: today,
+                time: "14:30",
+                priority: "medium",
+                category: "Construction",
+                completed: false,
+                createdAt: Date.now()
+            },
+
+            {
+                id: todoId(),
+                title: "Submit completed work report",
+                description:
+                    "Upload the work completion report after finishing the assigned job.",
+                date: today,
+                time: "18:00",
+                priority: "low",
+                category: "Work",
+                completed: true,
+                createdAt: Date.now()
+            }
+
+        ];
+
+    }
+
+
+    function todoFilteredTasks() {
+
+        let tasks =
+            [...TodoState.tasks];
+
+
+        if (
+            TodoState.filter ===
+            "pending"
+        ) {
+
+            tasks =
+                tasks.filter(
+                    task =>
+                        !task.completed
+                );
+
+        }
+
+
+        if (
+            TodoState.filter ===
+            "completed"
+        ) {
+
+            tasks =
+                tasks.filter(
+                    task =>
+                        task.completed
+                );
+
+        }
+
+
+        if (
+            TodoState.filter ===
+            "high"
+        ) {
+
+            tasks =
+                tasks.filter(
+                    task =>
+                        task.priority ===
+                            "high" &&
+                        !task.completed
+                );
+
+        }
+
+
+        const query =
+            TodoState.search
+                .trim()
+                .toLowerCase();
+
+
+        if (query) {
+
+            tasks =
+                tasks.filter(
+                    task => {
+
+                        const searchable = [
+
+                            task.title,
+
+                            task.description,
+
+                            task.category,
+
+                            task.priority
+
+                        ]
+                            .join(" ")
+                            .toLowerCase();
+
+                        return searchable.includes(
+                            query
+                        );
+
+                    }
+                );
+
+        }
+
+
+        return tasks.sort(
+            function (a, b) {
+
+                if (
+                    a.completed !==
+                    b.completed
+                ) {
+
+                    return a.completed
+                        ? 1
+                        : -1;
+
+                }
+
+                const aValue =
+                    `${a.date || "9999"} ${a.time || "23:59"}`;
+
+                const bValue =
+                    `${b.date || "9999"} ${b.time || "23:59"}`;
+
+                return aValue.localeCompare(
+                    bValue
+                );
+
+            }
+        );
+
+    }
+
+
+    function todoRender() {
+
+        const list =
+            document.getElementById(
+                "todoList"
+            );
+
+        const empty =
+            document.getElementById(
+                "todoEmptyState"
+            );
+
+        if (!list || !empty) {
+            return;
+        }
+
+
+        const tasks =
+            todoFilteredTasks();
+
+
+        list.innerHTML =
+            tasks
+                .map(todoCard)
+                .join("");
+
+
+        empty.hidden =
+            tasks.length !== 0;
+
+
+        const emptyMessage =
+            document.getElementById(
+                "todoEmptyMessage"
+            );
+
+
+        if (emptyMessage) {
+
+            emptyMessage.textContent =
+                TodoState.search
+                    ? "Try a different search term."
+                    : TodoState.filter !== "all"
+                        ? "There are no tasks in this filter."
+                        : "Create your first task to get started.";
+
+        }
+
+
+        const resultText =
+            document.getElementById(
+                "todoResultsText"
+            );
+
+
+        if (resultText) {
+
+            resultText.textContent =
+                `${tasks.length} ${
+                    tasks.length === 1
+                        ? "task"
+                        : "tasks"
+                }`;
+
+        }
+
+
+        document
+            .querySelectorAll(
+                "[data-todo-filter]"
+            )
+            .forEach(
+                function (button) {
+
+                    button.classList.toggle(
+                        "active",
+                        button.dataset.todoFilter ===
+                            TodoState.filter
+                    );
+
+                }
+            );
+
+    }
+
+
+    function todoCard(task) {
+
+        const overdue =
+            todoIsOverdue(task);
+
+
+        return `
+
+            <article
+                class="todo-card ${
+                    task.completed
+                        ? "is-completed"
+                        : ""
+                }"
+                data-todo-id="${task.id}"
+            >
+
+                <button
+                    type="button"
+                    class="todo-check ${
+                        task.completed
+                            ? "checked"
+                            : ""
+                    }"
+                    onclick="toggleTodo('${task.id}')"
+                    aria-label="${
+                        task.completed
+                            ? "Mark task pending"
+                            : "Mark task completed"
+                    }">
+
+                    ${
+                        task.completed
+                            ? '<i class="fa-solid fa-check"></i>'
+                            : ""
+                    }
+
+                </button>
+
+
+                <div>
+
+                    <div class="todo-title-row">
+
+                        <h3 class="todo-title">
+                            ${todoEscape(task.title)}
+                        </h3>
+
+                        <span
+                            class="todo-badge ${
+                                task.priority
+                            }">
+
+                            <i class="fa-solid fa-flag"></i>
+
+                            ${task.priority}
+
+                        </span>
+
+                    </div>
+
+
+                    ${
+                        task.description
+                            ? `
+                                <p class="todo-description">
+                                    ${todoEscape(
+                                        task.description
+                                    )}
+                                </p>
+                            `
+                            : ""
+                    }
+
+
+                    <div class="todo-meta">
+
+                        ${
+                            task.date
+                                ? `
+                                    <span
+                                        class="${
+                                            overdue
+                                                ? "todo-overdue"
+                                                : ""
+                                        }">
+
+                                        <i class="fa-regular fa-calendar"></i>
+
+                                        ${todoFormatDate(
+                                            task.date
+                                        )}
+
+                                    </span>
+                                `
+                                : ""
+                        }
+
+
+                        ${
+                            task.time
+                                ? `
+                                    <span>
+
+                                        <i class="fa-regular fa-clock"></i>
+
+                                        ${todoFormatTime(
+                                            task.time
+                                        )}
+
+                                    </span>
+                                `
+                                : ""
+                        }
+
+
+                        <span class="todo-category">
+
+                            <i class="fa-solid fa-tag"></i>
+
+                            ${todoEscape(
+                                task.category
+                            )}
+
+                        </span>
+
+
+                        ${
+                            overdue
+                                ? `
+                                    <span class="todo-overdue">
+                                        Overdue
+                                    </span>
+                                `
+                                : ""
+                        }
+
+                    </div>
+
+                </div>
+
+
+                <div class="todo-actions">
+
+                    <button
+                        type="button"
+                        class="todo-action"
+                        onclick="editTodo('${task.id}')"
+                        title="Edit task">
+
+                        <i class="fa-regular fa-pen-to-square"></i>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="todo-action delete"
+                        onclick="deleteTodo('${task.id}')"
+                        title="Delete task">
+
+                        <i class="fa-regular fa-trash-can"></i>
+
+                    </button>
+
+                </div>
+
+            </article>
+
+        `;
+
+    }
+
+
+    function updateTodoCounters() {
+
+        const total =
+            TodoState.tasks.length;
+
+        const pending =
+            TodoState.tasks.filter(
+                task =>
+                    !task.completed
+            ).length;
+
+        const completed =
+            TodoState.tasks.filter(
+                task =>
+                    task.completed
+            ).length;
+
+        const high =
+            TodoState.tasks.filter(
+                task =>
+                    task.priority === "high" &&
+                    !task.completed
+            ).length;
+
+
+        const values = {
+
+            todoTotalCount: total,
+
+            todoPendingCount: pending,
+
+            todoCompletedCount: completed,
+
+            todoHighCount: high,
+
+            todoAllFilterCount: total,
+
+            todoPendingFilterCount: pending,
+
+            todoCompletedFilterCount: completed,
+
+            todoHighFilterCount: high,
+
+            todoNavCount: pending
+
+        };
+
+
+        Object.keys(values).forEach(
+            function (id) {
+
+                const element =
+                    document.getElementById(id);
+
+                if (element) {
+
+                    element.textContent =
+                        values[id];
+
+                }
+
+            }
+        );
+
+    }
+
+
+    function todoNotify(
+        message,
+        type = "success"
+    ) {
+
+        const container =
+            document.getElementById(
+                "todoToastContainer"
+            );
+
+        if (!container) {
+            return;
+        }
+
+
+        const toast =
+            document.createElement(
+                "div"
+            );
+
+        toast.className =
+            `todo-toast ${type}`;
+
+
+        const icon =
+            type === "error"
+                ? "fa-circle-xmark"
+                : "fa-circle-check";
+
+
+        toast.innerHTML = `
+
+            <i class="fa-solid ${icon}"></i>
+
+            <span>
+                ${todoEscape(message)}
+            </span>
+
+            <button type="button">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        `;
+
+
+        container.appendChild(
+            toast
+        );
+
+
+        toast
+            .querySelector("button")
+            .addEventListener(
+                "click",
+                function () {
+
+                    toast.remove();
+
+                }
+            );
+
+
+        setTimeout(
+            function () {
+
+                toast.remove();
+
+            },
+            3500
+        );
+
+    }
+
+
+    window.openTodoModal =
+        function (taskId = null) {
+
+            const modal =
+                document.getElementById(
+                    "todoModal"
+                );
+
+            const form =
+                document.getElementById(
+                    "todoForm"
+                );
+
+
+            form.reset();
+
+
+            TodoState.editingId =
+                taskId;
+
+
+            if (taskId) {
+
+                const task =
+                    TodoState.tasks.find(
+                        item =>
+                            item.id ===
+                            taskId
+                    );
+
+
+                if (!task) {
+                    return;
+                }
+
+
+                document.getElementById(
+                    "todoModalTitle"
+                ).textContent =
+                    "Edit Task";
+
+
+                document.getElementById(
+                    "todoSubmitText"
+                ).textContent =
+                    "Save Changes";
+
+
+                document.getElementById(
+                    "todoEditId"
+                ).value =
+                    task.id;
+
+
+                document.getElementById(
+                    "todoTitle"
+                ).value =
+                    task.title;
+
+
+                document.getElementById(
+                    "todoDescription"
+                ).value =
+                    task.description || "";
+
+
+                document.getElementById(
+                    "todoDate"
+                ).value =
+                    task.date || "";
+
+
+                document.getElementById(
+                    "todoTime"
+                ).value =
+                    task.time || "";
+
+
+                document.getElementById(
+                    "todoPriority"
+                ).value =
+                    task.priority || "medium";
+
+
+                document.getElementById(
+                    "todoCategory"
+                ).value =
+                    task.category || "General";
+
+            }
+
+            else {
+
+                document.getElementById(
+                    "todoModalTitle"
+                ).textContent =
+                    "Add New Task";
+
+
+                document.getElementById(
+                    "todoSubmitText"
+                ).textContent =
+                    "Create Task";
+
+
+                document.getElementById(
+                    "todoDate"
+                ).value =
+                    todoToday();
+
+
+                document.getElementById(
+                    "todoPriority"
+                ).value =
+                    "medium";
+
+
+                document.getElementById(
+                    "todoCategory"
+                ).value =
+                    "General";
+
+            }
+
+
+            modal.classList.add(
+                "show"
+            );
+
+            modal.setAttribute(
+                "aria-hidden",
+                "false"
+            );
+
+
+            setTimeout(
+                function () {
+
+                    document.getElementById(
+                        "todoTitle"
+                    ).focus();
+
+                },
+                100
+            );
+
+        };
+
+
+    window.closeTodoModal =
+        function () {
+
+            const modal =
+                document.getElementById(
+                    "todoModal"
+                );
+
+
+            modal.classList.remove(
+                "show"
+            );
+
+            modal.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+
+
+            TodoState.editingId =
+                null;
+
+        };
+
+
+    window.editTodo =
+        function (taskId) {
+
+            openTodoModal(
+                taskId
+            );
+
+        };
+
+
+    window.toggleTodo =
+        function (taskId) {
+
+            const task =
+                TodoState.tasks.find(
+                    item =>
+                        item.id ===
+                        taskId
+                );
+
+
+            if (!task) {
+                return;
+            }
+
+
+            task.completed =
+                !task.completed;
+
+
+            todoSave();
+
+            updateTodoCounters();
+
+            todoRender();
+
+
+            todoNotify(
+                task.completed
+                    ? "Task marked as completed."
+                    : "Task moved to pending."
+            );
+
+        };
+
+
+    window.deleteTodo =
+        function (taskId) {
+
+            const task =
+                TodoState.tasks.find(
+                    item =>
+                        item.id ===
+                        taskId
+                );
+
+
+            if (!task) {
+                return;
+            }
+
+
+            TodoState.deletingId =
+                taskId;
+
+
+            const message =
+                document.getElementById(
+                    "todoDeleteMessage"
+                );
+
+
+            message.textContent =
+                `Are you sure you want to delete "${task.title}"? This action cannot be undone.`;
+
+
+            document
+                .getElementById(
+                    "todoDeleteModal"
+                )
+                .classList.add(
+                    "show"
+                );
+
+        };
+
+
+    window.closeTodoDeleteModal =
+        function () {
+
+            document
+                .getElementById(
+                    "todoDeleteModal"
+                )
+                .classList.remove(
+                    "show"
+                );
+
+            TodoState.deletingId =
+                null;
+
+        };
+
+
+    window.confirmTodoDelete =
+        function () {
+
+            if (!TodoState.deletingId) {
+                return;
+            }
+
+
+            const task =
+                TodoState.tasks.find(
+                    item =>
+                        item.id ===
+                        TodoState.deletingId
+                );
+
+
+            TodoState.tasks =
+                TodoState.tasks.filter(
+                    item =>
+                        item.id !==
+                        TodoState.deletingId
+                );
+
+
+            todoSave();
+
+            closeTodoDeleteModal();
+
+            updateTodoCounters();
+
+            todoRender();
+
+
+            todoNotify(
+                task
+                    ? `"${task.title}" deleted.`
+                    : "Task deleted."
+            );
+
+        };
+
+
+    window.clearTodoFilters =
+        function () {
+
+            TodoState.filter =
+                "all";
+
+            TodoState.search =
+                "";
+
+
+            const search =
+                document.getElementById(
+                    "todoSearch"
+                );
+
+
+            if (search) {
+                search.value = "";
+            }
+
+
+            todoRender();
+
+        };
+
+
+    window.setTodoFilterAndOpen =
+        function (filter) {
+
+            TodoState.filter =
+                filter;
+
+
+            showPage(
+                "tasks",
+                null
+            );
+
+
+            todoRender();
+
+        };
+
+
+    function bindTodoEvents() {
+
+        const form =
+            document.getElementById(
+                "todoForm"
+            );
+
+
+        if (!form) {
+            return;
+        }
+
+
+        form.addEventListener(
+            "submit",
+            function (event) {
+
+                event.preventDefault();
+
+
+                const title =
+                    document
+                        .getElementById(
+                            "todoTitle"
+                        )
+                        .value
+                        .trim();
+
+
+                if (!title) {
+
+                    todoNotify(
+                        "Task title is required.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+                const data = {
+
+                    title,
+
+                    description:
+                        document
+                            .getElementById(
+                                "todoDescription"
+                            )
+                            .value
+                            .trim(),
+
+                    date:
+                        document.getElementById(
+                            "todoDate"
+                        ).value,
+
+                    time:
+                        document.getElementById(
+                            "todoTime"
+                        ).value,
+
+                    priority:
+                        document.getElementById(
+                            "todoPriority"
+                        ).value,
+
+                    category:
+                        document.getElementById(
+                            "todoCategory"
+                        ).value
+
+                };
+
+
+                if (
+                    TodoState.editingId
+                ) {
+
+                    const task =
+                        TodoState.tasks.find(
+                            item =>
+                                item.id ===
+                                TodoState.editingId
+                        );
+
+
+                    if (task) {
+
+                        Object.assign(
+                            task,
+                            data
+                        );
+
+                        todoNotify(
+                            "Task updated successfully."
+                        );
+
+                    }
+
+                }
+
+                else {
+
+                    TodoState.tasks.unshift({
+
+                        id: todoId(),
+
+                        ...data,
+
+                        completed: false,
+
+                        createdAt:
+                            Date.now()
+
+                    });
+
+
+                    todoNotify(
+                        "Task created successfully."
+                    );
+
+                }
+
+
+                todoSave();
+
+                closeTodoModal();
+
+                updateTodoCounters();
+
+                todoRender();
+
+            }
+        );
+
+
+        const search =
+            document.getElementById(
+                "todoSearch"
+            );
+
+
+        if (search) {
+
+            search.addEventListener(
+                "input",
+                function () {
+
+                    TodoState.search =
+                        this.value;
+
+                    todoRender();
+
+                }
+            );
+
+        }
+
+
+        document
+            .querySelectorAll(
+                "[data-todo-filter]"
+            )
+            .forEach(
+                function (button) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            TodoState.filter =
+                                this.dataset.todoFilter;
+
+                            todoRender();
+
+                        }
+                    );
+
+                }
+            );
+
+
+        document.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "Escape"
+                ) {
+
+                    closeTodoModal();
+
+                    closeTodoDeleteModal();
+
+                }
+
+            }
+        );
+
+    }
+
+
+    function initTodoModule() {
+
+        todoLoad();
+
+        bindTodoEvents();
+
+        updateTodoCounters();
+
+        todoRender();
+
+        console.log(
+            "✓ Day 1 Todo List module ready"
+        );
+
+    }
+
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        initTodoModule
+    );
+
+})();

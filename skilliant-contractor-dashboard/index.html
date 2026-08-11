@@ -72,6 +72,23 @@
 
         </li>
 
+        <!-- DAY 1 - TODO LIST MODULE -->
+        <li
+            onclick="showPage('tasks',this)"
+            data-todo-nav="true">
+
+            <i class="fa-solid fa-list-check"></i>
+
+            My Tasks
+
+            <span
+                id="todoNavCount"
+                class="todo-nav-count">
+                0
+            </span>
+
+        </li>
+
         <li
             onclick="showPage('analytics',this)">
 
@@ -845,6 +862,171 @@ class="page active-page">
 </section>
 <!-- ========================================= -->
 <!--            ANALYTICS PAGE                 -->
+<!-- ========================================= -->
+
+
+<!-- ========================================= -->
+<!--          DAY 1 - TODO LIST PAGE           -->
+<!-- ========================================= -->
+
+<section id="tasks" class="page">
+
+    <div class="todo-page-header">
+
+        <div>
+            <span class="todo-eyebrow">DAY 1 • TASK MANAGEMENT</span>
+            <h2>My Tasks</h2>
+            <p>Create, organize and track your daily work.</p>
+        </div>
+
+        <button
+            type="button"
+            class="todo-primary-btn"
+            onclick="openTodoModal()">
+            <i class="fa-solid fa-plus"></i>
+            Add New Task
+        </button>
+
+    </div>
+
+    <div class="todo-stats-grid">
+
+        <div class="todo-stat-card">
+            <div class="todo-stat-icon blue">
+                <i class="fa-solid fa-list-check"></i>
+            </div>
+            <div>
+                <span>Total Tasks</span>
+                <strong id="todoTotalCount">0</strong>
+            </div>
+        </div>
+
+        <div class="todo-stat-card">
+            <div class="todo-stat-icon orange">
+                <i class="fa-regular fa-clock"></i>
+            </div>
+            <div>
+                <span>Pending</span>
+                <strong id="todoPendingCount">0</strong>
+            </div>
+        </div>
+
+        <div class="todo-stat-card">
+            <div class="todo-stat-icon green">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div>
+                <span>Completed</span>
+                <strong id="todoCompletedCount">0</strong>
+            </div>
+        </div>
+
+        <div class="todo-stat-card">
+            <div class="todo-stat-icon red">
+                <i class="fa-solid fa-fire"></i>
+            </div>
+            <div>
+                <span>High Priority</span>
+                <strong id="todoHighCount">0</strong>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="todo-toolbar">
+
+        <div class="todo-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input
+                type="search"
+                id="todoSearch"
+                placeholder="Search tasks by title, description or category..."
+                autocomplete="off">
+        </div>
+
+        <div class="todo-filters">
+
+            <button
+                type="button"
+                class="todo-filter active"
+                data-todo-filter="all">
+                All
+                <span id="todoAllFilterCount">0</span>
+            </button>
+
+            <button
+                type="button"
+                class="todo-filter"
+                data-todo-filter="pending">
+                Pending
+                <span id="todoPendingFilterCount">0</span>
+            </button>
+
+            <button
+                type="button"
+                class="todo-filter"
+                data-todo-filter="completed">
+                Completed
+                <span id="todoCompletedFilterCount">0</span>
+            </button>
+
+            <button
+                type="button"
+                class="todo-filter"
+                data-todo-filter="high">
+                High Priority
+                <span id="todoHighFilterCount">0</span>
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="todo-list-header">
+
+        <div>
+            <h3>Your Tasks</h3>
+            <span id="todoResultsText">0 tasks</span>
+        </div>
+
+        <button
+            type="button"
+            class="todo-secondary-btn"
+            onclick="clearTodoFilters()">
+            <i class="fa-solid fa-filter-circle-xmark"></i>
+            Clear Filters
+        </button>
+
+    </div>
+
+    <div id="todoList" class="todo-list"></div>
+
+    <div id="todoEmptyState" class="todo-empty-state" hidden>
+
+        <div class="todo-empty-icon">
+            <i class="fa-regular fa-clipboard"></i>
+        </div>
+
+        <h3>No tasks found</h3>
+
+        <p id="todoEmptyMessage">
+            Create your first task to get started.
+        </p>
+
+        <button
+            type="button"
+            class="todo-primary-btn"
+            onclick="openTodoModal()">
+            <i class="fa-solid fa-plus"></i>
+            Create Task
+        </button>
+
+    </div>
+
+</section>
+
+<!-- ========================================= -->
+<!--              ANALYTICS PAGE               -->
 <!-- ========================================= -->
 
 <section id="analytics" class="page">
@@ -3529,6 +3711,283 @@ id="profileDropdown">
 <!-- End Container -->
 
 <script src="js/app.js"></script>
+
+
+<!-- ========================================= -->
+<!--          TODO ADD / EDIT MODAL            -->
+<!-- ========================================= -->
+
+<div
+    id="todoModal"
+    class="todo-modal"
+    aria-hidden="true">
+
+    <div
+        class="todo-modal-backdrop"
+        onclick="closeTodoModal()">
+    </div>
+
+    <div
+        class="todo-modal-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="todoModalTitle">
+
+        <div class="todo-modal-header">
+
+            <div>
+                <span class="todo-eyebrow">TASK MANAGEMENT</span>
+                <h2 id="todoModalTitle">Add New Task</h2>
+                <p>Keep your work organized and on schedule.</p>
+            </div>
+
+            <button
+                type="button"
+                class="todo-modal-close"
+                onclick="closeTodoModal()"
+                aria-label="Close task form">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+        <form id="todoForm" class="todo-form">
+
+            <input
+                type="hidden"
+                id="todoEditId">
+
+            <div class="todo-form-group">
+
+                <label for="todoTitle">
+                    Task Title <span>*</span>
+                </label>
+
+                <input
+                    id="todoTitle"
+                    type="text"
+                    maxlength="100"
+                    placeholder="e.g. Complete electrical inspection"
+                    required>
+
+            </div>
+
+            <div class="todo-form-group">
+
+                <label for="todoDescription">
+                    Description
+                </label>
+
+                <textarea
+                    id="todoDescription"
+                    rows="4"
+                    maxlength="500"
+                    placeholder="Describe the work that needs to be completed..."></textarea>
+
+            </div>
+
+            <div class="todo-form-row">
+
+                <div class="todo-form-group">
+
+                    <label for="todoDate">
+                        Date
+                    </label>
+
+                    <input
+                        id="todoDate"
+                        type="date">
+
+                </div>
+
+                <div class="todo-form-group">
+
+                    <label for="todoTime">
+                        Time
+                    </label>
+
+                    <input
+                        id="todoTime"
+                        type="time">
+
+                </div>
+
+            </div>
+
+            <div class="todo-form-row">
+
+                <div class="todo-form-group">
+
+                    <label for="todoPriority">
+                        Priority
+                    </label>
+
+                    <select id="todoPriority">
+
+                        <option value="low">Low</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="high">High</option>
+
+                    </select>
+
+                </div>
+
+                <div class="todo-form-group">
+
+                    <label for="todoCategory">
+                        Category
+                    </label>
+
+                    <select id="todoCategory">
+
+                        <option value="General">General</option>
+                        <option value="Work">Work</option>
+                        <option value="Repair">Repair</option>
+                        <option value="Construction">Construction</option>
+                        <option value="Delivery">Delivery</option>
+                        <option value="Maintenance">Maintenance</option>
+                        <option value="Personal">Personal</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="todo-form-actions">
+
+                <button
+                    type="button"
+                    class="todo-secondary-btn"
+                    onclick="closeTodoModal()">
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="todo-primary-btn">
+                    <i class="fa-solid fa-check"></i>
+                    <span id="todoSubmitText">Create Task</span>
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- ========================================= -->
+<!--          TODO DELETE CONFIRMATION         -->
+<!-- ========================================= -->
+
+<div
+    id="todoDeleteModal"
+    class="todo-modal"
+    aria-hidden="true">
+
+    <div
+        class="todo-modal-backdrop"
+        onclick="closeTodoDeleteModal()">
+    </div>
+
+    <div
+        class="todo-delete-dialog"
+        role="dialog"
+        aria-modal="true">
+
+        <div class="todo-delete-icon">
+            <i class="fa-regular fa-trash-can"></i>
+        </div>
+
+        <span class="todo-eyebrow">CONFIRMATION</span>
+
+        <h2>Delete this task?</h2>
+
+        <p id="todoDeleteMessage">
+            This action cannot be undone.
+        </p>
+
+        <div class="todo-form-actions">
+
+            <button
+                type="button"
+                class="todo-secondary-btn"
+                onclick="closeTodoDeleteModal()">
+                Cancel
+            </button>
+
+            <button
+                type="button"
+                class="todo-danger-btn"
+                onclick="confirmTodoDelete()">
+                <i class="fa-regular fa-trash-can"></i>
+                Delete Task
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ========================================= -->
+<!--             TODO TOAST AREA               -->
+<!-- ========================================= -->
+
+<div
+    id="todoToastContainer"
+    class="todo-toast-container"
+    aria-live="polite">
+</div>
+
+
+<!-- ========================================= -->
+<!--          MOBILE TODO NAVIGATION           -->
+<!-- ========================================= -->
+
+<nav class="todo-mobile-nav" aria-label="Task navigation">
+
+    <button
+        type="button"
+        onclick="showPage('dashboard',this)">
+        <i class="fa-solid fa-house"></i>
+        <span>Home</span>
+    </button>
+
+    <button
+        type="button"
+        onclick="showPage('tasks',this)">
+        <i class="fa-solid fa-list-check"></i>
+        <span>Tasks</span>
+    </button>
+
+    <button
+        type="button"
+        class="todo-mobile-add"
+        onclick="openTodoModal()"
+        aria-label="Add task">
+        <i class="fa-solid fa-plus"></i>
+    </button>
+
+    <button
+        type="button"
+        onclick="setTodoFilterAndOpen('completed')">
+        <i class="fa-solid fa-circle-check"></i>
+        <span>Done</span>
+    </button>
+
+    <button
+        type="button"
+        onclick="showPage('settings',this)">
+        <i class="fa-solid fa-gear"></i>
+        <span>Settings</span>
+    </button>
+
+</nav>
 
 </body>
 
