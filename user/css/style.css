@@ -2132,6 +2132,234 @@ tr:last-child td {
 
 
 /* =========================================================
+   40. ADVANCED TODO CONTROLS + DARK MODE
+   ========================================================= */
+
+.todo-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.todo-stat-card {
+    position: relative;
+    overflow: hidden;
+    padding: 16px 18px;
+    border: 1px solid #e3eaf4;
+    border-radius: 14px;
+    background: #ffffff;
+}
+
+.todo-stat-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: #1769e0;
+}
+
+.todo-stat-card.completed-stat::after {
+    background: #28a745;
+}
+
+.todo-stat-card.pending-stat::after {
+    background: #f59b00;
+}
+
+.todo-stat-card span,
+.todo-stat-card strong {
+    display: block;
+}
+
+.todo-stat-card span {
+    color: #73829c;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.todo-stat-card strong {
+    margin-top: 5px;
+    color: #18243d;
+    font-size: 27px;
+}
+
+.todo-bulk-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 18px;
+    margin: -5px 0 14px;
+}
+
+.todo-clear-all {
+    color: #c63b49;
+}
+
+.todo-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 150px;
+    color: #73829c;
+    font-size: 14px;
+}
+
+.todo-loading[hidden] {
+    display: none;
+}
+
+.todo-spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid #d7e5fa;
+    border-top-color: #1769e0;
+    border-radius: 50%;
+    animation: todo-spin 0.8s linear infinite;
+}
+
+.todo-modal-warning {
+    margin-top: 10px;
+    color: #c63b49;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.todo-form-error {
+    margin: 0 0 14px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: #fff0f0;
+    color: #c63b49;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+@keyframes todo-spin {
+    to { transform: rotate(360deg); }
+}
+
+body,
+.sidebar,
+.main-content,
+.top-navbar,
+.stat-card,
+.dashboard-panel,
+.quick-action-card,
+.todo-card,
+.todo-stat-card,
+.filter-panel,
+.booking-card,
+.modal,
+.form-group input,
+.form-group select,
+.form-group textarea,
+.todo-category-filter,
+.search-input-wrapper {
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+body[data-theme="dark"] {
+    background: #111827;
+    color: #e7eef9;
+}
+
+body[data-theme="dark"] .main-content {
+    background: radial-gradient(circle at 100% 0, rgba(59, 147, 255, 0.14), transparent 28%), #111827;
+}
+
+body[data-theme="dark"] .top-navbar,
+body[data-theme="dark"] .dashboard-panel,
+body[data-theme="dark"] .stat-card,
+body[data-theme="dark"] .quick-action-card,
+body[data-theme="dark"] .todo-card,
+body[data-theme="dark"] .todo-stat-card,
+body[data-theme="dark"] .filter-panel,
+body[data-theme="dark"] .booking-card,
+body[data-theme="dark"] .modal,
+body[data-theme="dark"] .search-input-wrapper,
+body[data-theme="dark"] .todo-category-filter,
+body[data-theme="dark"] .form-group input,
+body[data-theme="dark"] .form-group select,
+body[data-theme="dark"] .form-group textarea {
+    background: #1b2638;
+    border-color: #30415b;
+    color: #e7eef9;
+}
+
+body[data-theme="dark"] .top-navbar h1,
+body[data-theme="dark"] .section-header h2,
+body[data-theme="dark"] .todo-card h3,
+body[data-theme="dark"] .todo-stat-card strong,
+body[data-theme="dark"] .dashboard-todo-item strong,
+body[data-theme="dark"] .stat-card h3 {
+    color: #f5f9ff;
+}
+
+body[data-theme="dark"] .section-header p,
+body[data-theme="dark"] .todo-card p,
+body[data-theme="dark"] .todo-stat-card span,
+body[data-theme="dark"] .dashboard-todo-item small,
+body[data-theme="dark"] .form-group label,
+body[data-theme="dark"] .todo-schedule {
+    color: #aebed3;
+}
+
+body[data-theme="dark"] .tabs,
+body[data-theme="dark"] .todo-progress,
+body[data-theme="dark"] .todo-links span,
+body[data-theme="dark"] .dashboard-todo-empty > span {
+    background: #24344c;
+    border-color: #30415b;
+}
+
+body[data-theme="dark"] .tab-btn {
+    color: #b9c9dc;
+}
+
+body[data-theme="dark"] .tab-btn.active {
+    color: #ffffff;
+}
+
+body[data-theme="dark"] .todo-subtask {
+    color: #c5d2e2;
+}
+
+body[data-theme="dark"] .modal-header,
+body[data-theme="dark"] .booking-item,
+body[data-theme="dark"] .dashboard-todo-item {
+    border-color: #30415b;
+}
+
+body[data-theme="dark"] .empty-state {
+    background: #1b2638;
+    border-color: #3a4a63;
+}
+
+body[data-theme="dark"] .todo-form-error {
+    background: rgba(198, 59, 73, 0.18);
+    color: #ff9ba5;
+}
+
+@media (max-width: 760px) {
+
+    .todo-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .todo-theme-toggle {
+        width: 100%;
+    }
+
+    .todo-bulk-actions {
+        justify-content: flex-start;
+    }
+}
+
+
+/* =========================================================
    39. TODO PRODUCTIVITY FEATURES
    ========================================================= */
 

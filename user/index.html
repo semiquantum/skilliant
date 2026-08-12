@@ -735,6 +735,29 @@
                         + Add Todo
                     </button>
 
+                    <button
+                        class="secondary-btn todo-theme-toggle"
+                        id="todoThemeToggle"
+                        aria-label="Toggle dark mode"
+                    >
+                        ◐ Theme
+                    </button>
+
+                </div>
+
+                <div class="todo-stats" aria-label="Todo statistics">
+                    <div class="todo-stat-card">
+                        <span>Total Tasks</span>
+                        <strong id="todoTotalCount">0</strong>
+                    </div>
+                    <div class="todo-stat-card completed-stat">
+                        <span>Completed</span>
+                        <strong id="todoCompletedCount">0</strong>
+                    </div>
+                    <div class="todo-stat-card pending-stat">
+                        <span>Pending</span>
+                        <strong id="todoPendingCount">0</strong>
+                    </div>
                 </div>
 
                 <div class="todo-toolbar">
@@ -757,12 +780,47 @@
                         <option value="all">All Categories</option>
                     </select>
 
+                    <select
+                        id="todoPriorityFilter"
+                        class="todo-category-filter"
+                        aria-label="Filter todos by priority"
+                    >
+                        <option value="all">All Priorities</option>
+                        <option value="High">High Priority</option>
+                        <option value="Medium">Medium Priority</option>
+                        <option value="Low">Low Priority</option>
+                    </select>
+
+                    <select
+                        id="todoSort"
+                        class="todo-category-filter"
+                        aria-label="Sort todos"
+                    >
+                        <option value="custom">Custom order</option>
+                        <option value="date-asc">Due date: earliest</option>
+                        <option value="date-desc">Due date: latest</option>
+                        <option value="priority-desc">Priority: high to low</option>
+                        <option value="priority-asc">Priority: low to high</option>
+                        <option value="newest">Newest first</option>
+                        <option value="oldest">Oldest first</option>
+                    </select>
+
                     <div class="tabs todo-tabs" aria-label="Todo status filter">
                         <button class="tab-btn active" data-todo-tab="all">All</button>
                         <button class="tab-btn" data-todo-tab="pending">Pending</button>
                         <button class="tab-btn" data-todo-tab="completed">Completed</button>
                     </div>
 
+                </div>
+
+                <div class="todo-bulk-actions">
+                    <button class="text-btn" id="clearCompletedTodos">Clear Completed</button>
+                    <button class="text-btn todo-clear-all" id="clearAllTodos">Clear All Tasks</button>
+                </div>
+
+                <div id="todoLoading" class="todo-loading" role="status">
+                    <span class="todo-spinner"></span>
+                    Loading tasks...
                 </div>
 
                 <div id="todoList" class="todo-list">

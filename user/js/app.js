@@ -2221,7 +2221,56 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentTodoTab = "all";
     let todoSearchTerm = "";
     let todoCategoryFilter = "all";
+    let todoPriorityFilter = "all";
+    let todoSort = "custom";
     let reminderTimer;
+    let isSubmittingTodo = false;
+
+    function updateTodoStatistics() {
+
+        const total = todos.length;
+        const completed = todos.filter(todo => todo.completed).length;
+        const pending = total - completed;
+
+        const counters = [
+            ["todoTotalCount", total],
+            ["todoCompletedCount", completed],
+            ["todoPendingCount", pending]
+        ];
+
+        counters.forEach(([id, value]) => {
+            const counter = document.getElementById(id);
+
+            if (counter) {
+                counter.textContent = value;
+            }
+        });
+    }
+
+    function applyTheme(theme) {
+
+        const selectedTheme = theme === "dark" ? "dark" : "light";
+
+        document.body.dataset.theme = selectedTheme;
+        localStorage.setItem("skilliant_theme", selectedTheme);
+
+        const settingsSelect = document.getElementById("themeSetting");
+        const todoThemeButton = document.getElementById("todoThemeToggle");
+
+        if (settingsSelect) {
+            settingsSelect.value = selectedTheme;
+        }
+
+        if (todoThemeButton) {
+            todoThemeButton.textContent = selectedTheme === "dark"
+                ? "☀ Light Mode"
+                : "◐ Dark Mode";
+            todoThemeButton.setAttribute(
+                "aria-label",
+                selectedTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+            );
+        }
+    }
 
     function getTodoDateTime(todo) {
 
@@ -2375,6 +2424,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     return false;
                 }
 
+                if (
+                    todoPriorityFilter !== "all" &&
+                    todo.priority !== todoPriorityFilter
+                ) {
+                    return false;
+                }
+
                 return [
                     todo.title,
                     todo.description,
@@ -2387,6 +2443,38 @@ document.addEventListener("DOMContentLoaded", () => {
                     .includes(search);
             })
             .sort((first, second) => {
+
+                const priorityValues = {
+                    High: 3,
+                    Medium: 2,
+                    Low: 1
+                };
+                const firstDate = getTodoDateTime(first)?.getTime() || Infinity;
+                const secondDate = getTodoDateTime(second)?.getTime() || Infinity;
+
+                if (todoSort === "date-asc") {
+                    return firstDate - secondDate;
+                }
+
+                if (todoSort === "date-desc") {
+                    return secondDate - firstDate;
+                }
+
+                if (todoSort === "priority-desc") {
+                    return (priorityValues[second.priority] || 0) - (priorityValues[first.priority] || 0);
+                }
+
+                if (todoSort === "priority-asc") {
+                    return (priorityValues[first.priority] || 0) - (priorityValues[second.priority] || 0);
+                }
+
+                if (todoSort === "newest") {
+                    return String(second.createdAt || second.id).localeCompare(String(first.createdAt || first.id));
+                }
+
+                if (todoSort === "oldest") {
+                    return String(first.createdAt || first.id).localeCompare(String(second.createdAt || second.id));
+                }
 
                 if (
                     Number.isFinite(first.order) &&
@@ -2410,12 +2498,19 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderTodos() {
 
         const container = document.getElementById("todoList");
+        const loading = document.getElementById("todoLoading");
+
+        if (loading) {
+            loading.hidden = true;
+        }
 
         if (!container) {
             return;
         }
 
         const filteredTodos = getFilteredTodos();
+
+        updateTodoStatistics();
 
         document
             .querySelectorAll("[data-todo-tab]")
@@ -2638,6 +2733,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
 
             <form id="todoForm" class="modal-body">
+                <p id="todoFormError" class="todo-form-error" role="alert" hidden></p>
                 <div class="form-group">
                     <label for="todoTitle">Todo Title</label>
                     <input id="todoTitle" name="title" type="text" maxlength="100"
@@ -2742,8 +2838,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
             event.preventDefault();
 
+            if (isSubmittingTodo) {
+                return;
+            }
+
             const formData = new FormData(form);
             const title = formData.get("title").trim();
+            const category = formData.get("category").trim();
+            const date = formData.get("date");
+            const formError = document.getElementById("todoFormError");
             const existingSubtasks = getTodoSubtasks(todo);
             const subtasks = formData
                 .get("subtasks")
@@ -2762,14 +2865,38 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
 
             if (!title) {
+                if (formError) {
+                    formError.textContent = "Please enter a task title.";
+                    formError.hidden = false;
+                }
                 showToast("Please enter a todo title.", "error");
                 return;
             }
 
+            if (!category) {
+                if (formError) {
+                    formError.textContent = "Please choose or enter a category.";
+                    formError.hidden = false;
+                }
+                showToast("Please enter a todo category.", "error");
+                return;
+            }
+
+            if (!date || Number.isNaN(new Date(`${date}T00:00:00`).getTime())) {
+                if (formError) {
+                    formError.textContent = "Please select a valid due date.";
+                    formError.hidden = false;
+                }
+                showToast("Please select a valid due date.", "error");
+                return;
+            }
+
+            isSubmittingTodo = true;
+
             const todoData = {
                 title,
                 description: formData.get("description").trim(),
-                date: formData.get("date"),
+                date,
                 time: formData.get("time"),
                 priority: formData.get("priority"),
                 category: formData.get("category").trim(),
@@ -2800,6 +2927,7 @@ document.addEventListener("DOMContentLoaded", () => {
             renderTodos();
             renderDashboard();
             showToast(existing ? "Todo updated successfully." : "Todo added successfully.");
+            isSubmittingTodo = false;
         });
     }
 
@@ -2822,6 +2950,41 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="modal-footer">
                 <button type="button" class="secondary-btn" data-close-modal>Cancel</button>
                 <button type="button" class="danger-btn" data-confirm-delete-todo="${todo.id}">Delete Todo</button>
+            </div>
+        `);
+    }
+
+    function confirmClearTodos(type) {
+
+        const isAll = type === "all";
+        const affectedCount = isAll
+            ? todos.length
+            : todos.filter(todo => todo.completed).length;
+
+        if (!affectedCount) {
+            showToast(
+                isAll ? "There are no tasks to clear." : "There are no completed tasks to clear.",
+                "info"
+            );
+            return;
+        }
+
+        openModal(`
+            <div class="modal-header">
+                <h2>${isAll ? "Clear All Tasks" : "Clear Completed Tasks"}</h2>
+                <button type="button" data-close-modal aria-label="Close modal">×</button>
+            </div>
+            <div class="modal-body">
+                <p>${isAll
+                    ? `This will permanently delete all ${affectedCount} task${affectedCount === 1 ? "" : "s"}.`
+                    : `This will permanently delete ${affectedCount} completed task${affectedCount === 1 ? "" : "s"}.`}</p>
+                <p class="todo-modal-warning">This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="secondary-btn" data-close-modal>Cancel</button>
+                <button type="button" class="danger-btn" data-confirm-clear-todos="${type}">
+                    ${isAll ? "Clear All" : "Clear Completed"}
+                </button>
             </div>
         `);
     }
@@ -2852,6 +3015,37 @@ document.addEventListener("DOMContentLoaded", () => {
             todoCategoryFilter = event.target.value;
             renderTodos();
         }
+    );
+
+    document.getElementById("todoPriorityFilter")?.addEventListener(
+        "change",
+        event => {
+            todoPriorityFilter = event.target.value;
+            renderTodos();
+        }
+    );
+
+    document.getElementById("todoSort")?.addEventListener(
+        "change",
+        event => {
+            todoSort = event.target.value;
+            renderTodos();
+        }
+    );
+
+    document.getElementById("clearCompletedTodos")?.addEventListener(
+        "click",
+        () => confirmClearTodos("completed")
+    );
+
+    document.getElementById("clearAllTodos")?.addEventListener(
+        "click",
+        () => confirmClearTodos("all")
+    );
+
+    document.getElementById("todoThemeToggle")?.addEventListener(
+        "click",
+        () => applyTheme(document.body.dataset.theme === "dark" ? "light" : "dark")
     );
 
     function checkTodoReminders() {
@@ -3985,22 +4179,14 @@ document.addEventListener("DOMContentLoaded", () => {
             savedTheme;
 
 
-        document.body.dataset.theme =
-            savedTheme;
+        applyTheme(savedTheme);
 
 
         themeSetting.addEventListener(
             "change",
             () => {
 
-                document.body.dataset.theme =
-                    themeSetting.value;
-
-
-                localStorage.setItem(
-                    "skilliant_theme",
-                    themeSetting.value
-                );
+                applyTheme(themeSetting.value);
 
 
                 showToast(
@@ -4489,6 +4675,27 @@ document.addEventListener("DOMContentLoaded", () => {
                 renderTodos();
                 renderDashboard();
                 showToast("Todo deleted.");
+                return;
+            }
+
+
+            const confirmClearTodosButton =
+                event.target.closest("[data-confirm-clear-todos]");
+
+            if (confirmClearTodosButton) {
+                const clearType = confirmClearTodosButton.dataset.confirmClearTodos;
+
+                todos = clearType === "all"
+                    ? []
+                    : todos.filter(todo => !todo.completed);
+
+                saveData();
+                closeModal();
+                renderTodos();
+                renderDashboard();
+                showToast(
+                    clearType === "all" ? "All tasks cleared." : "Completed tasks cleared."
+                );
                 return;
             }
 
