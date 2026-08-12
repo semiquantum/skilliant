@@ -188,6 +188,8 @@
 
         </div>
 
+        <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" title="Toggle dark mode"><i class="fa-solid fa-moon"></i></button>
+
     </div>
 
 </header>
@@ -981,6 +983,15 @@ class="page active-page">
         </div>
 
     </div>
+
+    <!-- DAY 2 ADVANCED CONTROLS -->
+    <div class="todo-advanced-toolbar">
+      <div class="todo-control-group"><label for="todoCategoryFilter"><i class="fa-solid fa-layer-group"></i> Category</label><select id="todoCategoryFilter"><option value="all">All Categories</option><option>General</option><option>Work</option><option>Repair</option><option>Construction</option><option>Delivery</option><option>Maintenance</option><option>Personal</option></select></div>
+      <div class="todo-control-group"><label for="todoPriorityFilter"><i class="fa-solid fa-flag"></i> Priority</label><select id="todoPriorityFilter"><option value="all">All Priorities</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select></div>
+      <div class="todo-control-group"><label for="todoSort"><i class="fa-solid fa-arrow-down-wide-short"></i> Sort</label><select id="todoSort"><option value="date-asc">Due Date: Earliest</option><option value="date-desc">Due Date: Latest</option><option value="priority-desc">Priority: High → Low</option><option value="priority-asc">Priority: Low → High</option><option value="newest">Recently Created</option><option value="oldest">Oldest Created</option></select></div>
+      <div class="todo-bulk-actions"><button type="button" class="todo-secondary-btn" id="clearCompletedBtn"><i class="fa-solid fa-check-double"></i> Clear Completed</button><button type="button" class="todo-danger-outline-btn" id="clearAllBtn"><i class="fa-solid fa-trash-can"></i> Clear All</button></div>
+    </div>
+    <div class="todo-day2-status"><span id="todoDueToday"><i class="fa-solid fa-calendar-day"></i> Due today: 0</span><span id="todoOverdueCount" class="overdue"><i class="fa-solid fa-triangle-exclamation"></i> Overdue: 0</span><span id="todoVisibleCount"><i class="fa-solid fa-eye"></i> Showing: 0</span></div>
 
     <div class="todo-list-header">
 
@@ -3988,6 +3999,8 @@ id="profileDropdown">
     </button>
 
 </nav>
+
+<div id="todoLoading" class="todo-loading" aria-hidden="true"><div class="todo-loading-card"><div class="todo-spinner"></div><strong>Loading your tasks...</strong><span>Restoring your saved workspace</span></div></div>
 
 </body>
 
