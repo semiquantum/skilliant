@@ -377,26 +377,22 @@ function closeLogoutModal() {
 ========================================================= */
 
 function acceptJob() {
-
+    if (typeof window.day3ConfirmAccept === "function") {
+        window.day3ConfirmAccept();
+        return;
+    }
     closeAcceptModal();
-
-    showToast(
-        "Job Accepted Successfully ✅",
-        "success"
-    );
-
+    showToast("Job Accepted Successfully ✅", "success");
 }
 
 
 function rejectJob() {
-
+    if (typeof window.day3ConfirmReject === "function") {
+        window.day3ConfirmReject();
+        return;
+    }
     closeRejectModal();
-
-    showToast(
-        "Job Rejected ❌",
-        "error"
-    );
-
+    showToast("Job Rejected ❌", "error");
 }
 
 
@@ -2228,4 +2224,375 @@ window.openTodoModal=()=>open();window.closeTodoModal=close;window.editTodo=open
 function bind(){$("todoForm")?.addEventListener("submit",submit);$("todoSearch")?.addEventListener("input",e=>{S.search=e.target.value;render()});document.querySelectorAll("[data-todo-filter]").forEach(b=>b.addEventListener("click",()=>{S.filter=b.dataset.todoFilter;render()}));$("todoCategoryFilter")?.addEventListener("change",e=>{S.category=e.target.value;render()});$("todoPriorityFilter")?.addEventListener("change",e=>{S.priority=e.target.value;render()});$("todoSort")?.addEventListener("change",e=>{S.sort=e.target.value;render()});$("clearCompletedBtn")?.addEventListener("click",clearCompleted);$("clearAllBtn")?.addEventListener("click",clearAll);$("themeToggle")?.addEventListener("click",()=>theme(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark"));document.addEventListener("keydown",e=>{if(e.key==="Escape"){close();closeDel()}if(e.key==="/"&&!/input|textarea|select/i.test(e.target.tagName)){e.preventDefault();$("todoSearch")?.focus()}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="n"){e.preventDefault();open()}})}
 function init(){const l=$("todoLoading");if(l)l.classList.add("show");const saved=localStorage.getItem(THEME_KEY);theme(saved||((matchMedia("(prefers-color-scheme: dark").matches)?"dark":"light"));load();bind();setTimeout(()=>{render();if(l)l.classList.remove("show")},350);console.log("✓ Day 2 Advanced Todo module ready")}
 document.addEventListener("DOMContentLoaded",init);
+})();
+
+/* =========================================================
+   DAY 3 - LABOUR DASHBOARD + JOB REQUEST MANAGEMENT
+   Robust self-contained interaction layer
+   ========================================================= */
+(function () {
+    "use strict";
+
+    const STORAGE = "skilliant_day3_jobs_v4";
+    let incoming = [];
+    let current = [];
+    let selectedRequestId = null;
+    let selectedJobId = null;
+    let shellBound = false;
+
+    const seed = {
+        incoming: [
+            {id:"REQ-101",customer:"Priya Mehta",initials:"PM",service:"AC Servicing",date:"2026-08-13",time:"10:30",location:"Miramar, Panaji",earnings:850,phone:"+91 98765 43120",description:"Full AC servicing, filter cleaning and performance check.",distance:"4.2 km"},
+            {id:"REQ-102",customer:"Amit Verma",initials:"AV",service:"Plumbing Repair",date:"2026-08-13",time:"14:00",location:"Dona Paula, Goa",earnings:650,phone:"+91 98111 22880",description:"Kitchen sink leakage and pipe fitting inspection.",distance:"6.8 km"},
+            {id:"REQ-103",customer:"Neha Kapoor",initials:"NK",service:"Electrical Inspection",date:"2026-08-14",time:"09:00",location:"Porvorim, Goa",earnings:1200,phone:"+91 98989 77221",description:"Inspect distribution board and replace two damaged switches.",distance:"8.1 km"}
+        ],
+        current: [
+            {id:"JOB-201",customer:"Rahul Sharma",service:"AC Repair",date:"2026-08-13",time:"10:00",location:"Panaji, Goa",earnings:450,phone:"+91 98765 43210",description:"Gas refill and complete AC servicing required.",status:"working",acceptedAt:"09:35 AM",startedAt:"10:00 AM",completedAt:null},
+            {id:"JOB-202",customer:"Kavita Rao",service:"Water Heater Repair",date:"2026-08-13",time:"16:30",location:"Taleigao, Goa",earnings:700,phone:"+91 98221 66554",description:"Diagnose heating issue and replace faulty thermostat.",status:"accepted",acceptedAt:"11:15 AM",startedAt:null,completedAt:null}
+        ]
+    };
+
+    const esc = v => String(v ?? "").replace(/[&<>'"]/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;","\"":"&quot;"}[m]));
+    const money = v => "₹" + Number(v || 0).toLocaleString("en-IN");
+    const dateText = v => { const d = new Date(v + "T00:00:00"); return d.toLocaleDateString("en-IN", {day:"2-digit",month:"short",year:"numeric"}); };
+    const nowTime = () => new Date().toLocaleTimeString("en-IN", {hour:"2-digit", minute:"2-digit"});
+
+    function cloneSeed() {
+        return { incoming: seed.incoming.map(x => ({...x})), current: seed.current.map(x => ({...x})) };
+    }
+
+    function save() {
+        localStorage.setItem(STORAGE, JSON.stringify({incoming, current}));
+    }
+
+    function load() {
+        try {
+            const raw = localStorage.getItem(STORAGE);
+            if (!raw) {
+                ({incoming, current} = cloneSeed());
+                save();
+                return;
+            }
+            const data = JSON.parse(raw);
+            incoming = Array.isArray(data.incoming) ? data.incoming : [];
+            current = Array.isArray(data.current) ? data.current : [];
+        } catch (e) {
+            ({incoming, current} = cloneSeed());
+            save();
+        }
+    }
+
+    function showDay3Toast(title, message, type="success") {
+        const old = document.getElementById("day3ToastContainer");
+        const box = old || document.body.appendChild(Object.assign(document.createElement("div"), {id:"day3ToastContainer"}));
+        const item = document.createElement("div");
+        item.className = `day3-toast ${type}`;
+        item.innerHTML = `<i class="fa-solid ${type === "success" ? "fa-circle-check" : type === "warning" ? "fa-triangle-exclamation" : "fa-circle-xmark"}"></i><div><strong>${esc(title)}</strong><span>${esc(message)}</span></div>`;
+        box.appendChild(item);
+        setTimeout(() => { item.style.opacity = "0"; item.style.transform = "translateY(10px)"; setTimeout(() => item.remove(), 250); }, 3000);
+    }
+
+    function installShell() {
+        const jobs = document.getElementById("jobs");
+        if (!jobs || document.getElementById("day3JobsShell")) return;
+        [...jobs.children].forEach(el => el.classList.add("day3-legacy-job-section"));
+        const shell = document.createElement("div");
+        shell.id = "day3JobsShell";
+        shell.className = "day3-jobs-shell";
+        shell.innerHTML = `
+          <div class="day3-section-card">
+            <div class="day3-section-head"><div><h3>Incoming Job Requests</h3><p>Review customer details and choose the work that fits your schedule.</p></div><span class="day3-pill" id="day3RequestCount">0 New Requests</span></div>
+            <div id="day3IncomingGrid" class="day3-request-grid"></div>
+          </div>
+          <div class="day3-section-card">
+            <div class="day3-section-head"><div><h3>Current Jobs</h3><p>Track accepted work from assignment to completion.</p></div><span class="day3-pill success" id="day3CurrentCount">0 Active Jobs</span></div>
+            <div class="day3-current-grid"><div id="day3CurrentGrid"></div><div id="day3TimelinePanel"></div></div>
+          </div>`;
+        jobs.insertBefore(shell, jobs.firstChild);
+    }
+
+    function renderRequests() {
+        const grid = document.getElementById("day3IncomingGrid");
+        if (!grid) return;
+        const count = document.getElementById("day3RequestCount");
+        if (count) count.textContent = `${incoming.length} New Request${incoming.length === 1 ? "" : "s"}`;
+        if (!incoming.length) {
+            grid.innerHTML = `<div class="day3-empty" style="grid-column:1/-1"><i class="fa-regular fa-circle-check"></i><h4>No incoming requests</h4><p>You're all caught up. New requests will appear here.</p></div>`;
+            return;
+        }
+        grid.innerHTML = incoming.map(r => `
+          <article class="day3-request-card">
+            <div class="day3-request-top"><div class="day3-customer"><div class="day3-avatar">${esc(r.initials)}</div><div><h4>${esc(r.customer)}</h4><span>${esc(r.phone)}</span></div></div><strong class="day3-earning">${money(r.earnings)}</strong></div>
+            <div class="day3-service">
+              <div class="day3-info"><i class="fa-solid fa-screwdriver-wrench"></i><div><strong>Service</strong>${esc(r.service)}</div></div>
+              <div class="day3-info"><i class="fa-regular fa-calendar"></i><div><strong>Date</strong>${dateText(r.date)}</div></div>
+              <div class="day3-info"><i class="fa-regular fa-clock"></i><div><strong>Time</strong>${esc(r.time)}</div></div>
+              <div class="day3-info"><i class="fa-solid fa-location-dot"></i><div><strong>Location</strong>${esc(r.location)}</div></div>
+              <div class="day3-info"><i class="fa-solid fa-route"></i><div><strong>Distance</strong>${esc(r.distance)}</div></div>
+              <div class="day3-info"><i class="fa-solid fa-indian-rupee-sign"></i><div><strong>Estimated</strong>${money(r.earnings)}</div></div>
+            </div>
+            <div class="day3-request-actions">
+              <button type="button" class="day3-accept" data-day3-action="accept" data-request-id="${esc(r.id)}"><i class="fa-solid fa-check"></i> Accept Request</button>
+              <button type="button" class="day3-reject" data-day3-action="reject" data-request-id="${esc(r.id)}"><i class="fa-solid fa-xmark"></i> Reject</button>
+              <button type="button" class="day3-details" data-day3-action="details" data-request-id="${esc(r.id)}"><i class="fa-solid fa-eye"></i> Details</button>
+            </div>
+          </article>`).join("");
+    }
+
+    function renderCurrent() {
+        const grid = document.getElementById("day3CurrentGrid");
+        const timeline = document.getElementById("day3TimelinePanel");
+        if (!grid || !timeline) return;
+        const count = document.getElementById("day3CurrentCount");
+        if (count) count.textContent = `${current.length} Active Job${current.length === 1 ? "" : "s"}`;
+        if (!current.length) {
+            grid.innerHTML = `<div class="day3-empty"><i class="fa-solid fa-briefcase"></i><h4>No current jobs</h4><p>Accept an incoming request to start a new job.</p></div>`;
+            timeline.innerHTML = `<div class="day3-timeline"><h3>Job Timeline</h3><div class="day3-empty">Select a job to view its timeline.</div></div>`;
+            return;
+        }
+        const job = current[0];
+        grid.innerHTML = current.map(j => `
+          <article class="day3-current-card" style="margin-bottom:12px">
+            <div class="day3-job-header"><div><h3>${esc(j.service)}</h3><p><i class="fa-solid fa-user"></i> ${esc(j.customer)} · ${esc(j.id)}</p></div><span class="day3-status ${esc(j.status)}">${esc(j.status)}</span></div>
+            <div class="day3-job-info">
+              <div class="day3-job-info-item"><small>Customer</small><span>${esc(j.customer)}</span></div>
+              <div class="day3-job-info-item"><small>Service</small><span>${esc(j.service)}</span></div>
+              <div class="day3-job-info-item"><small>Location</small><span>${esc(j.location)}</span></div>
+              <div class="day3-job-info-item"><small>Schedule</small><span>${dateText(j.date)} · ${esc(j.time)}</span></div>
+              <div class="day3-job-info-item"><small>Phone</small><span>${esc(j.phone)}</span></div>
+              <div class="day3-job-info-item"><small>Estimated Earnings</small><span>${money(j.earnings)}</span></div>
+            </div>
+            <div class="day3-job-actions">
+              <button type="button" class="day3-view" data-day3-job-action="details" data-job-id="${esc(j.id)}"><i class="fa-solid fa-eye"></i> Job Details</button>
+              ${j.status === "accepted" ? `<button type="button" class="day3-start" data-day3-job-action="start" data-job-id="${esc(j.id)}"><i class="fa-solid fa-play"></i> Start Job</button>` : ""}
+              ${j.status === "working" ? `<button type="button" class="day3-complete" data-day3-job-action="complete" data-job-id="${esc(j.id)}"><i class="fa-solid fa-circle-check"></i> Complete Job</button>` : ""}
+            </div>
+          </article>`).join("");
+        renderTimeline(job);
+    }
+
+    function renderTimeline(job) {
+        const panel = document.getElementById("day3TimelinePanel");
+        if (!panel) return;
+        const steps = [
+            ["Request Received", "Customer request entered your workspace.", true, "Request"],
+            ["Job Accepted", "You accepted the work request.", job.status !== "pending", "Accepted"],
+            ["Work Started", "Job is currently being performed.", job.status === "working" || job.status === "completed", "Started"],
+            ["Job Completed", "Work was marked complete.", job.status === "completed", "Completed"]
+        ];
+        panel.innerHTML = `<div class="day3-timeline"><h3>Job Timeline</h3><div class="day3-timeline-list">${steps.map(s => `<div class="day3-timeline-item ${s[2] ? "done" : ""} ${s[3] === "Started" && job.status === "working" ? "active" : ""}"><div class="day3-timeline-dot"><i class="fa-solid ${s[2] ? "fa-check" : "fa-circle"}"></i></div><div><strong>${s[0]}</strong><span>${s[1]} ${s[3] === "Accepted" && job.acceptedAt ? "· " + esc(job.acceptedAt) : ""}${s[3] === "Started" && job.startedAt ? "· " + esc(job.startedAt) : ""}${s[3] === "Completed" && job.completedAt ? "· " + esc(job.completedAt) : ""}</span></div></div>`).join("")}</div></div>`;
+    }
+
+    function updateDashboard() {
+        const completed = Number(localStorage.getItem("skilliant_completed_jobs") || 125);
+        const pending = current.length + incoming.length;
+        const earnings = current.filter(j => j.status === "completed").reduce((s, j) => s + Number(j.earnings || 0), 0) + 850;
+        const dash = document.getElementById("dashboard");
+        if (!dash) return;
+        const cards = [...dash.querySelectorAll(".dashboard-cards .card")];
+        if (cards[0]?.querySelector("h2")) cards[0].querySelector("h2").textContent = money(earnings);
+        if (cards[1]?.querySelector("h2")) cards[1].querySelector("h2").textContent = completed;
+        if (cards[2]?.querySelector("h2")) cards[2].querySelector("h2").textContent = String(pending).padStart(2, "0");
+        if (cards[3]?.querySelector("h2")) cards[3].querySelector("h2").textContent = "4.8";
+        const todayJobs = dash.querySelector(".jobs-grid");
+        if (todayJobs) todayJobs.innerHTML = current.slice(0,3).map(j => `<div class="job-card"><div class="job-left"><div class="job-circle"><i class="fa-solid fa-briefcase"></i></div><div><h3>${esc(j.service)}</h3><p>${esc(j.time)}</p></div></div><span class="status ${j.status === "completed" ? "completed" : j.status === "working" ? "confirmed" : "pending"}">${j.status === "working" ? "In Progress" : j.status.charAt(0).toUpperCase() + j.status.slice(1)}</span></div>`).join("") || `<div class="day3-empty" style="grid-column:1/-1">No jobs scheduled today.</div>`;
+        let strip = document.getElementById("day3DashboardStrip");
+        const anchor = dash.querySelector(".dashboard-cards");
+        if (anchor && !strip) {
+            strip = document.createElement("div");
+            strip.id = "day3DashboardStrip";
+            strip.className = "day3-dashboard-strip";
+            anchor.parentNode.insertBefore(strip, anchor.nextSibling);
+        }
+        if (strip) strip.innerHTML = `<div class="day3-kpi"><div class="day3-kpi-icon"><i class="fa-solid fa-briefcase"></i></div><div><strong>${incoming.length + current.length}</strong><span>Total Active Jobs</span></div></div><div class="day3-kpi"><div class="day3-kpi-icon"><i class="fa-solid fa-circle-check"></i></div><div><strong>${completed}</strong><span>Completed Jobs</span></div></div><div class="day3-kpi"><div class="day3-kpi-icon"><i class="fa-solid fa-clock"></i></div><div><strong>${pending}</strong><span>Pending / Requests</span></div></div><div class="day3-kpi"><div class="day3-kpi-icon"><i class="fa-solid fa-indian-rupee-sign"></i></div><div><strong>${money(earnings)}</strong><span>Today's Earnings</span></div></div>`;
+    }
+
+    function renderAll() {
+        renderRequests();
+        renderCurrent();
+        updateDashboard();
+    }
+
+    function ensureModalHost() {
+        let host = document.getElementById("day3ModalHost");
+        if (!host) {
+            host = document.createElement("div");
+            host.id = "day3ModalHost";
+            host.className = "day3-modal-host";
+            document.body.appendChild(host);
+        }
+        return host;
+    }
+
+    function closeDay3Modal() {
+        const host = document.getElementById("day3ModalHost");
+        if (host) host.innerHTML = "";
+        selectedRequestId = null;
+        selectedJobId = null;
+    }
+
+    function openDay3Confirm(type, request) {
+        const host = ensureModalHost();
+        const isAccept = type === "accept";
+        host.innerHTML = `<div class="day3-modal-backdrop" data-day3-close="true"><div class="day3-modal-card" role="dialog" aria-modal="true">
+          <button type="button" class="day3-modal-x" data-day3-close="true" aria-label="Close">&times;</button>
+          <div class="day3-modal-icon ${isAccept ? "success" : "danger"}"><i class="fa-solid ${isAccept ? "fa-circle-check" : "fa-circle-xmark"}"></i></div>
+          <h2>${isAccept ? "Accept Job Request?" : "Reject Job Request?"}</h2>
+          <p>${isAccept ? `Accept ${esc(request.service)} for ${esc(request.customer)} at ${esc(request.location)}?` : `Reject ${esc(request.service)} for ${esc(request.customer)}? This request will be removed from Incoming Requests.`}</p>
+          <div class="day3-modal-summary"><strong>${esc(request.customer)}</strong><span>${esc(request.service)} · ${money(request.earnings)}</span></div>
+          <div class="day3-modal-actions"><button type="button" class="day3-modal-secondary" data-day3-close="true">Cancel</button><button type="button" class="${isAccept ? "day3-modal-primary" : "day3-modal-danger"}" data-day3-confirm="${isAccept ? "accept" : "reject"}">${isAccept ? "Accept Request" : "Reject Request"}</button></div>
+        </div></div>`;
+    }
+
+    function openDetails(request) {
+        const host = ensureModalHost();
+        host.innerHTML = `<div class="day3-modal-backdrop" data-day3-close="true"><div class="day3-modal-card wide" role="dialog" aria-modal="true">
+          <button type="button" class="day3-modal-x" data-day3-close="true" aria-label="Close">&times;</button>
+          <div class="day3-modal-label">JOB DETAILS</div><h2>${esc(request.customer)}</h2><p class="day3-modal-subtitle">${esc(request.service)} · ${esc(request.id)}</p>
+          <div class="day3-detail-grid">
+            <div class="day3-detail-box"><small>Customer</small><strong>${esc(request.customer)}</strong></div><div class="day3-detail-box"><small>Phone</small><strong>${esc(request.phone)}</strong></div>
+            <div class="day3-detail-box"><small>Service</small><strong>${esc(request.service)}</strong></div><div class="day3-detail-box"><small>Estimated Earnings</small><strong>${money(request.earnings)}</strong></div>
+            <div class="day3-detail-box"><small>Date</small><strong>${dateText(request.date)}</strong></div><div class="day3-detail-box"><small>Time</small><strong>${esc(request.time)}</strong></div>
+            <div class="day3-detail-box"><small>Location</small><strong>${esc(request.location)}</strong></div><div class="day3-detail-box"><small>Distance</small><strong>${esc(request.distance || "-")}</strong></div>
+          </div>
+          <div class="day3-modal-note"><strong>Description</strong><br>${esc(request.description)}</div>
+          <div class="day3-modal-actions"><button type="button" class="day3-modal-secondary" data-day3-close="true">Close</button></div>
+        </div></div>`;
+    }
+
+    function acceptRequest(id) {
+        const r = incoming.find(x => x.id === id);
+        if (!r) return;
+        incoming = incoming.filter(x => x.id !== id);
+        current.unshift({...r, status:"accepted", acceptedAt:nowTime(), startedAt:null, completedAt:null});
+        save();
+        closeDay3Modal();
+        renderAll();
+        showDay3Toast("Job accepted successfully", `${r.customer}'s ${r.service} request is now in Current Jobs.`, "success");
+    }
+
+    function rejectRequest(id) {
+        const r = incoming.find(x => x.id === id);
+        if (!r) return;
+        incoming = incoming.filter(x => x.id !== id);
+        save();
+        closeDay3Modal();
+        renderAll();
+        showDay3Toast("Request rejected", `${r.customer}'s request has been removed.`, "warning");
+    }
+
+    function startJob(id) {
+        const j = current.find(x => x.id === id);
+        if (!j) return;
+        j.status = "working";
+        j.startedAt = nowTime();
+        save(); renderAll();
+        showDay3Toast("Job started", `${j.customer}'s job is now In Progress.`, "success");
+    }
+
+    function completeJob(id) {
+        const j = current.find(x => x.id === id);
+        if (!j) return;
+        j.status = "completed";
+        j.completedAt = nowTime();
+        save(); renderAll();
+        const old = Number(localStorage.getItem("skilliant_completed_jobs") || 125);
+        localStorage.setItem("skilliant_completed_jobs", String(old + 1));
+        showDay3Toast("Job completed", `${j.customer}'s job was marked completed successfully.`, "success");
+    }
+
+    function bindShell() {
+        if (shellBound) return;
+        const shell = document.getElementById("day3JobsShell");
+        if (!shell) return;
+        shellBound = true;
+        // Capture-phase listener: this runs before legacy portal handlers,
+        // so Day 3 buttons cannot be swallowed by older click handlers.
+        document.addEventListener("click", function (event) {
+            const target = event.target && event.target.nodeType === 3 ? event.target.parentElement : event.target;
+            const requestButton = target && target.closest ? target.closest("[data-day3-action]") : null;
+            if (requestButton) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                const id = requestButton.getAttribute("data-request-id");
+                const action = requestButton.getAttribute("data-day3-action");
+                const r = incoming.find(x => String(x.id) === String(id));
+                if (!r) { showDay3Toast("Request not found", "Please refresh the page to load the latest requests.", "warning"); return; }
+                selectedRequestId = id;
+                if (action === "accept") openDay3Confirm("accept", r);
+                else if (action === "reject") openDay3Confirm("reject", r);
+                else if (action === "details") openDetails(r);
+                return;
+            }
+
+            const jobButton = target && target.closest ? target.closest("[data-day3-job-action]") : null;
+            if (jobButton) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                const id = jobButton.getAttribute("data-job-id");
+                const job = current.find(x => String(x.id) === String(id));
+                if (!job) return;
+                const action = jobButton.getAttribute("data-day3-job-action");
+                if (action === "details") openDetails(job);
+                else if (action === "start") startJob(id);
+                else if (action === "complete") completeJob(id);
+                return;
+            }
+
+            const confirm = target && target.closest ? target.closest("[data-day3-confirm]") : null;
+            if (confirm) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                const action = confirm.getAttribute("data-day3-confirm");
+                const id = selectedRequestId;
+                if (action === "accept") acceptRequest(id);
+                else if (action === "reject") rejectRequest(id);
+                return;
+            }
+
+            const close = target && target.closest ? target.closest("[data-day3-close]") : null;
+            if (close) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                closeDay3Modal();
+            }
+        }, true);
+    }
+
+    function expose() {
+        window.day3OpenAccept = id => { const r = incoming.find(x => x.id === id); if (r) { selectedRequestId = id; openDay3Confirm("accept", r); } };
+        window.day3OpenReject = id => { const r = incoming.find(x => x.id === id); if (r) { selectedRequestId = id; openDay3Confirm("reject", r); } };
+        window.day3OpenRequestDetails = id => { const r = incoming.find(x => x.id === id); if (r) openDetails(r); };
+        window.day3OpenJobDetails = id => { const j = current.find(x => x.id === id); if (j) openDetails(j); };
+        window.day3StartJob = startJob;
+        window.day3CompleteJob = completeJob;
+        window.day3ConfirmAccept = () => acceptRequest(selectedRequestId);
+        window.day3ConfirmReject = () => rejectRequest(selectedRequestId);
+    }
+
+    // Global helpers are intentionally exposed for compatibility with any
+    // older markup that may still call an inline handler.
+    window.openDay3Accept = function(id) {
+        const r = incoming.find(x => String(x.id) === String(id));
+        if (r) { selectedRequestId = id; openDay3Confirm("accept", r); }
+    };
+    window.openDay3Reject = function(id) {
+        const r = incoming.find(x => String(x.id) === String(id));
+        if (r) { selectedRequestId = id; openDay3Confirm("reject", r); }
+    };
+    window.openDay3Details = function(id) {
+        const r = incoming.find(x => String(x.id) === String(id));
+        if (r) openDetails(r);
+    };
+
+    function initDay3() {
+        load();
+        installShell();
+        bindShell();
+        expose();
+        renderAll();
+    }
+
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initDay3);
+    else initDay3();
 })();

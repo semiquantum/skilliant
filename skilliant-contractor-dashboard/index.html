@@ -3100,7 +3100,7 @@ id="successPopup">
 
             <button
                 class="primary-btn"
-                onclick="acceptJob()">
+                onclick="window.day3ConfirmAccept && window.day3ConfirmAccept()">
 
                 Accept
 
@@ -3138,7 +3138,7 @@ id="successPopup">
 
             <button
                 class="danger-btn"
-                onclick="rejectJob()">
+                onclick="window.day3ConfirmReject && window.day3ConfirmReject()">
 
                 Reject
 
@@ -3721,7 +3721,7 @@ id="profileDropdown">
 </div>
 <!-- End Container -->
 
-<script src="js/app.js"></script>
+<script src="js/app.js?v=day3fix5"></script>
 
 
 <!-- ========================================= -->
