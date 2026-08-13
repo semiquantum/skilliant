@@ -1,0 +1,108 @@
+:root {
+    /* ── Brand Primary Colors ── */
+    --primary-navy:         #1E3A8A;
+    --primary-navy-deep:    #172554;
+    --primary-blue:         #2563EB;
+    --primary-blue-hover:   #1D4ED8;
+    --primary-blue-light:   #EFF6FF;
+    --primary-blue-muted:   #DBEAFE;
+
+    /* ── Gold / Amber Accent ── */
+    --accent-gold:          #D97706;
+    --accent-gold-bright:   #F59E0B;
+    --accent-gold-light:    #FFFBEB;
+    --accent-gold-glow:     rgba(217, 119, 6, 0.25);
+
+    /* ── Orange Accent ── */
+    --accent-orange:        #F97316;
+    --accent-orange-bright: #FF6B00;
+    --accent-orange-hover:  #EA580C;
+    --accent-orange-light:  #FFF7ED;
+
+    /* ── Purple Accent ── */
+    --primary-purple:       #7C3AED;
+    --primary-purple-light: #EDE9FE;
+
+    /* ── Neutral & Background Colors ── */
+    --bg-main:              #F1F5F9;
+    --bg-body:              #F8FAFC;
+    --bg-card:              rgba(255, 255, 255, 0.88);
+    --bg-card-hover:        rgba(255, 255, 255, 0.97);
+    --bg-sidebar:           #0F172A;
+    --bg-header:            rgba(255, 255, 255, 0.90);
+
+    /* ── Glassmorphism Effects ── */
+    --glass-bg:             rgba(255, 255, 255, 0.85);
+    --glass-border:         rgba(255, 255, 255, 0.6);
+    --glass-blur:           blur(20px);
+    --glass-shadow:         0 10px 40px -10px rgba(31, 38, 135, 0.12);
+
+    /* ── Text Colors ── */
+    --text-main:            #0F172A;
+    --text-muted:           #64748B;
+    --text-light:           #94A3B8;
+    --text-white:           #FFFFFF;
+
+    /* ── Status Colors ── */
+    --success:              #10B981;
+    --success-color:        #10B981;
+    --success-bg:           #ECFDF5;
+    --warning:              #F59E0B;
+    --warning-color:        #F59E0B;
+    --warning-bg:           #FFFBEB;
+    --danger:               #EF4444;
+    --danger-color:         #EF4444;
+    --danger-bg:            #FEF2F2;
+    --info:                 #3B82F6;
+    --info-bg:              #EFF6FF;
+
+    /* ── Borders & Shadows ── */
+    --border-color:         #E2E8F0;
+    --border-radius-sm:     10px;
+    --border-radius-md:     14px;
+    --border-radius-lg:     20px;
+    --border-radius-xl:     30px;
+    --shadow-sm:            0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-md:            0 4px 16px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-lg:            0 10px 28px -5px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
+    --shadow-xl:            0 20px 50px -10px rgba(0, 0, 0, 0.18);
+    --shadow-blue-glow:     0 6px 20px rgba(37, 99, 235, 0.30);
+    --shadow-gold-glow:     0 6px 20px rgba(217, 119, 6, 0.28);
+
+    /* ── Typography ── */
+    --font-family:          'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+
+    /* ── Transitions ── */
+    --transition-fast:      0.10s ease;
+    --transition-normal:    0.18s ease;
+    --transition-slow:      0.25s cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* ── Layout Sizes ── */
+    --sidebar-width:        272px;
+    --header-height:        72px;
+}
+
+/* ── Dark Mode Overrides ── */
+[data-theme="dark"] {
+    --bg-main:              #0B0F19;
+    --bg-body:              #080C14;
+    --bg-card:              rgba(22, 30, 50, 0.85);
+    --bg-card-hover:        rgba(30, 41, 68, 0.92);
+    --bg-sidebar:           #060910;
+    --bg-header:            rgba(11, 15, 25, 0.90);
+    --glass-bg:             rgba(15, 23, 42, 0.80);
+    --glass-border:         rgba(255, 255, 255, 0.08);
+    --glass-shadow:         0 8px 32px 0 rgba(0, 0, 0, 0.40);
+    --text-main:            #F1F5F9;
+    --text-muted:           #94A3B8;
+    --text-light:           #64748B;
+    --border-color:         #1E293B;
+    --primary-blue-light:   rgba(37, 99, 235, 0.12);
+    --primary-blue-muted:   rgba(37, 99, 235, 0.18);
+    --accent-gold-light:    rgba(217, 119, 6, 0.10);
+    --primary-purple-light: rgba(124, 58, 237, 0.12);
+    --success-bg:           rgba(16, 185, 129, 0.10);
+    --warning-bg:           rgba(245, 158, 11, 0.10);
+    --danger-bg:            rgba(239, 68, 68, 0.10);
+    --info-bg:              rgba(59, 130, 246, 0.10);
+}

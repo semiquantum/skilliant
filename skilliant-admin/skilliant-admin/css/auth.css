@@ -1,0 +1,209 @@
+/* =====================================================
+   AUTH — Login Page Styles
+   ===================================================== */
+
+.login-container {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, var(--primary-navy-deep) 0%, var(--primary-navy) 40%, #1D4ED8 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1.5rem;
+    overflow: hidden;
+}
+
+/* Decorative background circles */
+.login-container::before,
+.login-container::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.login-container::before {
+    width: 500px; height: 500px;
+    background: rgba(249, 115, 22, 0.10);
+    top: -180px; right: -120px;
+}
+
+.login-container::after {
+    width: 380px; height: 380px;
+    background: rgba(37, 99, 235, 0.18);
+    bottom: -140px; left: -100px;
+}
+
+.login-card {
+    background: rgba(255, 255, 255, 0.97);
+    border-radius: var(--border-radius-xl);
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.35);
+    width: 100%;
+    max-width: 440px;
+    padding: 3rem 2.5rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    border: 1px solid rgba(255,255,255,0.9);
+    position: relative;
+    z-index: 1;
+}
+
+.login-header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.login-header .logo {
+    justify-content: center;
+    color: var(--primary-navy);
+    margin-bottom: 0.75rem;
+    font-size: 1.5rem;
+}
+
+.login-header h2 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--text-main);
+    letter-spacing: -0.3px;
+}
+
+.login-header p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+/* ── Input with Icon ── */
+.input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-with-icon > i:first-child {
+    position: absolute;
+    left: 1rem;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.input-with-icon input {
+    width: 100%;
+    padding: 0.8rem 3rem 0.8rem 2.85rem;
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    font-size: 0.95rem;
+    font-family: var(--font-family);
+    transition: all var(--transition-fast);
+    background: #F8FAFC;
+    color: var(--text-main);
+}
+
+.input-with-icon input:focus {
+    background: #FFFFFF;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+    outline: none;
+}
+
+.input-with-icon input::placeholder { color: var(--text-light); }
+
+/* ── Password Toggle ── */
+.password-toggle {
+    position: absolute;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    transition: color var(--transition-fast);
+    z-index: 1;
+}
+
+.password-toggle:hover { color: var(--primary-blue); }
+
+/* ── Login Options Row ── */
+.login-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.85rem;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    user-select: none;
+}
+
+.remember-me input {
+    accent-color: var(--primary-blue);
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+
+.forgot-password {
+    color: var(--primary-blue);
+    font-weight: 600;
+    transition: color var(--transition-fast);
+    font-size: 0.85rem;
+}
+
+.forgot-password:hover {
+    color: var(--primary-blue-hover);
+    text-decoration: underline;
+}
+
+/* ── Login Submit Button ── */
+.btn-block {
+    width: 100%;
+    padding: 0.9rem;
+    font-size: 1rem;
+    font-weight: 700;
+    position: relative;
+    border-radius: var(--border-radius-md);
+}
+
+.btn-loader { margin-left: 0.5rem; }
+
+/* ── Login Footer Info ── */
+.login-footer-note {
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--text-light);
+    margin-top: -0.5rem;
+}
+
+/* ── Field Error ── */
+.field-error {
+    color: var(--danger);
+    font-size: 0.76rem;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
