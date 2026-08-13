@@ -2132,6 +2132,216 @@ tr:last-child td {
 
 
 /* =========================================================
+   41. BOOKING JOURNEY
+   ========================================================= */
+
+.portal-update-banner {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 20px;
+    padding: 25px 28px;
+    margin: 0 0 30px;
+    border: 1px solid #d6e5fb;
+    border-radius: 20px;
+    background: linear-gradient(115deg, #ffffff, #eef6ff);
+    box-shadow: 0 12px 30px rgba(23, 105, 224, 0.08);
+}
+
+.portal-update-icon {
+    display: grid;
+    place-items: center;
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #1769e0, #4d9bff);
+    color: #ffffff;
+    font-size: 25px;
+    box-shadow: 0 8px 18px rgba(23, 105, 224, 0.22);
+}
+
+.portal-update-label {
+    color: #1769e0;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+}
+
+.portal-update-content h2 {
+    margin: 5px 0 7px;
+    color: #18243d;
+    font-size: 20px;
+}
+
+.portal-update-content p {
+    color: #64738e;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.portal-update-actions {
+    display: flex;
+    gap: 10px;
+}
+
+body[data-theme="dark"] .portal-update-banner {
+    border-color: #304d70;
+    background: linear-gradient(115deg, #1b2638, #203956);
+}
+
+body[data-theme="dark"] .portal-update-content h2 {
+    color: #f5f9ff;
+}
+
+body[data-theme="dark"] .portal-update-content p {
+    color: #b6c8dc;
+}
+
+@media (max-width: 760px) {
+
+    .portal-update-banner {
+        grid-template-columns: auto minmax(0, 1fr);
+        padding: 20px;
+    }
+
+    .portal-update-actions {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+
+    .portal-update-actions button {
+        flex: 1;
+    }
+}
+
+@media (max-width: 420px) {
+
+    .portal-update-banner {
+        grid-template-columns: 1fr;
+    }
+
+    .portal-update-icon {
+        width: 46px;
+        height: 46px;
+    }
+
+    .portal-update-actions {
+        flex-direction: column;
+    }
+}
+
+.booking-summary > p {
+    margin-bottom: 16px;
+    color: #73829c;
+    font-size: 13px;
+}
+
+.booking-summary-grid {
+    display: grid;
+    grid-template-columns: minmax(120px, 0.8fr) 1.2fr;
+    gap: 11px 16px;
+    padding: 16px;
+    border: 1px solid #e4ebf5;
+    border-radius: 12px;
+    background: #f8faff;
+    font-size: 13px;
+}
+
+.booking-summary-grid span {
+    color: #73829c;
+}
+
+.booking-summary-grid strong {
+    color: #18243d;
+    text-align: right;
+}
+
+.booking-summary-grid .booking-total {
+    padding-top: 10px;
+    border-top: 1px solid #dce6f3;
+    color: #1769e0;
+    font-size: 14px;
+}
+
+.booking-success {
+    text-align: center;
+}
+
+.booking-success h3 {
+    margin-bottom: 9px;
+}
+
+.booking-success p {
+    margin-top: 7px;
+    color: #73829c;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.booking-success-icon {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    background: #e9f9f0;
+    color: #28a745;
+    font-size: 31px;
+    font-weight: 800;
+}
+
+.booking-error {
+    text-align: center;
+}
+
+.booking-error h3 {
+    margin-bottom: 8px;
+}
+
+.booking-error p {
+    color: #73829c;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.booking-error-icon {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    background: #fff0f0;
+    color: #dc3545;
+    font-size: 31px;
+    font-weight: 800;
+}
+
+body[data-theme="dark"] .booking-summary-grid {
+    border-color: #30415b;
+    background: #24344c;
+}
+
+body[data-theme="dark"] .booking-summary-grid strong {
+    color: #f5f9ff;
+}
+
+@media (max-width: 480px) {
+
+    .booking-summary-grid {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+
+    .booking-summary-grid strong {
+        margin-bottom: 10px;
+        text-align: left;
+    }
+}
+
+
+/* =========================================================
    40. ADVANCED TODO CONTROLS + DARK MODE
    ========================================================= */
 

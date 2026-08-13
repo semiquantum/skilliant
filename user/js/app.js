@@ -27,6 +27,9 @@ document.addEventListener("DOMContentLoaded", () => {
             reviews: 120,
             price: 500,
             availability: "Available",
+            skills: ["Pipe repair", "Bathroom fittings", "Leak detection"],
+            services: ["Pipe Repair", "Bathroom Fitting", "Drain Cleaning"],
+            description: "Reliable residential plumber for repairs, fittings and emergency leak checks.",
             image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=85"
         },
         {
@@ -39,6 +42,9 @@ document.addEventListener("DOMContentLoaded", () => {
             reviews: 98,
             price: 600,
             availability: "Available",
+            skills: ["Wiring", "Switchboards", "Appliance installation"],
+            services: ["Home Wiring", "Switchboard Repair", "Appliance Installation"],
+            description: "Experienced electrician for safe home electrical work and installations.",
             image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=85"
         },
         {
@@ -51,6 +57,9 @@ document.addEventListener("DOMContentLoaded", () => {
             reviews: 85,
             price: 700,
             availability: "Busy",
+            skills: ["Furniture repair", "Custom woodwork", "Door fitting"],
+            services: ["Furniture Repair", "Custom Shelves", "Door Fitting"],
+            description: "Skilled carpenter specialising in practical repairs and custom home woodwork.",
             image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=600&q=85"
         },
         {
@@ -63,7 +72,26 @@ document.addEventListener("DOMContentLoaded", () => {
             reviews: 75,
             price: 450,
             availability: "Available",
+            skills: ["Interior painting", "Wall preparation", "Texture finish"],
+            services: ["Room Painting", "Wall Texture", "Touch-up Painting"],
+            description: "Detail-focused painter for clean interiors, exteriors and finish work.",
             image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=85"
+        },
+        {
+            id: 5, name: "Kavita Joshi", skill: "Cleaner", location: "Mumbai", experience: "5 Years", rating: 4.8, reviews: 143, price: 400, availability: "Available",
+            skills: ["Deep cleaning", "Kitchen cleaning", "Sanitisation"], services: ["Home Cleaning", "Deep Cleaning", "Kitchen Cleaning"], description: "Dependable home cleaner focused on hygienic, detailed cleaning.", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600&q=85"
+        },
+        {
+            id: 6, name: "Vikram Singh", skill: "AC Technician", location: "Thane", experience: "8 Years", rating: 4.7, reviews: 112, price: 650, availability: "Available",
+            skills: ["AC servicing", "Gas refill", "Fault diagnosis"], services: ["AC Service", "AC Repair", "Gas Refill"], description: "Certified AC technician for regular servicing and quick fault diagnosis.", image: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?auto=format&fit=crop&w=600&q=85"
+        },
+        {
+            id: 7, name: "Imran Khan", skill: "Mechanic", location: "Navi Mumbai", experience: "9 Years", rating: 4.6, reviews: 97, price: 700, availability: "Available",
+            skills: ["Two-wheeler repair", "Engine diagnostics", "Battery service"], services: ["Bike Service", "Engine Check", "Battery Replacement"], description: "Mobile mechanic for dependable two-wheeler maintenance and repairs.", image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=600&q=85"
+        },
+        {
+            id: 8, name: "Neha Verma", skill: "Home Tutor", location: "Mumbai", experience: "6 Years", rating: 4.9, reviews: 76, price: 550, availability: "Available",
+            skills: ["Mathematics", "Science", "Study planning"], services: ["Maths Tuition", "Science Tuition", "Exam Preparation"], description: "Friendly home tutor offering structured lessons for school students.", image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=85"
         }
     ];
 
@@ -223,6 +251,27 @@ document.addEventListener("DOMContentLoaded", () => {
         return labour;
     });
 
+    // Keep existing saved labour data, while adding new catalogue entries
+    // introduced by later portal updates.
+    let refreshedLabourCatalogue = false;
+
+    defaultLabourers.forEach(defaultLabour => {
+        const existingLabour = labourers.find(item => Number(item.id) === Number(defaultLabour.id));
+
+        if (!existingLabour) {
+            labourers.push(defaultLabour);
+            refreshedLabourCatalogue = true;
+            return;
+        }
+
+        ["skills", "services", "description"].forEach(key => {
+            if (!existingLabour[key]) {
+                existingLabour[key] = defaultLabour[key];
+                refreshedLabourCatalogue = true;
+            }
+        });
+    });
+
 
     // =================================================
     // INITIALIZE DATA
@@ -311,7 +360,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     initializeData();
 
-    if (refreshedLabourImages) {
+    if (refreshedLabourImages || refreshedLabourCatalogue) {
         localStorage.setItem(
             "labourers",
             JSON.stringify(labourers)
@@ -877,6 +926,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     "Completed"
             ).length;
 
+        const pending = bookings.filter(
+            booking => booking.status === "Pending" || booking.status === "Confirmed"
+        ).length;
+
 
         const totalElement =
             document.getElementById(
@@ -898,6 +951,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 "dashboardWallet"
             );
 
+        const pendingElement =
+            document.getElementById("pendingBookings");
+
 
         if (totalElement) {
             totalElement.textContent =
@@ -917,6 +973,37 @@ document.addEventListener("DOMContentLoaded", () => {
         if (walletElement) {
             walletElement.textContent =
                 formatCurrency(wallet);
+        }
+
+        if (pendingElement) {
+            pendingElement.textContent = pending;
+        }
+
+        const activityContainer = document.getElementById("recentActivityList");
+
+        if (activityContainer) {
+            const activities = [
+                ...bookings.slice(0, 4).map(booking => ({
+                    title: booking.status === "Cancelled" ? "Booking cancelled" : "Labour booked",
+                    detail: `${booking.labour} - ${booking.skill}`,
+                    time: booking.createdAt ? "Recently" : booking.date
+                })),
+                ...reviews.slice(0, 2).map(review => ({
+                    title: "Review submitted",
+                    detail: review.labour || review.labourName || "Labour professional",
+                    time: review.date || "Recently"
+                }))
+            ].slice(0, 5);
+
+            activityContainer.innerHTML = activities.length
+                ? activities.map(activity => `
+                    <div class="notification-item">
+                        <strong>${escapeHTML(activity.title)}</strong>
+                        <p>${escapeHTML(activity.detail)}</p>
+                        <small>${escapeHTML(activity.time)}</small>
+                    </div>
+                `).join("")
+                : "<p>No recent activity yet.</p>";
         }
 
 
@@ -1143,6 +1230,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     <p>
                         Try changing your search or filters.
                     </p>
+
+                    <button class="primary-btn" data-reset-labour-filters>
+                        Reset Filters
+                    </button>
 
                 </div>
             `;
@@ -1943,6 +2034,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <input
                         type="date"
                         id="bookingDate"
+                        min="${new Date().toISOString().slice(0, 10)}"
                         required
                     >
 
@@ -1955,11 +2047,27 @@ document.addEventListener("DOMContentLoaded", () => {
                         Time
                     </label>
 
-                    <input
-                        type="time"
+                    <select
                         id="bookingTime"
                         required
                     >
+                        <option value="">Select a time slot</option>
+                        <option value="09:00 - 12:00">Morning (09:00 - 12:00)</option>
+                        <option value="12:00 - 16:00">Afternoon (12:00 - 16:00)</option>
+                        <option value="16:00 - 20:00">Evening (16:00 - 20:00)</option>
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Service</label>
+
+                    <select id="bookingService" required>
+                        ${(labour.services || [labour.skill + " Service"]).map(service => `
+                            <option value="${escapeHTML(service)}">${escapeHTML(service)}</option>
+                        `).join("")}
+                    </select>
 
                 </div>
 
@@ -1972,7 +2080,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     <select
                         id="bookingAddress"
-                        required
                     >
 
                         <option value="">
@@ -1983,6 +2090,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     </select>
 
+                </div>
+
+                <div class="form-group">
+                    <label>Or add a new address</label>
+                    <input type="text" id="bookingNewAddress" placeholder="House number, street, area">
                 </div>
 
 
@@ -2051,6 +2163,10 @@ document.addEventListener("DOMContentLoaded", () => {
                         "bookingAddress"
                     )?.value;
 
+                const newAddress = document.getElementById("bookingNewAddress")?.value.trim();
+
+                const service = document.getElementById("bookingService")?.value;
+
                 const requirements =
                     document.getElementById(
                         "bookingRequirements"
@@ -2060,7 +2176,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (
                     !date ||
                     !time ||
-                    !address
+                    !(address || newAddress) ||
+                    !service ||
+                    new Date(`${date}T00:00:00`) < new Date(new Date().toDateString())
                 ) {
 
                     showToast(
@@ -2072,76 +2190,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
 
-                const booking = {
+                if (newAddress) {
+                    addresses.push({
+                        id: Date.now(),
+                        title: "New Address",
+                        type: "Other",
+                        address: newAddress,
+                        city: user.location || "",
+                        default: false
+                    });
+                    saveData();
+                }
 
-                    id:
-                        "BK" +
-                        Date.now(),
-
-                    labourId:
-                        labour.id,
-
-                    labour:
-                        labour.name,
-
-                    skill:
-                        labour.skill,
-
-                    date,
-
-                    time,
-
-                    address,
-
-                    requirements,
-
-                    amount:
-                        labour.price,
-
-                    status:
-                        "Pending",
-
-                    createdAt:
-                        new Date().toISOString()
-                };
-
-
-                bookings.unshift(
-                    booking
-                );
-
-
-                notifications.unshift({
-
-                    id:
-                        Date.now(),
-
-                    title:
-                        "Booking Created",
-
-                    message:
-                        `Your booking with ${labour.name} has been created.`,
-
-                    time:
-                        "Just now",
-
-                    unread:
-                        true
+                openBookingSummary(labour, {
+                    service, date, time, address: newAddress || address, requirements
                 });
-
-
-                saveData();
-
-                closeModal();
-
-                showToast(
-                    "Booking created successfully."
-                );
-
-
-                renderDashboard();
-
-                renderBookings();
             }
         );
     }
@@ -3074,6 +3137,111 @@ document.addEventListener("DOMContentLoaded", () => {
         if (hasNewReminder) {
             saveData();
         }
+    }
+
+
+    function openBookingSummary(labour, details) {
+
+        const additionalCharge = 0;
+        const total = Number(labour.price) + additionalCharge;
+        const bookingId = `BK${Date.now()}`;
+
+        openModal(`
+            <div class="modal-header">
+                <h2>Confirm Your Booking</h2>
+                <button type="button" data-close-modal aria-label="Close modal">×</button>
+            </div>
+            <div class="modal-body booking-summary">
+                <p>Please review your booking details before confirming.</p>
+                <div class="booking-summary-grid">
+                    <span>Booking ID</span><strong>${bookingId}</strong>
+                    <span>Labour</span><strong>${escapeHTML(labour.name)} (${escapeHTML(labour.skill)})</strong>
+                    <span>Service</span><strong>${escapeHTML(details.service)}</strong>
+                    <span>Date & Time</span><strong>${escapeHTML(details.date)} · ${escapeHTML(details.time)}</strong>
+                    <span>Address</span><strong>${escapeHTML(details.address)}</strong>
+                    <span>Service charge</span><strong>${formatCurrency(labour.price)}</strong>
+                    <span>Additional charges</span><strong>${formatCurrency(additionalCharge)}</strong>
+                    <span class="booking-total">Total amount</span><strong class="booking-total">${formatCurrency(total)}</strong>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="secondary-btn" data-booking-back="${labour.id}">Go Back</button>
+                <button type="button" class="text-btn" data-simulate-booking-error="${labour.id}" data-booking-details="${encodeURIComponent(JSON.stringify(details))}">Simulate Error</button>
+                <button type="button" class="primary-btn" data-confirm-booking="${labour.id}" data-booking-id="${bookingId}" data-booking-details="${encodeURIComponent(JSON.stringify(details))}">
+                    Confirm Booking
+                </button>
+            </div>
+        `);
+    }
+
+    function completeBooking(labourId, bookingId, encodedDetails) {
+
+        const labour = labourers.find(item => Number(item.id) === Number(labourId));
+        const details = JSON.parse(decodeURIComponent(encodedDetails));
+
+        if (!labour || !details) {
+            openBookingError(labourId, encodedDetails);
+            return;
+        }
+
+        const booking = {
+            id: bookingId,
+            labourId: labour.id,
+            labour: labour.name,
+            skill: labour.skill,
+            service: details.service,
+            date: details.date,
+            time: details.time,
+            address: details.address,
+            requirements: details.requirements,
+            amount: labour.price,
+            status: "Confirmed",
+            createdAt: new Date().toISOString()
+        };
+
+        bookings.unshift(booking);
+        notifications.unshift({
+            id: Date.now(),
+            title: "Booking Confirmed",
+            message: `Your booking with ${labour.name} is confirmed.`,
+            time: "Just now",
+            unread: true
+        });
+        saveData();
+        renderDashboard();
+        renderBookings();
+
+        openModal(`
+            <div class="modal-header"><h2>Booking Confirmed!</h2><button type="button" data-close-modal aria-label="Close modal">×</button></div>
+            <div class="modal-body booking-success">
+                <div class="booking-success-icon">✓</div>
+                <h3>Your service has been scheduled.</h3>
+                <p>Booking ID: <strong>${escapeHTML(booking.id)}</strong></p>
+                <p>${escapeHTML(labour.name)} · ${escapeHTML(details.service)} · ${escapeHTML(details.date)} · ${escapeHTML(details.time)}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="secondary-btn" data-booking-success-dashboard>Back to Dashboard</button>
+                <button type="button" class="primary-btn" data-booking-success-view>View Booking</button>
+            </div>
+        `);
+        showToast("Booking confirmed successfully.");
+    }
+
+    function openBookingError(labourId, encodedDetails) {
+
+        openModal(`
+            <div class="modal-header"><h2>Booking Could Not Be Completed</h2><button type="button" data-close-modal aria-label="Close modal">×</button></div>
+            <div class="modal-body booking-error">
+                <div class="booking-error-icon">!</div>
+                <h3>Please try again</h3>
+                <p>We could not confirm this booking right now. Your details are still available to retry.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="secondary-btn" data-close-modal>Cancel</button>
+                <button type="button" class="primary-btn" data-retry-booking="${labourId}" data-booking-details="${encodedDetails}">Try Again</button>
+            </div>
+        `);
+        showToast("Booking could not be completed. Please try again.", "error");
     }
 
 
@@ -4382,6 +4550,18 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         );
 
+    document.getElementById("sidebarLogoutButton")?.addEventListener(
+        "click",
+        () => {
+            const confirmed = confirm("Are you sure you want to logout?");
+
+            if (confirmed) {
+                showToast("Logged out successfully.");
+                navigateTo("dashboard");
+            }
+        }
+    );
+
 
     // =================================================
     // CHANGE PHOTO
@@ -4493,6 +4673,22 @@ document.addEventListener("DOMContentLoaded", () => {
                         Rating:
                     </strong>
                     ⭐ ${labour.rating}
+                    (${labour.reviews} reviews)
+                </p>
+
+                <p>
+                    <strong>Skills:</strong>
+                    ${escapeHTML((labour.skills || [labour.skill]).join(", "))}
+                </p>
+
+                <p>
+                    <strong>Services:</strong>
+                    ${escapeHTML((labour.services || [labour.skill + " Service"]).join(", "))}
+                </p>
+
+                <p>
+                    <strong>About:</strong>
+                    ${escapeHTML(labour.description || "Experienced Skilliant professional available for quality service.")}
                 </p>
 
                 <p>
@@ -4705,6 +4901,64 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (dashboardTodoButton) {
                 navigateTo("todos");
+                return;
+            }
+
+
+            const bookingBackButton = event.target.closest("[data-booking-back]");
+
+            if (bookingBackButton) {
+                openBookingModal(bookingBackButton.dataset.bookingBack);
+                return;
+            }
+
+            const confirmBookingButton = event.target.closest("[data-confirm-booking]");
+
+            if (confirmBookingButton) {
+                completeBooking(
+                    confirmBookingButton.dataset.confirmBooking,
+                    confirmBookingButton.dataset.bookingId,
+                    confirmBookingButton.dataset.bookingDetails
+                );
+                return;
+            }
+
+            const simulateBookingErrorButton = event.target.closest("[data-simulate-booking-error]");
+
+            if (simulateBookingErrorButton) {
+                openBookingError(
+                    simulateBookingErrorButton.dataset.simulateBookingError,
+                    simulateBookingErrorButton.dataset.bookingDetails
+                );
+                return;
+            }
+
+            const retryBookingButton = event.target.closest("[data-retry-booking]");
+
+            if (retryBookingButton) {
+                const labour = labourers.find(item => Number(item.id) === Number(retryBookingButton.dataset.retryBooking));
+                const details = JSON.parse(decodeURIComponent(retryBookingButton.dataset.bookingDetails));
+
+                if (labour) {
+                    openBookingSummary(labour, details);
+                }
+                return;
+            }
+
+            if (event.target.closest("[data-booking-success-view]")) {
+                closeModal();
+                navigateTo("bookings");
+                return;
+            }
+
+            if (event.target.closest("[data-booking-success-dashboard]")) {
+                closeModal();
+                navigateTo("dashboard");
+                return;
+            }
+
+            if (event.target.closest("[data-reset-labour-filters]")) {
+                document.getElementById("clearFilters")?.click();
                 return;
             }
 
