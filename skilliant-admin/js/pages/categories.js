@@ -3,10 +3,24 @@
  */
 
 const CategoriesPage = {
+    state: {
+        search: '',
+        status: ''
+    },
+
     render() {
         const categories = DataService.getCollection(DataService.KEYS.CATEGORIES) || [];
 
-        const categoryCardsHtml = categories.length > 0 ? categories.map(c => `
+        // Apply filters
+        const filteredCategories = categories.filter(c => {
+            const matchesSearch = c.name.toLowerCase().includes(this.state.search.toLowerCase()) ||
+                (c.description || '').toLowerCase().includes(this.state.search.toLowerCase()) ||
+                c.id.toLowerCase().includes(this.state.search.toLowerCase());
+            const matchesStatus = !this.state.status || c.status === this.state.status;
+            return matchesSearch && matchesStatus;
+        });
+
+        const categoryCardsHtml = filteredCategories.length > 0 ? filteredCategories.map(c => `
             <div class="glass-card glass-card-hover animate-slide-up" style="display:flex; flex-direction:column; justify-content:space-between; gap:1rem;">
                 <div class="flex items-center justify-between">
                     <div class="kpi-icon-wrapper kpi-icon-blue" style="width: 40px; height: 40px; border-radius: 50%; background: var(--primary-blue-light); color: var(--primary-blue); display:flex; align-items:center; justify-content:center; font-size:1.2rem;">
@@ -46,11 +60,35 @@ const CategoriesPage = {
                     <i class="fa-solid fa-plus"></i> New Category
                 </button>
             `)}
+            ${UI.renderControlsBar('categorySearchInput', 'Search categories by name, description or ID...', [
+                { id: 'categoryStatusFilter', label: 'Filter Status', options: ['Active', 'Inactive'] }
+            ], '', null)}
             
             <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:1.25rem;" class="mb-6">
                 ${categoryCardsHtml}
             </div>
         `;
+    },
+
+    init() {
+        const searchEl = document.getElementById('categorySearchInput');
+        const filterEl = document.getElementById('categoryStatusFilter');
+
+        if (searchEl) {
+            searchEl.value = this.state.search;
+            searchEl.addEventListener('input', (e) => {
+                this.state.search = e.target.value;
+                App.refreshCurrentPage();
+            });
+        }
+
+        if (filterEl) {
+            filterEl.value = this.state.status;
+            filterEl.addEventListener('change', (e) => {
+                this.state.status = e.target.value;
+                App.refreshCurrentPage();
+            });
+        }
     },
 
     addCategoryModal() {

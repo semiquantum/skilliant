@@ -16,7 +16,9 @@ const LabourPage = {
         const filteredLabourers = labourers.filter(l => {
             const matchesSearch = l.name.toLowerCase().includes(this.state.search.toLowerCase()) ||
                 (l.skill || '').toLowerCase().includes(this.state.search.toLowerCase()) ||
-                (l.category || '').toLowerCase().includes(this.state.search.toLowerCase());
+                (l.category || '').toLowerCase().includes(this.state.search.toLowerCase()) ||
+                (l.email || '').toLowerCase().includes(this.state.search.toLowerCase()) ||
+                (l.id || '').toLowerCase().includes(this.state.search.toLowerCase());
             const matchesVerification = !this.state.verification || l.verification === this.state.verification;
             const matchesAvailability = !this.state.availability || l.status === this.state.availability;
             return matchesSearch && matchesVerification && matchesAvailability;
@@ -189,6 +191,9 @@ const LabourPage = {
     },
 
     addLabourModal() {
+        const skillsList = DataService.getCollection(DataService.KEYS.SKILLS) || [];
+        const optionsHtml = skillsList.map(s => `<option value="${s.id}">${s.name} (${s.categoryName})</option>`).join('');
+
         ModalManager.open({
             title: 'Add New Skilled Labourer',
             bodyHtml: `
@@ -208,7 +213,9 @@ const LabourPage = {
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
                         <div>
                             <label style="font-size:0.85rem; font-weight:600;">Primary Trade Skill <span class="text-danger">*</span></label>
-                            <input type="text" id="newLabourSkill" class="form-control" style="width:100%; margin-top:4px;" placeholder="e.g. Plumbing" required>
+                            <select id="newLabourSkill" class="form-control" style="width:100%; margin-top:4px;" required>
+                                ${optionsHtml}
+                            </select>
                         </div>
                         <div>
                             <label style="font-size:0.85rem; font-weight:600;">Hourly Rate ($/hr) <span class="text-danger">*</span></label>
@@ -222,10 +229,14 @@ const LabourPage = {
                 const name = document.getElementById('newLabourName')?.value.trim();
                 const email = document.getElementById('newLabourEmail')?.value.trim();
                 const phone = document.getElementById('newLabourPhone')?.value.trim();
-                const skill = document.getElementById('newLabourSkill')?.value.trim();
+                const skillId = document.getElementById('newLabourSkill')?.value;
                 const rate = document.getElementById('newLabourRate')?.value.trim();
 
-                if (!name || !email || !phone || !skill || !rate) {
+                const selectedSkill = skillsList.find(s => s.id === skillId);
+                const skill = selectedSkill ? selectedSkill.name : 'Unknown';
+                const category = selectedSkill ? selectedSkill.categoryName : 'General';
+
+                if (!name || !email || !phone || !skillId || !rate) {
                     Toast.show('Please fill in all required fields.', 'warning');
                     return;
                 }
@@ -236,7 +247,7 @@ const LabourPage = {
                     email,
                     phone,
                     skill,
-                    category: skill, // category defaults to skill name
+                    category,
                     hourlyRate: rate.startsWith('$') ? rate : `$${rate}/hr`,
                     rating: 5.0,
                     jobsCompleted: 0,
@@ -259,6 +270,9 @@ const LabourPage = {
         const l = labourers.find(x => x.id === id);
         if (!l) return;
 
+        const skillsList = DataService.getCollection(DataService.KEYS.SKILLS) || [];
+        const optionsHtml = skillsList.map(s => `<option value="${s.id}" ${s.name === l.skill ? 'selected' : ''}>${s.name} (${s.categoryName})</option>`).join('');
+
         ModalManager.open({
             title: `Edit Labourer Details: ${l.name}`,
             bodyHtml: `
@@ -278,7 +292,9 @@ const LabourPage = {
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
                         <div>
                             <label style="font-size:0.85rem; font-weight:600;">Primary Trade Skill <span class="text-danger">*</span></label>
-                            <input type="text" id="editLabourSkill" class="form-control" style="width:100%; margin-top:4px;" value="${l.skill}" required>
+                            <select id="editLabourSkill" class="form-control" style="width:100%; margin-top:4px;" required>
+                                ${optionsHtml}
+                            </select>
                         </div>
                         <div>
                             <label style="font-size:0.85rem; font-weight:600;">Hourly Rate <span class="text-danger">*</span></label>
@@ -310,12 +326,16 @@ const LabourPage = {
                 const name = document.getElementById('editLabourName')?.value.trim();
                 const email = document.getElementById('editLabourEmail')?.value.trim();
                 const phone = document.getElementById('editLabourPhone')?.value.trim();
-                const skill = document.getElementById('editLabourSkill')?.value.trim();
+                const skillId = document.getElementById('editLabourSkill')?.value;
                 const rate = document.getElementById('editLabourRate')?.value.trim();
                 const verification = document.getElementById('editLabourVerification')?.value;
                 const status = document.getElementById('editLabourStatus')?.value;
 
-                if (!name || !email || !phone || !skill || !rate) {
+                const selectedSkill = skillsList.find(s => s.id === skillId);
+                const skill = selectedSkill ? selectedSkill.name : l.skill;
+                const category = selectedSkill ? selectedSkill.categoryName : l.category;
+
+                if (!name || !email || !phone || !skillId || !rate) {
                     Toast.show('Please fill in all required fields.', 'warning');
                     return;
                 }
@@ -324,7 +344,7 @@ const LabourPage = {
                 l.email = email;
                 l.phone = phone;
                 l.skill = skill;
-                l.category = skill;
+                l.category = category;
                 l.hourlyRate = rate.startsWith('$') ? rate : `$${rate}/hr`;
                 l.verification = verification;
                 l.status = status;

@@ -15,7 +15,8 @@ const UsersPage = {
         const filteredUsers = users.filter(u => {
             const matchesSearch = u.name.toLowerCase().includes(this.state.search.toLowerCase()) ||
                 u.email.toLowerCase().includes(this.state.search.toLowerCase()) ||
-                u.phone.includes(this.state.search);
+                u.phone.includes(this.state.search) ||
+                u.id.toLowerCase().includes(this.state.search.toLowerCase());
             const matchesStatus = !this.state.status || u.status === this.state.status;
             return matchesSearch && matchesStatus;
         });

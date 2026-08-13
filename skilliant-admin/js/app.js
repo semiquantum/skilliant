@@ -316,7 +316,7 @@ const App = {
     // ════════════════════════════════════════════════════════════
     // ROUTER
     // ════════════════════════════════════════════════════════════
-    handleRoute() {
+    handleRoute(isUpdate = false) {
         if (!this.checkAuth()) return;
 
         const rawHash   = window.location.hash.replace('#', '').trim() || 'dashboard';
@@ -341,18 +341,38 @@ const App = {
             return;
         }
 
+        // Focus preservation
+        const activeId = document.activeElement ? document.activeElement.id : null;
+        const selectionStart = document.activeElement ? document.activeElement.selectionStart : null;
+        const selectionEnd = document.activeElement ? document.activeElement.selectionEnd : null;
+
         container.innerHTML = pageModule.render();
         if (typeof pageModule.init === 'function') {
-            requestAnimationFrame(() => pageModule.init());
+            requestAnimationFrame(() => {
+                pageModule.init();
+                if (activeId) {
+                    const el = document.getElementById(activeId);
+                    if (el && (el.tagName === 'INPUT' || el.tagName === 'SELECT' || el.tagName === 'TEXTAREA')) {
+                        el.focus();
+                        if (selectionStart !== null && selectionEnd !== null) {
+                            try {
+                                el.setSelectionRange(selectionStart, selectionEnd);
+                            } catch (e) {}
+                        }
+                    }
+                }
+            });
         }
 
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (!isUpdate) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
         this.updateNotificationBadge();
         this.updateSidebarUser();
     },
 
     refreshCurrentPage() {
-        this.handleRoute();
+        this.handleRoute(true);
     },
 
     // ════════════════════════════════════════════════════════════

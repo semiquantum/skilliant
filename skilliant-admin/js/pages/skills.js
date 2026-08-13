@@ -15,7 +15,8 @@ const SkillsPage = {
         const filteredSkills = skills.filter(s => {
             const matchesSearch = s.name.toLowerCase().includes(this.state.search.toLowerCase()) ||
                 (s.categoryName || '').toLowerCase().includes(this.state.search.toLowerCase()) ||
-                (s.description || '').toLowerCase().includes(this.state.search.toLowerCase());
+                (s.description || '').toLowerCase().includes(this.state.search.toLowerCase()) ||
+                s.id.toLowerCase().includes(this.state.search.toLowerCase());
             const matchesStatus = !this.state.status || s.status === this.state.status;
             return matchesSearch && matchesStatus;
         });

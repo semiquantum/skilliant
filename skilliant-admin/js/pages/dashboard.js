@@ -13,10 +13,10 @@ const DashboardPage = {
         const firstName = session ? session.adminName.split(' ')[0] : 'Admin';
 
         const kpiCardsData = [
-            { title: 'Total Platform Revenue', value: kpis.totalRevenue, subtext: 'From processed payments', trendUp: true, icon: 'fa-solid fa-dollar-sign', colorClass: 'kpi-icon-blue' },
-            { title: 'Total Job Bookings', value: kpis.totalBookings, subtext: 'Lifetime bookings', trendUp: true, icon: 'fa-solid fa-calendar-check', colorClass: 'kpi-icon-orange' },
-            { title: 'Registered Labourers', value: kpis.totalLabour, subtext: 'On platform', trendUp: true, icon: 'fa-solid fa-helmet-safety', colorClass: 'kpi-icon-green' },
-            { title: 'Active Contractors', value: kpis.totalContractors, subtext: 'Active businesses', trendUp: true, icon: 'fa-solid fa-building', colorClass: 'kpi-icon-purple' }
+            { title: 'Total Customers', value: kpis.totalUsers, subtext: 'Registered clients', trendUp: true, icon: 'fa-solid fa-users', colorClass: 'kpi-icon-blue' },
+            { title: 'Skilled Labourers', value: kpis.totalLabour, subtext: 'On platform', trendUp: true, icon: 'fa-solid fa-helmet-safety', colorClass: 'kpi-icon-green' },
+            { title: 'Active Contractors', value: kpis.totalContractors, subtext: 'Active businesses', trendUp: true, icon: 'fa-solid fa-building', colorClass: 'kpi-icon-purple' },
+            { title: 'Categories & Skills', value: `${kpis.totalCategories} / ${kpis.totalSkills}`, subtext: 'Trade classifications', trendUp: true, icon: 'fa-solid fa-layer-group', colorClass: 'kpi-icon-orange' }
         ];
 
         const recentBookingsRows = bookings.length > 0 ? bookings.slice(0, 5).map(b => `
@@ -88,6 +88,37 @@ const DashboardPage = {
                     </div>
                     <div class="timeline">
                         ${activityFeedHtml}
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Charts Row: User Growth and Labourer Distribution -->
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:1.5rem;" class="mb-6">
+                <!-- User Growth Trajectory Chart -->
+                <div class="glass-card animate-slide-up">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="section-title" style="margin-bottom:2px;">User Growth Trajectory</h3>
+                            <p style="font-size:0.8rem;color:var(--text-muted);">Cumulative registrations (last 6 months)</p>
+                        </div>
+                        <span class="badge badge-success">Growth</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="dashboardUserGrowthChart" aria-label="User Growth Chart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Labour Trade Distribution Chart -->
+                <div class="glass-card animate-slide-up">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="section-title" style="margin-bottom:2px;">Labourer Distribution</h3>
+                            <p style="font-size:0.8rem;color:var(--text-muted);">Skilled labour per trade category</p>
+                        </div>
+                        <span class="badge badge-info">Distribution</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="dashboardLabourDistributionChart" aria-label="Labourer Distribution Chart"></canvas>
                     </div>
                 </div>
             </div>
@@ -203,5 +234,38 @@ const DashboardPage = {
         }
 
         ChartsEngine.renderRevenueTrendChart('dashboardRevenueChart', monthLabels, grossData, commData);
+
+        // Calculate cumulative User Growth
+        const users = DataService.getCollection(DataService.KEYS.USERS);
+        const labourers = DataService.getCollection(DataService.KEYS.LABOURS);
+        const contractors = DataService.getCollection(DataService.KEYS.CONTRACTORS);
+
+        const usersGrowth = [];
+        const labourersGrowth = [];
+        const contractorsGrowth = [];
+
+        for (let i = 5; i >= 0; i--) {
+            const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+            const endOfMonth = new Date(d.getFullYear(), d.getMonth() + 1, 0, 23, 59, 59, 999);
+
+            const userCount = users.filter(u => !u.joinedDate || new Date(u.joinedDate) <= endOfMonth).length;
+            const labourCount = labourers.filter(l => !l.joinedDate || new Date(l.joinedDate) <= endOfMonth).length;
+            const contractorCount = contractors.filter(c => !c.joinedDate || new Date(c.joinedDate) <= endOfMonth).length;
+
+            usersGrowth.push(userCount);
+            labourersGrowth.push(labourCount);
+            contractorsGrowth.push(contractorCount);
+        }
+
+        ChartsEngine.renderUserGrowthChart('dashboardUserGrowthChart', monthLabels, usersGrowth, labourersGrowth, contractorsGrowth);
+
+        // Calculate Labour Distribution by Category
+        const categories = DataService.getCollection(DataService.KEYS.CATEGORIES);
+        const categoryNames = categories.map(c => c.name);
+        const categoryLabourCounts = categories.map(c => {
+            return labourers.filter(l => l.category === c.name || l.skill === c.name).length;
+        });
+
+        ChartsEngine.renderCategoryBookingsChart('dashboardLabourDistributionChart', categoryNames, categoryLabourCounts);
     }
 };

@@ -16,7 +16,10 @@ const ContractorsPage = {
         const filteredContractors = contractors.filter(c => {
             const matchesSearch = c.name.toLowerCase().includes(this.state.search.toLowerCase()) ||
                 (c.contactPerson || '').toLowerCase().includes(this.state.search.toLowerCase()) ||
-                (c.specialization || '').toLowerCase().includes(this.state.search.toLowerCase());
+                (c.specialization || '').toLowerCase().includes(this.state.search.toLowerCase()) ||
+                (c.email || '').toLowerCase().includes(this.state.search.toLowerCase()) ||
+                (c.location || '').toLowerCase().includes(this.state.search.toLowerCase()) ||
+                (c.id || '').toLowerCase().includes(this.state.search.toLowerCase());
             const matchesStatus = !this.state.status || c.status === this.state.status;
             const matchesVerification = !this.state.verification || c.verificationStatus === this.state.verification;
             return matchesSearch && matchesStatus && matchesVerification;
@@ -40,6 +43,7 @@ const ContractorsPage = {
                 </td>
                 <td>${c.email}</td>
                 <td>${c.phone}</td>
+                <td>${c.location || '—'}</td>
                 <td><span class="badge badge-info">${c.specialization}</span></td>
                 <td>
                     <div class="flex items-center gap-1">
@@ -80,7 +84,7 @@ const ContractorsPage = {
                 { id: 'contractorVerFilter', label: 'License Verification', options: ['Verified', 'Pending'] },
                 { id: 'contractorStatusFilter', label: 'Filter Status', options: ['Active', 'Suspended'] }
             ], `<button class="btn btn-primary" onclick="ContractorsPage.addContractorModal()"><i class="fa-solid fa-plus"></i> Add Contractor</button>`, { csvFn: 'ContractorsPage.exportCSV', pdfFn: 'ContractorsPage.exportPDF' })}
-            ${UI.renderTable(['Company & Contact', 'Email', 'Phone', 'Specialization', 'Rating', 'Wallet Balance', 'License Verification', 'Status', 'Actions'], rowsHtml, paginationHtml)}
+            ${UI.renderTable(['Company & Contact', 'Email', 'Phone', 'Location', 'Specialization', 'Rating', 'Wallet Balance', 'License Verification', 'Status', 'Actions'], rowsHtml, paginationHtml)}
         `;
     },
 
@@ -152,6 +156,10 @@ const ContractorsPage = {
                         <strong style="color: var(--primary-navy); font-size: 1.1rem;">${c.specialization}</strong>
                     </div>
                     <div style="background:var(--primary-blue-light); padding:1rem; border-radius:8px; border: 1px solid var(--border-color);">
+                        <span style="color:var(--text-muted); font-size:0.75rem; display:block;">Office Location</span>
+                        <strong style="color: var(--primary-navy); font-size: 1.1rem;">${c.location || '—'}</strong>
+                    </div>
+                    <div style="background:var(--primary-blue-light); padding:1rem; border-radius:8px; border: 1px solid var(--border-color);">
                         <span style="color:var(--text-muted); font-size:0.75rem; display:block;">Wallet Balance</span>
                         <strong style="color: var(--primary-navy); font-size: 1.1rem;">${c.walletBalance}</strong>
                     </div>
@@ -159,7 +167,7 @@ const ContractorsPage = {
                         <span style="color:var(--text-muted); font-size:0.75rem; display:block;">Performance Rating</span>
                         <strong style="color: var(--primary-navy); font-size: 1.1rem;">★ ${c.rating}</strong>
                     </div>
-                    <div style="background:var(--primary-blue-light); padding:1rem; border-radius:8px; border: 1px solid var(--border-color);">
+                    <div style="background:var(--primary-blue-light); padding:1rem; border-radius:8px; border: 1px solid var(--border-color); grid-column: span 2;">
                         <span style="color:var(--text-muted); font-size:0.75rem; display:block;">Total Projects Run</span>
                         <strong style="color: var(--primary-navy); font-size: 1.1rem;">${c.totalJobs} Projects</strong>
                     </div>
@@ -197,6 +205,10 @@ const ContractorsPage = {
                         <input type="text" id="newContPhone" class="form-control" style="width:100%; margin-top:4px;" placeholder="+1 555-3001" required>
                     </div>
                     <div>
+                        <label style="font-size:0.85rem; font-weight:600;">Office Location <span class="text-danger">*</span></label>
+                        <input type="text" id="newContLocation" class="form-control" style="width:100%; margin-top:4px;" placeholder="e.g. San Francisco, CA" required>
+                    </div>
+                    <div>
                         <label style="font-size:0.85rem; font-weight:600;">Specialization Trade <span class="text-danger">*</span></label>
                         <input type="text" id="newContSpecial" class="form-control" style="width:100%; margin-top:4px;" placeholder="e.g. General Contracting" required>
                     </div>
@@ -208,19 +220,21 @@ const ContractorsPage = {
                 const contactPerson = document.getElementById('newContPerson')?.value.trim();
                 const email = document.getElementById('newContEmail')?.value.trim();
                 const phone = document.getElementById('newContPhone')?.value.trim();
+                const location = document.getElementById('newContLocation')?.value.trim();
                 const specialization = document.getElementById('newContSpecial')?.value.trim();
-
-                if (!name || !contactPerson || !email || !phone || !specialization) {
+ 
+                if (!name || !contactPerson || !email || !phone || !location || !specialization) {
                     Toast.show('Please fill in all required fields.', 'warning');
                     return;
                 }
-
+ 
                 const newCont = {
                     id: `CON-${Date.now().toString().slice(-4)}`,
                     name,
                     contactPerson,
                     email,
                     phone,
+                    location,
                     specialization,
                     rating: 5.0,
                     totalJobs: 0,
@@ -229,7 +243,7 @@ const ContractorsPage = {
                     status: 'Active',
                     joinedDate: new Date().toISOString().split('T')[0]
                 };
-
+ 
                 DataService.addItem(DataService.KEYS.CONTRACTORS, newCont);
                 DataService.logActivity(`Registered new contractor company ${name}`);
                 Toast.show(`Contractor company ${name} registered successfully!`, 'success');
@@ -265,6 +279,10 @@ const ContractorsPage = {
                         <input type="text" id="editContPhone" class="form-control" style="width:100%; margin-top:4px;" value="${c.phone}" required>
                     </div>
                     <div>
+                        <label style="font-size:0.85rem; font-weight:600;">Office Location <span class="text-danger">*</span></label>
+                        <input type="text" id="editContLocation" class="form-control" style="width:100%; margin-top:4px;" value="${c.location || ''}" placeholder="e.g. San Francisco, CA" required>
+                    </div>
+                    <div>
                         <label style="font-size:0.85rem; font-weight:600;">Specialization Trade <span class="text-danger">*</span></label>
                         <input type="text" id="editContSpecial" class="form-control" style="width:100%; margin-top:4px;" value="${c.specialization}" required>
                     </div>
@@ -292,23 +310,25 @@ const ContractorsPage = {
                 const contactPerson = document.getElementById('editContPerson')?.value.trim();
                 const email = document.getElementById('editContEmail')?.value.trim();
                 const phone = document.getElementById('editContPhone')?.value.trim();
+                const location = document.getElementById('editContLocation')?.value.trim();
                 const specialization = document.getElementById('editContSpecial')?.value.trim();
                 const verification = document.getElementById('editContVerification')?.value;
                 const status = document.getElementById('editContStatus')?.value;
-
-                if (!name || !contactPerson || !email || !phone || !specialization) {
+ 
+                if (!name || !contactPerson || !email || !phone || !location || !specialization) {
                     Toast.show('Please fill in all required fields.', 'warning');
                     return;
                 }
-
+ 
                 c.name = name;
                 c.contactPerson = contactPerson;
                 c.email = email;
                 c.phone = phone;
+                c.location = location;
                 c.specialization = specialization;
                 c.verificationStatus = verification;
                 c.status = status;
-
+ 
                 DataService.setStorage(DataService.KEYS.CONTRACTORS, contractors);
                 DataService.logActivity(`Updated details for contractor company ${name}`);
                 Toast.show(`Contractor company ${name} updated successfully!`, 'success');

@@ -30,7 +30,8 @@ const DataService = {
         ROLES: 'skilliant_roles',
         REPORTS: 'skilliant_reports',
         ADMINS: 'skilliant_admins',
-        LOGIN_HISTORY: 'skilliant_login_history'
+        LOGIN_HISTORY: 'skilliant_login_history',
+        TODOS: 'skilliant_todos'
     },
 
     // Simple password hash simulation (not cryptographic - swap with bcrypt on backend)
@@ -78,7 +79,7 @@ const DataService = {
             this.KEYS.BOOKINGS, this.KEYS.PAYMENTS, this.KEYS.CATEGORIES,
             this.KEYS.SKILLS, this.KEYS.REVIEWS, this.KEYS.NOTIFICATIONS,
             this.KEYS.SUPPORT_TICKETS, this.KEYS.ACTIVITY_LOGS, this.KEYS.ADMINS,
-            this.KEYS.LOGIN_HISTORY
+            this.KEYS.LOGIN_HISTORY, this.KEYS.TODOS
         ];
         collections.forEach(key => {
             if (!localStorage.getItem(key)) this.setStorage(key, []);
@@ -170,10 +171,10 @@ const DataService = {
 
         // --- CONTRACTORS ---
         this.setStorage(this.KEYS.CONTRACTORS, [
-            { id: 'CON-001', name: 'BuildRight LLC', contactPerson: 'Frank Miller', email: 'frank@buildright.com', phone: '+1 555-3001', specialization: 'General Construction', rating: 4.7, totalJobs: 52, walletBalance: '$2,400.00', verificationStatus: 'Verified', status: 'Active', joinedDate: daysAgo(200) },
-            { id: 'CON-002', name: 'ElectroPro Inc', contactPerson: 'Susan Lee', email: 'susan@electropro.com', phone: '+1 555-3002', specialization: 'Electrical Systems', rating: 4.5, totalJobs: 38, walletBalance: '$1,800.00', verificationStatus: 'Verified', status: 'Active', joinedDate: daysAgo(150) },
-            { id: 'CON-003', name: 'AquaFix Services', contactPerson: 'Mark Davis', email: 'mark@aquafix.com', phone: '+1 555-3003', specialization: 'Plumbing & HVAC', rating: 4.2, totalJobs: 19, walletBalance: '$950.00', verificationStatus: 'Pending', status: 'Active', joinedDate: daysAgo(60) },
-            { id: 'CON-004', name: 'PaintMasters Co', contactPerson: 'Julia White', email: 'julia@paintmasters.com', phone: '+1 555-3004', specialization: 'Painting & Finishing', rating: 4.9, totalJobs: 71, walletBalance: '$3,100.00', verificationStatus: 'Verified', status: 'Active', joinedDate: daysAgo(300) }
+            { id: 'CON-001', name: 'BuildRight LLC', contactPerson: 'Frank Miller', email: 'frank@buildright.com', phone: '+1 555-3001', specialization: 'General Construction', rating: 4.7, totalJobs: 52, walletBalance: '$2,400.00', verificationStatus: 'Verified', status: 'Active', joinedDate: daysAgo(200), location: 'San Francisco, CA' },
+            { id: 'CON-002', name: 'ElectroPro Inc', contactPerson: 'Susan Lee', email: 'susan@electropro.com', phone: '+1 555-3002', specialization: 'Electrical Systems', rating: 4.5, totalJobs: 38, walletBalance: '$1,800.00', verificationStatus: 'Verified', status: 'Active', joinedDate: daysAgo(150), location: 'Oakland, CA' },
+            { id: 'CON-003', name: 'AquaFix Services', contactPerson: 'Mark Davis', email: 'mark@aquafix.com', phone: '+1 555-3003', specialization: 'Plumbing & HVAC', rating: 4.2, totalJobs: 19, walletBalance: '$950.00', verificationStatus: 'Pending', status: 'Active', joinedDate: daysAgo(60), location: 'San Jose, CA' },
+            { id: 'CON-004', name: 'PaintMasters Co', contactPerson: 'Julia White', email: 'julia@paintmasters.com', phone: '+1 555-3004', specialization: 'Painting & Finishing', rating: 4.9, totalJobs: 71, walletBalance: '$3,100.00', verificationStatus: 'Verified', status: 'Active', joinedDate: daysAgo(300), location: 'Los Angeles, CA' }
         ]);
 
         // --- BOOKINGS ---
@@ -241,6 +242,60 @@ const DataService = {
             { id: 'LOG-004', admin: 'Super Admin', action: 'Updated booking BK-006 status to Cancelled', timestamp: new Date(now - 172800000).toLocaleString(), ip: '127.0.0.1 (Local)' },
             { id: 'LOG-005', admin: 'Super Admin', action: 'Saved platform settings: Commission set to 10%', timestamp: new Date(now - 259200000).toLocaleString(), ip: '127.0.0.1 (Local)' }
         ]);
+
+        // --- TODOS ---
+        const todos = this.getCollection(this.KEYS.TODOS);
+        if (todos.length === 0) {
+            const todayStr = daysAgo(0);
+            const tomorrowStr = daysAgo(-1);
+            const pastStr = daysAgo(2);
+            this.setStorage(this.KEYS.TODOS, [
+                {
+                    id: 'TODO-001',
+                    title: 'Inspect site safety compliance',
+                    description: 'Review safety gear audit logs and worker certifications for BuildRight LLC project.',
+                    date: todayStr,
+                    time: '14:30',
+                    priority: 'High',
+                    status: 'Pending',
+                    createdAt: new Date(now - 7200000).toISOString(),
+                    updatedAt: new Date(now - 7200000).toISOString()
+                },
+                {
+                    id: 'TODO-002',
+                    title: 'Approve pending contractor payout',
+                    description: 'Verify Escrow release approval for AquaFix Services booking BK-005.',
+                    date: todayStr,
+                    time: '16:00',
+                    priority: 'Medium',
+                    status: 'Pending',
+                    createdAt: new Date(now - 14400000).toISOString(),
+                    updatedAt: new Date(now - 14400000).toISOString()
+                },
+                {
+                    id: 'TODO-003',
+                    title: 'Update platform skill categories',
+                    description: 'Add Solar Panel Installation under Electrical trade category.',
+                    date: tomorrowStr,
+                    time: '10:00',
+                    priority: 'Low',
+                    status: 'Pending',
+                    createdAt: new Date(now - 28800000).toISOString(),
+                    updatedAt: new Date(now - 28800000).toISOString()
+                },
+                {
+                    id: 'TODO-004',
+                    title: 'Audit quarterly platform revenue report',
+                    description: 'Export commission report CSV and cross-check with escrow totals.',
+                    date: pastStr,
+                    time: '09:00',
+                    priority: 'High',
+                    status: 'Completed',
+                    createdAt: new Date(now - 172800000).toISOString(),
+                    updatedAt: new Date(now - 86400000).toISOString()
+                }
+            ]);
+        }
 
     },
 
@@ -444,6 +499,8 @@ const DataService = {
         const wallet = this.getStorage(this.KEYS.WALLET) || { escrowBalance: 0, platformCommission: 0 };
         const supportTickets = this.getCollection(this.KEYS.SUPPORT_TICKETS);
         const reviews = this.getCollection(this.KEYS.REVIEWS);
+        const categories = this.getCollection(this.KEYS.CATEGORIES);
+        const skills = this.getCollection(this.KEYS.SKILLS);
 
         const totalRevenue = payments
             .filter(p => p.status === 'Completed')
@@ -460,6 +517,8 @@ const DataService = {
             totalLabour: labours.length,
             totalContractors: contractors.length,
             totalBookings: bookings.length,
+            totalCategories: categories.length,
+            totalSkills: skills.length,
             totalRevenue: `$${totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
             totalCommission: `$${totalCommission.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
             aov: `$${isNaN(aov) ? '0.00' : aov.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
