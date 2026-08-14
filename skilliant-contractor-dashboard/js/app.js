@@ -2211,7 +2211,68 @@ function card(t){const o=overdue(t),dt=dueToday(t);return `<article class="todo-
 function render(){const l=$("todoList"),e=$("todoEmptyState");if(!l||!e)return;const a=list();l.innerHTML=a.map(card).join("");e.hidden=a.length!==0;if($("todoResultsText"))$("todoResultsText").textContent=`${a.length} ${a.length===1?"task":"tasks"}`;if($("todoVisibleCount"))$("todoVisibleCount").innerHTML=`<i class="fa-solid fa-eye"></i> Showing: ${a.length}`;document.querySelectorAll("[data-todo-filter]").forEach(b=>b.classList.toggle("active",b.dataset.todoFilter===S.filter));counters()}
 function open(idv){S.editingId=idv||null;const t=S.tasks.find(x=>x.id===idv);$("todoModalTitle").textContent=idv?"Edit Task":"Add New Task";$("todoSubmitText").textContent=idv?"Save Changes":"Create Task";$("todoTitle").value=t?.title||"";$("todoDescription").value=t?.description||"";$("todoDate").value=t?.date||today();$("todoTime").value=t?.time||"";$("todoPriority").value=t?.priority||"medium";$("todoCategory").value=t?.category||"General";$("todoModal").classList.add("open");$("todoModal").setAttribute("aria-hidden","false");setTimeout(()=>$("todoTitle")?.focus(),80)}
 function close(){const m=$("todoModal");if(m){m.classList.remove("open");m.setAttribute("aria-hidden","true")}S.editingId=null}
-function submit(e){e.preventDefault();const d={title:$("todoTitle").value.trim(),description:$("todoDescription").value.trim(),date:$("todoDate").value,time:$("todoTime").value,priority:$("todoPriority").value,category:$("todoCategory").value};if(d.title.length<3){notify("Task title must contain at least 3 characters.","error");return}if(d.title.length>100){notify("Task title cannot exceed 100 characters.","error");return}if(d.description.length>500){notify("Description cannot exceed 500 characters.","error");return}if(S.editingId){Object.assign(S.tasks.find(t=>t.id===S.editingId),d);notify("Task updated successfully.")}else{S.tasks.unshift({id:id(),...d,completed:false,createdAt:Date.now()});notify("Task created successfully")}save();close();render()}
+function submit(e){
+    e.preventDefault();
+
+    const titleEl = $("todoTitle");
+    const descEl = $("todoDescription");
+    const dateEl = $("todoDate");
+    const timeEl = $("todoTime");
+    const priorityEl = $("todoPriority");
+    const categoryEl = $("todoCategory");
+
+    const d = {
+        title: titleEl?.value.trim() || "",
+        description: descEl?.value.trim() || "",
+        date: dateEl?.value || today(),
+        time: timeEl?.value || "",
+        priority: priorityEl?.value || "medium",
+        category: categoryEl?.value || "General"
+    };
+
+    if(d.title.length < 3){
+        notify("Task title must contain at least 3 characters.","error");
+        titleEl?.focus();
+        return;
+    }
+
+    if(d.title.length > 100){
+        notify("Task title cannot exceed 100 characters.","error");
+        return;
+    }
+
+    if(d.description.length > 500){
+        notify("Description cannot exceed 500 characters.","error");
+        return;
+    }
+
+    if(S.editingId){
+        const task = S.tasks.find(t => t.id === S.editingId);
+        if(!task){
+            notify("The task could not be found.","error");
+            return;
+        }
+        Object.assign(task, d, {updatedAt: Date.now()});
+        save();
+        close();
+        render();
+        notify("Task updated successfully.","success");
+        return;
+    }
+
+    const newTask = {
+        id: id(),
+        ...d,
+        completed: false,
+        createdAt: Date.now()
+    };
+
+    S.tasks.unshift(newTask);
+    save();
+    close();
+    render();
+    notify("Task created successfully.","success");
+}
 function toggle(idv){const t=S.tasks.find(x=>x.id===idv);if(!t)return;t.completed=!t.completed;save();render();notify(t.completed?"Task marked completed ✓":"Task marked pending")}
 function del(idv){const t=S.tasks.find(x=>x.id===idv);if(!t)return;S.deletingId=idv;$("todoDeleteMessage").textContent=`Delete “${t.title}”? This action cannot be undone.`;$("todoDeleteModal").classList.add("open");$("todoDeleteModal").setAttribute("aria-hidden","false")}
 function closeDel(){const m=$("todoDeleteModal");if(m){m.classList.remove("open");m.setAttribute("aria-hidden","true")}S.deletingId=null}
@@ -2222,7 +2283,7 @@ function clearFilters(){S.filter="all";S.search="";S.category="all";S.priority="
 function theme(v){document.documentElement.setAttribute("data-theme",v);localStorage.setItem(THEME_KEY,v);if($("themeToggle"))$("themeToggle").innerHTML=v==="dark"?'<i class="fa-solid fa-sun"></i>':'<i class="fa-solid fa-moon"></i>'}
 window.openTodoModal=()=>open();window.closeTodoModal=close;window.editTodo=open;window.toggleTodo=toggle;window.deleteTodo=del;window.closeTodoDeleteModal=closeDel;window.confirmTodoDelete=confirmDel;window.clearTodoFilters=clearFilters;
 function bind(){$("todoForm")?.addEventListener("submit",submit);$("todoSearch")?.addEventListener("input",e=>{S.search=e.target.value;render()});document.querySelectorAll("[data-todo-filter]").forEach(b=>b.addEventListener("click",()=>{S.filter=b.dataset.todoFilter;render()}));$("todoCategoryFilter")?.addEventListener("change",e=>{S.category=e.target.value;render()});$("todoPriorityFilter")?.addEventListener("change",e=>{S.priority=e.target.value;render()});$("todoSort")?.addEventListener("change",e=>{S.sort=e.target.value;render()});$("clearCompletedBtn")?.addEventListener("click",clearCompleted);$("clearAllBtn")?.addEventListener("click",clearAll);$("themeToggle")?.addEventListener("click",()=>theme(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark"));document.addEventListener("keydown",e=>{if(e.key==="Escape"){close();closeDel()}if(e.key==="/"&&!/input|textarea|select/i.test(e.target.tagName)){e.preventDefault();$("todoSearch")?.focus()}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="n"){e.preventDefault();open()}})}
-function init(){const l=$("todoLoading");if(l)l.classList.add("show");const saved=localStorage.getItem(THEME_KEY);theme(saved||((matchMedia("(prefers-color-scheme: dark").matches)?"dark":"light"));load();bind();setTimeout(()=>{render();if(l)l.classList.remove("show")},350);console.log("✓ Day 2 Advanced Todo module ready")}
+function init(){const l=$("todoLoading");if(l)l.classList.add("show");const saved=localStorage.getItem(THEME_KEY);theme(saved||((window.matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light"));load();bind();setTimeout(()=>{render();if(l)l.classList.remove("show")},350);console.log("✓ Day 2 Advanced Todo module ready")}
 document.addEventListener("DOMContentLoaded",init);
 })();
 
@@ -2384,7 +2445,7 @@ document.addEventListener("DOMContentLoaded",init);
     }
 
     function updateDashboard() {
-        const completed = Number(localStorage.getItem("skilliant_completed_jobs") || 125);
+        const completed = Number(localStorage.getItem("skilliant_completed_jobs") || 126);
         const pending = current.length + incoming.length;
         const earnings = current.filter(j => j.status === "completed").reduce((s, j) => s + Number(j.earnings || 0), 0) + 850;
         const dash = document.getElementById("dashboard");
@@ -2496,7 +2557,7 @@ document.addEventListener("DOMContentLoaded",init);
         j.status = "completed";
         j.completedAt = nowTime();
         save(); renderAll();
-        const old = Number(localStorage.getItem("skilliant_completed_jobs") || 125);
+        const old = Number(localStorage.getItem("skilliant_completed_jobs") || 126);
         localStorage.setItem("skilliant_completed_jobs", String(old + 1));
         showDay3Toast("Job completed", `${j.customer}'s job was marked completed successfully.`, "success");
     }
@@ -2595,4 +2656,128 @@ document.addEventListener("DOMContentLoaded",init);
 
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initDay3);
     else initDay3();
+})();
+
+
+/* =========================================================
+   DAY 4 STABILITY PATCH
+   Robust fallback handlers for legacy Task + Wallet controls.
+   These controls are intentionally bound in capture phase so
+   older portal handlers cannot swallow the click.
+========================================================= */
+(function () {
+    "use strict";
+
+    function openTaskModalFallback() {
+        const modal = document.getElementById("todoModal");
+        if (!modal) return;
+        const title = document.getElementById("todoModalTitle");
+        const submitText = document.getElementById("todoSubmitText");
+        const editId = document.getElementById("todoEditId");
+        if (editId) editId.value = "";
+        if (title) title.textContent = "Add New Task";
+        if (submitText) submitText.textContent = "Create Task";
+        ["todoTitle","todoDescription","todoTime"].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.value = "";
+        });
+        const date = document.getElementById("todoDate");
+        if (date) {
+            const d = new Date();
+            date.value = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+        }
+        const priority = document.getElementById("todoPriority");
+        if (priority) priority.value = "medium";
+        const category = document.getElementById("todoCategory");
+        if (category) category.value = "General";
+        modal.classList.add("open");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+        setTimeout(() => document.getElementById("todoTitle")?.focus(), 50);
+    }
+
+    function closeTaskModalFallback() {
+        const modal = document.getElementById("todoModal");
+        if (modal) {
+            modal.classList.remove("open");
+            modal.setAttribute("aria-hidden", "true");
+        }
+        document.body.style.overflow = "";
+    }
+
+    function bindStabilityPatch() {
+        document.addEventListener("click", function (event) {
+            const target = event.target && event.target.closest ? event.target.closest("button, a") : null;
+            if (!target) return;
+
+            /* Add New Task buttons only.
+               IMPORTANT: do NOT match .todo-primary-btn here because the
+               Create Task submit button uses the same class. Matching the
+               class would intercept the form submission and reopen the modal. */
+            if (target.getAttribute("onclick") === "openTodoModal()" || target.matches("[data-open-todo]")) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                if (typeof window.openTodoModal === "function") {
+                    window.openTodoModal();
+                } else {
+                    openTaskModalFallback();
+                }
+                return;
+            }
+
+            /* Legacy Wallet -> Withdraw button */
+            if (target.getAttribute("onclick") === "openWithdrawModal()") {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                if (typeof window.openWithdrawModal === "function") window.openWithdrawModal();
+                return;
+            }
+
+            /* Legacy Wallet -> Withdraw Now button */
+            if (target.id === "withdrawBtn") {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                if (typeof window.withdrawMoney === "function") {
+                    window.withdrawMoney();
+                } else {
+                    const input = document.getElementById("withdrawAmount");
+                    const balanceEl = document.getElementById("walletBalance");
+                    const amount = Number(input?.value || 0);
+                    const balance = Number((balanceEl?.textContent || "0").replace(/[^0-9.]/g, ""));
+                    if (!amount || amount <= 0) {
+                        if (typeof window.showToast === "function") window.showToast("Enter a valid amount", "error");
+                        else alert("Enter a valid withdrawal amount.");
+                        return;
+                    }
+                    if (amount > balance) {
+                        if (typeof window.showToast === "function") window.showToast("Insufficient Balance", "error");
+                        else alert("Insufficient balance.");
+                        return;
+                    }
+                }
+            }
+        }, true);
+
+        /* Make the legacy withdrawal button explicitly submit. */
+        const withdrawBtn = document.getElementById("withdrawBtn");
+        if (withdrawBtn) {
+            withdrawBtn.addEventListener("click", function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                if (typeof window.withdrawMoney === "function") window.withdrawMoney();
+            });
+        }
+
+        /* Ensure the task modal backdrop and close button always close. */
+        document.addEventListener("click", function (event) {
+            const close = event.target?.closest?.(".todo-modal-backdrop, .todo-modal-close");
+            if (close) {
+                event.preventDefault();
+                closeTaskModalFallback();
+            }
+        }, true);
+    }
+
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", bindStabilityPatch);
+    else bindStabilityPatch();
 })();

@@ -32,6 +32,7 @@
     <link rel="stylesheet"
         href="css/style.css">
 
+    <link rel="stylesheet" href="css/day4.css?v=day4final">
 </head>
 
 <body>
@@ -89,6 +90,12 @@
 
         </li>
 
+        <li onclick="showPage('day4',this)" data-day4-nav="true">
+            <i class="fa-solid fa-chart-line"></i>
+            Performance & Finance
+            <span class="day4-nav-badge">NEW</span>
+        </li>
+
         <li
             onclick="showPage('analytics',this)">
 
@@ -105,6 +112,32 @@
 
             Wallet
 
+        </li>
+
+        <!-- Extended workspace navigation from the original Labour Portal dashboard -->
+        <li onclick="showPage('profilePage',this)">
+            <i class="fa-solid fa-user"></i>
+            Profile
+        </li>
+
+        <li onclick="showPage('certificates',this)">
+            <i class="fa-solid fa-certificate"></i>
+            Certificates
+        </li>
+
+        <li onclick="showPage('portfolio',this)">
+            <i class="fa-solid fa-images"></i>
+            Portfolio
+        </li>
+
+        <li onclick="showPage('reviews',this)">
+            <i class="fa-solid fa-star"></i>
+            Reviews
+        </li>
+
+        <li onclick="showPage('settings',this)">
+            <i class="fa-solid fa-gear"></i>
+            Settings
         </li>
 
         <li
@@ -152,7 +185,7 @@
 
         </div>
 
-        <button class="icon">
+        <button class="icon" type="button" onclick="showPage('settings', this)" title="Notifications / settings">
 
             <i class="fa-regular fa-bell"></i>
 
@@ -270,7 +303,7 @@ class="page active-page">
 
             <h2 class="counter">
 
-                125
+                126
 
             </h2>
 
@@ -884,6 +917,7 @@ class="page active-page">
         <button
             type="button"
             class="todo-primary-btn"
+            data-open-todo="true"
             onclick="openTodoModal()">
             <i class="fa-solid fa-plus"></i>
             Add New Task
@@ -1027,6 +1061,7 @@ class="page active-page">
         <button
             type="button"
             class="todo-primary-btn"
+            data-open-todo="true"
             onclick="openTodoModal()">
             <i class="fa-solid fa-plus"></i>
             Create Task
@@ -1034,6 +1069,73 @@ class="page active-page">
 
     </div>
 
+</section>
+
+
+<!-- ========================================= -->
+<!--        DAY 4 PERFORMANCE & FINANCE       -->
+<!-- ========================================= -->
+<section id="day4" class="page day4-page">
+  <div class="day4-hero">
+    <div>
+      <span class="day4-eyebrow"><i class="fa-solid fa-sparkles"></i> DAY 4 • PERFORMANCE & FINANCE</span>
+      <h1>Performance & Financial Centre</h1>
+      <p>Manage your availability, understand earnings, monitor customer ratings and control withdrawals from one professional workspace.</p>
+    </div>
+    <div class="day4-hero-actions">
+      <button class="day4-btn day4-btn-secondary" id="day4TodayBtn"><i class="fa-solid fa-calendar-day"></i> Today</button>
+      <button class="day4-btn day4-btn-primary" id="day4WithdrawTop"><i class="fa-solid fa-money-bill-transfer"></i> Withdraw</button>
+    </div>
+  </div>
+
+  <div class="day4-stat-grid">
+    <article class="day4-stat-card"><div class="day4-stat-icon blue"><i class="fa-solid fa-indian-rupee-sign"></i></div><div><span>Monthly Earnings</span><strong id="d4MonthlyEarnings">₹25,800</strong><small class="positive">+18.4% vs last month</small></div></article>
+    <article class="day4-stat-card"><div class="day4-stat-icon purple"><i class="fa-solid fa-chart-line"></i></div><div><span>Weekly Earnings</span><strong id="d4WeeklyEarnings">₹8,420</strong><small>7-day performance</small></div></article>
+    <article class="day4-stat-card"><div class="day4-stat-icon green"><i class="fa-solid fa-circle-check"></i></div><div><span>Completed Jobs</span><strong id="d4CompletedJobs">102</strong><small>94% completion rate</small></div></article>
+    <article class="day4-stat-card"><div class="day4-stat-icon amber"><i class="fa-solid fa-star"></i></div><div><span>Customer Rating</span><strong id="d4Rating">4.8 / 5</strong><small>250+ reviews</small></div></article>
+  </div>
+
+  <div class="day4-grid two">
+    <section class="day4-panel">
+      <div class="day4-panel-head"><div><span class="day4-label">AVAILABILITY</span><h2>Availability Calendar</h2><p>Select a date and configure the working time slots.</p></div><span class="day4-status-pill" id="d4AvailabilityStatus"><i class="fa-solid fa-circle"></i> Available</span></div>
+      <div class="d4-calendar-toolbar"><button id="d4PrevMonth" class="icon-btn" aria-label="Previous month"><i class="fa-solid fa-chevron-left"></i></button><strong id="d4CalendarTitle">August 2026</strong><button id="d4NextMonth" class="icon-btn" aria-label="Next month"><i class="fa-solid fa-chevron-right"></i></button></div>
+      <div class="d4-weekdays"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+      <div id="d4Calendar" class="d4-calendar"></div>
+      <div class="d4-selected-date"><div><i class="fa-solid fa-calendar-check"></i><div><span>Selected date</span><strong id="d4SelectedDate">14 Aug 2026</strong></div></div><button id="d4ToggleAvailability" class="day4-btn day4-btn-secondary">Mark Unavailable</button></div>
+      <div class="d4-slot-head"><div><h3>Time Slots</h3><p>Tap a slot to make it available or unavailable.</p></div><span id="d4SlotCount">0 available</span></div>
+      <div id="d4TimeSlots" class="d4-time-slots"></div>
+      <div class="d4-legend"><span><i class="dot available"></i> Available</span><span><i class="dot unavailable"></i> Unavailable</span><span><i class="dot selected"></i> Selected</span></div>
+    </section>
+
+    <section class="day4-panel">
+      <div class="day4-panel-head"><div><span class="day4-label">EARNINGS ANALYTICS</span><h2>Weekly Performance</h2><p>Compare weekly earnings and job productivity.</p></div><select id="d4ChartRange" class="d4-select"><option value="week">This Week</option><option value="month">This Month</option></select></div>
+      <div class="d4-chart-wrap"><div class="d4-chart-y"><span>₹2.5k</span><span>₹2k</span><span>₹1.5k</span><span>₹1k</span><span>₹0</span></div><div id="d4EarningsChart" class="d4-bar-chart"></div></div>
+      <div class="d4-chart-summary"><div><span>Best day</span><strong id="d4BestDay">Saturday</strong></div><div><span>Average/day</span><strong id="d4AverageDay">₹1,203</strong></div><div><span>Jobs</span><strong id="d4WeeklyJobs">18</strong></div></div>
+      <div class="d4-performance-list"><div><div><span>Completed jobs</span><strong>18 / 20</strong></div><div class="d4-progress"><i style="width:90%"></i></div></div><div><div><span>On-time completion</span><strong>96%</strong></div><div class="d4-progress green"><i style="width:96%"></i></div></div><div><div><span>Customer repeat rate</span><strong>72%</strong></div><div class="d4-progress purple"><i style="width:72%"></i></div></div></div>
+    </section>
+  </div>
+
+  <div class="day4-grid two">
+    <section class="day4-panel">
+      <div class="day4-panel-head"><div><span class="day4-label">CUSTOMER EXPERIENCE</span><h2>Rating Summary</h2><p>Understand how customers rate your work.</p></div><div class="d4-rating-big"><strong>4.8</strong><span>★★★★★</span><small>250 reviews</small></div></div>
+      <div class="d4-rating-body"><div class="d4-rating-score"><strong>4.8</strong><div class="d4-stars">★★★★★</div><span>Excellent service</span></div><div class="d4-rating-dist" id="d4RatingDistribution"></div></div>
+      <div class="d4-review-highlight"><i class="fa-solid fa-quote-left"></i><div><strong>Most recent feedback</strong><p>“Professional, punctual and explained the repair clearly. Would definitely recommend.”</p><span>— Priya Mehta • 5 stars • 2 days ago</span></div></div>
+    </section>
+
+    <section class="day4-panel day4-wallet-panel">
+      <div class="day4-panel-head"><div><span class="day4-label">WALLET</span><h2>Wallet & Withdrawals</h2><p>Track balances and move earnings to your preferred method.</p></div><i class="fa-solid fa-wallet d4-panel-symbol"></i></div>
+      <div class="d4-wallet-balance"><div><span>Available Balance</span><strong id="d4WalletBalance">₹18,750</strong><small>Ready to withdraw</small></div><div class="d4-wallet-chip"><i class="fa-solid fa-shield-check"></i> Secure</div></div>
+      <div class="d4-wallet-mini-grid"><div><span>Total Earnings</span><strong id="d4TotalEarnings">₹25,800</strong></div><div><span>Pending Payout</span><strong id="d4PendingPayout">₹3,200</strong></div><div><span>This Month</span><strong>₹12,640</strong></div></div>
+      <button id="d4WithdrawBtn" class="day4-btn day4-btn-primary full"><i class="fa-solid fa-arrow-up-right-from-square"></i> Withdraw Funds</button>
+      <p class="d4-secure-note"><i class="fa-solid fa-lock"></i> Withdrawals are validated before submission.</p>
+    </section>
+  </div>
+
+  <section class="day4-panel">
+    <div class="day4-panel-head"><div><span class="day4-label">TRANSACTIONS</span><h2>Transaction History</h2><p>Recent earnings and withdrawal activity.</p></div><div class="d4-transaction-tools"><input id="d4TransactionSearch" class="d4-search" type="search" placeholder="Search transactions..."><select id="d4TransactionFilter" class="d4-select"><option value="all">All statuses</option><option value="completed">Completed</option><option value="pending">Pending</option><option value="failed">Failed</option></select></div></div>
+    <div class="d4-table-wrap"><table class="d4-table"><thead><tr><th>Transaction</th><th>Date</th><th>Method</th><th>Amount</th><th>Status</th><th></th></tr></thead><tbody id="d4TransactionBody"></tbody></table></div>
+    <div id="d4TransactionEmpty" class="d4-empty" hidden><i class="fa-solid fa-receipt"></i><h3>No transactions found</h3><p>Try changing your search or filter.</p></div>
+  </section>
 </section>
 
 <!-- ========================================= -->
@@ -3721,8 +3823,7 @@ id="profileDropdown">
 </div>
 <!-- End Container -->
 
-<script src="js/app.js?v=day3fix5"></script>
-
+<!-- Scripts are loaded after the page markup so every interactive element exists before initialization. -->
 
 <!-- ========================================= -->
 <!--          TODO ADD / EDIT MODAL            -->
@@ -4001,6 +4102,16 @@ id="profileDropdown">
 </nav>
 
 <div id="todoLoading" class="todo-loading" aria-hidden="true"><div class="todo-loading-card"><div class="todo-spinner"></div><strong>Loading your tasks...</strong><span>Restoring your saved workspace</span></div></div>
+
+
+<!-- ========================================= -->
+<!--              DAY 4 MODALS                 -->
+<!-- ========================================= -->
+<div id="d4Modal" class="d4-modal" aria-hidden="true"><div class="d4-modal-backdrop" data-d4-close></div><div class="d4-modal-dialog" role="dialog" aria-modal="true"><button class="d4-modal-close" data-d4-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button><div id="d4ModalContent"></div></div></div>
+
+<script src="js/app.js?v=day4final-complete1"></script>
+<script src="js/day4.js?v=day4complete1"></script>
+<script src="js/final-interactions-fix.js?v=day4complete1"></script>
 
 </body>
 
