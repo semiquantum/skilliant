@@ -162,7 +162,7 @@ const UsersPage = {
                     </div>
                     <div>
                         <label style="font-size:0.85rem; font-weight:600;">Phone Number</label>
-                        <input type="text" id="newUserPhone" class="form-control" style="width:100%; margin-top:4px;" placeholder="+1 555-0199">
+                        <input type="tel" id="newUserPhone" class="form-control" style="width:100%; margin-top:4px;" placeholder="9876543210" inputmode="numeric" maxlength="10" pattern="\d{10}" oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)" required>
                     </div>
                 </div>
             `,
@@ -176,6 +176,7 @@ const UsersPage = {
                     Toast.show('Please fill in name and email.', 'warning');
                     return;
                 }
+                if (!DataService.validatePhone(phone)) { Toast.show('Phone number must contain exactly 10 digits.', 'warning'); return; }
                 if (!email.includes('@')) {
                     Toast.show('Please enter a valid email address.', 'warning');
                     return;
@@ -185,7 +186,7 @@ const UsersPage = {
                     id: `USR-${Date.now().toString().slice(-4)}`,
                     name,
                     email,
-                    phone: phone || "+1 555-0000",
+                    phone,
                     role: "Customer",
                     status: "Active",
                     joinedDate: new Date().toISOString().split('T')[0],
@@ -221,7 +222,7 @@ const UsersPage = {
                     </div>
                     <div>
                         <label style="font-size:0.85rem; font-weight:600;">Phone Number</label>
-                        <input type="text" id="editUserPhone" class="form-control" style="width:100%; margin-top:4px;" value="${u.phone}">
+                        <input type="tel" id="editUserPhone" class="form-control" style="width:100%; margin-top:4px;" value="${u.phone}" inputmode="numeric" maxlength="10" pattern="\d{10}" oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)" required>
                     </div>
                     <div>
                         <label style="font-size:0.85rem; font-weight:600;">Account Status</label>
@@ -243,6 +244,7 @@ const UsersPage = {
                     Toast.show('Please fill in name and email.', 'warning');
                     return;
                 }
+                if (!DataService.validatePhone(phone)) { Toast.show('Phone number must contain exactly 10 digits.', 'warning'); return; }
 
                 u.name = name;
                 u.email = email;

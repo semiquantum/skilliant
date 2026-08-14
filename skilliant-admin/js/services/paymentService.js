@@ -58,6 +58,7 @@ const PaymentService = {
         if (wallet) {
             wallet.escrowBalance = Math.max(0, (wallet.escrowBalance || 0) - (p.amount || 0));
             DataService.setStorage(DataService.KEYS.WALLET, wallet);
+            DataService.recalculateFinancialState();
         }
 
         DataService.logActivity(`Refunded payment ${paymentId} for booking ${p.bookingId || 'N/A'}`);

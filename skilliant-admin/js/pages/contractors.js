@@ -71,7 +71,7 @@ const ContractorsPage = {
                     </div>
                 </td>
             </tr>
-        `).join('') : `<tr><td colspan="9" class="text-center text-muted" style="padding: 3rem 1rem;">
+        `).join('') : `<tr><td colspan="10" class="text-center text-muted" style="padding: 3rem 1rem;">
             <div style="font-size: 2.5rem; margin-bottom: 0.75rem; opacity: 0.15;"><i class="fa-solid fa-folder-open"></i></div>
             No contracting firms found matching current search/filter.
         </td></tr>`;
@@ -202,7 +202,7 @@ const ContractorsPage = {
                     </div>
                     <div>
                         <label style="font-size:0.85rem; font-weight:600;">Phone Number <span class="text-danger">*</span></label>
-                        <input type="text" id="newContPhone" class="form-control" style="width:100%; margin-top:4px;" placeholder="+1 555-3001" required>
+                        <input type="tel" id="newContPhone" class="form-control" style="width:100%; margin-top:4px;" placeholder="9876543230" required inputmode="numeric" maxlength="10" pattern="\d{10}" oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)" required>
                     </div>
                     <div>
                         <label style="font-size:0.85rem; font-weight:600;">Office Location <span class="text-danger">*</span></label>
@@ -227,6 +227,7 @@ const ContractorsPage = {
                     Toast.show('Please fill in all required fields.', 'warning');
                     return;
                 }
+                if (!DataService.validatePhone(phone)) { Toast.show('Phone number must contain exactly 10 digits.', 'warning'); return; }
  
                 const newCont = {
                     id: `CON-${Date.now().toString().slice(-4)}`,
@@ -276,7 +277,7 @@ const ContractorsPage = {
                     </div>
                     <div>
                         <label style="font-size:0.85rem; font-weight:600;">Phone Number <span class="text-danger">*</span></label>
-                        <input type="text" id="editContPhone" class="form-control" style="width:100%; margin-top:4px;" value="${c.phone}" required>
+                        <input type="tel" id="editContPhone" class="form-control" style="width:100%; margin-top:4px;" value="${c.phone}" required inputmode="numeric" maxlength="10" pattern="\d{10}" oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)" required>
                     </div>
                     <div>
                         <label style="font-size:0.85rem; font-weight:600;">Office Location <span class="text-danger">*</span></label>
@@ -319,6 +320,7 @@ const ContractorsPage = {
                     Toast.show('Please fill in all required fields.', 'warning');
                     return;
                 }
+                if (!DataService.validatePhone(phone)) { Toast.show('Phone number must contain exactly 10 digits.', 'warning'); return; }
  
                 c.name = name;
                 c.contactPerson = contactPerson;

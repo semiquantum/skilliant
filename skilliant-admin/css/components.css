@@ -222,11 +222,11 @@
     flex-shrink: 0;
 }
 
-.kpi-icon-blue   { background: linear-gradient(135deg, #2563EB, #1D4ED8); box-shadow: 0 4px 12px rgba(37,99,235,0.30); }
-.kpi-icon-orange { background: linear-gradient(135deg, #F97316, #FF6B00); box-shadow: 0 4px 12px rgba(249,115,22,0.30); }
+.kpi-icon-blue   { background: linear-gradient(135deg, var(--primary-blue), var(--primary-blue-hover)); box-shadow: var(--shadow-gold-glow); }
+.kpi-icon-orange { background: linear-gradient(135deg, var(--accent-gold), var(--accent-orange)); box-shadow: var(--shadow-gold-glow); }
 .kpi-icon-green  { background: linear-gradient(135deg, #10B981, #059669); box-shadow: 0 4px 12px rgba(16,185,129,0.30); }
-.kpi-icon-purple { background: linear-gradient(135deg, #7C3AED, #6D28D9); box-shadow: 0 4px 12px rgba(124,58,237,0.30); }
-.kpi-icon-gold   { background: linear-gradient(135deg, #D97706, #F59E0B); box-shadow: 0 4px 12px rgba(217,119,6,0.30); }
+.kpi-icon-purple { background: linear-gradient(135deg, var(--primary-purple), var(--primary-navy)); box-shadow: var(--shadow-gold-glow); }
+.kpi-icon-gold   { background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-bright)); box-shadow: var(--shadow-gold-glow); }
 .kpi-icon-red    { background: linear-gradient(135deg, #EF4444, #DC2626); box-shadow: 0 4px 12px rgba(239,68,68,0.30); }
 
 .kpi-value {
@@ -280,6 +280,7 @@
 
 .data-table {
     width: 100%;
+    min-width: max-content;
     border-collapse: collapse;
     text-align: left;
     font-size: 0.875rem;
@@ -303,6 +304,32 @@
     color: var(--text-main);
     vertical-align: middle;
 }
+
+/* Keep row actions reachable on laptop/mobile without changing the table UI. */
+.data-table th:last-child,
+.data-table td:last-child {
+    position: sticky;
+    right: 0;
+    z-index: 2;
+    min-width: 250px;
+    white-space: nowrap;
+    background: var(--bg-card);
+    box-shadow: -8px 0 14px rgba(15, 23, 42, 0.04);
+}
+
+.data-table th:last-child {
+    background: rgba(241, 245, 249, 0.96);
+    z-index: 3;
+}
+
+.data-table td:last-child > div {
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+[data-theme="dark"] .data-table th:last-child { background: rgba(30, 41, 59, 0.98); }
+[data-theme="dark"] .data-table td:last-child { background: var(--bg-card); }
+
 
 .data-table tbody tr { transition: background var(--transition-fast); }
 .data-table tbody tr:hover { background: rgba(37, 99, 235, 0.025); }
@@ -770,3 +797,5 @@ input:focus + .slider                { box-shadow: 0 0 0 3px rgba(37,99,235,0.18
     height: 240px;
 }
 
+
+.stat-mini{padding:.85rem 1rem;border:1px solid var(--border-color);border-radius:10px;background:var(--bg-main);display:flex;flex-direction:column;gap:.35rem}.stat-mini strong{font-size:.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em}.stat-mini span{font-size:1.05rem;font-weight:800;color:var(--text-main)}

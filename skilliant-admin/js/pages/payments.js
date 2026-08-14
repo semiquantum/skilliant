@@ -60,8 +60,37 @@ const PaymentsPage = {
 
         const paginationHtml = Pagination.renderControls('payments', filteredPayments.length, 10);
 
+        const financial = DataService.getFinancialSnapshot ? DataService.getFinancialSnapshot() : {gross:0, commission:0, net:0, escrow:0, pendingPayouts:0, completedPayouts:0, available:0};
+        DataService.recalculateFinancialState?.();
+        const wallet = DataService.getStorage(DataService.KEYS.WALLET) || {};
+        const pending = Number(financial.pendingPayouts || 0);
+        const completedPayouts = Number(financial.completedPayouts || 0);
+        const available = Number(financial.available || 0);
+        const payoutRequests = Array.isArray(wallet.payoutRequests) ? wallet.payoutRequests.filter(x => !['Completed','Disbursed','Rejected'].includes(x.status)) : [];
+
         return `
-            ${UI.renderPageHeader('Escrow Transactions & Platform Fees', 'Track payment flows, platform cut, and escrow releases.')}
+            ${UI.renderPageHeader('Payments & Escrow', 'One financial workspace for payments, escrow, payouts and platform fees.')}
+            <div class="kpi-grid" style="margin-bottom:1.25rem;">
+                ${UI.renderKpiCards([
+                    {title:'Gross Revenue',value:`$${Number(financial.gross||0).toFixed(2)}`,subtext:'Completed payments',trendUp:true,icon:'fa-solid fa-dollar-sign',colorClass:'kpi-icon-green'},
+                    {title:'Platform Commission',value:`$${Number(financial.commission||0).toFixed(2)}`,subtext:'Platform fee',trendUp:true,icon:'fa-solid fa-percent',colorClass:'kpi-icon-blue'},
+                    {title:'Escrow Balance',value:`$${Number(financial.escrow||0).toFixed(2)}`,subtext:'Held from active payments',trendUp:true,icon:'fa-solid fa-lock',colorClass:'kpi-icon-orange'},
+                    {title:'Pending Payouts',value:`$${pending.toFixed(2)}`,subtext:`${payoutRequests.length} requests`,trendUp:false,icon:'fa-solid fa-clock',colorClass:'kpi-icon-gold'}
+                ])}
+            </div>
+            <div class="glass-card" style="margin-bottom:1.25rem;">
+                <div class="flex items-center justify-between" style="margin-bottom:1rem;">
+                    <div><h3 style="margin:0;color:var(--primary-navy);">Wallet & Escrow Summary</h3><p style="margin:.25rem 0 0;color:var(--text-muted);font-size:.85rem;">Integrated into payment management — no separate wallet module.</p></div>
+                    <span class="badge badge-success">LIVE FROM PAYMENT DATA</span>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.75rem;">
+                    <div class="stat-mini"><strong>Available Balance</strong><span>$${available.toFixed(2)}</span></div>
+                    <div class="stat-mini"><strong>Escrow</strong><span>$${Number(financial.escrow||0).toFixed(2)}</span></div>
+                    <div class="stat-mini"><strong>Pending Payouts</strong><span>$${pending.toFixed(2)}</span></div>
+                    <div class="stat-mini"><strong>Completed Payouts</strong><span>$${completedPayouts.toFixed(2)}</span></div>
+                </div>
+                ${payoutRequests.length ? `<div style="margin-top:1rem;display:flex;flex-direction:column;gap:.5rem;">${payoutRequests.map(r=>`<div class="flex items-center justify-between" style="padding:.7rem;border:1px solid var(--border-color);border-radius:10px;"><div><strong>${r.requestId||'Payout'}</strong><div style="font-size:.78rem;color:var(--text-muted);">${r.recipient||'Recipient'} · $${Number(String(r.amount).replace(/[^0-9.]/g,'' )||0).toFixed(2)}</div></div><div style="display:flex;gap:.4rem;"><button class="btn btn-outline btn-sm" onclick="PaymentsPage.payoutDetails('${r.requestId}')">Details</button><button class="btn btn-primary btn-sm" onclick="PaymentsPage.approvePayout('${r.requestId}')">Approve</button><button class="btn btn-outline btn-sm text-danger" onclick="PaymentsPage.rejectPayout('${r.requestId}')">Reject</button></div></div>`).join('')}</div>` : `<div class="empty-state" style="margin-top:1rem;">No pending payout requests.</div>`}
+            </div>
             ${UI.renderControlsBar('paymentSearchInput', 'Search transaction ID, booking or customer...', [
                 { id: 'paymentStatusFilter', label: 'Escrow Status', options: ['Completed', 'Pending', 'Held', 'Refunded'] }
             ], '', { csvFn: 'PaymentsPage.exportCSV', pdfFn: 'PaymentsPage.exportPDF' })}
@@ -166,6 +195,31 @@ const PaymentsPage = {
                 Toast.show(result.message, 'warning');
             }
         }
+    },
+
+    payoutDetails(id) {
+        const wallet = DataService.getStorage(DataService.KEYS.WALLET) || {};
+        const r = (wallet.payoutRequests || []).find(x => x.requestId === id);
+        if (!r) return Toast.show('Payout request not found.', 'warning');
+        ModalManager.open({title:`Payout ${id}`,bodyHtml:`<div style=\"line-height:1.8\"><p><strong>Recipient:</strong> ${r.recipient||'—'}</p><p><strong>Amount:</strong> $${Number(String(r.amount).replace(/[^0-9.]/g,'' )||0).toFixed(2)}</p><p><strong>Status:</strong> ${r.status||'Pending'}</p><p><strong>Requested:</strong> ${r.requestedAt ? new Date(r.requestedAt).toLocaleString() : '—'}</p></div>`,submitText:'Close',onSubmit:()=>ModalManager.close()});
+    },
+    approvePayout(id) {
+        if (!confirm(`Approve payout ${id}?`)) return;
+        const result = PaymentService.approvePayout(id);
+        Toast.show(result.message, result.success ? 'success' : 'warning');
+        if (result.success) App.refreshCurrentPage();
+    },
+    rejectPayout(id) {
+        if (!confirm(`Reject payout ${id}?`)) return;
+        const wallet = DataService.getStorage(DataService.KEYS.WALLET) || {};
+        const r = (wallet.payoutRequests || []).find(x => x.requestId === id);
+        if (!r) return Toast.show('Payout request not found.', 'warning');
+        r.status='Rejected'; r.rejectedAt=new Date().toISOString();
+        wallet.pendingPayouts=Math.max(0,(wallet.pendingPayouts||0)-(parseFloat(String(r.amount).replace(/[^0-9.]/g,''))||0));
+        DataService.setStorage(DataService.KEYS.WALLET,wallet);
+        DataService.logActivity(`Rejected payout ${id}`);
+        Toast.show(`Payout ${id} rejected.`, 'info');
+        App.refreshCurrentPage();
     },
 
     exportCSV() {

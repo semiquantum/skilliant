@@ -7,12 +7,12 @@ const ReportsPage = {
     activeTab: 'revenue',
 
     render() {
+        DataService.recalculateFinancialState?.();
         const payments     = DataService.getCollection(DataService.KEYS.PAYMENTS) || [];
         const bookings     = DataService.getCollection(DataService.KEYS.BOOKINGS) || [];
         const users        = DataService.getCollection(DataService.KEYS.USERS)    || [];
         const labours      = DataService.getCollection(DataService.KEYS.LABOURS)  || [];
         const contractors  = DataService.getCollection(DataService.KEYS.CONTRACTORS) || [];
-        const reviews      = DataService.getCollection(DataService.KEYS.REVIEWS)  || [];
 
         const totalRevenue     = payments.filter(p => p.status === 'Completed').reduce((s, p) => s + (parseFloat(p.amount) || 0), 0);
         const totalCommission  = payments.filter(p => p.status === 'Completed').reduce((s, p) => s + (parseFloat(p.commissionFee) || 0), 0);
@@ -20,9 +20,6 @@ const ReportsPage = {
         const completedBookings = bookings.filter(b => b.status === 'Completed').length;
         const pendingBookings   = bookings.filter(b => b.status === 'Pending').length;
         const cancelledBookings = bookings.filter(b => b.status === 'Cancelled').length;
-        const avgRating         = reviews.length > 0
-            ? (reviews.reduce((s, r) => s + (parseFloat(r.rating) || 0), 0) / reviews.length).toFixed(1)
-            : '—';
 
         const fmt = n => `$${parseFloat(n || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
@@ -30,7 +27,7 @@ const ReportsPage = {
             { title: 'Gross Revenue', value: fmt(totalRevenue), subtext: `${payments.filter(p => p.status === 'Completed').length} completed payments`, trendUp: true, icon: 'fa-solid fa-dollar-sign', colorClass: 'kpi-icon-green' },
             { title: 'Platform Commission', value: fmt(totalCommission), subtext: 'Net platform income', trendUp: true, icon: 'fa-solid fa-wallet', colorClass: 'kpi-icon-blue' },
             { title: 'Completed Bookings', value: completedBookings, subtext: `${pendingBookings} pending, ${cancelledBookings} cancelled`, trendUp: true, icon: 'fa-solid fa-calendar-check', colorClass: 'kpi-icon-orange' },
-            { title: 'Platform Avg Rating', value: avgRating, subtext: `From ${reviews.length} reviews`, trendUp: true, icon: 'fa-solid fa-star', colorClass: 'kpi-icon-gold' }
+            { title: 'Net Revenue', value: fmt(netRevenue), subtext: 'Gross revenue less commission', trendUp: true, icon: 'fa-solid fa-chart-line', colorClass: 'kpi-icon-gold' }
         ];
 
         // Recent payments table (last 8)
@@ -98,14 +95,16 @@ const ReportsPage = {
                     <div style="margin-bottom:0.75rem;font-weight:700;font-size:0.9rem;color:var(--primary-navy);">Monthly Revenue Trend</div>
                     <div class="chart-container"><canvas id="revenueChart" aria-label="Monthly Revenue Chart"></canvas></div>
                     <div style="margin-top:1.5rem;">
-                        <div style="font-weight:700;font-size:0.9rem;color:var(--primary-navy);margin-bottom:0.75rem;">Recent Transactions</div>
+                        <div style="font-weight:700;font-size:0.9rem;color:var(--primary-navy);margin-bottom:0.75rem;">Financial Report Snapshot</div>
                         <div class="table-responsive" style="padding:0;">
                             <table class="data-table">
-                                <thead><tr>
-                                    <th>Transaction ID</th><th>User</th><th>Booking</th>
-                                    <th>Amount</th><th>Commission</th><th>Method</th><th>Status</th><th>Date</th>
-                                </tr></thead>
-                                <tbody>${paymentRowsHtml}</tbody>
+                                <thead><tr><th>Metric</th><th>Current Value</th><th>Source</th></tr></thead>
+                                <tbody>
+                                    <tr><td>Gross Revenue</td><td><strong>${fmt(totalRevenue)}</strong></td><td>Completed payments</td></tr>
+                                    <tr><td>Platform Commission</td><td><strong>${fmt(totalCommission)}</strong></td><td>Payment commission</td></tr>
+                                    <tr><td>Net Revenue</td><td><strong>${fmt(netRevenue)}</strong></td><td>Gross minus commission</td></tr>
+                                    <tr><td>Completed Bookings</td><td><strong>${completedBookings}</strong></td><td>Booking records</td></tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -234,6 +233,8 @@ const ReportsPage = {
             ChartsEngine.destroyChart('categoryChart');
             const ctx = document.getElementById('categoryChart')?.getContext('2d');
             if (ctx && catLabels.length > 0) {
+                const gold = getComputedStyle(document.documentElement).getPropertyValue('--primary-blue').trim() || '#C5A059';
+                const brass = getComputedStyle(document.documentElement).getPropertyValue('--accent-orange').trim() || '#AA7C11';
                 ChartsEngine.instances['categoryChart'] = new Chart(ctx, {
                     type: 'bar',
                     data: {
@@ -241,7 +242,7 @@ const ReportsPage = {
                         datasets: [{
                             label: 'Bookings',
                             data: catData,
-                            backgroundColor: ['#1E3A8A','#2563EB','#F97316','#10B981','#7C3AED','#F59E0B'],
+                            backgroundColor: [gold, brass, '#8E6F3E', '#10B981', '#725B38', '#C5A059'],
                             borderRadius: 8
                         }]
                     },
@@ -250,7 +251,7 @@ const ReportsPage = {
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { grid: { display: false } },
-                            y: { grid: { color: 'rgba(226,232,240,0.6)' }, ticks: { stepSize: 1 } }
+                            y: { grid: { color: getComputedStyle(document.documentElement).getPropertyValue('--border-color').trim() || '#E8DED1' }, ticks: { stepSize: 1 } }
                         }
                     }
                 });
@@ -281,8 +282,8 @@ const ReportsPage = {
                     data: {
                         labels,
                         datasets: [
-                            { label: 'Users', data: usersGrowth, borderColor: '#2563EB', backgroundColor: 'rgba(37,99,235,0.1)', fill: true, tension: 0.4, borderWidth: 2.5 },
-                            { label: 'Labourers', data: labourGrowth, borderColor: '#F97316', backgroundColor: 'rgba(249,115,22,0.1)', fill: true, tension: 0.4, borderWidth: 2.5 },
+                            { label: 'Users', data: usersGrowth, borderColor: getComputedStyle(document.documentElement).getPropertyValue('--primary-blue').trim() || '#C5A059', backgroundColor: 'rgba(197,160,89,0.1)', fill: true, tension: 0.4, borderWidth: 2.5 },
+                            { label: 'Labourers', data: labourGrowth, borderColor: getComputedStyle(document.documentElement).getPropertyValue('--accent-orange').trim() || '#AA7C11', backgroundColor: 'rgba(170,124,17,0.1)', fill: true, tension: 0.4, borderWidth: 2.5 },
                             { label: 'Contractors', data: contractorGrowth, borderColor: '#10B981', backgroundColor: 'rgba(16,185,129,0.1)', fill: true, tension: 0.4, borderWidth: 2.5 }
                         ]
                     },
@@ -291,7 +292,7 @@ const ReportsPage = {
                         plugins: { legend: { position: 'top', labels: { usePointStyle: true } } },
                         scales: {
                             x: { grid: { display: false } },
-                            y: { grid: { color: 'rgba(226,232,240,0.6)' }, ticks: { stepSize: 1 } }
+                            y: { grid: { color: getComputedStyle(document.documentElement).getPropertyValue('--border-color').trim() || '#E8DED1' }, ticks: { stepSize: 1 } }
                         }
                     }
                 });

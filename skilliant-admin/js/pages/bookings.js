@@ -36,9 +36,8 @@ const BookingsPage = {
                 <td>${UI.renderBadge(b.escrowStatus)}</td>
                 <td>
                     <div style="display: flex; gap: 0.5rem;">
-                        <button class="btn btn-outline btn-sm" onclick="BookingsPage.manageModal('${b.id}')">
-                            <i class="fa-solid fa-gear"></i> Manage
-                        </button>
+                        <button class="btn btn-outline btn-sm" onclick="BookingsPage.viewBooking('${b.id}')"><i class="fa-solid fa-eye"></i> View</button>
+                        <button class="btn btn-outline btn-sm" onclick="BookingsPage.manageModal('${b.id}')"><i class="fa-solid fa-pen"></i> Edit</button>
                         <button class="btn btn-outline btn-sm text-danger" onclick="BookingsPage.deleteBooking('${b.id}')">
                             <i class="fa-solid fa-trash"></i> Delete
                         </button>
@@ -183,23 +182,10 @@ const BookingsPage = {
                 };
                 DataService.addItem(DataService.KEYS.PAYMENTS, newPayment);
 
-                // Update Wallet escrow
-                const wallet = DataService.getStorage(DataService.KEYS.WALLET);
-                if (wallet) {
-                    wallet.escrowBalance += parseFloat(amount);
-                    DataService.setStorage(DataService.KEYS.WALLET, wallet);
-                }
+                // Recalculate financial state from the payment record; wallet is derived data.
+                DataService.recalculateFinancialState();
 
                 // Create a platform notification
-                const newNotification = {
-                    id: `NOT-${Date.now().toString().slice(-4)}`,
-                    title: 'New Booking Created',
-                    message: `Booking ${newBooking.id} has been created by ${customer} for ${category} service.`,
-                    category: 'Booking',
-                    time: 'Just now',
-                    unread: true
-                };
-                DataService.addItem(DataService.KEYS.NOTIFICATIONS, newNotification);
 
                 DataService.logActivity(`Created booking ${newBooking.id} for ${customer}`);
                 Toast.show(`Booking ${newBooking.id} created successfully!`, 'success');
@@ -207,6 +193,13 @@ const BookingsPage = {
                 App.refreshCurrentPage();
             }
         });
+    },
+
+    viewBooking(id) {
+        const b=(DataService.getCollection(DataService.KEYS.BOOKINGS)||[]).find(x=>x.id===id);
+        if(!b) return;
+        const payment=(DataService.getCollection(DataService.KEYS.PAYMENTS)||[]).find(p=>p.bookingId===id);
+        ModalManager.open({title:`Booking Details — ${b.id}`,bodyHtml:`<div style="line-height:1.9;"><p><strong>Customer:</strong> ${b.customer}</p><p><strong>Assigned Talent:</strong> ${b.assignedTo}</p><p><strong>Category:</strong> ${b.category}</p><p><strong>Amount:</strong> ${b.amount}</p><p><strong>Scheduled Date:</strong> ${b.date}</p><p><strong>Status:</strong> ${UI.renderBadge(b.status)}</p><p><strong>Escrow:</strong> ${UI.renderBadge(b.escrowStatus)}</p><p><strong>Payment:</strong> ${payment ? UI.renderBadge(payment.status) : 'No payment record'}</p><p><strong>Notes:</strong> ${b.notes||'—'}</p></div>`,submitText:'Close',onSubmit:()=>ModalManager.close()});
     },
 
     manageModal(id) {
@@ -255,36 +248,22 @@ const BookingsPage = {
                 // Sync payments if completed/cancelled
                 const payments = DataService.getCollection(DataService.KEYS.PAYMENTS);
                 const p = payments.find(pay => pay.bookingId === b.id);
-                const wallet = DataService.getStorage(DataService.KEYS.WALLET);
-                const jobVal = parseFloat(b.amount.replace(/[^0-9.]/g, '')) || 0;
-
                 if (newStatus === 'Completed' && b.status !== 'Completed') {
                     b.escrowStatus = 'Released';
-                    if (p) {
-                        p.status = 'Completed';
-                        if (wallet) {
-                            wallet.escrowBalance = Math.max(0, wallet.escrowBalance - jobVal);
-                            wallet.totalProcessed += jobVal;
-                            wallet.platformCommission += p.commissionFee;
-                        }
-                    }
+                    if (p) p.status = 'Completed';
                 } else if (newStatus === 'Cancelled' && b.status !== 'Cancelled') {
                     b.escrowStatus = 'Refunded';
-                    if (p) {
-                        p.status = 'Refunded';
-                        if (wallet) {
-                            wallet.escrowBalance = Math.max(0, wallet.escrowBalance - jobVal);
-                        }
-                    }
+                    if (p) { p.status = 'Refunded'; p.refundStatus = 'Full Refund'; p.refundAmount = p.amount; }
                 } else {
                     b.escrowStatus = newEscrow;
+                    if (p && ['Held','Pending'].includes(newEscrow)) p.status = newEscrow === 'Held' ? 'Held' : 'Pending';
                 }
 
                 b.status = newStatus;
 
                 DataService.setStorage(DataService.KEYS.BOOKINGS, list);
                 if (p) DataService.setStorage(DataService.KEYS.PAYMENTS, payments);
-                if (wallet) DataService.setStorage(DataService.KEYS.WALLET, wallet);
+                DataService.recalculateFinancialState();
 
                 DataService.logActivity(`Updated booking ${b.id} status to ${newStatus}`);
                 Toast.show(`Booking ${b.id} updated successfully!`, 'success');

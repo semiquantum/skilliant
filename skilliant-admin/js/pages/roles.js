@@ -5,17 +5,21 @@
 const RolesPage = {
     render() {
         let roles = DataService.getCollection(DataService.KEYS.ROLES) || [];
+        const admins = DataService.getCollection(DataService.KEYS.ADMINS) || [];
 
-        // Self-heal/seed default roles if empty
+        // Self-heal/seed the three supported administrative roles. Counts are always derived from real admin records.
         if (roles.length === 0) {
             roles = [
-                { id: 'ROLE-001', title: 'Super Admin', usersAssigned: 1, permissions: ['read', 'write', 'delete', 'finance', 'bookings', 'support', 'reviews', 'settings'] },
-                { id: 'ROLE-002', title: 'Admin', usersAssigned: 1, permissions: ['read', 'write', 'bookings', 'support', 'reviews'] },
-                { id: 'ROLE-003', title: 'Finance Admin', usersAssigned: 1, permissions: ['read', 'finance', 'payments', 'wallet', 'reports', 'export'] },
-                { id: 'ROLE-004', title: 'Moderator', usersAssigned: 0, permissions: ['read', 'support', 'reviews'] }
+                { id: 'ROLE-001', title: 'Super Admin', permissions: ['dashboard','users','labour','contractors','categories','skills','bookings','payments','reports','notifications','settings','admins','roles'] },
+                { id: 'ROLE-002', title: 'Admin', permissions: ['dashboard','users','labour','contractors','categories','skills','bookings','notifications'] },
+                { id: 'ROLE-003', title: 'Finance Admin', permissions: ['dashboard','payments','reports'] },
             ];
             DataService.setStorage(DataService.KEYS.ROLES, roles);
         }
+
+        // Recalculate assignment counts from the administrator directory; never show fabricated counts.
+        roles.forEach(r => { r.usersAssigned = admins.filter(a => a.role === r.title).length; });
+        DataService.setStorage(DataService.KEYS.ROLES, roles);
 
         const rolesCardsHtml = roles.map(r => `
             <div class="glass-card animate-slide-up" style="display:flex; flex-direction:column; justify-content:space-between; gap:1.25rem;">
@@ -41,22 +45,14 @@ const RolesPage = {
                         <button class="btn btn-outline btn-sm" onclick="RolesPage.editPermissionsModal('${r.id}')">
                             <i class="fa-solid fa-sliders"></i> Scope
                         </button>
-                        ${r.id !== 'ROLE-001' && r.id !== 'ROLE-002' ? `
-                        <button class="btn btn-outline btn-sm text-danger" onclick="RolesPage.deleteRole('${r.id}')">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                        ` : ''}
+
                     </div>
                 </div>
             </div>
         `).join('');
 
         return `
-            ${UI.renderPageHeader('Role Management & RBAC Matrix', 'Configure administrative roles and granular resource permission scopes.', `
-                <button class="btn btn-primary" onclick="RolesPage.addRoleModal()">
-                    <i class="fa-solid fa-plus"></i> Create New Role
-                </button>
-            `)}
+            ${UI.renderPageHeader('Role Management', 'Super Admin controls administrator roles and access. Admin assignment counts are calculated from the actual administrator records.', '')}
 
             <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:1.25rem;">
                 ${rolesCardsHtml}
@@ -69,7 +65,7 @@ const RolesPage = {
         const role = roles.find(x => x.id === roleId);
         if (!role) return;
 
-        const allPermissions = ['read', 'write', 'delete', 'finance', 'bookings', 'support', 'reviews', 'settings'];
+        const allPermissions = ['dashboard','users','labour','contractors','categories','skills','bookings','payments','reports','notifications','settings','admins','roles'];
 
         ModalManager.open({
             title: `Configure Scope: ${role.title}`,
@@ -109,36 +105,7 @@ const RolesPage = {
     },
 
     addRoleModal() {
-        ModalManager.open({
-            title: 'Define New Admin Role',
-            bodyHtml: `
-                <div>
-                    <label style="font-size:0.85rem; font-weight:600;">Role Title <span class="text-danger">*</span></label>
-                    <input type="text" id="newRoleTitle" class="form-control" style="width:100%; margin-top:4px;" placeholder="e.g. Audit Manager" required>
-                </div>
-            `,
-            submitText: 'Create Role',
-            onSubmit: () => {
-                const title = document.getElementById('newRoleTitle')?.value.trim();
-                if (!title) {
-                    Toast.show('Please specify a role title', 'warning');
-                    return;
-                }
-
-                const newRole = {
-                    id: `ROLE-${Date.now().toString().slice(-3)}`,
-                    title,
-                    usersAssigned: 0,
-                    permissions: ['read', 'support']
-                };
-
-                DataService.addItem(DataService.KEYS.ROLES, newRole);
-                DataService.logActivity(`Created new admin role ${title}`);
-                Toast.show(`Role ${title} created!`, 'success');
-                ModalManager.close();
-                App.refreshCurrentPage();
-            }
-        });
+        Toast.show('Use Admin Management to assign the supported roles: Admin or Finance Admin.', 'info');
     },
 
     deleteRole(id) {

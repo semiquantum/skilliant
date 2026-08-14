@@ -1,147 +1,126 @@
-/**
- * Day 5 Deliverable: Website & Platform Settings
- */
-
 const SettingsPage = {
     render() {
-        const settings = DataService.getStorage(DataService.KEYS.SETTINGS) || {};
-
+        const s = DataService.getSettings();
+        const session = DataService.getSession();
+        const admins = DataService.getCollection(DataService.KEYS.ADMINS) || [];
+        const me = admins.find(a => a.id === session?.adminId) || {};
+        const isSuper = session?.role === 'Super Admin';
+        const safe = v => (v === undefined || v === null || String(v).toLowerCase() === 'undefined') ? '' : String(v);
         return `
-            ${UI.renderPageHeader('Platform Configuration & Website Settings', 'Configure global application parameters, commission rates, and maintenance switches.')}
-
-            <div class="glass-card animate-slide-up" style="max-width:800px;">
-                <h3 style="font-size:1.15rem; font-weight:700; margin-bottom:1.25rem;">General Platform Configuration</h3>
-
-                <div style="display:flex; flex-direction:column; gap:1.25rem;" class="mb-6">
-                    <!-- Brand & Business Info -->
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
-                        <div>
-                            <label style="font-size:0.85rem; font-weight:600;">Platform Brand Title</label>
-                            <input type="text" id="settingSiteName" class="form-control" style="width:100%; margin-top:4px;" value="${settings.siteName || 'Skilliant'}">
-                        </div>
-                        <div>
-                            <label style="font-size:0.85rem; font-weight:600;">Company Name (Legal)</label>
-                            <input type="text" id="settingCompanyName" class="form-control" style="width:100%; margin-top:4px;" value="${settings.companyName || 'Skilliant LLC'}">
-                        </div>
+            ${UI.renderPageHeader('Settings', 'Manage your profile, password and essential platform settings.')}
+            <div class="settings-layout">
+                <div class="glass-card">
+                    <h3 style="margin:0 0 .25rem;color:var(--primary-navy);">My Profile</h3>
+                    <p style="margin:0 0 1rem;color:var(--text-muted);font-size:.84rem;">Update the account currently signed in.</p>
+                    <div style="display:grid;gap:.8rem;">
+                        <div><label>Full Name</label><input id="profileName" class="form-control" value="${UI.escapeHtml ? UI.escapeHtml(me.name||'') : (me.name||'')}"></div>
+                        <div><label>Registered Email</label><input id="profileEmail" type="email" class="form-control" value="${me.email||''}"></div>
+                        <div><label>Mobile Number (exactly 10 digits)</label><input id="profilePhone" type="tel" class="form-control" value="${me.phone||''}" maxlength="10" inputmode="numeric" pattern="\\d{10}" oninput="this.value=this.value.replace(/\\D/g,'').slice(0,10)"></div>
                     </div>
+                    <button class="btn btn-primary" style="margin-top:1rem;" onclick="SettingsPage.saveProfile()"><i class="fa-solid fa-user-check"></i> Save Profile</button>
+                </div>
 
-                    <div>
-                        <label style="font-size:0.85rem; font-weight:600;">Business Address</label>
-                        <input type="text" id="settingAddress" class="form-control" style="width:100%; margin-top:4px;" value="${settings.address || '123 Skilliant Ave, Tech District, CA'}">
+                <div class="glass-card">
+                    <h3 style="margin:0 0 .25rem;color:var(--primary-navy);">Change Password</h3>
+                    <p style="margin:0 0 1rem;color:var(--text-muted);font-size:.84rem;">Use your current password. No demo OTP is shown or generated.</p>
+                    <div style="display:grid;gap:.8rem;">
+                        <div><label>Current Password</label><input id="cpCurrent" type="password" class="form-control" autocomplete="current-password"></div>
+                        <div><label>New Password</label><input id="cpNew" type="password" class="form-control" autocomplete="new-password"></div>
+                        <div><label>Confirm New Password</label><input id="cpConfirm" type="password" class="form-control" autocomplete="new-password"></div>
                     </div>
-                    
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
-                        <div>
-                            <label style="font-size:0.85rem; font-weight:600;">Logo URL</label>
-                            <input type="text" id="settingLogo" class="form-control" style="width:100%; margin-top:4px;" value="${settings.logoUrl || '/assets/logo.png'}">
-                        </div>
-                        <div>
-                            <label style="font-size:0.85rem; font-weight:600;">Official Support Email</label>
-                            <input type="email" id="settingSupportEmail" class="form-control" style="width:100%; margin-top:4px;" value="${settings.supportEmail || 'support@skilliant.com'}">
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <label style="font-size:0.85rem; font-weight:600;">Working Hours</label>
-                        <input type="text" id="settingWorkingHours" class="form-control" style="width:100%; margin-top:4px;" value="${settings.workingHours || 'Mon-Fri 09:00 AM - 05:00 PM'}">
-                    </div>
+                    <button class="btn btn-primary" style="margin-top:1rem;" onclick="SettingsPage.changePassword()"><i class="fa-solid fa-key"></i> Change Password</button>
+                </div>
 
-                    <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 0.5rem 0;">
-
-                    <!-- App Preferences -->
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
-                        <div>
-                            <label style="font-size:0.85rem; font-weight:600;">Default Theme</label>
-                            <select id="settingTheme" class="form-control" style="width:100%; margin-top:4px;">
-                                <option value="Light" ${settings.theme === 'Light' ? 'selected' : ''}>Light</option>
-                                <option value="Dark" ${settings.theme === 'Dark' ? 'selected' : ''}>Dark</option>
-                                <option value="System" ${settings.theme === 'System' ? 'selected' : ''}>System Default</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label style="font-size:0.85rem; font-weight:600;">Platform Language</label>
-                            <select id="settingLanguage" class="form-control" style="width:100%; margin-top:4px;">
-                                <option value="English" ${settings.language === 'English' ? 'selected' : ''}>English (US)</option>
-                                <option value="Spanish" ${settings.language === 'Spanish' ? 'selected' : ''}>Spanish</option>
-                                <option value="French" ${settings.language === 'French' ? 'selected' : ''}>French</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
-                        <div>
-                            <label style="font-size:0.85rem; font-weight:600;">Platform Escrow Commission Rate (%)</label>
-                            <input type="number" id="settingCommission" class="form-control" style="width:100%; margin-top:4px;" value="${settings.commissionPercentage || 10}">
-                        </div>
-                        <div>
-                            <label style="font-size:0.85rem; font-weight:600;">Default Currency Symbol</label>
-                            <input type="text" id="settingCurrency" class="form-control" style="width:100%; margin-top:4px;" value="${settings.defaultCurrency || '$'}">
-                        </div>
-                    </div>
-
-                    <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 0.5rem 0;">
-
-                    <!-- Toggles -->
-                    <div style="background:#F8FAFC; padding:1.25rem; border-radius:12px; border:1px solid var(--border-color);" class="flex items-center justify-between">
-                        <div>
-                            <h4 style="font-size:0.95rem; font-weight:700;">Maintenance Mode</h4>
-                            <p style="font-size:0.8rem; color:var(--text-muted);">Temporarily disable client access for system upgrades.</p>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox" id="settingMaintenance" ${settings.maintenanceMode ? 'checked' : ''}>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-
-                    <div style="background:#F8FAFC; padding:1.25rem; border-radius:12px; border:1px solid var(--border-color);" class="flex items-center justify-between">
-                        <div>
-                            <h4 style="font-size:0.95rem; font-weight:700;">Auto-Approve Skilled Labour Registrations</h4>
-                            <p style="font-size:0.8rem; color:var(--text-muted);">Automatically grant verified badge upon signup without document audit.</p>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox" id="settingAutoApprove" ${settings.autoApproveLabour ? 'checked' : ''}>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-
-                    <div style="background:#F8FAFC; padding:1.25rem; border-radius:12px; border:1px solid var(--border-color);" class="flex items-center justify-between">
-                        <div>
-                            <h4 style="font-size:0.95rem; font-weight:700;">Enable Email Notifications</h4>
-                            <p style="font-size:0.8rem; color:var(--text-muted);">Send platform event updates via email to admins.</p>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox" id="settingEmailNotifs" ${settings.emailNotifs ? 'checked' : ''}>
-                            <span class="slider"></span>
-                        </label>
+                <div class="glass-card settings-wide-card">
+                    <h3 style="margin:0 0 .25rem;color:var(--primary-navy);">Appearance</h3>
+                    <p style="margin:0 0 1rem;color:var(--text-muted);font-size:.84rem;">Choose the portal appearance. The header toggle remains available too.</p>
+                    <div class="settings-option-row">
+                        <button class="btn ${s.darkMode ? 'btn-outline' : 'btn-primary'}" onclick="SettingsPage.setTheme(false)"><i class="fa-solid fa-sun"></i> Light Mode</button>
+                        <button class="btn ${s.darkMode ? 'btn-primary' : 'btn-outline'}" onclick="SettingsPage.setTheme(true)"><i class="fa-solid fa-moon"></i> Dark Mode</button>
                     </div>
                 </div>
 
-                <div style="border-top:1px solid var(--border-color); padding-top:1.25rem;" class="flex justify-end">
-                    <button class="btn btn-primary" onclick="SettingsPage.saveSettings()">Save Platform Settings</button>
-                </div>
+                ${isSuper ? `
+                <div class="glass-card settings-wide-card platform-settings-card">
+                    <h3 style="margin:0 0 .25rem;color:var(--primary-navy);">Platform Settings</h3>
+                    <p style="margin:0 0 1rem;color:var(--text-muted);font-size:.84rem;">Super Admin only.</p>
+                    <div class="platform-settings-fields">
+                        <div><label>Platform Name</label><input id="setSiteName" class="form-control" value="${safe(s.siteName)||'Skilliant'}"></div>
+                        <div><label>Support Email</label><input id="setSupportEmail" type="email" class="form-control" value="${safe(s.supportEmail || session?.adminEmail || me.email)}"></div>
+                        <div><label>Support Phone (exactly 10 digits)</label><input id="setSupportPhone" type="tel" class="form-control" value="${safe(s.supportPhone)}" maxlength="10" inputmode="numeric" pattern="\\d{10}" oninput="this.value=this.value.replace(/\\D/g,'').slice(0,10)"></div>
+                        <div><label>Commission %</label><input id="setCommission" type="number" min="0" max="100" step="0.1" class="form-control" value="${Number.isFinite(Number(s.commissionPercentage)) ? Number(s.commissionPercentage) : 10}"></div>
+                    </div>
+                    <button class="btn btn-primary" style="margin-top:1rem;" onclick="SettingsPage.savePlatform()"><i class="fa-solid fa-save"></i> Save Platform Settings</button>
+                </div>` : ''}
             </div>
+            ${!isSuper ? `<div class="glass-card" style="margin-top:1rem;"><strong>Role: ${session?.role||'Admin'}</strong><p style="margin:.35rem 0 0;color:var(--text-muted);font-size:.84rem;">Only Super Admin can manage administrators, roles and platform-wide settings.</p></div>` : ''}
         `;
     },
+    init() {},
 
-    saveSettings() {
-        const settings = DataService.getStorage(DataService.KEYS.SETTINGS);
-        settings.siteName = document.getElementById('settingSiteName')?.value || settings.siteName;
-        settings.companyName = document.getElementById('settingCompanyName')?.value || settings.companyName;
-        settings.address = document.getElementById('settingAddress')?.value || settings.address;
-        settings.logoUrl = document.getElementById('settingLogo')?.value || settings.logoUrl;
-        settings.workingHours = document.getElementById('settingWorkingHours')?.value || settings.workingHours;
-        settings.theme = document.getElementById('settingTheme')?.value || settings.theme;
-        settings.language = document.getElementById('settingLanguage')?.value || settings.language;
-        
-        settings.commissionPercentage = parseFloat(document.getElementById('settingCommission')?.value || '10');
-        settings.defaultCurrency = document.getElementById('settingCurrency')?.value || settings.defaultCurrency;
-        settings.supportEmail = document.getElementById('settingSupportEmail')?.value || settings.supportEmail;
-        settings.maintenanceMode = document.getElementById('settingMaintenance')?.checked || false;
-        settings.autoApproveLabour = document.getElementById('settingAutoApprove')?.checked || false;
-        settings.emailNotifs = document.getElementById('settingEmailNotifs')?.checked || false;
+    saveProfile() {
+        const session = DataService.getSession();
+        const admins = DataService.getCollection(DataService.KEYS.ADMINS) || [];
+        const me = admins.find(a => a.id === session?.adminId);
+        if (!me) return Toast.show('Active administrator account not found.', 'error');
+        const name = document.getElementById('profileName')?.value.trim();
+        const email = document.getElementById('profileEmail')?.value.trim().toLowerCase();
+        const phone = document.getElementById('profilePhone')?.value.trim();
+        if (!name || !email || !phone) return Toast.show('Name, email and mobile number are required.', 'warning');
+        if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) return Toast.show('Enter a valid email address.', 'warning');
+        if (!DataService.validatePhone(phone)) return Toast.show('Mobile number must contain exactly 10 digits.', 'warning');
+        const duplicate = admins.find(a => a.id !== me.id && a.email.toLowerCase() === email);
+        if (duplicate) return Toast.show('That email is already used by another administrator.', 'warning');
+        me.name = name; me.email = email; me.phone = phone;
+        me.profilePhoto = name.split(/\\s+/).map(x => x[0]).join('').toUpperCase().slice(0,2);
+        DataService.setStorage(DataService.KEYS.ADMINS, admins);
+        session.adminName = name; session.adminEmail = email; session.profilePhoto = me.profilePhoto;
+        DataService.setStorage(DataService.KEYS.SESSION, session);
+        DataService.logActivity(`Updated own profile for ${name}`);
+        App.initHeader(); App.updateSidebarUser();
+        Toast.show('Profile updated successfully.', 'success');
+        App.refreshCurrentPage();
+    },
 
-        DataService.setStorage(DataService.KEYS.SETTINGS, settings);
-        DataService.logActivity(`Saved platform settings: Commission set to ${settings.commissionPercentage}%`);
-        Toast.show('Platform settings saved & applied globally!', 'success');
+    changePassword() {
+        const session = DataService.getSession();
+        const admins = DataService.getCollection(DataService.KEYS.ADMINS) || [];
+        const me = admins.find(a => a.id === session?.adminId);
+        if (!me) return Toast.show('Active administrator account not found.', 'error');
+        const current = document.getElementById('cpCurrent')?.value || '';
+        const next = document.getElementById('cpNew')?.value || '';
+        const confirmNext = document.getElementById('cpConfirm')?.value || '';
+        if (!current || !next || !confirmNext) return Toast.show('Fill all password fields.', 'warning');
+        if (!DataService.checkPassword(current, me.password)) return Toast.show('Current password is incorrect.', 'error');
+        if (next.length < 6) return Toast.show('New password must be at least 6 characters.', 'warning');
+        if (next !== confirmNext) return Toast.show('New passwords do not match.', 'warning');
+        me.password = DataService.hashPassword(next);
+        DataService.setStorage(DataService.KEYS.ADMINS, admins);
+        DataService.logActivity(`Password changed for administrator ${me.email}`);
+        Toast.show('Password changed successfully.', 'success');
+        document.getElementById('cpCurrent').value=''; document.getElementById('cpNew').value=''; document.getElementById('cpConfirm').value='';
+    },
+
+    savePlatform() {
+        const phone = document.getElementById('setSupportPhone')?.value.trim();
+        const supportEmail = document.getElementById('setSupportEmail')?.value.trim().toLowerCase();
+        if (supportEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(supportEmail)) return Toast.show('Enter a valid support email address.', 'warning');
+        if (phone && !DataService.validatePhone(phone)) return Toast.show('Support phone must contain exactly 10 digits.', 'warning');
+        DataService.updateSettings({
+            siteName: document.getElementById('setSiteName')?.value.trim() || 'Skilliant',
+            supportEmail: supportEmail || session?.adminEmail || me.email || '',
+            supportPhone: phone,
+            commissionPercentage: Number(document.getElementById('setCommission')?.value || 0)
+        });
+        DataService.recalculateFinancialState?.();
+        Toast.show('Platform settings saved.', 'success');
+        App.refreshCurrentPage();
+    },
+
+    setTheme(enabled) {
+        DataService.setDarkMode(!!enabled);
+        App._applyDarkMode(!!enabled);
+        Toast.show(`${enabled ? 'Dark' : 'Light'} mode enabled.`, 'success');
+        App.refreshCurrentPage();
     }
 };

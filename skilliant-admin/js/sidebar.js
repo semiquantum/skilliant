@@ -18,12 +18,9 @@ const Sidebar = {
         // Mobile: toggle sidebar via menu button
         if (menuBtn) {
             menuBtn.addEventListener('click', () => {
+                if (window.innerWidth > 1024) return;
                 const isOpen = this.sidebar?.classList.contains('mobile-open');
-                if (isOpen) {
-                    this.close();
-                } else {
-                    this.open();
-                }
+                if (isOpen) this.close(); else this.open();
             });
         }
 

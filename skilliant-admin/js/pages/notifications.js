@@ -1,168 +1,66 @@
-/**
- * Day 5 Deliverable: Broadcast Notifications Module (SaaS-Ready Audit)
- */
-
 const NotificationsPage = {
-    state: {
-        search: '',
-        status: ''
+    state: { search: '', status: '' },
+    safeDate(value) {
+        if (!value) return null;
+        const d = new Date(value);
+        return Number.isNaN(d.getTime()) ? null : d;
     },
-
     render() {
-        const list = DataService.getCollection(DataService.KEYS.NOTIFICATIONS) || [];
-
-        // Apply filters
-        const filteredNotifs = list.filter(n => {
-            const matchesSearch = n.title.toLowerCase().includes(this.state.search.toLowerCase()) ||
-                n.message.toLowerCase().includes(this.state.search.toLowerCase()) ||
-                (n.category || '').toLowerCase().includes(this.state.search.toLowerCase());
-            
-            let matchesStatus = true;
-            if (this.state.status === 'Unread') matchesStatus = n.unread;
-            else if (this.state.status === 'Read') matchesStatus = !n.unread;
-            
-            return matchesSearch && matchesStatus;
+        const ns = DataService.getCollection(DataService.KEYS.NOTIFICATIONS) || [];
+        const logs = DataService.getStorage(DataService.KEYS.ACTIVITY_LOGS) || [];
+        const merged = [
+            ...ns.map(n => ({...n, source:'Notification'})),
+            ...logs.map(l => ({
+                id: l.id,
+                title: l.action || 'Activity',
+                message: `Performed by ${l.admin || 'System'}`,
+                category: 'Activity',
+                timestamp: l.timestamp,
+                unread: false,
+                source: 'Activity',
+                entityType: l.entityType || '',
+                entityId: l.entityId || ''
+            }))
+        ].filter((x,i,a) => a.findIndex(y => y.id === x.id) === i)
+         .sort((a,b) => (this.safeDate(b.timestamp)?.getTime()||0) - (this.safeDate(a.timestamp)?.getTime()||0));
+        const q = this.state.search.toLowerCase();
+        const filtered = merged.filter(n => {
+            const text = `${n.id} ${n.title} ${n.message} ${n.category}`.toLowerCase();
+            return (!q || text.includes(q)) && (!this.state.status || (this.state.status==='Unread' ? n.unread : n.source===this.state.status));
         });
-
-        // Paginate
-        const paginatedNotifs = Pagination.getPageItems('notifications', filteredNotifs, 10);
-
-        const rowsHtml = paginatedNotifs.length > 0 ? paginatedNotifs.map(n => `
-            <tr>
-                <td><strong>${n.id}</strong></td>
-                <td><strong>${n.title}</strong></td>
-                <td style="max-width:300px; font-size:0.85rem; line-height:1.4;">${n.message}</td>
-                <td><span class="badge badge-info">${n.category}</span></td>
-                <td>${n.time}</td>
-                <td>${n.unread ? UI.renderBadge('Unread', 'warning') : UI.renderBadge('Read', 'secondary')}</td>
-                <td>
-                    <div style="display: flex; gap: 0.5rem;">
-                        <button class="btn btn-outline btn-sm" onclick="NotificationsPage.toggleRead('${n.id}')">
-                            <i class="fa-solid ${n.unread ? 'fa-envelope-open' : 'fa-envelope'}"></i> ${n.unread ? 'Read' : 'Unread'}
-                        </button>
-                        <button class="btn btn-outline btn-sm text-danger" onclick="NotificationsPage.deleteNotif('${n.id}')">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-        `).join('') : `<tr><td colspan="7" class="text-center text-muted" style="padding: 3rem 1rem;">
-            <div style="font-size: 2.5rem; margin-bottom: 0.75rem; opacity: 0.15;"><i class="fa-solid fa-folder-open"></i></div>
-            No notifications found matching current search/filter.
-        </td></tr>`;
-
-        const paginationHtml = Pagination.renderControls('notifications', filteredNotifs.length, 10);
-
-        return `
-            ${UI.renderPageHeader('Platform Notifications & Broadcasts', 'Send push alerts to users and review system notifications.', `
-                <button class="btn btn-primary" onclick="NotificationsPage.broadcastModal()">
-                    <i class="fa-solid fa-bullhorn"></i> Send Push Broadcast
-                </button>
-            `)}
-            ${UI.renderControlsBar('notifSearchInput', 'Search notifications...', [
-                { id: 'notifStatusFilter', label: 'Filter Status', options: ['Unread', 'Read'] }
-            ], '', null)}
-            ${UI.renderTable(['Notification ID', 'Title / Alert', 'Message Body', 'Category', 'Time Sent', 'Status', 'Actions'], rowsHtml, paginationHtml)}
-        `;
+        const rows = filtered.length ? filtered.slice(0,100).map(n => {
+            const d = this.safeDate(n.timestamp);
+            const time = d ? d.toLocaleString() : 'Time unavailable';
+            const action = n.source === 'Notification'
+                ? `<button class="btn btn-outline btn-sm" onclick="NotificationsPage.markRead('${n.id}')">${n.unread ? 'Mark read' : 'View'}</button>`
+                : `<button class="btn btn-outline btn-sm" onclick="NotificationsPage.viewActivity('${n.id}')">View</button>`;
+            return `<tr><td><strong>${n.id}</strong></td><td><strong>${n.title}</strong><div style="font-size:.78rem;color:var(--text-muted);">${n.message}</div></td><td>${n.category}</td><td>${time}</td><td>${n.unread ? '<span class="badge badge-warning">UNREAD</span>' : '<span class="badge badge-secondary">READ</span>'}</td><td>${action}</td></tr>`;
+        }).join('') : `<tr><td colspan="6" class="text-center text-muted" style="padding:3rem"><i class="fa-solid fa-bell-slash" style="font-size:2rem;opacity:.25;display:block;margin-bottom:.7rem"></i>No activity or notifications found.</td></tr>`;
+        return `${UI.renderPageHeader('Activity & Notifications','All important platform actions appear here automatically.',`<button class="btn btn-primary" onclick="NotificationsPage.markAllRead()"><i class="fa-solid fa-check-double"></i> Mark all read</button>`)}
+            ${UI.renderControlsBar('activitySearch','Search activity or notifications...', [{id:'activityStatusFilter',label:'Filter',options:['Unread','Notification','Activity']}], '', null)}
+            <div class="glass-card" style="padding:0;overflow:hidden;">${UI.renderTable(['ID','Activity / Notification','Category','Time','Status','Action'],rows,'')}</div>`;
     },
-
     init() {
-        const searchEl = document.getElementById('notifSearchInput');
-        const filterEl = document.getElementById('notifStatusFilter');
-
-        if (searchEl) {
-            searchEl.value = this.state.search;
-            searchEl.addEventListener('input', (e) => {
-                this.state.search = e.target.value;
-                Pagination.getState('notifications', 0, 10).page = 1;
-                App.refreshCurrentPage();
-            });
-        }
-
-        if (filterEl) {
-            filterEl.value = this.state.status;
-            filterEl.addEventListener('change', (e) => {
-                this.state.status = e.target.value;
-                Pagination.getState('notifications', 0, 10).page = 1;
-                App.refreshCurrentPage();
-            });
-        }
+        const e = document.getElementById('activitySearch');
+        const f = document.getElementById('activityStatusFilter');
+        if (e) { e.value=this.state.search; e.addEventListener('input',x=>{this.state.search=x.target.value;App.refreshCurrentPage()}); }
+        if (f) { f.value=this.state.status; f.addEventListener('change',x=>{this.state.status=x.target.value;App.refreshCurrentPage()}); }
     },
-
-    toggleRead(id) {
-        const notifications = DataService.getCollection(DataService.KEYS.NOTIFICATIONS);
-        const n = notifications.find(x => x.id === id);
-        if (n) {
-            n.unread = !n.unread;
-            DataService.setStorage(DataService.KEYS.NOTIFICATIONS, notifications);
-            Toast.show(`Notification marked as ${n.unread ? 'unread' : 'read'}.`, 'success');
-            App.refreshCurrentPage();
-        }
-    },
-
-    deleteNotif(id) {
-        const notifications = DataService.getCollection(DataService.KEYS.NOTIFICATIONS);
-        const n = notifications.find(x => x.id === id);
+    markRead(id) {
+        const ns = DataService.getCollection(DataService.KEYS.NOTIFICATIONS) || [];
+        const n = ns.find(x=>x.id===id);
         if (!n) return;
-
-        if (confirm(`Are you sure you want to permanently delete this notification?`)) {
-            DataService.deleteItem(DataService.KEYS.NOTIFICATIONS, 'id', id);
-            DataService.logActivity(`Deleted notification alert: ${n.title}`);
-            Toast.show(`Notification deleted.`, 'info');
-            App.refreshCurrentPage();
-        }
+        n.unread=false; DataService.setStorage(DataService.KEYS.NOTIFICATIONS,ns);
+        App.updateNotificationBadge(); Toast.show('Notification marked as read.','success'); App.refreshCurrentPage();
     },
-
-    broadcastModal() {
-        ModalManager.open({
-            title: 'Broadcast Announcement Push Alert',
-            bodyHtml: `
-                <div style="display:flex; flex-direction:column; gap:1rem;">
-                    <div>
-                        <label style="font-size:0.85rem; font-weight:600;">Target Audience</label>
-                        <select id="notifTarget" class="form-control" style="width:100%; margin-top:4px;">
-                            <option value="All Users">All Registered Users & Talent</option>
-                            <option value="Labour Only">Skilled Labourers Only</option>
-                            <option value="Contractors Only">Contracting Companies Only</option>
-                            <option value="Customers Only">Customers Only</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label style="font-size:0.85rem; font-weight:600;">Notification Title <span class="text-danger">*</span></label>
-                        <input type="text" id="notifTitle" class="form-control" style="width:100%; margin-top:4px;" placeholder="e.g. New Platform Escrow Feature Released!" required>
-                    </div>
-                    <div>
-                        <label style="font-size:0.85rem; font-weight:600;">Notification Message Body <span class="text-danger">*</span></label>
-                        <textarea id="notifBody" class="form-control" style="width:100%; margin-top:4px; height:90px;" placeholder="Write your broadcast announcement..." required></textarea>
-                    </div>
-                </div>
-            `,
-            submitText: 'Send Broadcast Now',
-            onSubmit: () => {
-                const target = document.getElementById('notifTarget')?.value;
-                const title = document.getElementById('notifTitle')?.value.trim();
-                const message = document.getElementById('notifBody')?.value.trim();
-
-                if (!title || !message) {
-                    Toast.show('Please fill in all required fields.', 'warning');
-                    return;
-                }
-
-                const newNotif = {
-                    id: `NOT-${Date.now().toString().slice(-3)}`,
-                    title,
-                    message: `[To ${target}] ${message}`,
-                    category: 'Broadcast',
-                    time: 'Just now',
-                    unread: true
-                };
-
-                DataService.addItem(DataService.KEYS.NOTIFICATIONS, newNotif);
-                DataService.logActivity(`Sent push notification broadcast '${title}' to ${target}`);
-                Toast.show(`Push notification successfully dispatched to ${target}!`, 'success');
-                ModalManager.close();
-                App.refreshCurrentPage();
-            }
-        });
+    markAllRead() {
+        const ns = DataService.getCollection(DataService.KEYS.NOTIFICATIONS) || [];
+        ns.forEach(n=>n.unread=false); DataService.setStorage(DataService.KEYS.NOTIFICATIONS,ns);
+        App.updateNotificationBadge(); Toast.show('All notifications marked as read.','success'); App.refreshCurrentPage();
+    },
+    viewActivity(id) {
+        const logs = DataService.getStorage(DataService.KEYS.ACTIVITY_LOGS) || [];
+        const l = logs.find(x=>x.id===id); if(!l) return;
+        ModalManager.open({title:'Activity Details',bodyHtml:`<div style="display:grid;gap:.6rem;font-size:.9rem"><div><strong>Action:</strong> ${l.action}</div><div><strong>Administrator:</strong> ${l.admin||'System'}</div><div><strong>Time:</strong> ${l.timestamp||'Unavailable'}</div><div><strong>Source:</strong> Admin Portal</div></div>`,submitText:'Close',onSubmit:()=>ModalManager.close()});
     }
 };

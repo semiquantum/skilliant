@@ -6,6 +6,7 @@
 
 const DashboardPage = {
     render() {
+        DataService.recalculateFinancialState?.();
         const kpis = DataService.getDashboardMetrics();
         const bookings = DataService.getCollection(DataService.KEYS.BOOKINGS);
         const activityLogs = DataService.getCollection(DataService.KEYS.ACTIVITY_LOGS);
@@ -84,7 +85,7 @@ const DashboardPage = {
                             <h3 class="section-title" style="margin-bottom:2px;">Activity Feed</h3>
                             <p style="font-size:0.8rem;color:var(--text-muted);">Latest administrative actions</p>
                         </div>
-                        <a href="#activity-logs" class="btn btn-outline btn-sm">View All</a>
+                        <a href="#notifications" class="btn btn-outline btn-sm">View All</a>
                     </div>
                     <div class="timeline">
                         ${activityFeedHtml}
@@ -137,8 +138,8 @@ const DashboardPage = {
                         <a href="#reports" class="btn btn-outline" style="flex-direction:column;padding:1.25rem 1rem;gap:0.5rem;border-radius:12px;text-align:center;">
                             <i class="fa-solid fa-chart-line" style="font-size:1.3rem;color:var(--primary-blue);"></i><span style="color:var(--primary-navy);">Analytics</span>
                         </a>
-                        <a href="#support-tickets" class="btn btn-outline" style="flex-direction:column;padding:1.25rem 1rem;gap:0.5rem;border-radius:12px;text-align:center;">
-                            <i class="fa-solid fa-headset" style="font-size:1.3rem;color:var(--primary-blue);"></i><span style="color:var(--primary-navy);">Support</span>
+                        <a href="#notifications" class="btn btn-outline" style="flex-direction:column;padding:1.25rem 1rem;gap:0.5rem;border-radius:12px;text-align:center;">
+                            <i class="fa-solid fa-bell" style="font-size:1.3rem;color:var(--primary-blue);"></i><span style="color:var(--primary-navy);">Activity</span>
                         </a>
                     </div>
                 </div>
@@ -162,10 +163,9 @@ const DashboardPage = {
                     <h3 class="section-title mb-4">Platform Summary</h3>
                     <div style="display:flex;flex-direction:column;gap:0.6rem;">
                         ${DashboardPage._infoRow('Registered Users', kpis.totalUsers, 'var(--primary-navy)')}
-                        ${DashboardPage._infoRow('Open Support Tickets', kpis.openTicketsCount, kpis.openTicketsCount > 0 ? 'var(--accent-orange)' : 'var(--success)')}
+                        ${DashboardPage._infoRow('Unread Notifications', DataService.getCollection(DataService.KEYS.NOTIFICATIONS).filter(n=>n.unread).length, 'var(--accent-orange)')}
                         ${DashboardPage._infoRow('Escrow Vault Balance', kpis.walletEscrowBalance, 'var(--primary-blue)')}
                         ${DashboardPage._infoRow('Platform Commission Earned', kpis.totalCommission, 'var(--success)')}
-                        ${DashboardPage._infoRow('Total Reviews', kpis.totalReviewsCount, 'var(--accent-gold)')}
                     </div>
                 </div>
             </div>

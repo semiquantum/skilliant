@@ -1,46 +1,46 @@
 :root {
     /* ── Brand Primary Colors ── */
-    --primary-navy:         #1E3A8A;
-    --primary-navy-deep:    #172554;
-    --primary-blue:         #2563EB;
-    --primary-blue-hover:   #1D4ED8;
-    --primary-blue-light:   #EFF6FF;
-    --primary-blue-muted:   #DBEAFE;
+    --primary-navy:         #8E6F3E;
+    --primary-navy-deep:    #2B231D;
+    --primary-blue:         #C5A059;
+    --primary-blue-hover:   #AA7C11;
+    --primary-blue-light:   #F5EBDD;
+    --primary-blue-muted:   #EFE2C8;
 
     /* ── Gold / Amber Accent ── */
-    --accent-gold:          #D97706;
-    --accent-gold-bright:   #F59E0B;
-    --accent-gold-light:    #FFFBEB;
+    --accent-gold:          #C5A059;
+    --accent-gold-bright:   #DBC193;
+    --accent-gold-light:    #F7F0E5;
     --accent-gold-glow:     rgba(217, 119, 6, 0.25);
 
     /* ── Orange Accent ── */
-    --accent-orange:        #F97316;
-    --accent-orange-bright: #FF6B00;
-    --accent-orange-hover:  #EA580C;
-    --accent-orange-light:  #FFF7ED;
+    --accent-orange:        #AA7C11;
+    --accent-orange-bright: #C5A059;
+    --accent-orange-hover:  #8E6F3E;
+    --accent-orange-light:  #F7F0E5;
 
     /* ── Purple Accent ── */
-    --primary-purple:       #7C3AED;
-    --primary-purple-light: #EDE9FE;
+    --primary-purple:       #8E6F3E;
+    --primary-purple-light: #F0E6D3;
 
     /* ── Neutral & Background Colors ── */
-    --bg-main:              #F1F5F9;
-    --bg-body:              #F8FAFC;
-    --bg-card:              rgba(255, 255, 255, 0.88);
-    --bg-card-hover:        rgba(255, 255, 255, 0.97);
-    --bg-sidebar:           #0F172A;
-    --bg-header:            rgba(255, 255, 255, 0.90);
+    --bg-main:              #F3EEE7;
+    --bg-body:              #FDFBF7;
+    --bg-card:              rgba(255, 255, 255, 0.94);
+    --bg-card-hover:        rgba(255, 255, 255, 0.99);
+    --bg-sidebar:           #2B231D;
+    --bg-header:            rgba(255, 255, 255, 0.96);
 
     /* ── Glassmorphism Effects ── */
-    --glass-bg:             rgba(255, 255, 255, 0.85);
-    --glass-border:         rgba(255, 255, 255, 0.6);
+    --glass-bg:             rgba(255, 255, 255, 0.90);
+    --glass-border:         rgba(197, 160, 89, 0.22);
     --glass-blur:           blur(20px);
-    --glass-shadow:         0 10px 40px -10px rgba(31, 38, 135, 0.12);
+    --glass-shadow:         0 10px 40px -10px rgba(91, 67, 35, 0.14);
 
     /* ── Text Colors ── */
-    --text-main:            #0F172A;
-    --text-muted:           #64748B;
-    --text-light:           #94A3B8;
+    --text-main:            #2B231D;
+    --text-muted:           #6F6255;
+    --text-light:           #9A8D80;
     --text-white:           #FFFFFF;
 
     /* ── Status Colors ── */
@@ -57,7 +57,7 @@
     --info-bg:              #EFF6FF;
 
     /* ── Borders & Shadows ── */
-    --border-color:         #E2E8F0;
+    --border-color:         #E8DED1;
     --border-radius-sm:     10px;
     --border-radius-md:     14px;
     --border-radius-lg:     20px;
@@ -66,8 +66,8 @@
     --shadow-md:            0 4px 16px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.05);
     --shadow-lg:            0 10px 28px -5px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
     --shadow-xl:            0 20px 50px -10px rgba(0, 0, 0, 0.18);
-    --shadow-blue-glow:     0 6px 20px rgba(37, 99, 235, 0.30);
-    --shadow-gold-glow:     0 6px 20px rgba(217, 119, 6, 0.28);
+    --shadow-blue-glow:     0 6px 20px rgba(197, 160, 89, 0.28);
+    --shadow-gold-glow:     0 6px 20px rgba(197, 160, 89, 0.28);
 
     /* ── Typography ── */
     --font-family:          'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
@@ -84,23 +84,23 @@
 
 /* ── Dark Mode Overrides ── */
 [data-theme="dark"] {
-    --bg-main:              #0B0F19;
-    --bg-body:              #080C14;
-    --bg-card:              rgba(22, 30, 50, 0.85);
-    --bg-card-hover:        rgba(30, 41, 68, 0.92);
-    --bg-sidebar:           #060910;
-    --bg-header:            rgba(11, 15, 25, 0.90);
-    --glass-bg:             rgba(15, 23, 42, 0.80);
-    --glass-border:         rgba(255, 255, 255, 0.08);
-    --glass-shadow:         0 8px 32px 0 rgba(0, 0, 0, 0.40);
-    --text-main:            #F1F5F9;
-    --text-muted:           #94A3B8;
-    --text-light:           #64748B;
-    --border-color:         #1E293B;
-    --primary-blue-light:   rgba(37, 99, 235, 0.12);
-    --primary-blue-muted:   rgba(37, 99, 235, 0.18);
-    --accent-gold-light:    rgba(217, 119, 6, 0.10);
-    --primary-purple-light: rgba(124, 58, 237, 0.12);
+    --bg-main:              #211B17;
+    --bg-body:              #1B1613;
+    --bg-card:              rgba(42, 34, 29, 0.92);
+    --bg-card-hover:        rgba(55, 44, 36, 0.96);
+    --bg-sidebar:           #15110F;
+    --bg-header:            rgba(27, 22, 19, 0.94);
+    --glass-bg:             rgba(39, 31, 26, 0.88);
+    --glass-border:         rgba(219, 193, 147, 0.14);
+    --glass-shadow:         0 8px 32px 0 rgba(0, 0, 0, 0.42);
+    --text-main:            #EFEAE4;
+    --text-muted:           #C0B5AA;
+    --text-light:           #95877A;
+    --border-color:         #3A2F28;
+    --primary-blue-light:   rgba(197, 160, 89, 0.12);
+    --primary-blue-muted:   rgba(197, 160, 89, 0.18);
+    --accent-gold-light:    rgba(219, 193, 147, 0.12);
+    --primary-purple-light: rgba(197, 160, 89, 0.12);
     --success-bg:           rgba(16, 185, 129, 0.10);
     --warning-bg:           rgba(245, 158, 11, 0.10);
     --danger-bg:            rgba(239, 68, 68, 0.10);

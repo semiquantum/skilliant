@@ -1,60 +1,11 @@
-/**
- * Day 4 Deliverable: Booking Analytics & Category Demand
- */
-
+/** Data-driven Booking Analytics — existing layout style preserved. */
 const BookingAnalyticsPage = {
-    render() {
-        return `
-            ${UI.renderPageHeader('Booking Analytics & Category Demand', 'Analyze trade skill demand patterns, peak hours, and fulfillment statistics.')}
-
-            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap:1.5rem;" class="mb-6">
-                <div class="glass-card animate-slide-up">
-                    <h3 style="font-size:1.15rem; font-weight:700; margin-bottom:0.5rem;">Bookings Volume by Trade Category</h3>
-                    <p style="font-size:0.85rem; color:var(--text-muted);" class="mb-4">Most requested categories on Skilliant in the last 30 days.</p>
-                    <div class="chart-container">
-                        <canvas id="categoryBookingsChart"></canvas>
-                    </div>
-                </div>
-
-                <div class="glass-card animate-slide-up">
-                    <h3 style="font-size:1.15rem; font-weight:700; margin-bottom:0.5rem;">Fulfillment Efficiency Matrix</h3>
-                    <div style="display:flex; flex-direction:column; gap:1.25rem; margin-top:1.5rem;">
-                        <div>
-                            <div class="flex justify-between font-bold" style="font-size:0.88rem; margin-bottom:4px;">
-                                <span>Electrical & Wiring</span>
-                                <span class="text-primary">99.2% Fulfilled</span>
-                            </div>
-                            <div style="width:100%; height:8px; background:#E2E8F0; border-radius:4px; overflow:hidden;">
-                                <div style="width:99.2%; height:100%; background:var(--primary-blue);"></div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="flex justify-between font-bold" style="font-size:0.88rem; margin-bottom:4px;">
-                                <span>Masonry & Foundation</span>
-                                <span class="text-orange">94.8% Fulfilled</span>
-                            </div>
-                            <div style="width:100%; height:8px; background:#E2E8F0; border-radius:4px; overflow:hidden;">
-                                <div style="width:94.8%; height:100%; background:var(--accent-orange);"></div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div class="flex justify-between font-bold" style="font-size:0.88rem; margin-bottom:4px;">
-                                <span>Plumbing & Fitting</span>
-                                <span style="color:var(--success);">97.5% Fulfilled</span>
-                            </div>
-                            <div style="width:100%; height:8px; background:#E2E8F0; border-radius:4px; overflow:hidden;">
-                                <div style="width:97.5%; height:100%; background:var(--success);"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-    },
-
-    init() {
-        ChartsEngine.renderCategoryBookingsChart('categoryBookingsChart');
-    }
+    render(){const a=DataService.getBookingAnalytics();const pct=n=>`${n.toFixed(1)}%`;return `${UI.renderPageHeader('Booking Analytics & Category Demand','Analyze booking volume, fulfillment, status, and category demand.')}${UI.renderKpiCards([
+{title:'Total Bookings',value:a.count,subtext:'All booking records',icon:'fa-solid fa-calendar-check',colorClass:'kpi-icon-blue'},
+{title:'Completed',value:a.completed,subtext:pct(a.completionRate)+' completion rate',icon:'fa-solid fa-circle-check',colorClass:'kpi-icon-green'},
+{title:'Pending / Confirmed',value:a.pending+a.confirmed,subtext:`${a.pending} pending • ${a.confirmed} confirmed`,icon:'fa-solid fa-clock',colorClass:'kpi-icon-gold'},
+{title:'Cancelled',value:a.cancelled,subtext:pct(a.cancellationRate)+' cancellation rate',trendUp:false,icon:'fa-solid fa-ban',colorClass:'kpi-icon-red'},
+{title:'Average Booking Value',value:`$${a.averageValue.toFixed(2)}`,subtext:'Across all bookings',icon:'fa-solid fa-dollar-sign',colorClass:'kpi-icon-orange'}
+])}<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:1.5rem;" class="mb-6"><div class="glass-card animate-slide-up"><h3 style="font-size:1.15rem;font-weight:700;margin-bottom:.5rem;">Bookings by Trade Category</h3><div class="chart-container"><canvas id="categoryBookingsChart"></canvas></div><div style="margin-top:1rem;"><strong style="font-size:.9rem;">Booking Trend</strong><div class="chart-container" style="height:220px;margin-top:.5rem;"><canvas id="bookingTrendChart"></canvas></div></div></div><div class="glass-card animate-slide-up"><h3 style="font-size:1.15rem;font-weight:700;margin-bottom:1rem;">Booking Status</h3>${[['Completed',a.completed],['Pending',a.pending],['Confirmed',a.confirmed],['In Progress',a.inProgress],['Cancelled',a.cancelled]].map(x=>`<div class="info-row"><span class="info-row-label">${x[0]}</span><strong class="info-row-value">${x[1]}</strong></div>`).join('')}</div></div>`;},
+    init(){const a=DataService.getBookingAnalytics();ChartsEngine.renderCategoryBookingsChart('categoryBookingsChart',Object.keys(a.categories),Object.values(a.categories)); const bookings=DataService.getCollection(DataService.KEYS.BOOKINGS)||[]; const labels=[],data=[]; const now=new Date(); for(let i=5;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth()-i,1);const next=new Date(d.getFullYear(),d.getMonth()+1,1);labels.push(d.toLocaleDateString('en-US',{month:'short',year:'2-digit'}));data.push(bookings.filter(b=>b.date&&new Date(b.date)>=d&&new Date(b.date)<next).length);} ChartsEngine.destroyChart('bookingTrendChart'); const ctx=document.getElementById('bookingTrendChart')?.getContext('2d'); if(ctx) { const gold=getComputedStyle(document.documentElement).getPropertyValue('--accent-orange').trim() || '#AA7C11'; ChartsEngine.instances.bookingTrendChart=new Chart(ctx,{type:'line',data:{labels,datasets:[{label:'Bookings',data,borderColor:gold,backgroundColor:'rgba(170,124,17,.12)',fill:true,tension:.35,borderWidth:2.5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{beginAtZero:true,ticks:{stepSize:1}}}}}); }}
 };

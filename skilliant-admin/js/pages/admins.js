@@ -58,8 +58,12 @@ const AdminsPage = {
 
         const paginationHtml = Pagination.renderControls('admins', filteredAdmins.length, 10);
 
+        const superCount = admins.filter(a => a.role === 'Super Admin').length;
+        const adminCount = admins.filter(a => a.role === 'Admin').length;
+        const financeCount = admins.filter(a => a.role === 'Finance Admin').length;
+
         return `
-            ${UI.renderPageHeader('Administrator Management', 'Manage platform administrators and their access roles.', `
+            ${UI.renderPageHeader('Administrator Management', `Manage platform administrators and their access roles. Current: ${superCount} Super Admin, ${adminCount} Admin, ${financeCount} Finance Admin.`, `
                 <button class="btn btn-primary" onclick="AdminsPage.addAdminModal()">
                     <i class="fa-solid fa-user-plus"></i> Add Admin
                 </button>
@@ -95,6 +99,7 @@ const AdminsPage = {
     },
 
     addAdminModal() {
+        if (DataService.getSession()?.role !== 'Super Admin') return Toast.show('Only Super Admin can add administrators.', 'warning');
         ModalManager.open({
             title: 'Add New Administrator',
             bodyHtml: `
@@ -111,7 +116,7 @@ const AdminsPage = {
                         <label style="font-size:0.85rem; font-weight:600;">Role <span class="text-danger">*</span></label>
                         <select id="newAdminRole" class="form-control" style="width:100%; margin-top:4px;" required>
                             <option value="Admin">Admin</option>
-                            <option value="Moderator">Moderator</option>
+                            <option value="Finance Admin">Finance Admin</option>
                             <option value="Super Admin">Super Admin</option>
                         </select>
                     </div>
@@ -161,6 +166,7 @@ const AdminsPage = {
     },
 
     editAdminModal(id) {
+        if (DataService.getSession()?.role !== 'Super Admin') return Toast.show('Only Super Admin can manage administrators.', 'warning');
         const admins = DataService.getCollection(DataService.KEYS.ADMINS);
         const a = admins.find(x => x.id === id);
         if (!a) return;
@@ -179,7 +185,7 @@ const AdminsPage = {
                         <label style="font-size:0.85rem; font-weight:600;">Role</label>
                         <select id="editAdminRole" class="form-control" style="width:100%; margin-top:4px;" ${a.id === 'ADM-001' ? 'disabled' : ''}>
                             <option value="Admin" ${a.role === 'Admin' ? 'selected' : ''}>Admin</option>
-                            <option value="Moderator" ${a.role === 'Moderator' ? 'selected' : ''}>Moderator</option>
+                            <option value="Finance Admin" ${a.role === 'Finance Admin' ? 'selected' : ''}>Finance Admin</option>
                             <option value="Super Admin" ${a.role === 'Super Admin' ? 'selected' : ''}>Super Admin</option>
                         </select>
                     </div>
@@ -221,12 +227,15 @@ const AdminsPage = {
                 DataService.logActivity(`Updated administrator details for ${a.name}`);
                 Toast.show(`Admin ${a.name} updated!`, 'success');
                 ModalManager.close();
+                App.applyRoleVisibility();
+                App.updateSidebarUser();
                 App.refreshCurrentPage();
             }
         });
     },
 
     resetPasswordModal(id) {
+        if (DataService.getSession()?.role !== 'Super Admin') return Toast.show('Only Super Admin can reset another administrator password.', 'warning');
         const admins = DataService.getCollection(DataService.KEYS.ADMINS);
         const a = admins.find(x => x.id === id);
         if (!a) return;
@@ -262,6 +271,7 @@ const AdminsPage = {
     },
 
     deleteAdmin(id) {
+        if (DataService.getSession()?.role !== 'Super Admin') return Toast.show('Only Super Admin can delete administrators.', 'warning');
         const admins = DataService.getCollection(DataService.KEYS.ADMINS);
         const a = admins.find(x => x.id === id);
         if (!a) return;

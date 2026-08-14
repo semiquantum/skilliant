@@ -208,7 +208,7 @@ const LabourPage = {
                     </div>
                     <div>
                         <label style="font-size:0.85rem; font-weight:600;">Phone Number <span class="text-danger">*</span></label>
-                        <input type="text" id="newLabourPhone" class="form-control" style="width:100%; margin-top:4px;" placeholder="+1 555-2001" required>
+                        <input type="tel" id="newLabourPhone" class="form-control" style="width:100%; margin-top:4px;" placeholder="9876543220" required inputmode="numeric" maxlength="10" pattern="\d{10}" oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)" required>
                     </div>
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
                         <div>
@@ -240,6 +240,7 @@ const LabourPage = {
                     Toast.show('Please fill in all required fields.', 'warning');
                     return;
                 }
+                if (!DataService.validatePhone(phone)) { Toast.show('Phone number must contain exactly 10 digits.', 'warning'); return; }
 
                 const newLabour = {
                     id: `LAB-${Date.now().toString().slice(-4)}`,
@@ -287,7 +288,7 @@ const LabourPage = {
                     </div>
                     <div>
                         <label style="font-size:0.85rem; font-weight:600;">Phone Number <span class="text-danger">*</span></label>
-                        <input type="text" id="editLabourPhone" class="form-control" style="width:100%; margin-top:4px;" value="${l.phone}" required>
+                        <input type="tel" id="editLabourPhone" class="form-control" style="width:100%; margin-top:4px;" value="${l.phone}" required inputmode="numeric" maxlength="10" pattern="\d{10}" oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)" required>
                     </div>
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
                         <div>
@@ -339,6 +340,7 @@ const LabourPage = {
                     Toast.show('Please fill in all required fields.', 'warning');
                     return;
                 }
+                if (!DataService.validatePhone(phone)) { Toast.show('Phone number must contain exactly 10 digits.', 'warning'); return; }
 
                 l.name = name;
                 l.email = email;

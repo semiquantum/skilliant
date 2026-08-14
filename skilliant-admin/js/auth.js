@@ -131,100 +131,38 @@ const Auth = {
     },
 
     _showForgotModal() {
-        if (window.ModalManager) {
-            ModalManager.open({
-                title: 'Reset Your Password',
-                bodyHtml: `
-                    <div style="display:flex;flex-direction:column;gap:1rem;">
-                        <p style="font-size:0.9rem;color:var(--text-muted);line-height:1.6;">
-                            Enter your administrator email address to verify your account and initiate the reset process.
-                        </p>
-                        <div>
-                            <label style="font-size:0.85rem;font-weight:600;">Email Address</label>
-                            <input type="email" id="forgotEmail" class="form-control" style="width:100%;margin-top:4px;" placeholder="e.g. meetmhatre2006@gmail.com">
-                        </div>
-                    </div>
-                `,
-                submitText: 'Verify Account',
-                onSubmit: () => {
-                    const email = document.getElementById('forgotEmail')?.value?.trim();
-                    if (!email) { Toast.show('Please enter your email address.', 'warning'); return; }
-                    const admins = DataService.getCollection(DataService.KEYS.ADMINS);
-                    const found = admins.find(a => a.email.toLowerCase() === email.toLowerCase());
-                    if (!found) {
-                        Toast.show('No account found with that email.', 'error');
-                        return;
-                    }
-
-                    const token = 'SKILLIANT-DEMO-RESET-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-                    DataService.logActivity(`Password reset request verified for ${email}`);
-
-                    const modalTitle = document.getElementById('modalTitle');
-                    const modalBody = document.getElementById('modalBody');
-                    const modalSubmitBtn = document.getElementById('modalSubmitBtn');
-
-                    if (modalTitle) modalTitle.textContent = 'Account Verified (Demo Environment)';
-                    if (modalBody) {
-                        modalBody.innerHTML = `
-                            <div style="display:flex;flex-direction:column;gap:1rem;font-size:0.9rem;">
-                                <div style="background:var(--success-bg);border:1px solid var(--success);color:var(--success);padding:0.75rem 1rem;border-radius:8px;line-height:1.5;">
-                                    <strong>Verification Successful!</strong><br>
-                                    Account matches administrator database records.
-                                </div>
-                                <p style="color:var(--text-muted);line-height:1.5;margin:0;">
-                                    Since this is a client-side demo environment with no email backend, a secure reset token has been generated:
-                                </p>
-                                <div style="background:var(--bg-main);border:1px solid var(--border-color);padding:0.6rem 1rem;border-radius:6px;font-family:monospace;text-align:center;font-size:1.1rem;font-weight:700;color:var(--primary-navy);">
-                                    ${token}
-                                </div>
-                                <hr style="border:0;border-top:1px solid var(--border-color);margin:0.25rem 0;">
-                                <div style="display:flex;flex-direction:column;gap:0.75rem;">
-                                    <h4 style="font-weight:700;color:var(--primary-navy);margin:0;">Reset Your Password</h4>
-                                    <div>
-                                        <label style="font-size:0.8rem;font-weight:600;display:block;margin-bottom:4px;">New Password</label>
-                                        <input type="password" id="resetNewPassword" class="form-control" style="width:100%;" placeholder="Enter new password">
-                                    </div>
-                                    <div>
-                                        <label style="font-size:0.8rem;font-weight:600;display:block;margin-bottom:4px;">Confirm New Password</label>
-                                        <input type="password" id="resetConfirmPassword" class="form-control" style="width:100%;" placeholder="Confirm new password">
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    }
-
-                    if (modalSubmitBtn) {
-                        modalSubmitBtn.textContent = 'Save New Password';
-                        ModalManager.onSubmitCallback = () => {
-                            const newPass = document.getElementById('resetNewPassword')?.value;
-                            const confirmPass = document.getElementById('resetConfirmPassword')?.value;
-
-                            if (!newPass) {
-                                Toast.show('Please enter your new password.', 'warning');
-                                return;
-                            }
-                            if (newPass.length < 4) {
-                                Toast.show('Password must be at least 4 characters long.', 'warning');
-                                return;
-                            }
-                            if (newPass !== confirmPass) {
-                                Toast.show('Passwords do not match.', 'warning');
-                                return;
-                            }
-
-                            // Update password (using hash simulation or direct update since dataService handles comparison)
-                            const hashedPassword = DataService.hashPassword(newPass);
-                            found.password = hashedPassword;
-                            DataService.setStorage(DataService.KEYS.ADMINS, admins);
-
-                            DataService.logActivity(`Reset password for administrator account: ${email}`);
-                            Toast.show('Password updated successfully! You can now log in.', 'success');
-                            ModalManager.close();
-                        };
-                    }
-                }
-            });
-        }
+        if (!window.ModalManager) return;
+        ModalManager.open({
+            title: 'Reset Your Password',
+            bodyHtml: `
+                <div style="display:flex;flex-direction:column;gap:1rem;">
+                    <p style="font-size:.9rem;color:var(--text-muted);line-height:1.6;">
+                        Enter the registered administrator email. The email must already exist in the administrator accounts.
+                        This frontend build does not display fake/demo OTPs or reset tokens.
+                    </p>
+                    <div><label>Email Address</label><input type="email" id="forgotEmail" class="form-control" placeholder="Registered admin email" autocomplete="email"></div>
+                    <div><label>New Password</label><input type="password" id="resetNewPassword" class="form-control" autocomplete="new-password"></div>
+                    <div><label>Confirm New Password</label><input type="password" id="resetConfirmPassword" class="form-control" autocomplete="new-password"></div>
+                </div>
+            `,
+            submitText: 'Reset Password',
+            onSubmit: () => {
+                const email = document.getElementById('forgotEmail')?.value?.trim().toLowerCase();
+                const newPass = document.getElementById('resetNewPassword')?.value || '';
+                const confirmPass = document.getElementById('resetConfirmPassword')?.value || '';
+                if (!email || !this._isValidEmail(email)) return Toast.show('Enter a valid registered email address.', 'warning');
+                const admins = DataService.getCollection(DataService.KEYS.ADMINS) || [];
+                const found = admins.find(a => (a.email||'').toLowerCase() === email);
+                if (!found) return Toast.show('No administrator account exists for that email.', 'error');
+                if (newPass.length < 6) return Toast.show('Password must be at least 6 characters.', 'warning');
+                if (newPass !== confirmPass) return Toast.show('Passwords do not match.', 'warning');
+                found.password = DataService.hashPassword(newPass);
+                DataService.setStorage(DataService.KEYS.ADMINS, admins);
+                DataService.logActivity(`Password reset for administrator account ${email}`);
+                Toast.show('Password reset successfully. You can now sign in.', 'success');
+                ModalManager.close();
+            }
+        });
     },
 
     _isValidEmail(email) {

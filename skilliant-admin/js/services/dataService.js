@@ -21,9 +21,7 @@ const DataService = {
         WALLET: 'skilliant_wallet',
         CATEGORIES: 'skilliant_categories',
         SKILLS: 'skilliant_skills',
-        REVIEWS: 'skilliant_reviews',
         NOTIFICATIONS: 'skilliant_notifications',
-        SUPPORT_TICKETS: 'skilliant_support_tickets',
         SETTINGS: 'skilliant_settings',
         ACTIVITY_LOGS: 'skilliant_activity_logs',
         SESSION: 'skilliant_admin_session',
@@ -58,7 +56,7 @@ const DataService = {
             this.setStorage(this.KEYS.SETTINGS, {
                 siteName: 'Skilliant',
                 companyName: 'Skilliant LLC',
-                supportEmail: 'support@skilliant.com',
+                supportEmail: 'meetmhatre2006@gmail.com',
                 address: '123 Skilliant Ave, Tech District, CA 94105',
                 workingHours: 'Mon–Fri, 9:00 AM – 6:00 PM',
                 defaultCurrency: '$',
@@ -77,8 +75,7 @@ const DataService = {
         const collections = [
             this.KEYS.USERS, this.KEYS.LABOURS, this.KEYS.CONTRACTORS,
             this.KEYS.BOOKINGS, this.KEYS.PAYMENTS, this.KEYS.CATEGORIES,
-            this.KEYS.SKILLS, this.KEYS.REVIEWS, this.KEYS.NOTIFICATIONS,
-            this.KEYS.SUPPORT_TICKETS, this.KEYS.ACTIVITY_LOGS, this.KEYS.ADMINS,
+            this.KEYS.SKILLS, this.KEYS.NOTIFICATIONS, this.KEYS.ACTIVITY_LOGS, this.KEYS.ADMINS,
             this.KEYS.LOGIN_HISTORY, this.KEYS.TODOS
         ];
         collections.forEach(key => {
@@ -99,12 +96,12 @@ const DataService = {
                 id: 'ADM-001',
                 name: 'Meet Mhatre',
                 email: 'meetmhatre2006@gmail.com',
-                password: 'meet2006',
+                password: this.hashPassword('meet2006'),
                 profilePhoto: 'MM',
                 role: 'Super Admin',
                 lastLogin: '',
                 status: 'Active',
-                phone: '+1 555-0199',
+                phone: '9876543200',
                 createdAt: new Date().toISOString()
             }]);
         }
@@ -114,6 +111,9 @@ const DataService = {
 
         // Auto-seed sample data if collections are empty
         this.seedSampleData();
+
+        // Normalize seeded/contact phone numbers to the required 10-digit format.
+        this.normalizePhoneData();
 
         // Apply saved dark mode preference on startup
         const settings = this.getSettings();
@@ -131,14 +131,14 @@ const DataService = {
 
         // --- USERS ---
         this.setStorage(this.KEYS.USERS, [
-            { id: 'USR-001', name: 'James Wilson', email: 'james.wilson@email.com', phone: '+1 555-0101', role: 'Customer', status: 'Active', joinedDate: daysAgo(45), totalBookings: 7, spent: '$1,240.00' },
-            { id: 'USR-002', name: 'Sarah Johnson', email: 'sarah.j@email.com', phone: '+1 555-0102', role: 'Customer', status: 'Active', joinedDate: daysAgo(30), totalBookings: 3, spent: '$480.00' },
-            { id: 'USR-003', name: 'Michael Chen', email: 'm.chen@email.com', phone: '+1 555-0103', role: 'Customer', status: 'Active', joinedDate: daysAgo(20), totalBookings: 5, spent: '$875.00' },
-            { id: 'USR-004', name: 'Emily Davis', email: 'emily.d@email.com', phone: '+1 555-0104', role: 'Customer', status: 'Suspended', joinedDate: daysAgo(60), totalBookings: 1, spent: '$120.00' },
-            { id: 'USR-005', name: 'Robert Martinez', email: 'r.martinez@email.com', phone: '+1 555-0105', role: 'Customer', status: 'Active', joinedDate: daysAgo(15), totalBookings: 2, spent: '$310.00' },
-            { id: 'USR-006', name: 'Lisa Thompson', email: 'lisa.t@email.com', phone: '+1 555-0106', role: 'Customer', status: 'Active', joinedDate: daysAgo(8), totalBookings: 4, spent: '$620.00' },
-            { id: 'USR-007', name: 'David Kim', email: 'd.kim@email.com', phone: '+1 555-0107', role: 'Customer', status: 'Active', joinedDate: daysAgo(3), totalBookings: 1, spent: '$150.00' },
-            { id: 'USR-008', name: 'Anna Rodriguez', email: 'anna.r@email.com', phone: '+1 555-0108', role: 'Customer', status: 'Active', joinedDate: daysAgo(1), totalBookings: 0, spent: '$0.00' }
+            { id: 'USR-001', name: 'James Wilson', email: 'james.wilson@email.com', phone: '9876543210', role: 'Customer', status: 'Active', joinedDate: daysAgo(45), totalBookings: 7, spent: '$1,240.00' },
+            { id: 'USR-002', name: 'Sarah Johnson', email: 'sarah.j@email.com', phone: '9876543211', role: 'Customer', status: 'Active', joinedDate: daysAgo(30), totalBookings: 3, spent: '$480.00' },
+            { id: 'USR-003', name: 'Michael Chen', email: 'm.chen@email.com', phone: '9876543212', role: 'Customer', status: 'Active', joinedDate: daysAgo(20), totalBookings: 5, spent: '$875.00' },
+            { id: 'USR-004', name: 'Emily Davis', email: 'emily.d@email.com', phone: '9876543213', role: 'Customer', status: 'Suspended', joinedDate: daysAgo(60), totalBookings: 1, spent: '$120.00' },
+            { id: 'USR-005', name: 'Robert Martinez', email: 'r.martinez@email.com', phone: '9876543214', role: 'Customer', status: 'Active', joinedDate: daysAgo(15), totalBookings: 2, spent: '$310.00' },
+            { id: 'USR-006', name: 'Lisa Thompson', email: 'lisa.t@email.com', phone: '9876543215', role: 'Customer', status: 'Active', joinedDate: daysAgo(8), totalBookings: 4, spent: '$620.00' },
+            { id: 'USR-007', name: 'David Kim', email: 'd.kim@email.com', phone: '9876543216', role: 'Customer', status: 'Active', joinedDate: daysAgo(3), totalBookings: 1, spent: '$150.00' },
+            { id: 'USR-008', name: 'Anna Rodriguez', email: 'anna.r@email.com', phone: '9876543217', role: 'Customer', status: 'Active', joinedDate: daysAgo(1), totalBookings: 0, spent: '$0.00' }
         ]);
 
         // --- CATEGORIES ---
@@ -161,20 +161,20 @@ const DataService = {
 
         // --- LABOUR ---
         this.setStorage(this.KEYS.LABOURS, [
-            { id: 'LAB-001', name: 'Carlos Rivera', email: 'carlos.r@labour.com', phone: '+1 555-2001', skill: 'Plumbing', category: 'Plumbing', hourlyRate: '$45/hr', rating: 4.8, jobsCompleted: 34, verification: 'Verified', status: 'Available', joinedDate: daysAgo(120) },
-            { id: 'LAB-002', name: 'Tony Nguyen', email: 'tony.n@labour.com', phone: '+1 555-2002', skill: 'Electrical', category: 'Electrical', hourlyRate: '$55/hr', rating: 4.6, jobsCompleted: 21, verification: 'Verified', status: 'On Job', joinedDate: daysAgo(90) },
-            { id: 'LAB-003', name: 'Marcus Johnson', email: 'marcus.j@labour.com', phone: '+1 555-2003', skill: 'Carpentry', category: 'Carpentry', hourlyRate: '$40/hr', rating: 4.9, jobsCompleted: 47, verification: 'Verified', status: 'Available', joinedDate: daysAgo(180) },
-            { id: 'LAB-004', name: 'Pedro Santos', email: 'pedro.s@labour.com', phone: '+1 555-2004', skill: 'Painting', category: 'Painting', hourlyRate: '$35/hr', rating: 4.3, jobsCompleted: 12, verification: 'Pending', status: 'Available', joinedDate: daysAgo(30) },
-            { id: 'LAB-005', name: 'Ahmed Hassan', email: 'ahmed.h@labour.com', phone: '+1 555-2005', skill: 'Masonry', category: 'Masonry', hourlyRate: '$50/hr', rating: 4.7, jobsCompleted: 28, verification: 'Verified', status: 'Available', joinedDate: daysAgo(150) },
-            { id: 'LAB-006', name: 'Luis Garcia', email: 'luis.g@labour.com', phone: '+1 555-2006', skill: 'Plumbing', category: 'Plumbing', hourlyRate: '$42/hr', rating: 3.9, jobsCompleted: 8, verification: 'Pending', status: 'Unavailable', joinedDate: daysAgo(14) }
+            { id: 'LAB-001', name: 'Carlos Rivera', email: 'carlos.r@labour.com', phone: '9876543220', skill: 'Plumbing', category: 'Plumbing', hourlyRate: '$45/hr', rating: 4.8, jobsCompleted: 34, verification: 'Verified', status: 'Available', joinedDate: daysAgo(120) },
+            { id: 'LAB-002', name: 'Tony Nguyen', email: 'tony.n@labour.com', phone: '9876543221', skill: 'Electrical', category: 'Electrical', hourlyRate: '$55/hr', rating: 4.6, jobsCompleted: 21, verification: 'Verified', status: 'On Job', joinedDate: daysAgo(90) },
+            { id: 'LAB-003', name: 'Marcus Johnson', email: 'marcus.j@labour.com', phone: '9876543222', skill: 'Carpentry', category: 'Carpentry', hourlyRate: '$40/hr', rating: 4.9, jobsCompleted: 47, verification: 'Verified', status: 'Available', joinedDate: daysAgo(180) },
+            { id: 'LAB-004', name: 'Pedro Santos', email: 'pedro.s@labour.com', phone: '9876543223', skill: 'Painting', category: 'Painting', hourlyRate: '$35/hr', rating: 4.3, jobsCompleted: 12, verification: 'Pending', status: 'Available', joinedDate: daysAgo(30) },
+            { id: 'LAB-005', name: 'Ahmed Hassan', email: 'ahmed.h@labour.com', phone: '9876543224', skill: 'Masonry', category: 'Masonry', hourlyRate: '$50/hr', rating: 4.7, jobsCompleted: 28, verification: 'Verified', status: 'Available', joinedDate: daysAgo(150) },
+            { id: 'LAB-006', name: 'Luis Garcia', email: 'luis.g@labour.com', phone: '9876543225', skill: 'Plumbing', category: 'Plumbing', hourlyRate: '$42/hr', rating: 3.9, jobsCompleted: 8, verification: 'Pending', status: 'Unavailable', joinedDate: daysAgo(14) }
         ]);
 
         // --- CONTRACTORS ---
         this.setStorage(this.KEYS.CONTRACTORS, [
-            { id: 'CON-001', name: 'BuildRight LLC', contactPerson: 'Frank Miller', email: 'frank@buildright.com', phone: '+1 555-3001', specialization: 'General Construction', rating: 4.7, totalJobs: 52, walletBalance: '$2,400.00', verificationStatus: 'Verified', status: 'Active', joinedDate: daysAgo(200), location: 'San Francisco, CA' },
-            { id: 'CON-002', name: 'ElectroPro Inc', contactPerson: 'Susan Lee', email: 'susan@electropro.com', phone: '+1 555-3002', specialization: 'Electrical Systems', rating: 4.5, totalJobs: 38, walletBalance: '$1,800.00', verificationStatus: 'Verified', status: 'Active', joinedDate: daysAgo(150), location: 'Oakland, CA' },
-            { id: 'CON-003', name: 'AquaFix Services', contactPerson: 'Mark Davis', email: 'mark@aquafix.com', phone: '+1 555-3003', specialization: 'Plumbing & HVAC', rating: 4.2, totalJobs: 19, walletBalance: '$950.00', verificationStatus: 'Pending', status: 'Active', joinedDate: daysAgo(60), location: 'San Jose, CA' },
-            { id: 'CON-004', name: 'PaintMasters Co', contactPerson: 'Julia White', email: 'julia@paintmasters.com', phone: '+1 555-3004', specialization: 'Painting & Finishing', rating: 4.9, totalJobs: 71, walletBalance: '$3,100.00', verificationStatus: 'Verified', status: 'Active', joinedDate: daysAgo(300), location: 'Los Angeles, CA' }
+            { id: 'CON-001', name: 'BuildRight LLC', contactPerson: 'Frank Miller', email: 'frank@buildright.com', phone: '9876543230', specialization: 'General Construction', rating: 4.7, totalJobs: 52, walletBalance: '$2,400.00', verificationStatus: 'Verified', status: 'Active', joinedDate: daysAgo(200), location: 'San Francisco, CA' },
+            { id: 'CON-002', name: 'ElectroPro Inc', contactPerson: 'Susan Lee', email: 'susan@electropro.com', phone: '9876543231', specialization: 'Electrical Systems', rating: 4.5, totalJobs: 38, walletBalance: '$1,800.00', verificationStatus: 'Verified', status: 'Active', joinedDate: daysAgo(150), location: 'Oakland, CA' },
+            { id: 'CON-003', name: 'AquaFix Services', contactPerson: 'Mark Davis', email: 'mark@aquafix.com', phone: '9876543232', specialization: 'Plumbing & HVAC', rating: 4.2, totalJobs: 19, walletBalance: '$950.00', verificationStatus: 'Pending', status: 'Active', joinedDate: daysAgo(60), location: 'San Jose, CA' },
+            { id: 'CON-004', name: 'PaintMasters Co', contactPerson: 'Julia White', email: 'julia@paintmasters.com', phone: '9876543233', specialization: 'Painting & Finishing', rating: 4.9, totalJobs: 71, walletBalance: '$3,100.00', verificationStatus: 'Verified', status: 'Active', joinedDate: daysAgo(300), location: 'Los Angeles, CA' }
         ]);
 
         // --- BOOKINGS ---
@@ -213,25 +213,11 @@ const DataService = {
 
         // --- NOTIFICATIONS ---
         this.setStorage(this.KEYS.NOTIFICATIONS, [
-            { id: 'NOT-001', title: 'New Booking Created', message: 'Booking BK-007 has been created by David Kim for Carpentry service.', category: 'Booking', time: '2 hours ago', unread: true },
-            { id: 'NOT-002', title: 'Labour Verification Pending', message: 'Pedro Santos has submitted documents for verification review.', category: 'Verification', time: '5 hours ago', unread: true },
-            { id: 'NOT-003', title: 'Payment Completed', message: 'Payment PAY-001 of $360.00 from James Wilson has been processed successfully.', category: 'Payment', time: '1 day ago', unread: true },
-            { id: 'NOT-004', title: 'Support Ticket Opened', message: 'Emily Davis has opened a new support ticket regarding booking cancellation.', category: 'Support', time: '2 days ago', unread: false },
-            { id: 'NOT-005', title: 'New Contractor Registered', message: 'AquaFix Services has registered and is pending verification.', category: 'Registration', time: '3 days ago', unread: false }
-        ]);
-
-        // --- SUPPORT TICKETS ---
-        this.setStorage(this.KEYS.SUPPORT_TICKETS, [
-            { id: 'TKT-001', subject: 'Booking Cancellation Refund', userId: 'USR-004', userName: 'Emily Davis', email: 'emily.d@email.com', priority: 'High', status: 'Open', category: 'Billing', message: 'I cancelled my booking but have not received my refund yet.', createdAt: daysAgo(2), updatedAt: daysAgo(1) },
-            { id: 'TKT-002', subject: 'Labour Did Not Show Up', userId: 'USR-002', userName: 'Sarah Johnson', email: 'sarah.j@email.com', priority: 'High', status: 'In Progress', category: 'Complaint', message: 'The assigned labour did not show up on the scheduled date.', createdAt: daysAgo(3), updatedAt: daysAgo(1) },
-            { id: 'TKT-003', subject: 'Cannot Update Profile', userId: 'USR-001', userName: 'James Wilson', email: 'james.wilson@email.com', priority: 'Low', status: 'Closed', category: 'Technical', message: 'I am unable to update my profile photo on the platform.', createdAt: daysAgo(7), updatedAt: daysAgo(5) }
-        ]);
-
-        // --- REVIEWS ---
-        this.setStorage(this.KEYS.REVIEWS, [
-            { id: 'REV-001', bookingId: 'BK-001', reviewerName: 'James Wilson', labourName: 'Carlos Rivera', rating: 5, comment: 'Excellent work! Fixed the leak quickly and professionally.', date: daysAgo(2), status: 'Approved' },
-            { id: 'REV-002', bookingId: 'BK-003', reviewerName: 'Michael Chen', labourName: 'Marcus Johnson', rating: 5, comment: 'Amazing craftsmanship on the deck. Highly recommend!', date: daysAgo(5), status: 'Approved' },
-            { id: 'REV-003', bookingId: 'BK-008', reviewerName: 'James Wilson', labourName: 'Tony Nguyen', rating: 4, comment: 'Great work on the panel upgrade. Very knowledgeable.', date: daysAgo(7), status: 'Approved' }
+            { id: 'NOT-001', title: 'New Booking Created', message: 'Booking BK-007 has been created by David Kim for Carpentry service.', category: 'Booking', timestamp: new Date(now - 2*3600000).toISOString(), time: '2 hours ago', unread: true },
+            { id: 'NOT-002', title: 'Labour Verification Pending', message: 'Pedro Santos has submitted documents for verification review.', category: 'Verification', timestamp: new Date(now - 5*3600000).toISOString(), time: '5 hours ago', unread: true },
+            { id: 'NOT-003', title: 'Payment Completed', message: 'Payment PAY-001 of $360.00 from James Wilson has been processed successfully.', category: 'Payment', timestamp: new Date(now - 86400000).toISOString(), time: '1 day ago', unread: true },
+            { id: 'NOT-004', title: 'Support Ticket Opened', message: 'Emily Davis has opened a new support ticket regarding booking cancellation.', category: 'Support', timestamp: new Date(now - 2*86400000).toISOString(), time: '2 days ago', unread: false },
+            { id: 'NOT-005', title: 'New Contractor Registered', message: 'AquaFix Services has registered and is pending verification.', category: 'Registration', timestamp: new Date(now - 3*86400000).toISOString(), time: '3 days ago', unread: false }
         ]);
 
         // --- ACTIVITY LOGS ---
@@ -306,13 +292,11 @@ const DataService = {
         admins.forEach(a => {
             // Update the placeholder Super Admin from old email/password to configured primary credentials
             if (a.id === 'ADM-001') {
-                if (a.email !== 'meetmhatre2006@gmail.com' || a.password !== 'meet2006') {
-                    a.email = 'meetmhatre2006@gmail.com';
-                    a.name  = 'Meet Mhatre';
-                    a.password = 'meet2006';
-                    a.profilePhoto = 'MM';
-                    changed = true;
-                }
+                // Preserve credentials/profile after the first seed; never silently reset a user-changed password.
+                if (!a.email) { a.email = 'meetmhatre2006@gmail.com'; changed = true; }
+                if (!a.name) { a.name = 'Meet Mhatre'; changed = true; }
+                if (!a.profilePhoto) { a.profilePhoto = 'MM'; changed = true; }
+                if (!a.role) { a.role = 'Super Admin'; changed = true; }
             }
             // Remove old fallback placeholders if present
             if (a.email === 'alex@skilliant.com' || a.email === 'admin@skilliant.com' || a.email === 'NeetMatra26@gmail.com') {
@@ -355,6 +339,96 @@ const DataService = {
         }
     },
 
+    // ============================================================
+    // CENTRAL DATA / FINANCIAL / NOTIFICATION HELPERS
+    // ============================================================
+    validatePhone(phone) {
+        // Skilliant demo/mobile format: exactly 10 digits, beginning with 6-9.
+        return /^[6-9]\d{9}$/.test(String(phone || '').trim());
+    },
+
+    normalizePhoneData() {
+        const mappings = {
+            [this.KEYS.USERS]: { 'USR-001':'9876543210','USR-002':'9876543211','USR-003':'9876543212','USR-004':'9876543213','USR-005':'9876543214','USR-006':'9876543215','USR-007':'9876543216','USR-008':'9876543217' },
+            [this.KEYS.LABOURS]: { 'LAB-001':'9876543220','LAB-002':'9876543221','LAB-003':'9876543222','LAB-004':'9876543223','LAB-005':'9876543224','LAB-006':'9876543225' },
+            [this.KEYS.CONTRACTORS]: { 'CON-001':'9876543230','CON-002':'9876543231','CON-003':'9876543232','CON-004':'9876543233' },
+            [this.KEYS.ADMINS]: { 'ADM-001':'9876543200' }
+        };
+        Object.entries(mappings).forEach(([key,map]) => {
+            const list=this.getCollection(key); let changed=false;
+            list.forEach(item=>{ if(map[item.id] && item.phone!==map[item.id]) { item.phone=map[item.id]; item.phoneVerified=false; changed=true; } });
+            if(changed) this.setStorage(key,list);
+        });
+    },
+
+    createNotification({title, message, category='System', type='info', entityType='', entityId=''}) {
+        const notifications=this.getCollection(this.KEYS.NOTIFICATIONS) || [];
+        const fingerprint=[title,message,entityType,entityId].join('|');
+        const recent=notifications.find(n => n.fingerprint===fingerprint && (Date.now()-new Date(n.timestamp||0).getTime()) < 1500);
+        if(recent) return recent;
+        const session=this.getSession();
+        const n={
+            id:`NOT-${Date.now().toString().slice(-8)}`,
+            title, message, category, type,
+            entityType, entityId,
+            timestamp:new Date().toISOString(),
+            time:'Just now',
+            unread:true,
+            createdBy:session?.adminName || 'System',
+            fingerprint
+        };
+        notifications.unshift(n);
+        this.setStorage(this.KEYS.NOTIFICATIONS, notifications.slice(0,300));
+        window.dispatchEvent(new CustomEvent('skilliant:notification-created',{detail:n}));
+        return n;
+    },
+
+    getFinancialSnapshot() {
+        const payments = this.getCollection(this.KEYS.PAYMENTS) || [];
+        const completed = payments.filter(p => ['Completed','Paid'].includes(p.status));
+        const held = payments.filter(p => ['Held','Pending'].includes(p.status));
+        const refunded = payments.filter(p => p.status === 'Refunded');
+        const gross = completed.reduce((sum,p) => sum + (parseFloat(p.amount)||0), 0);
+        const commission = completed.reduce((sum,p) => sum + (parseFloat(p.commissionFee)||0), 0);
+        const refunds = refunded.reduce((sum,p) => sum + (parseFloat(p.refundAmount ?? p.amount)||0), 0);
+        const escrow = held.reduce((sum,p) => sum + (parseFloat(p.amount)||0), 0);
+        const pendingPayments = payments.filter(p => p.status === 'Pending').reduce((sum,p) => sum + (parseFloat(p.amount)||0), 0);
+        const wallet = this.getStorage(this.KEYS.WALLET) || {};
+        const requests = Array.isArray(wallet.payoutRequests) ? wallet.payoutRequests : [];
+        const pendingPayouts = requests.filter(r => ['Pending','Approved'].includes(r.status))
+            .reduce((sum,r) => sum + (parseFloat(String(r.amount).replace(/[^0-9.]/g,''))||0), 0);
+        const completedPayouts = requests.filter(r => ['Completed','Disbursed'].includes(r.status))
+            .reduce((sum,r) => sum + (parseFloat(String(r.amount).replace(/[^0-9.]/g,''))||0), 0);
+        const net = Math.max(0, gross - commission - refunds);
+        const available = Math.max(0, net - completedPayouts - pendingPayouts);
+        return {gross, commission, net, refunds, escrow, pendingPayments, pendingPayouts, completedPayouts, available};
+    },
+
+    getBookingAnalytics() {
+        const bookings=this.getCollection(this.KEYS.BOOKINGS)||[];
+        const count=bookings.length;
+        const completed=bookings.filter(b=>b.status==='Completed').length;
+        const pending=bookings.filter(b=>b.status==='Pending').length;
+        const confirmed=bookings.filter(b=>b.status==='Confirmed').length;
+        const cancelled=bookings.filter(b=>b.status==='Cancelled').length;
+        const inProgress=bookings.filter(b=>b.status==='In Progress').length;
+        const values=bookings.map(b=>parseFloat(String(b.amount||0).replace(/[$,]/g,''))||0);
+        const avg=values.length?values.reduce((a,b)=>a+b,0)/values.length:0;
+        const categories={}; bookings.forEach(b=>categories[b.category||'Other']=(categories[b.category||'Other']||0)+1);
+        return {count,completed,pending,confirmed,cancelled,inProgress,completionRate:count?completed/count*100:0,cancellationRate:count?cancelled/count*100:0,averageValue:avg,categories};
+    },
+
+    getGrowthSeries(months=6) {
+        const lists=[this.getCollection(this.KEYS.USERS)||[],this.getCollection(this.KEYS.LABOURS)||[],this.getCollection(this.KEYS.CONTRACTORS)||[]];
+        const now=new Date(), labels=[], series=[[],[],[]];
+        for(let i=months-1;i>=0;i--){
+            const d=new Date(now.getFullYear(),now.getMonth()-i,1); const next=new Date(d.getFullYear(),d.getMonth()+1,1);
+            labels.push(d.toLocaleDateString('en-US',{month:'short',year:'2-digit'}));
+            lists.forEach((list,idx)=>series[idx].push(list.filter(x=>{const raw=x.joinedDate||x.createdAt;if(!raw)return false;const dt=new Date(raw);return dt>=d&&dt<next;}).length));
+        }
+        return {labels,users:series[0],labours:series[1],contractors:series[2]};
+    },
+
     // Log Activity
     logActivity(actionDescription) {
         const logs = this.getStorage(this.KEYS.ACTIVITY_LOGS) || [];
@@ -364,11 +438,28 @@ const DataService = {
             id: `LOG-${Date.now().toString().slice(-6)}`,
             admin: adminName,
             action: actionDescription,
-            timestamp: new Date().toLocaleString(),
+            timestamp: new Date().toISOString(),
             ip: '127.0.0.1 (Local)'
         });
         // Keep only last 200 logs
         this.setStorage(this.KEYS.ACTIVITY_LOGS, logs.slice(0, 200));
+        // Important admin actions automatically create one persisted notification.
+        const lower=String(actionDescription||'').toLowerCase();
+        if (!lower.includes('deleted notification') && !lower.includes('marked notification')) {
+            let category='System', type='info';
+            if(lower.includes('booking')) category='Booking';
+            else if(lower.includes('payment') || lower.includes('payout') || lower.includes('escrow')) category='Payment';
+            else if(lower.includes('user') || lower.includes('customer') || lower.includes('admin') || lower.includes('contractor') || lower.includes('labour')) category='User';
+            else if(lower.includes('review')) category='Review';
+            else if(lower.includes('report') || lower.includes('export')) category='Report';
+            else if(lower.includes('password') || lower.includes('security') || lower.includes('login') || lower.includes('logout')) category='Security';
+            const match=String(actionDescription).match(/\b(BK|PAY|PO|REV|USR|LAB|CON|CAT|SKL)-[A-Z0-9-]+/i);
+            const prefix=match ? match[1].toUpperCase() : '';
+            const entityMap={BK:'booking',PAY:'payment',PO:'payout',REV:'review',USR:'user',LAB:'labourer',CON:'contractor',CAT:'category',SKL:'skill'};
+            const entityType=entityMap[prefix] || '';
+            const entityId=match ? match[0].toUpperCase() : '';
+            this.createNotification({title:actionDescription, message:`${actionDescription}.`, category, type, entityType, entityId});
+        }
     },
 
     // --- AUTHENTICATION & SESSION ---
@@ -489,6 +580,22 @@ const DataService = {
         return item;
     },
 
+    validatePhone(phone) { return /^[6-9]\d{9}$/.test(String(phone || '').trim()); },
+
+    recalculateFinancialState() {
+        const financial = this.getFinancialSnapshot();
+        const wallet = this.getStorage(this.KEYS.WALLET) || {};
+        wallet.escrowBalance = financial.escrow;
+        wallet.platformCommission = financial.commission;
+        wallet.pendingPayouts = financial.pendingPayouts;
+        wallet.completedPayouts = financial.completedPayouts;
+        wallet.availableBalance = financial.available;
+        wallet.totalProcessed = financial.gross;
+        wallet.payoutRequests = Array.isArray(wallet.payoutRequests) ? wallet.payoutRequests : [];
+        this.setStorage(this.KEYS.WALLET, wallet);
+        return wallet;
+    },
+
     // --- DASHBOARD METRICS ---
     getDashboardMetrics() {
         const users = this.getCollection(this.KEYS.USERS);
@@ -497,8 +604,8 @@ const DataService = {
         const bookings = this.getCollection(this.KEYS.BOOKINGS);
         const payments = this.getCollection(this.KEYS.PAYMENTS);
         const wallet = this.getStorage(this.KEYS.WALLET) || { escrowBalance: 0, platformCommission: 0 };
-        const supportTickets = this.getCollection(this.KEYS.SUPPORT_TICKETS);
-        const reviews = this.getCollection(this.KEYS.REVIEWS);
+        const financial = this.getFinancialSnapshot();
+        this.recalculateFinancialState();
         const categories = this.getCollection(this.KEYS.CATEGORIES);
         const skills = this.getCollection(this.KEYS.SKILLS);
 
@@ -522,9 +629,11 @@ const DataService = {
             totalRevenue: `$${totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
             totalCommission: `$${totalCommission.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
             aov: `$${isNaN(aov) ? '0.00' : aov.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
-            walletEscrowBalance: `$${(wallet.escrowBalance || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
-            openTicketsCount: supportTickets.filter(t => t.status !== 'Closed').length,
-            totalReviewsCount: reviews.length
+            walletEscrowBalance: `$${financial.escrow.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+            grossRevenueNumber: financial.gross,
+            platformCommissionNumber: financial.commission,
+            netRevenueNumber: financial.net,
+            openTicketsCount: 0,
         };
     },
 

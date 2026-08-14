@@ -221,7 +221,8 @@
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(11, 15, 25, 0.55);
-    backdrop-filter: blur(4px);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
     z-index: 95;
     display: none;
 }
@@ -576,6 +577,21 @@
     height: 300px;
 }
 
+
+/* Data tables remain usable on laptops and phones while preserving the desktop design. */
+@media (max-width: 1024px) {
+    .main-content { min-width: 0; overflow-x: hidden; }
+    .table-responsive { max-width: 100%; overflow-x: auto !important; overflow-y: hidden; }
+    .data-table { min-width: 980px; }
+}
+
+@media (max-width: 600px) {
+    .data-table { min-width: 860px; font-size: 0.78rem; }
+    .data-table th, .data-table td { padding: 0.72rem 0.8rem; }
+    .data-table th:last-child, .data-table td:last-child { min-width: 220px; }
+    .table-user { min-width: 150px; }
+}
+
 /* ── Responsive ── */
 @media (max-width: 1200px) {
     .header-datetime { display: none; }
@@ -629,4 +645,57 @@
     .filter-group .form-control { width: 100%; }
 
     .header-actions .header-action-btn:not(#headerNotifBtn) { display: none; }
+}
+
+
+/* Desktop menu button collapses the sidebar without dimming/blurring the workspace. */
+@media (min-width: 1025px) {
+    .app-container.sidebar-collapsed .sidebar { width: 78px; }
+    .app-container.sidebar-collapsed .main-wrapper { margin-left: 78px; width: calc(100% - 78px); }
+    .app-container.sidebar-collapsed .logo-text,
+    .app-container.sidebar-collapsed .logo-badge,
+    .app-container.sidebar-collapsed .nav-section-title,
+    .app-container.sidebar-collapsed .nav-text,
+    .app-container.sidebar-collapsed .sidebar-user-info,
+    .app-container.sidebar-collapsed .sidebar-user > i { display:none; }
+    .app-container.sidebar-collapsed .sidebar-header { justify-content:center; padding:0 .5rem; }
+    .app-container.sidebar-collapsed .logo { justify-content:center; }
+    .app-container.sidebar-collapsed .nav-item { justify-content:center; padding-left:0; padding-right:0; }
+    .app-container.sidebar-collapsed .sidebar-user { justify-content:center; padding:.65rem; }
+    .app-container.sidebar-collapsed .sidebar-overlay { display:none !important; }
+}
+
+
+/* Settings: wide, flat management cards rather than cramped square panels. */
+.settings-layout {
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:1rem;
+    align-items:start;
+}
+.settings-layout .settings-wide-card {
+    grid-column:1 / -1;
+}
+.settings-option-row {
+    display:flex;
+    align-items:center;
+    gap:.75rem;
+    flex-wrap:wrap;
+}
+.platform-settings-fields {
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:1rem;
+    align-items:end;
+}
+.platform-settings-card .btn {
+    min-width:180px;
+}
+@media (max-width: 900px) {
+    .settings-layout { grid-template-columns:1fr; }
+    .platform-settings-fields { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media (max-width: 560px) {
+    .platform-settings-fields { grid-template-columns:1fr; }
+    .settings-option-row .btn { width:100%; }
 }

@@ -30,9 +30,9 @@ const ExportUtil = {
             <html><head><title>${title}</title>
             <style>
                 body{font-family:Arial,sans-serif;padding:20px;color:#0F172A;}
-                h1{font-size:1.4rem;margin-bottom:1rem;color:#1E3A8A;}
+                h1{font-size:1.4rem;margin-bottom:1rem;color:var(--primary-navy);}
                 table{border-collapse:collapse;width:100%;}
-                th{background:#1E3A8A;color:#fff;padding:8px 12px;text-align:left;font-size:0.8rem;}
+                th{background:var(--primary-navy);color:#fff;padding:8px 12px;text-align:left;font-size:0.8rem;}
                 td{padding:8px 12px;border-bottom:1px solid #e2e8f0;font-size:0.8rem;}
                 tr:nth-child(even){background:#f8fafc;}
                 .badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.7rem;font-weight:600;}
@@ -198,7 +198,7 @@ const UI = {
 
     renderTable(headers, rowsHtml, paginationHtml = '') {
         return `
-            <div class="glass-card table-responsive animate-slide-up" style="padding:0;overflow:hidden;">
+            <div class="glass-card table-responsive animate-slide-up" style="padding:0;overflow-x:auto;overflow-y:hidden;">
                 <table class="data-table">
                     <thead>
                         <tr>

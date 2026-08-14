@@ -14,16 +14,11 @@ const App = {
         'skills':         SkillsPage,
         'bookings':       BookingsPage,
         'payments':       PaymentsPage,
-        'wallet':         WalletPage,
         'reports':        ReportsPage,
-        'reviews':        ReviewsPage,
         'notifications':  NotificationsPage,
-        'support-tickets':SupportTicketsPage,
         'settings':       SettingsPage,
-        'security':       SecurityPage,
         'admins':         AdminsPage,
         'roles':          RolesPage,
-        'activity-logs':  ActivityLogsPage
     },
 
     currentPage: 'dashboard',
@@ -36,6 +31,14 @@ const App = {
         this.startClock();
         this.initDarkModeToggle();
         this.updateSidebarUser();
+        this.applyRoleVisibility();
+
+        // Global notification refresh: every module can publish a real notification.
+        window.addEventListener('skilliant:notification-created', () => {
+            this.updateNotificationBadge();
+            if (document.getElementById('notifDropdown')?.classList.contains('show')) this.renderNotificationDropdown();
+            if (this.currentPage === 'notifications') this.refreshCurrentPage();
+        });
     },
 
     // ════════════════════════════════════════════════════════════
@@ -130,6 +133,19 @@ const App = {
             });
         }
 
+        // Desktop menu button: collapse sidebar instead of activating a blur overlay.
+        const desktopMenuBtn = document.getElementById('menuToggle');
+        const appContainer = document.getElementById('appContainer');
+        if (desktopMenuBtn && appContainer && !desktopMenuBtn._desktopBound) {
+            desktopMenuBtn._desktopBound = true;
+            desktopMenuBtn.addEventListener('click', (e) => {
+                if (window.innerWidth > 1024) {
+                    e.stopImmediatePropagation();
+                    appContainer.classList.toggle('sidebar-collapsed');
+                }
+            }, true);
+        }
+
         // Escape key closes modal
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
@@ -168,6 +184,20 @@ const App = {
         if (roleEl)   roleEl.textContent   = session.role;
         if (avatarEl) avatarEl.textContent = (session.profilePhoto ||
             session.adminName.split(' ').map(n => n[0]).join('').toUpperCase()).slice(0, 2);
+        const roleBadge = document.getElementById('sidebarRoleBadge');
+        if (roleBadge) roleBadge.textContent = session.role || 'Admin';
+    },
+
+    applyRoleVisibility() {
+        const role = DataService.getSession()?.role || 'Admin';
+        const allowed = {
+            dashboard:['Super Admin','Admin','Finance Admin'], users:['Super Admin','Admin'], labour:['Super Admin','Admin'], contractors:['Super Admin','Admin'],
+            categories:['Super Admin','Admin'], skills:['Super Admin','Admin'], bookings:['Super Admin','Admin'], payments:['Super Admin','Finance Admin'],
+            reports:['Super Admin','Finance Admin'], notifications:['Super Admin','Admin','Finance Admin'], settings:['Super Admin','Admin','Finance Admin'], admins:['Super Admin'], roles:['Super Admin']
+        };
+        document.querySelectorAll('.nav-item[data-page]').forEach(item=>{
+            const page=item.dataset.page; item.style.display = !allowed[page] || allowed[page].includes(role) ? '' : 'none';
+        });
     },
 
     // ════════════════════════════════════════════════════════════
@@ -225,56 +255,40 @@ const App = {
         const notifList = document.getElementById('notifList');
         if (!notifList) return;
         const notifications = DataService.getCollection(DataService.KEYS.NOTIFICATIONS) || [];
+        const logs = DataService.getStorage(DataService.KEYS.ACTIVITY_LOGS) || [];
+        const safeTs = value => { const d = new Date(value); return Number.isNaN(d.getTime()) ? 0 : d.getTime(); };
+        const items = [
+            ...notifications.map(n => ({...n, source:'Notification'})),
+            ...logs.map(l => ({id:l.id,title:l.action||'Activity',message:`${l.admin||'System'} performed this action`,category:'Activity',timestamp:l.timestamp,unread:false,source:'Activity'}))
+        ].filter((x,i,a)=>a.findIndex(y=>y.id===x.id)===i).sort((a,b)=>safeTs(b.timestamp)-safeTs(a.timestamp)).slice(0,8);
         this.updateNotificationBadge();
+        if (!items.length) { notifList.innerHTML=`<div style="padding:2.5rem 1rem;text-align:center;color:var(--text-muted);font-size:.85rem;"><i class="fa-solid fa-bell-slash" style="font-size:2rem;margin-bottom:.75rem;opacity:.25;display:block"></i>No activity or notifications yet</div>`; return; }
+        const iconMap={Booking:'fa-calendar-check',Payment:'fa-credit-card',User:'fa-user',Report:'fa-file-lines',Security:'fa-shield-halved',Activity:'fa-list-check'};
+        const colorMap={Booking:'var(--primary-blue)',Payment:'var(--success)',User:'var(--primary-purple)',Report:'var(--accent-orange)',Security:'var(--accent-gold)',Activity:'var(--accent-gold)'};
+        notifList.innerHTML=items.map(n=>`<div style="padding:.8rem 1rem;border-bottom:1px solid var(--border-color);background:${n.unread?'rgba(37,99,235,.04)':'transparent'};cursor:pointer" onclick="App._openNotification('${n.id}', '${n.source}')" role="listitem"><div style="display:flex;gap:.7rem;align-items:flex-start"><div style="width:32px;height:32px;border-radius:50%;background:${colorMap[n.category]||'var(--primary-blue)'};color:white;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.75rem"><i class="fa-solid ${iconMap[n.category]||'fa-bell'}"></i></div><div style="flex:1;min-width:0"><div style="font-weight:${n.unread?'700':'500'};font-size:.82rem;color:var(--text-main)">${n.title}</div><div style="font-size:.74rem;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${n.message}</div><div style="font-size:.7rem;color:var(--text-light);margin-top:3px">${this.formatNotificationTime(n)}</div></div>${n.unread?'<span style="width:7px;height:7px;border-radius:50%;background:var(--primary-blue);margin-top:5px"></span>':''}</div></div>`).join('');
+    },
 
-        if (notifications.length === 0) {
-            notifList.innerHTML = `
-                <div style="padding:2.5rem 1rem;text-align:center;color:var(--text-muted);font-size:0.85rem;">
-                    <i class="fa-solid fa-bell-slash" style="font-size:2rem;margin-bottom:0.75rem;opacity:0.25;display:block;"></i>
-                    No notifications yet
-                </div>`;
-            return;
-        }
+    formatNotificationTime(n) {
+        const ts=n.timestamp ? new Date(n.timestamp) : null;
+        if(!ts || Number.isNaN(ts.getTime())) return n.time || 'Unknown time';
+        const diff=Math.max(0,Date.now()-ts.getTime());
+        const mins=Math.floor(diff/60000);
+        if(mins<1) return 'Just now';
+        if(mins<60) return `${mins} min${mins===1?'':'s'} ago`;
+        const hrs=Math.floor(mins/60);
+        if(hrs<24) return `${hrs} hour${hrs===1?'':'s'} ago`;
+        const days=Math.floor(hrs/24);
+        if(days<7) return `${days} day${days===1?'':'s'} ago`;
+        return ts.toLocaleString();
+    },
 
-        const iconMap = {
-            'Booking':      'fa-calendar-check',
-            'Payment':      'fa-credit-card',
-            'Verification': 'fa-shield-halved',
-            'Support':      'fa-headset',
-            'Registration': 'fa-user-plus',
-            'Broadcast':    'fa-bullhorn'
-        };
-
-        const colorMap = {
-            'Booking':      'var(--primary-blue)',
-            'Payment':      'var(--success)',
-            'Verification': 'var(--accent-gold)',
-            'Support':      'var(--danger)',
-            'Registration': 'var(--primary-purple)',
-            'Broadcast':    'var(--accent-orange)'
-        };
-
-        notifList.innerHTML = notifications.slice(0, 6).map(n => `
-            <div
-                style="padding:0.8rem 1rem;border-bottom:1px solid var(--border-color);background:${n.unread ? 'rgba(37,99,235,0.04)' : 'transparent'};cursor:pointer;transition:background 0.1s ease;"
-                onclick="App._markNotifRead('${n.id}')"
-                role="listitem"
-                tabindex="0"
-                onkeydown="if(event.key==='Enter')App._markNotifRead('${n.id}')"
-            >
-                <div style="display:flex;gap:0.7rem;align-items:flex-start;">
-                    <div style="width:32px;height:32px;border-radius:50%;background:${colorMap[n.category] || 'var(--primary-blue)'};color:white;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.75rem;">
-                        <i class="fa-solid ${iconMap[n.category] || 'fa-bell'}" aria-hidden="true"></i>
-                    </div>
-                    <div style="flex:1;min-width:0;">
-                        <div style="font-weight:${n.unread ? '700' : '500'};font-size:0.82rem;color:var(--text-main);margin-bottom:2px;">${n.title}</div>
-                        <div style="font-size:0.74rem;color:var(--text-muted);line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${n.message}</div>
-                        <div style="font-size:0.7rem;color:var(--text-light);margin-top:3px;"><i class="fa-regular fa-clock" aria-hidden="true"></i> ${n.time}</div>
-                    </div>
-                    ${n.unread ? '<div style="width:7px;height:7px;border-radius:50%;background:var(--primary-blue);flex-shrink:0;margin-top:5px;" aria-label="Unread"></div>' : ''}
-                </div>
-            </div>
-        `).join('');
+    _openNotification(id, source='Notification') {
+        if (source === 'Activity') { window.location.hash='#notifications'; return; }
+        const notifications=DataService.getCollection(DataService.KEYS.NOTIFICATIONS)||[];
+        const n=notifications.find(x=>x.id===id); if(!n) return;
+        n.unread=false; DataService.setStorage(DataService.KEYS.NOTIFICATIONS,notifications); this.renderNotificationDropdown(); this.updateNotificationBadge();
+        const routes={user:'users',labourer:'labour',contractor:'contractors',booking:'bookings',payment:'payments',payout:'payments',report:'reports'};
+        const route=routes[n.entityType]; window.location.hash='#'+(route||'notifications');
     },
 
     _markNotifRead(id) {
@@ -319,8 +333,21 @@ const App = {
     handleRoute(isUpdate = false) {
         if (!this.checkAuth()) return;
 
-        const rawHash   = window.location.hash.replace('#', '').trim() || 'dashboard';
+        const rawHash = window.location.hash.replace('#', '').trim() || 'dashboard';
+        const session = DataService.getSession();
         const pageModule = this.pages[rawHash] || null;
+        const role = session?.role || 'Admin';
+        const access = {
+            dashboard: ['Super Admin','Admin','Finance Admin'], users: ['Super Admin','Admin'], labour: ['Super Admin','Admin'],
+            contractors: ['Super Admin','Admin'], categories: ['Super Admin','Admin'], skills: ['Super Admin','Admin'],
+            bookings: ['Super Admin','Admin'], payments: ['Super Admin','Finance Admin'], reports: ['Super Admin','Finance Admin'],
+            notifications: ['Super Admin','Admin','Finance Admin'], settings: ['Super Admin','Admin','Finance Admin'], admins: ['Super Admin'], roles: ['Super Admin']
+        };
+        if (access[rawHash] && !access[rawHash].includes(role)) {
+            Toast.show(`Access restricted for ${role}.`, 'warning');
+            window.location.hash = '#dashboard';
+            return;
+        }
         this.currentPage = rawHash;
 
         if (window.Sidebar) Sidebar.setActiveNavItem(rawHash);
