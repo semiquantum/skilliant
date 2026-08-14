@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skilliant Contractor Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('skilliantTheme')||'light')}catch(e){}</script>
+  <link rel="stylesheet" href="css/contractor.css">
+  <style>.spa-page{display:none}.spa-page.active{display:block}</style>
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- SIDEBAR NAVIGATION -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="#dashboard" class="brand-logo">
+          <div class="logo-badge">S</div>
+          <div>
+            <span class="brand-title">Skilliant</span>
+            <span class="brand-subtitle">Contractor Portal</span>
+          </div>
+        </a>
+        <button type="button" class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close Sidebar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-group-label">MAIN NAVIGATION</div>
+        <ul class="nav-list">
+          <li>
+            <a href="#dashboard" class="nav-link">
+              <span class="nav-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                  <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                  <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+                  <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                </svg>
+              </span>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="#labour" class="nav-link">
+              <span class="nav-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+              </span>
+              <span>Labour</span>
+            </a>
+          </li>
+          <li>
+            <a href="#projects" class="nav-link">
+              <span class="nav-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </span>
+              <span>Projects</span>
+            </a>
+          </li>
+          <li>
+            <a href="#wallet" class="nav-link">
+              <span class="nav-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                  <line x1="2" y1="10" x2="22" y2="10"></line>
+                </svg>
+              </span>
+              <span>Wallet</span>
+            </a>
+          </li>
+          <li>
+            <a href="#reports" class="nav-link">
+              <span class="nav-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="20" x2="18" y2="10"></line>
+                  <line x1="12" y1="20" x2="12" y2="4"></line>
+                  <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+              </span>
+              <span>Reports</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="nav-group-label">ORGANIZATION</div>
+        <ul class="nav-list">
+          <li>
+            <a href="#company" class="nav-link">
+              <span class="nav-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 21h18"></path>
+                  <path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path>
+                </svg>
+              </span>
+              <span>Company</span>
+            </a>
+          </li>
+          <li>
+            <a href="#settings" class="nav-link">
+              <span class="nav-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="3"></circle>
+                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+              </span>
+              <span>Settings</span>
+            </a>
+          </li>
+          <li>
+            <a href="#help" class="nav-link">
+              <span class="nav-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+              </span>
+              <span>Help</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <div class="main-wrapper">
+      <!-- HEADER -->
+      <header class="top-header">
+        <div class="header-left">
+          <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <div class="header-title-box">
+            <h1>Contractor Dashboard</h1>
+            <span class="header-company-name">ABC Construction Pvt. Ltd.</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <div class="header-search">
+            <svg class="header-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" placeholder="Search contractor portal..." id="headerSearchInput">
+          </div>
+
+          <button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span class="theme-toggle-icon">☾</span></button><div class="header-date">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <span id="currentDateText">Today</span>
+          </div>
+
+          <button type="button" class="header-notification" id="headerNotificationBtn" title="Notifications" aria-label="Notifications" aria-expanded="false">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            <span class="notification-badge"></span>
+          </button>
+
+          <div class="user-profile" role="button" tabindex="0" data-route="settings">
+            <div class="user-avatar">SS</div>
+            <div class="user-info">
+              <span class="user-name">SHRUTI SHRIVASTAVA</span>
+              <span class="user-role">Prime Contractor</span>
+            </div>
+          </div>
+        </div>
+      </header>
+<main class="page-content spa-content"><section class="spa-page active" id="page-dashboard" data-page="dashboard">
+        <!-- 1. COMPANY OVERVIEW CARD -->
+        <section class="card company-card">
+          <div class="company-content">
+            <div class="company-details">
+              <h2 id="dashboardCompanyName">ABC Construction Pvt. Ltd.</h2>
+              <div class="company-type">Construction & Labour Services</div>
+              <div class="company-meta">
+                <span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                  <span id="dashboardCompanyCity">Pune, Maharashtra</span>
+                </span>
+                <span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                  <span id="dashboardCompanyPhone">+91 98765 43210</span>
+                </span>
+                <span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                  <span id="dashboardCompanyEmail">contact@abcconstruction.com</span>
+                </span>
+              </div>
+              <p class="company-desc">
+                Premier Grade-A construction contractor providing certified civil engineering, structural developments, and high-quality skilled manpower deployment across Maharashtra.
+              </p>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;"><span class="status-badge status-active" style="font-size: 13px; padding: 6px 14px;">Status: Active</span></div>
+          </div>
+        </section>
+
+        <!-- 2. STATISTICS CARDS -->
+        <section class="stats-grid">
+          <!-- Total Labour -->
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Total Labour</span>
+              <div class="stat-icon-wrapper stat-icon-blue">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                </svg>
+              </div>
+            </div>
+            <div class="stat-value" id="statTotalLabour">0</div>
+            <div class="stat-footer">
+              <span class="trend-up">↑ 12%</span>
+              <span>vs last month</span>
+            </div>
+          </div>
+
+          <!-- Active Labour -->
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Active Labour</span>
+              <div class="stat-icon-wrapper stat-icon-green">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+              </div>
+            </div>
+            <div class="stat-value" id="statActiveLabour">0</div>
+            <div class="stat-footer">
+              <span style="color: #166534; font-weight: 600;" id="statActivePercentage">0%</span>
+              <span>workforce deployed</span>
+            </div>
+          </div>
+
+          <!-- Active Projects -->
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Active Projects</span>
+              <div class="stat-icon-wrapper stat-icon-orange">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="stat-value">12</div>
+            <div class="stat-footer">
+              <span class="trend-up">+2</span>
+              <span>new sites initialized</span>
+            </div>
+          </div>
+
+          <!-- Pending Payments -->
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Pending Payments</span>
+              <div class="stat-icon-wrapper stat-icon-purple">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="12" y1="1" x2="12" y2="23"></line>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="stat-value">₹85,000</div>
+            <div class="stat-footer">
+              <span style="color: #C2410C; font-weight: 600;">Due in 7 days</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. DASHBOARD TWO-COLUMN SECTION -->
+        <div class="dashboard-grid">
+          <!-- Left Column: Recent Labour -->
+          <section class="card">
+            <div class="card-header">
+              <h3 class="card-title">Recent Labour</h3>
+              <a href="#labour" class="btn btn-secondary btn-sm">View All Labour</a>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Labour</th>
+                    <th>Skill</th>
+                    <th>Status</th>
+                    <th>Joining Date</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="recentLabourTbody">
+                  <!-- Dynamically populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+
+        </div>
+      </section><section class="spa-page" id="page-labour" data-page="labour">
+        <!-- TOP PAGE HEADER BAR -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <h2 style="font-size: 22px; font-weight: 800; color: var(--text-main);">Worker Directory</h2>
+            <p style="font-size: 14px; color: var(--text-muted);">Manage, search, filter, and track all registered contractor manpower.</p>
+          </div>
+          <a href="#add-labour" class="btn btn-orange">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            + Add Labour
+          </a>
+        </div>
+
+        <!-- CONTROLS TOOLBAR (SEARCH + FILTERS) -->
+        <div class="controls-bar">
+          <div class="filter-group">
+            <div class="search-box">
+              <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" id="searchInput" placeholder="Search by name, ID, skill, or phone...">
+            </div>
+
+            <!-- Status Filter -->
+            <select id="statusFilter" class="select-control">
+              <option value="All">All Statuses</option>
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+              <option value="On Leave">On Leave</option>
+            </select>
+
+            <!-- Skill Filter -->
+            <select id="skillFilter" class="select-control">
+              <option value="All">All Skills</option>
+              <option value="Mason">Mason</option>
+              <option value="Electrician">Electrician</option>
+              <option value="Plumber">Plumber</option>
+              <option value="Carpenter">Carpenter</option>
+              <option value="Painter">Painter</option>
+              <option value="Welder">Welder</option>
+              <option value="Helper">Helper</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- LABOUR LIST TABLE CONTAINER -->
+        <section class="card">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Labour Details</th>
+                  <th>Skill</th>
+                  <th>Phone Number</th>
+                  <th>Location</th>
+                  <th>Status</th>
+                  <th>Joining Date</th>
+                  <th style="text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="labourTableBody">
+                <!-- Dynamically Rendered by JS -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- EMPTY STATE CONTAINER (Hidden by default) -->
+          <div id="emptyStateContainer" class="empty-state" style="display: none;">
+            <div class="empty-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <line x1="23" y1="11" x2="17" y2="11"></line>
+              </svg>
+            </div>
+            <h3 class="empty-title" id="emptyTitle">No Labour Found</h3>
+            <p class="empty-desc" id="emptyDesc">Try changing your search keywords or filter criteria.</p>
+            <a href="#add-labour" class="btn btn-primary btn-sm" id="emptyCtaBtn">+ Add New Labour</a>
+          </div>
+        </section>
+      </section><section class="spa-page" id="page-add-labour" data-page="add-labour">
+        <div class="form-container">
+          <section class="card">
+            <div class="card-header">
+              <h2 class="card-title">Register Contractor Worker</h2>
+              <a href="#labour" class="btn btn-secondary btn-sm">Back to Labour List</a>
+            </div>
+
+            <form id="addLabourForm" novalidate>
+              <!-- SECTION 1: PERSONAL INFORMATION -->
+              <h3 style="font-size: 15px; font-weight: 700; color: var(--primary-blue); margin-bottom: 16px; padding-bottom: 6px; border-bottom: 1px solid var(--border-color);">1. Personal Information</h3>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="name">Full Name *</label>
+                  <input type="text" id="name" class="form-control" placeholder="e.g. Rahul Patil">
+                  <div class="error-message">Please enter the labour name.</div>
+                </div>
+
+                <div class="form-group">
+                  <label for="labourId">Labour ID *</label>
+                  <input type="text" id="labourId" class="form-control" placeholder="e.g. LAB011">
+                  <div class="error-message">Please enter a valid Labour ID.</div>
+                </div>
+
+                <div class="form-group">
+                  <label for="gender">Gender *</label>
+                  <select id="gender" class="form-control">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="dob">Date of Birth *</label>
+                  <input type="date" id="dob" class="form-control">
+                </div>
+              </div>
+
+              <!-- SECTION 2: CONTACT INFORMATION -->
+              <h3 style="font-size: 15px; font-weight: 700; color: var(--primary-blue); margin: 24px 0 16px; padding-bottom: 6px; border-bottom: 1px solid var(--border-color);">2. Contact Details</h3>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="phone">Phone Number *</label>
+                  <input type="tel" id="phone" class="form-control" placeholder="e.g. 9876543210" maxlength="10">
+                  <div class="error-message">Please enter a valid 10-digit phone number.</div>
+                </div>
+
+                <div class="form-group">
+                  <label for="email">Email Address</label>
+                  <input type="email" id="email" class="form-control" placeholder="e.g. rahul@example.com">
+                  <div class="error-message">Please enter a valid email address.</div>
+                </div>
+
+                <div class="form-group full-width">
+                  <label for="address">Street Address</label>
+                  <input type="text" id="address" class="form-control" placeholder="e.g. 102 Shivaji Nagar, Station Road">
+                </div>
+
+                <div class="form-group">
+                  <label for="city">City</label>
+                  <input type="text" id="city" class="form-control" placeholder="e.g. Pune" value="Pune">
+                </div>
+
+                <div class="form-group">
+                  <label for="state">State</label>
+                  <input type="text" id="state" class="form-control" placeholder="e.g. Maharashtra" value="Maharashtra">
+                </div>
+              </div>
+
+              <!-- SECTION 3: PROFESSIONAL INFORMATION -->
+              <h3 style="font-size: 15px; font-weight: 700; color: var(--primary-blue); margin: 24px 0 16px; padding-bottom: 6px; border-bottom: 1px solid var(--border-color);">3. Professional Profile</h3>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="skill">Primary Skill *</label>
+                  <select id="skill" class="form-control">
+                    <option value="Mason">Mason</option>
+                    <option value="Electrician">Electrician</option>
+                    <option value="Plumber">Plumber</option>
+                    <option value="Carpenter">Carpenter</option>
+                    <option value="Painter">Painter</option>
+                    <option value="Welder">Welder</option>
+                    <option value="Helper">Helper</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="experience">Experience (Years) *</label>
+                  <input type="number" id="experience" class="form-control" min="0" max="40" placeholder="e.g. 5" value="3">
+                  <div class="error-message">Please enter valid years of experience.</div>
+                </div>
+
+                <div class="form-group">
+                  <label for="joiningDate">Joining Date *</label>
+                  <input type="date" id="joiningDate" class="form-control">
+                </div>
+
+                <div class="form-group">
+                  <label for="status">Work Status *</label>
+                  <select id="status" class="form-control">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                    <option value="On Leave">On Leave</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- SECTION 4: EMERGENCY CONTACT -->
+              <h3 style="font-size: 15px; font-weight: 700; color: var(--primary-blue); margin: 24px 0 16px; padding-bottom: 6px; border-bottom: 1px solid var(--border-color);">4. Emergency Contact</h3>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="emergencyContact">Emergency Contact Name *</label>
+                  <input type="text" id="emergencyContact" class="form-control" placeholder="e.g. Suresh Patil">
+                  <div class="error-message">Please enter emergency contact name.</div>
+                </div>
+
+                <div class="form-group">
+                  <label for="emergencyPhone">Emergency Contact Number *</label>
+                  <input type="tel" id="emergencyPhone" class="form-control" placeholder="e.g. 9876501234" maxlength="10">
+                  <div class="error-message">Please enter a valid emergency phone number.</div>
+                </div>
+              </div>
+
+              <!-- FORM ACTIONS -->
+              <div class="form-actions">
+                <a href="#labour" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-orange">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                  Save Labour
+                </button>
+              </div>
+            </form>
+          </section>
+        </div>
+      </section><section class="spa-page" id="page-edit-labour" data-page="edit-labour">
+        <div class="form-container">
+          <section class="card">
+            <div class="card-header">
+              <h2 class="card-title">Update Labour Profile</h2>
+              <a href="#labour" class="btn btn-secondary btn-sm">Back to Labour List</a>
+            </div>
+
+            <form id="editLabourForm" novalidate>
+              <!-- SECTION 1: PERSONAL INFORMATION -->
+              <h3 style="font-size: 15px; font-weight: 700; color: var(--primary-blue); margin-bottom: 16px; padding-bottom: 6px; border-bottom: 1px solid var(--border-color);">1. Personal Information</h3>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="name">Full Name *</label>
+                  <input type="text" id="name" class="form-control">
+                  <div class="error-message">Please enter the labour name.</div>
+                </div>
+
+                <div class="form-group">
+                  <label for="labourId">Labour ID (Read Only)</label>
+                  <input type="text" id="labourId" class="form-control" readonly style="background-color: var(--bg-main); cursor: not-allowed;">
+                </div>
+
+                <div class="form-group">
+                  <label for="gender">Gender *</label>
+                  <select id="gender" class="form-control">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="dob">Date of Birth *</label>
+                  <input type="date" id="dob" class="form-control">
+                </div>
+              </div>
+
+              <!-- SECTION 2: CONTACT INFORMATION -->
+              <h3 style="font-size: 15px; font-weight: 700; color: var(--primary-blue); margin: 24px 0 16px; padding-bottom: 6px; border-bottom: 1px solid var(--border-color);">2. Contact Details</h3>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="phone">Phone Number *</label>
+                  <input type="tel" id="phone" class="form-control" maxlength="10">
+                  <div class="error-message">Please enter a valid 10-digit phone number.</div>
+                </div>
+
+                <div class="form-group">
+                  <label for="email">Email Address</label>
+                  <input type="email" id="email" class="form-control">
+                  <div class="error-message">Please enter a valid email address.</div>
+                </div>
+
+                <div class="form-group full-width">
+                  <label for="address">Street Address</label>
+                  <input type="text" id="address" class="form-control">
+                </div>
+
+                <div class="form-group">
+                  <label for="city">City</label>
+                  <input type="text" id="city" class="form-control">
+                </div>
+
+                <div class="form-group">
+                  <label for="state">State</label>
+                  <input type="text" id="state" class="form-control">
+                </div>
+              </div>
+
+              <!-- SECTION 3: PROFESSIONAL INFORMATION -->
+              <h3 style="font-size: 15px; font-weight: 700; color: var(--primary-blue); margin: 24px 0 16px; padding-bottom: 6px; border-bottom: 1px solid var(--border-color);">3. Professional Profile</h3>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="skill">Primary Skill *</label>
+                  <select id="skill" class="form-control">
+                    <option value="Mason">Mason</option>
+                    <option value="Electrician">Electrician</option>
+                    <option value="Plumber">Plumber</option>
+                    <option value="Carpenter">Carpenter</option>
+                    <option value="Painter">Painter</option>
+                    <option value="Welder">Welder</option>
+                    <option value="Helper">Helper</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="experience">Experience (Years) *</label>
+                  <input type="number" id="experience" class="form-control" min="0" max="40">
+                  <div class="error-message">Please enter valid years of experience.</div>
+                </div>
+
+                <div class="form-group">
+                  <label for="joiningDate">Joining Date *</label>
+                  <input type="date" id="joiningDate" class="form-control">
+                </div>
+
+                <div class="form-group">
+                  <label for="status">Work Status *</label>
+                  <select id="status" class="form-control">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                    <option value="On Leave">On Leave</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- SECTION 4: EMERGENCY CONTACT -->
+              <h3 style="font-size: 15px; font-weight: 700; color: var(--primary-blue); margin: 24px 0 16px; padding-bottom: 6px; border-bottom: 1px solid var(--border-color);">4. Emergency Contact</h3>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="emergencyContact">Emergency Contact Name *</label>
+                  <input type="text" id="emergencyContact" class="form-control">
+                  <div class="error-message">Please enter emergency contact name.</div>
+                </div>
+
+                <div class="form-group">
+                  <label for="emergencyPhone">Emergency Contact Number *</label>
+                  <input type="tel" id="emergencyPhone" class="form-control" maxlength="10">
+                  <div class="error-message">Please enter a valid emergency phone number.</div>
+                </div>
+              </div>
+
+              <!-- FORM ACTIONS -->
+              <div class="form-actions">
+                <a href="#labour" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-primary">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                  Update Changes
+                </button>
+              </div>
+            </form>
+          </section>
+        </div>
+      </section><section class="spa-page" id="page-labour-details" data-page="labour-details">
+        <!-- TOP ACTIONS BAR -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+          <a href="#labour" class="btn btn-secondary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Back to Labour List
+          </a>
+
+          <a id="editBtnLink" href="#" class="btn btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
+            Edit Labour
+          </a>
+        </div>
+
+        <!-- DETAILS GRID -->
+        <div class="details-grid">
+          <!-- LEFT PROFILE CARD -->
+          <section class="card details-profile-card">
+            <div class="details-avatar" id="avatarBox">L</div>
+            <h2 class="details-name" id="displayName">--</h2>
+            <div class="details-id" id="displayId">--</div>
+            <div style="margin-bottom: 16px;" id="displayStatusBadge">--</div>
+            <span style="background-color: var(--primary-blue-light); color: var(--primary-blue); font-weight: 700; font-size: 13px; padding: 6px 16px; border-radius: 20px; border: 1px solid var(--primary-blue-border);" id="displaySkill">--</span>
+          </section>
+
+          <!-- RIGHT DETAILED SECTIONS -->
+          <div style="display: flex; flex-direction: column; gap: 20px;">
+            <!-- PERSONAL INFO CARD -->
+            <section class="card">
+              <h3 class="detail-section-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                Personal Information
+              </h3>
+              <div class="detail-items-grid">
+                <div>
+                  <div class="detail-item-label">Full Name</div>
+                  <div class="detail-item-value" id="valName">--</div>
+                </div>
+                <div>
+                  <div class="detail-item-label">Labour ID</div>
+                  <div class="detail-item-value" id="valId">--</div>
+                </div>
+                <div>
+                  <div class="detail-item-label">Gender</div>
+                  <div class="detail-item-value" id="valGender">--</div>
+                </div>
+                <div>
+                  <div class="detail-item-label">Date of Birth</div>
+                  <div class="detail-item-value" id="valDob">--</div>
+                </div>
+              </div>
+            </section>
+
+            <!-- CONTACT INFO CARD -->
+            <section class="card">
+              <h3 class="detail-section-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                Contact Details
+              </h3>
+              <div class="detail-items-grid">
+                <div>
+                  <div class="detail-item-label">Phone Number</div>
+                  <div class="detail-item-value" id="valPhone">--</div>
+                </div>
+                <div>
+                  <div class="detail-item-label">Email Address</div>
+                  <div class="detail-item-value" id="valEmail">--</div>
+                </div>
+                <div>
+                  <div class="detail-item-label">Address</div>
+                  <div class="detail-item-value" id="valAddress">--</div>
+                </div>
+                <div>
+                  <div class="detail-item-label">City & State</div>
+                  <div class="detail-item-value" id="valCityState">--</div>
+                </div>
+              </div>
+            </section>
+
+            <!-- PROFESSIONAL INFO CARD -->
+            <section class="card">
+              <h3 class="detail-section-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                Professional Information
+              </h3>
+              <div class="detail-items-grid">
+                <div>
+                  <div class="detail-item-label">Primary Skill</div>
+                  <div class="detail-item-value" id="valSkill">--</div>
+                </div>
+                <div>
+                  <div class="detail-item-label">Experience</div>
+                  <div class="detail-item-value" id="valExperience">--</div>
+                </div>
+                <div>
+                  <div class="detail-item-label">Joining Date</div>
+                  <div class="detail-item-value" id="valJoiningDate">--</div>
+                </div>
+                <div>
+                  <div class="detail-item-label">Current Status</div>
+                  <div class="detail-item-value" id="valStatus">--</div>
+                </div>
+              </div>
+            </section>
+
+            <!-- EMERGENCY CONTACT CARD -->
+            <section class="card">
+              <h3 class="detail-section-title" style="color: var(--accent-orange);">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                Emergency Contact
+              </h3>
+              <div class="detail-items-grid">
+                <div>
+                  <div class="detail-item-label">Contact Name</div>
+                  <div class="detail-item-value" id="valEmgContact">--</div>
+                </div>
+                <div>
+                  <div class="detail-item-label">Emergency Phone</div>
+                  <div class="detail-item-value" id="valEmgPhone">--</div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section><section class="spa-page" id="page-projects" data-page="projects">
+<div class="page-heading"><div><h2>Active Projects</h2><p>View project details, assign labour, review teams, and track attendance.</p></div></div>
+<div class="stats-grid"><div class="stat-card"><div class="stat-label">Active Projects</div><div class="stat-value">2</div></div><div class="stat-card"><div class="stat-label">Planned Projects</div><div class="stat-value">1</div></div><div class="stat-card"><div class="stat-label">Assigned Labour</div><div class="stat-value" id="assignedCount">10</div></div></div>
+<div class="grid-2">
+<section class="card"><div class="card-header"><h3 class="card-title">Project Details</h3></div><div class="project-list">
+<div class="project-row"><div><strong>Metro Line 4 - Station 12</strong><span>Kothrud, Pune · Active</span></div><span class="status-badge status-active">Active</span></div>
+<div class="project-row"><div><strong>Verdana Luxury Towers</strong><span>Baner, Pune · Active</span></div><span class="status-badge status-active">Active</span></div>
+<div class="project-row"><div><strong>Pimpri Flyover Extension</strong><span>Pimpri, Pune · Planning</span></div><span class="status-badge status-on-leave">Planning</span></div>
+</div></section>
+<section class="card"><div class="card-header"><h3 class="card-title">Assign Labour</h3></div><form id="assignForm"><div class="form-group"><label for="projectSelect">Project</label><select id="projectSelect" class="form-control"><option>Metro Line 4 - Station 12</option><option>Verdana Luxury Towers</option><option>Pimpri Flyover Extension</option></select></div><div class="form-group"><label for="labourSelect">Labour</label><select id="labourSelect" class="form-control"></select></div><button class="btn btn-primary" type="submit">Assign Labour</button></form></section>
+</div>
+<section class="card"><div class="card-header"><h3 class="card-title">Team Overview</h3></div><div class="table-responsive"><table class="data-table"><thead><tr><th>Labour</th><th>Skill</th><th>Project</th><th>Status</th></tr></thead><tbody id="teamBody"></tbody></table></div></section>
+<section class="card"><div class="card-header"><h3 class="card-title">Attendance UI</h3><span style="font-size:13px;color:var(--text-muted)">Today</span></div><div class="table-responsive"><table class="data-table"><thead><tr><th>Labour</th><th>Skill</th><th>Attendance</th></tr></thead><tbody id="attendanceBody"></tbody></table></div></section>
+</section><section class="spa-page" id="page-wallet" data-page="wallet"><div class="page-heading"><div><h2>Wallet & Payments</h2><p>Manage payments, transactions and invoices for contractor work.</p></div></div><div class="stats-grid"><div class="stat-card"><div class="stat-label">Available Balance</div><div class="stat-value">₹1,24,500</div></div><div class="stat-card"><div class="stat-label">This Month</div><div class="stat-value">₹82,000</div></div><div class="stat-card"><div class="stat-label">Pending Payments</div><div class="stat-value">₹18,500</div></div></div><div class="grid-2"><section class="card"><div class="card-header"><h3 class="card-title">Payments</h3></div><div class="payment-summary"><strong>₹82,000</strong><span>Paid to labour this month</span></div><div class="mini-list"><div><span>Labour wages</span><b>₹64,000</b></div><div><span>Project advance</span><b>₹18,000</b></div></div></section><section class="card"><div class="card-header"><h3 class="card-title">Invoices</h3></div><div class="mini-list"><div><span>INV-2026-014</span><b>₹45,000 · Paid</b></div><div><span>INV-2026-015</span><b>₹32,000 · Pending</b></div><div><span>INV-2026-016</span><b>₹18,500 · Pending</b></div></div></section></div><section class="card"><div class="card-header"><h3 class="card-title">Transactions</h3></div><div class="table-responsive"><table class="data-table"><thead><tr><th>Date</th><th>Description</th><th>Type</th><th>Amount</th><th>Status</th></tr></thead><tbody><tr><td>13 Aug 2026</td><td>Labour wages - Metro Line 4</td><td>Debit</td><td>₹28,000</td><td><span class="status-badge status-active">Completed</span></td></tr><tr><td>10 Aug 2026</td><td>Project payment received</td><td>Credit</td><td>₹50,000</td><td><span class="status-badge status-active">Completed</span></td></tr><tr><td>08 Aug 2026</td><td>Labour wages - Verdana Towers</td><td>Debit</td><td>₹22,000</td><td><span class="status-badge status-active">Completed</span></td></tr></tbody></table></div></section></section><section class="spa-page" id="page-reports" data-page="reports"><div class="page-heading"><div><h2>Reports</h2><p>Review workforce, project and payment summaries.</p></div></div><div class="stats-grid"><div class="stat-card"><div class="stat-label">Total Labour</div><div class="stat-value" id="totalLabour">0</div></div><div class="stat-card"><div class="stat-label">Active Labour</div><div class="stat-value" id="activeLabour">0</div></div><div class="stat-card"><div class="stat-label">On Leave</div><div class="stat-value" id="leaveLabour">0</div></div></div><div class="grid-2"><section class="card"><div class="card-header"><h3 class="card-title">Workforce Report</h3></div><div class="mini-list" id="skillReport"></div></section><section class="card"><div class="card-header"><h3 class="card-title">Project Report</h3></div><div class="mini-list"><div><span>Metro Line 4 - Station 12</span><b>6 workers</b></div><div><span>Verdana Luxury Towers</span><b>4 workers</b></div><div><span>Pimpri Flyover Extension</span><b>Planning</b></div></div></section></div><section class="card"><div class="card-header"><h3 class="card-title">Payment Report</h3></div><div class="table-responsive"><table class="data-table"><thead><tr><th>Category</th><th>Amount</th><th>Status</th></tr></thead><tbody><tr><td>Labour wages</td><td>₹64,000</td><td><span class="status-badge status-active">Paid</span></td></tr><tr><td>Project advance</td><td>₹18,000</td><td><span class="status-badge status-active">Received</span></td></tr><tr><td>Pending invoice</td><td>₹18,500</td><td><span class="status-badge status-on-leave">Pending</span></td></tr></tbody></table></div></section></section><section class="spa-page" id="page-company" data-page="company">
+<div class="page-heading"><div><h2>Company Details</h2><p>View and edit contractor company information.</p></div></div>
+<div class="grid-2">
+<section class="card">
+<div class="card-header"><h3 class="card-title">Company Information</h3><button class="btn btn-secondary btn-sm" id="editCompanyBtn" type="button">Edit Company</button></div>
+<div class="detail-grid">
+<div><span class="detail-item-label">Company Name</span><strong id="companyNameValue">ABC Construction Pvt. Ltd.</strong></div>
+<div><span class="detail-item-label">Contractor Type</span><strong id="companyTypeValue">Prime Contractor</strong></div>
+<div><span class="detail-item-label">Email</span><strong id="companyEmailValue">contact@abcconstruction.com</strong></div>
+<div><span class="detail-item-label">Phone</span><strong id="companyPhoneValue">+91 98765 43210</strong></div>
+<div><span class="detail-item-label">City</span><strong id="companyCityValue">Pune, Maharashtra</strong></div>
+<div><span class="detail-item-label">Registration</span><strong id="companyRegistrationValue">U45200MH2020PTC000001</strong></div>
+</div>
+</section>
+<section class="card"><div class="card-header"><h3 class="card-title">Company Status</h3></div>
+<div class="mini-list"><div><span>Account Status</span><b class="status-badge status-active">Active</b></div><div><span>Contractor Type</span><b id="companyStatusType">Prime Contractor</b></div></div>
+</section>
+</div>
+</section>
+<section class="spa-page" id="page-settings" data-page="settings">
+      <div class="page-heading"><div><h2>Settings</h2><p>Manage notifications, profile and labour data.</p></div></div>
+
+      <div class="grid-2">
+        <section class="card">
+          <div class="card-header"><h3 class="card-title">Notifications</h3></div>
+          <div class="setting-row"><div><strong>Payment notifications</strong><span>Receive updates for completed and pending payments.</span></div><label class="switch"><input type="checkbox" id="paymentNotifications" checked><span></span></label></div>
+          <div class="setting-row"><div><strong>Labour updates</strong><span>Receive updates when labour records change.</span></div><label class="switch"><input type="checkbox" id="labourNotifications" checked><span></span></label></div>
+          <div class="setting-row"><div><strong>Project updates</strong><span>Receive project and attendance notifications.</span></div><label class="switch"><input type="checkbox" id="projectNotifications" checked><span></span></label></div>
+        </section>
+      </div>
+
+
+      <section class="card profile-section">
+        <div class="card-header"><h3 class="card-title">Profile</h3></div>
+        <div class="profile-summary">
+          <div class="profile-avatar-large">SS</div>
+          <div>
+            <h3>SHRUTI SHRIVASTAVA</h3>
+            <p>Prime Contractor · Contractor Portal</p>
+          </div>
+        </div>
+
+        <div class="profile-form-grid">
+          <div class="form-group">
+            <label for="profileName">Full Name</label>
+            <input id="profileName" class="form-control" type="text" value="SHRUTI SHRIVASTAVA">
+          </div>
+          <div class="form-group">
+            <label for="profileUsername">Username</label>
+            <input id="profileUsername" class="form-control" type="text" value="shruti123">
+          </div>
+          <div class="form-group full">
+            <label for="profileEmail">Email ID</label>
+            <input id="profileEmail" class="form-control" type="email" value="shrutishrivastava234">
+          </div>
+        </div>
+
+        <div class="profile-actions">
+          <button type="button" class="btn btn-secondary" id="resetProfile">Reset</button>
+          <button type="button" class="btn btn-primary" id="saveProfile">Save Profile</button>
+        </div>
+      </section>
+
+      <section class="card danger-zone">
+        <div class="card-header"><h3 class="card-title">Labour Data</h3></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
+          <div><strong>Delete All Labour Records</strong><span style="display:block;color:var(--text-muted);font-size:13px;margin-top:4px;">Permanently remove every labour record stored in this contractor portal.</span></div>
+          <button class="btn btn-danger-outline" id="deleteAllLabourBtn" type="button">Delete All Labour</button>
+        </div>
+      </section>
+    </section><section class="spa-page" id="page-help" data-page="help"><div class="page-heading"><div><h2>Help Center</h2><p>Find quick answers and contact support for portal assistance.</p></div></div><div class="grid-2"><section class="card"><div class="card-header"><h3 class="card-title">Common Help</h3></div><div class="faq-list"><details open><summary>How do I add labour?</summary><p>Open Labour from the sidebar and select Add Labour. Complete the required details and save the record.</p></details><details><summary>How do I edit a labour record?</summary><p>Open Labour, choose the edit action for the required worker, update the information and save it.</p></details><details><summary>Where can I view payments?</summary><p>Open Wallet to review payments, transactions and invoices.</p></details><details><summary>Where can I edit company details?</summary><p>Open Company, select Edit Company, update the information and save it.</p></details></div></section><section class="card"><div class="card-header"><h3 class="card-title">Support</h3></div><div class="support-box"><strong>Skilliant Support Desk</strong><span>For portal assistance, contact:</span><a href="mailto:contact@skilliant.com">contact@skilliant.com</a><span>Support hours: Monday to Saturday, 10:00 AM - 6:00 PM</span></div></section></div></section></main>
+</div></div>
+<script src="js/contractor.js"></script>
+
+<script>
+/* =========================================================
+   SKILLIANT FUNCTIONAL REPAIR LAYER
+   Preserves the existing UI/structure and makes every module
+   persist and behave consistently through LocalStorage.
+   ========================================================= */
+(function(){
+  const K={
+    projects:'skilliant_projects_v2',
+    assignments:'skilliant_project_assignments_v2',
+    attendance:'skilliant_attendance_v2',
+    wallet:'skilliant_wallet_v2',
+    company:'skilliant_company_v2',
+    activities:'skilliant_activity_log_v2',
+    auth:'skilliant_auth_v2'
+  };
+
+  const seedProjects=[
+    {id:'P001',name:'Metro Line 4 - Station 12',location:'Kothrud, Pune',status:'Active'},
+    {id:'P002',name:'Verdana Luxury Towers',location:'Baner, Pune',status:'Active'},
+    {id:'P003',name:'Pimpri Flyover Extension',location:'Pimpri, Pune',status:'Planning'}
+  ];
+  const seedWallet={
+    balance:124500,
+    month:82000,
+    pending:18500,
+    transactions:[
+      {id:'TXN001',date:'2026-08-13',description:'Labour wages - Metro Line 4',type:'Debit',amount:28000,status:'Completed'},
+      {id:'TXN002',date:'2026-08-10',description:'Project payment received',type:'Credit',amount:50000,status:'Completed'},
+      {id:'TXN003',date:'2026-08-08',description:'Labour wages - Verdana Towers',type:'Debit',amount:22000,status:'Completed'}
+    ],
+    invoices:[
+      {id:'INV-2026-014',amount:45000,status:'Paid'},
+      {id:'INV-2026-015',amount:32000,status:'Pending'},
+      {id:'INV-2026-016',amount:18500,status:'Pending'}
+    ]
+  };
+  const defaultCompany={
+    name:'ABC Construction Pvt. Ltd.',
+    type:'Prime Contractor',
+    email:'contact@abcconstruction.com',
+    phone:'+91 98765 43210',
+    city:'Pune, Maharashtra',
+    registration:'U45200MH2020PTC000001'
+  };
+
+  function read(key,fallback){
+    try{
+      const v=localStorage.getItem(key);
+      return v===null?fallback:JSON.parse(v);
+    }catch(e){return fallback;}
+  }
+  function write(key,value){localStorage.setItem(key,JSON.stringify(value));}
+  function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
+  function money(n){return '₹'+Number(n||0).toLocaleString('en-IN');}
+  function dateLabel(v){return new Date(v).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});}
+  function projects(){let p=read(K.projects,null);if(!Array.isArray(p)){p=seedProjects;write(K.projects,p);}return p;}
+  function wallet(){let w=read(K.wallet,null);if(!w||!Array.isArray(w.transactions)){w=seedWallet;write(K.wallet,w);}return w;}
+  function company(){return {...defaultCompany,...(read(K.company,{})||{})};}
+  function activities(){return read(K.activities,[]);}
+  function logActivity(title,detail){
+    const list=activities();
+    list.unshift({id:Date.now()+Math.random(),title,detail,time:new Date().toISOString()});
+    write(K.activities,list.slice(0,100));
+    if(window.refreshNotificationPanel) window.refreshNotificationPanel();
+  }
+  window.skilliantLogActivity=logActivity;
+
+  /* Keep labour seeded on a fresh installation. Never overwrite an existing array. */
+  if(localStorage.getItem('skilliantLabourData')===null && typeof getLabourData==='function') getLabourData();
+
+  /* Company data */
+  function renderCompanyEverywhere(){
+    const c=company();
+    const ids={
+      companyNameValue:c.name,companyTypeValue:c.type,companyEmailValue:c.email,
+      companyPhoneValue:c.phone,companyCityValue:c.city,companyRegistrationValue:c.registration,
+      companyStatusType:c.type,dashboardCompanyName:c.name,dashboardCompanyCity:c.city,
+      dashboardCompanyPhone:c.phone,dashboardCompanyEmail:c.email
+    };
+    Object.keys(ids).forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=ids[id];});
+    document.querySelectorAll('.header-company-name').forEach(e=>e.textContent=c.name);
+    document.querySelectorAll('.company-details h2').forEach(e=>e.textContent=c.name);
+  }
+
+  function openCompanyEditor(){
+    const c=company();
+    let modal=document.getElementById('companyEditModal');
+    if(!modal){
+      modal=document.createElement('div');modal.id='companyEditModal';modal.className='modal-backdrop';
+      modal.innerHTML=`<div class="modal-card" style="max-width:720px"><h3 class="modal-title">Edit Company</h3>
+      <form id="companyEditForm" class="form-grid">
+      <div class="form-group"><label>Company Name</label><input class="form-control" id="ceName" required></div>
+      <div class="form-group"><label>Contractor Type</label><input class="form-control" id="ceType" required></div>
+      <div class="form-group"><label>Email</label><input class="form-control" type="email" id="ceEmail" required></div>
+      <div class="form-group"><label>Phone</label><input class="form-control" id="cePhone" required></div>
+      <div class="form-group"><label>City</label><input class="form-control" id="ceCity" required></div>
+      <div class="form-group"><label>Registration</label><input class="form-control" id="ceReg" required></div>
+      <div class="modal-actions" style="grid-column:1/-1"><button type="button" class="btn btn-secondary" id="ceCancel">Cancel</button><button class="btn btn-primary" type="submit">Save Company</button></div></form></div>`;
+      document.body.appendChild(modal);
+      document.getElementById('ceCancel').onclick=()=>modal.remove();
+      document.getElementById('companyEditForm').onsubmit=e=>{
+        e.preventDefault();
+        const next={name:document.getElementById('ceName').value.trim(),type:document.getElementById('ceType').value.trim(),email:document.getElementById('ceEmail').value.trim(),phone:document.getElementById('cePhone').value.trim(),city:document.getElementById('ceCity').value.trim(),registration:document.getElementById('ceReg').value.trim()};
+        if(!next.name||!next.type||!next.email||!next.phone||!next.city||!next.registration){showToast('Please complete all company fields.','danger');return;}
+        write(K.company,next);renderCompanyEverywhere();logActivity('Company updated',`Company information was updated to ${next.name}.`);showToast('Company information saved successfully.');modal.remove();
+      };
+    }
+    modal.style.display='flex';
+    [['ceName',c.name],['ceType',c.type],['ceEmail',c.email],['cePhone',c.phone],['ceCity',c.city],['ceReg',c.registration]].forEach(([id,v])=>document.getElementById(id).value=v);
+  }
+
+  function initCompanyRepair(){
+    renderCompanyEverywhere();
+    const b=document.getElementById('editCompanyBtn');if(b&&!b.dataset.bound){b.dataset.bound='1';b.onclick=openCompanyEditor;}
+  }
+
+  /* Projects, assignment and attendance */
+  function assignmentMap(){return read(K.assignments,{});}
+  function renderProjectsRepair(){
+    const ps=projects(), data=typeof getLabourData==='function'?getLabourData():[];
+    const count=document.getElementById('assignedCount');if(count)count.textContent=Object.keys(assignmentMap()).length;
+    const projectSelect=document.getElementById('projectSelect');
+    if(projectSelect)projectSelect.innerHTML=ps.map(p=>`<option value="${esc(p.name)}">${esc(p.name)}</option>`).join('');
+    const ls=document.getElementById('labourSelect');
+    if(ls)ls.innerHTML=data.length?data.map(l=>`<option value="${esc(l.id)}">${esc(l.name)} (${esc(l.skill)})</option>`).join(''):'<option value="">No labour available</option>';
+    const form=document.getElementById('assignForm');
+    if(form&&!form.dataset.repairBound){
+      form.dataset.repairBound='1';
+      form.onsubmit=e=>{
+        e.preventDefault();const id=ls?.value, project=document.getElementById('projectSelect')?.value;if(!id||!project){showToast('Select a project and labour member.','danger');return;}
+        const map=assignmentMap();map[id]=project;write(K.assignments,map);logActivity('Labour assigned',`${id} was assigned to ${project}.`);showToast('Labour assigned successfully.');renderProjectsRepair();
+      };
+    }
+    const team=document.getElementById('teamBody');
+    if(team){
+      const rows=data.filter(l=>assignmentMap()[l.id]);
+      team.innerHTML=rows.length?rows.map(l=>`<tr><td>${esc(l.name)}</td><td>${esc(l.skill)}</td><td>${esc(assignmentMap()[l.id])}</td><td>${typeof getStatusBadgeHtml==='function'?getStatusBadgeHtml(l.status):esc(l.status)}</td></tr>`).join(''):`<tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:20px;">No labour assigned yet.</td></tr>`;
+    }
+    const att=document.getElementById('attendanceBody');
+    if(att){
+      const state=read(K.attendance,{});
+      att.innerHTML=data.length?data.map(l=>`<tr><td>${esc(l.name)}</td><td>${esc(l.skill)}</td><td><label style="display:inline-flex;align-items:center;gap:8px"><input type="checkbox" data-att-id="${esc(l.id)}" ${state[l.id]===true?'checked':''}> Present</label></td></tr>`).join(''):`<tr><td colspan="3" style="text-align:center;color:var(--text-muted);padding:20px;">No labour records found.</td></tr>`;
+      att.querySelectorAll('[data-att-id]').forEach(cb=>cb.onchange=()=>{const s=read(K.attendance,{});s[cb.dataset.attId]=cb.checked;write(K.attendance,s);logActivity('Attendance updated',`${cb.dataset.attId} marked ${cb.checked?'Present':'Absent'}.`);showToast('Attendance saved.');});
+    }
+  }
+
+  /* Wallet and financial records */
+  function initWalletRepair(){
+    const w=wallet();
+    const cards=document.querySelectorAll('#page-wallet .stat-value');
+    if(cards[0])cards[0].textContent=money(w.balance);
+    if(cards[1])cards[1].textContent=money(w.month);
+    if(cards[2])cards[2].textContent=money(w.pending);
+    const tbody=document.querySelector('#page-wallet .data-table tbody');
+    if(tbody)tbody.innerHTML=w.transactions.map(t=>`<tr><td>${dateLabel(t.date)}</td><td>${esc(t.description)}</td><td>${esc(t.type)}</td><td>${money(t.amount)}</td><td><span class="status-badge ${t.status==='Completed'?'status-active':'status-on-leave'}">${esc(t.status)}</span></td></tr>`).join('');
+    const invoiceBox=document.querySelector('#page-wallet .grid-2 .card:nth-child(2) .mini-list');
+    if(invoiceBox)invoiceBox.innerHTML=w.invoices.map(i=>`<div><span>${esc(i.id)}</span><b>${money(i.amount)} · ${esc(i.status)}</b></div>`).join('');
+    const paymentRows=document.querySelectorAll('#page-wallet .grid-2 .card:first-child .mini-list > div');
+    paymentRows.forEach(r=>r.onclick=()=>showToast(`Payment information: ${r.textContent.trim()}`));
+  }
+
+  function initReportsRepair(){
+    if(typeof initReports==='function') initReports();
+    const w=wallet();
+    const table=document.querySelector('#page-reports .data-table tbody');
+    if(table) table.innerHTML=w.invoices.map(i=>`<tr><td>Invoice ${esc(i.id)}</td><td>${money(i.amount)}</td><td><span class="status-badge ${i.status==='Paid'?'status-active':'status-on-leave'}">${esc(i.status)}</span></td></tr>`).join('');
+  }
+
+  /* Dashboard keeps the same layout but derives financial/project values from stored data. */
+  function initDashboardRepair(){
+    if(typeof initDashboard==='function') initDashboard();
+    const ps=projects(), w=wallet();
+    renderCompanyEverywhere();
+    const activeProjects=ps.filter(p=>p.status==='Active').length;
+    const statCards=document.querySelectorAll('#page-dashboard .stats-grid .stat-value');
+    if(statCards[2])statCards[2].textContent=activeProjects;
+    if(statCards[3])statCards[3].textContent=money(w.pending);
+    const recentWrap=document.querySelector('#page-dashboard .company-card + .stats-grid + .grid-2 > div .card');
+    if(recentWrap){
+      const rows=recentWrap.querySelectorAll('div[style*="justify-content: space-between"]');
+      ps.slice(0,3).forEach((p,i)=>{
+        const row=rows[i];if(!row)return;
+        const parts=row.querySelectorAll('div > div');
+        if(parts[0])parts[0].textContent=p.name;
+        if(parts[1])parts[1].textContent=p.location;
+        const badge=row.querySelector('.status-badge');
+        if(badge){badge.textContent=p.status;badge.className='status-badge '+(p.status==='Active'?'status-active':'status-on-leave');}
+      });
+    }
+  }
+
+  /* Profile dropdown + login/logout, without changing header structure. */
+  function initProfileMenu(){
+    const profile=document.querySelector('.user-profile');
+    if(!profile)return;
+    profile.style.cursor='pointer';
+    let menu=document.getElementById('profileMenu');
+    if(!menu){
+      menu=document.createElement('div');menu.id='profileMenu';menu.className='profile-menu';menu.hidden=true;
+      menu.innerHTML=`<button type="button" data-profile-action="profile">My Profile</button><button type="button" data-profile-action="login">Login</button><button type="button" data-profile-action="logout">Logout</button>`;
+      profile.parentElement.appendChild(menu);
+      menu.addEventListener('click',e=>{
+        const a=e.target.closest('[data-profile-action]');if(!a)return;
+        const action=a.dataset.profileAction;
+        if(action==='profile'){menu.hidden=true;navigate('settings');return;}
+        if(action==='login'){
+          write(K.auth,{loggedIn:true,time:new Date().toISOString()});
+          logActivity('Login','Contractor profile logged in.');
+          showToast('Logged in successfully.');
+          menu.hidden=true;updateProfileMenu();return;
+        }
+        if(action==='logout'){
+          write(K.auth,{loggedIn:false,time:new Date().toISOString()});
+          logActivity('Logout','Contractor profile logged out.');
+          showToast('Logged out successfully.');
+          menu.hidden=true;updateProfileMenu();return;
+        }
+      });
+    }
+    function updateProfileMenu(){
+      const auth=read(K.auth,{loggedIn:true});
+      const loginBtn=menu.querySelector('[data-profile-action="login"]');
+      const logoutBtn=menu.querySelector('[data-profile-action="logout"]');
+      if(loginBtn) loginBtn.disabled=auth.loggedIn===true;
+      if(logoutBtn) logoutBtn.disabled=auth.loggedIn!==true;
+    }
+    updateProfileMenu();
+    if(!profile.dataset.profileBound){
+      profile.dataset.profileBound='1';
+      profile.addEventListener('click',e=>{e.stopPropagation();menu.hidden=!menu.hidden;updateProfileMenu();});
+      profile.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();menu.hidden=!menu.hidden;updateProfileMenu();}});
+      document.addEventListener('click',e=>{if(!menu.hidden&&!menu.contains(e.target)&&e.target!==profile)menu.hidden=true;});
+    }
+  }
+
+  /* Notification history panel */
+  function initActivityNotifications(){
+    const btn=document.getElementById('headerNotificationBtn');if(!btn)return;
+    let panel=document.getElementById('notificationPanel');
+    if(!panel){
+      panel=document.createElement('div');panel.id='notificationPanel';panel.className='notification-panel';panel.hidden=true;btn.parentElement.appendChild(panel);
+    }
+    function render(){
+      const list=activities();
+      const badge=btn.querySelector('.notification-badge');
+      if(badge){badge.textContent=list.length>0?(list.length>99?'99+':String(list.length)):'';badge.hidden=list.length===0;}
+      panel.innerHTML=`<div class="notification-panel-title"><span>Notifications</span><span style="font-size:12px;color:var(--text-muted)">${list.length} recent</span></div>
+      ${list.length?list.slice(0,30).map(a=>`<div class="notification-panel-item"><span class="notification-panel-dot"></span><div><strong>${esc(a.title)}</strong><span>${esc(a.detail)}<br><small>${dateLabel(a.time)}</small></span></div></div>`).join(''):'<div class="notification-panel-item"><div><strong>No recent activity</strong><span>Your portal changes will appear here.</span></div></div>'}
+      <div style="padding:10px 14px;border-top:1px solid var(--border-color);display:flex;justify-content:flex-end"><button type="button" class="btn btn-secondary btn-sm" id="clearActivityBtn">Clear Notifications</button></div>`;
+      const clear=document.getElementById('clearActivityBtn');
+      if(clear)clear.onclick=()=>{write(K.activities,[]);render();showToast('Notifications cleared.');};
+    }
+    window.refreshNotificationPanel=render;
+    if(!btn.dataset.activityBound){
+      btn.dataset.activityBound='1';
+      btn.addEventListener('click',e=>{e.stopPropagation();render();panel.hidden=!panel.hidden;btn.setAttribute('aria-expanded',String(!panel.hidden));});
+      document.addEventListener('click',e=>{if(!panel.hidden&&!panel.contains(e.target)&&e.target!==btn){panel.hidden=true;btn.setAttribute('aria-expanded','false');}});
+    }
+    render();
+  }
+
+  /* Make labour mutations visible in activity history while preserving original APIs. */
+  function wrapLabourActions(){
+    if(window.__labourWrapped)return;window.__labourWrapped=true;
+    const oldAdd=window.addLabour,oldUpdate=window.updateLabour,oldDelete=window.deleteLabour;
+    if(oldAdd)window.addLabour=function(r){oldAdd(r);logActivity('Labour added',`${r.name} (${r.id}) was added.`);};
+    if(oldUpdate)window.updateLabour=function(r){const ok=oldUpdate(r);if(ok)logActivity('Labour updated',`${r.name} (${r.id}) was updated.`);return ok;};
+    if(oldDelete)window.deleteLabour=function(id){const r=typeof getLabourById==='function'?getLabourById(id):null;oldDelete(id);if(r)logActivity('Labour deleted',`${r.name} (${id}) was deleted.`);};
+  }
+
+  function repairRenderRoute(){
+    const old=window.renderRoute;
+    window.renderRoute=function(){
+      old();
+      const page=(location.hash||'#dashboard').slice(1).split('?')[0];
+      if(page==='dashboard')initDashboardRepair();
+      if(page==='projects')renderProjectsRepair();
+      if(page==='wallet')initWalletRepair();
+      if(page==='reports')initReportsRepair();
+      if(page==='company')initCompanyRepair();
+      if(page==='settings'){initProfileMenu();initActivityNotifications();}
+      initProfileMenu();initActivityNotifications();renderCompanyEverywhere();
+    };
+  }
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    wrapLabourActions();
+    repairRenderRoute();
+    initProfileMenu();
+    initActivityNotifications();
+    renderCompanyEverywhere();
+    window.addEventListener('hashchange',()=>setTimeout(()=>{const p=(location.hash||'#dashboard').slice(1).split('?')[0]; if(p==='dashboard')initDashboardRepair(); if(p==='projects')renderProjectsRepair(); if(p==='wallet')initWalletRepair(); if(p==='reports')initReportsRepair(); if(p==='company')initCompanyRepair(); initProfileMenu(); initActivityNotifications(); renderCompanyEverywhere();},0));
+    if(!activities().length)logActivity('Portal ready','Skilliant Contractor Portal is ready and working.');
+    const initialPage=(location.hash||'#dashboard').slice(1).split('?')[0];
+    if(initialPage==='company')initCompanyRepair();
+    if(initialPage==='dashboard')initDashboardRepair();
+    if(initialPage==='projects')renderProjectsRepair();
+    if(initialPage==='wallet')initWalletRepair();
+    if(initialPage==='reports')initReportsRepair();
+    const oldTheme=window.applyTheme;
+    /* Log theme changes without altering theme behaviour */
+    if(oldTheme&&!window.__themeWrapped){
+      window.__themeWrapped=true;
+      window.applyTheme=function(theme){oldTheme(theme);logActivity('Appearance changed',`Portal theme changed to ${theme==='dark'?'Dark':'Light'} mode.`);};
+    }
+  });
+})();
+</script>
+</body>
+</html>
