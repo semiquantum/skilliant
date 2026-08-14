@@ -697,6 +697,75 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
+    // Lightweight client-side translations for the portal's shared navigation
+    // and settings interface. Dynamic data (names, addresses and bookings) is
+    // intentionally left in the language in which the user entered it.
+    const portalTranslations = {
+        Hindi: {
+            "User Portal": "उपयोगकर्ता पोर्टल", "MAIN MENU": "मुख्य मेनू", "PAYMENTS": "भुगतान", "ACCOUNT": "खाता",
+            "Dashboard": "डैशबोर्ड", "Search Labour": "श्रमिक खोजें", "My Bookings": "मेरी बुकिंग", "Favourite Labour": "पसंदीदा श्रमिक", "Todo List": "कार्य सूची",
+            "Wallet": "वॉलेट", "Payment History": "भुगतान इतिहास", "Saved Addresses": "सहेजे गए पते", "Reviews & Ratings": "समीक्षाएँ और रेटिंग", "Notifications": "सूचनाएँ", "Support": "सहायता", "Settings": "सेटिंग्स", "Logout": "लॉग आउट",
+            "Manage your preferences": "अपनी प्राथमिकताएँ प्रबंधित करें", "Manage your account preferences": "अपनी खाता प्राथमिकताएँ प्रबंधित करें", "Account Settings": "खाता सेटिंग्स", "Edit Profile": "प्रोफ़ाइल संपादित करें", "Update your personal information": "अपनी व्यक्तिगत जानकारी अपडेट करें", "Edit": "संपादित करें",
+            "Change Password": "पासवर्ड बदलें", "Update your account password": "अपना खाता पासवर्ड अपडेट करें", "Change": "बदलें", "Notification Settings": "सूचना सेटिंग्स", "Booking Notifications": "बुकिंग सूचनाएँ", "Receive booking updates": "बुकिंग अपडेट प्राप्त करें", "Promotional Notifications": "प्रचार संबंधी सूचनाएँ", "Receive offers and promotions": "ऑफर और प्रमोशन प्राप्त करें", "Preferences": "प्राथमिकताएँ", "Language": "भाषा", "Theme": "थीम", "Light": "लाइट", "Dark": "डार्क", "Customer": "ग्राहक",
+            "Overview of your activity": "आपकी गतिविधि का अवलोकन", "Find the right professional": "सही पेशेवर खोजें", "Manage your labour bookings": "अपनी श्रमिक बुकिंग प्रबंधित करें", "Manage your wallet balance": "अपना वॉलेट बैलेंस प्रबंधित करें", "View your payment transactions": "अपने भुगतान लेनदेन देखें", "Manage your service addresses": "अपने सेवा पते प्रबंधित करें"
+        },
+        Marathi: {
+            "User Portal": "वापरकर्ता पोर्टल", "MAIN MENU": "मुख्य मेनू", "PAYMENTS": "देयके", "ACCOUNT": "खाते", "Dashboard": "डॅशबोर्ड", "Search Labour": "कामगार शोधा", "My Bookings": "माझी बुकिंग", "Favourite Labour": "आवडते कामगार", "Todo List": "कामांची यादी", "Wallet": "वॉलेट", "Payment History": "देयक इतिहास", "Saved Addresses": "जतन केलेले पत्ते", "Reviews & Ratings": "पुनरावलोकने आणि रेटिंग", "Notifications": "सूचना", "Support": "मदत", "Settings": "सेटिंग्ज", "Logout": "लॉग आउट",
+            "Manage your preferences": "तुमच्या पसंती व्यवस्थापित करा", "Manage your account preferences": "तुमच्या खाते पसंती व्यवस्थापित करा", "Account Settings": "खाते सेटिंग्ज", "Edit Profile": "प्रोफाइल संपादित करा", "Update your personal information": "तुमची वैयक्तिक माहिती अद्यतनित करा", "Edit": "संपादित करा", "Change Password": "पासवर्ड बदला", "Update your account password": "तुमचा खाते पासवर्ड अद्यतनित करा", "Change": "बदला", "Notification Settings": "सूचना सेटिंग्ज", "Booking Notifications": "बुकिंग सूचना", "Receive booking updates": "बुकिंग अद्यतने मिळवा", "Promotional Notifications": "प्रचारात्मक सूचना", "Receive offers and promotions": "ऑफर आणि प्रमोशन मिळवा", "Preferences": "पसंती", "Language": "भाषा", "Theme": "थीम", "Light": "लाइट", "Dark": "डार्क", "Customer": "ग्राहक",
+            "Overview of your activity": "तुमच्या कामकाजाचा आढावा", "Find the right professional": "योग्य व्यावसायिक शोधा", "Manage your labour bookings": "तुमच्या कामगार बुकिंग व्यवस्थापित करा", "Manage your wallet balance": "तुमचे वॉलेट शिल्लक व्यवस्थापित करा", "View your payment transactions": "तुमचे देयक व्यवहार पहा", "Manage your service addresses": "तुमचे सेवा पत्ते व्यवस्थापित करा"
+        }
+    };
+
+    const originalTextNodes = new WeakMap();
+    let currentLanguage = localStorage.getItem("skilliant_language") || "English";
+
+    Object.assign(portalTranslations.Hindi, {
+        "All": "सभी", "Active": "सक्रिय", "Upcoming": "आगामी", "Completed": "पूर्ण", "Cancelled": "रद्द", "Details": "विवरण", "Cancel": "रद्द करें", "No Bookings": "कोई बुकिंग नहीं", "No bookings found in this category.": "इस श्रेणी में कोई बुकिंग नहीं मिली।",
+        "Available Balance": "उपलब्ध शेष", "Add Money": "पैसे जोड़ें", "Total Added": "कुल जोड़ा गया", "Total Spent": "कुल खर्च", "Recent Transactions": "हाल के लेनदेन", "Your wallet activity": "आपकी वॉलेट गतिविधि", "Transactions": "लेनदेन", "Payment History": "भुगतान इतिहास", "No payment history.": "कोई भुगतान इतिहास नहीं।",
+        "Add Address": "पता जोड़ें", "No Addresses": "कोई पता नहीं", "Add an address for faster booking.": "तेज़ बुकिंग के लिए पता जोड़ें।", "Default address": "डिफ़ॉल्ट पता", "Set default": "डिफ़ॉल्ट बनाएं", "Delete": "हटाएं", "Save Changes": "बदलाव सहेजें", "Full Name": "पूरा नाम", "Phone Number": "फोन नंबर", "Location": "स्थान"
+    });
+    Object.assign(portalTranslations.Marathi, {
+        "All": "सर्व", "Active": "सक्रिय", "Upcoming": "आगामी", "Completed": "पूर्ण", "Cancelled": "रद्द", "Details": "तपशील", "Cancel": "रद्द करा", "No Bookings": "कोणतीही बुकिंग नाही", "No bookings found in this category.": "या श्रेणीमध्ये कोणतीही बुकिंग आढळली नाही।",
+        "Available Balance": "उपलब्ध शिल्लक", "Add Money": "पैसे जोडा", "Total Added": "एकूण जोडले", "Total Spent": "एकूण खर्च", "Recent Transactions": "अलीकडील व्यवहार", "Your wallet activity": "तुमची वॉलेट गतिविधी", "Transactions": "व्यवहार", "Payment History": "देयक इतिहास", "No payment history.": "देयक इतिहास नाही।",
+        "Add Address": "पत्ता जोडा", "No Addresses": "कोणताही पत्ता नाही", "Add an address for faster booking.": "जलद बुकिंगसाठी पत्ता जोडा।", "Default address": "मूळ पत्ता", "Set default": "मूळ करा", "Delete": "हटवा", "Save Changes": "बदल जतन करा", "Full Name": "पूर्ण नाव", "Phone Number": "फोन नंबर", "Location": "स्थान"
+    });
+
+    function translateText(value) {
+        return portalTranslations[currentLanguage]?.[value] || value;
+    }
+
+    function clearInlineErrors(form) {
+        form?.querySelectorAll(".inline-field-error").forEach(item => item.remove());
+        form?.querySelectorAll(".field-invalid").forEach(item => item.classList.remove("field-invalid"));
+    }
+
+    function showInlineError(input, message) {
+        if (!input) return;
+        input.classList.add("field-invalid");
+        const error = document.createElement("small");
+        error.className = "inline-field-error";
+        error.textContent = message;
+        input.insertAdjacentElement("afterend", error);
+    }
+
+    function applyLanguage(language) {
+        currentLanguage = portalTranslations[language] ? language : "English";
+        localStorage.setItem("skilliant_language", currentLanguage);
+        document.documentElement.lang = currentLanguage === "Hindi" ? "hi" : currentLanguage === "Marathi" ? "mr" : "en";
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+        const nodes = [];
+        while (walker.nextNode()) nodes.push(walker.currentNode);
+        nodes.forEach(node => {
+            const original = originalTextNodes.get(node) ?? node.nodeValue;
+            if (!originalTextNodes.has(node)) originalTextNodes.set(node, original);
+            const trimmed = original.trim();
+            if (portalTranslations.Hindi[trimmed] || portalTranslations.Marathi[trimmed]) {
+                node.nodeValue = original.replace(trimmed, translateText(trimmed));
+            }
+        });
+        document.getElementById("languageSetting") && (document.getElementById("languageSetting").value = currentLanguage);
+    }
+
 
     // =================================================
     // UPDATE USER DISPLAY
@@ -715,6 +784,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 element.textContent =
                     initials;
+
+                if (user.photo) {
+                    element.style.backgroundImage = `url("${user.photo}")`;
+                    element.style.backgroundSize = "cover";
+                    element.style.backgroundPosition = "center";
+                    element.classList.add("has-profile-photo");
+                } else {
+                    element.style.backgroundImage = "";
+                    element.classList.remove("has-profile-photo");
+                }
             });
 
 
@@ -831,12 +910,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (title && info) {
             title.textContent =
-                info.title;
+                translateText(info.title);
         }
 
         if (subtitle && info) {
             subtitle.textContent =
-                info.subtitle;
+                translateText(info.subtitle);
         }
 
 
@@ -852,6 +931,8 @@ document.addEventListener("DOMContentLoaded", () => {
         renderSection(
             sectionName
         );
+
+        applyLanguage(currentLanguage);
     }
 
 
@@ -1745,6 +1826,13 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        if (!container.dataset.loaded) {
+            container.dataset.loaded = "true";
+            container.innerHTML = `<div class="content-skeleton"><span></span><span></span></div>`;
+            window.setTimeout(renderBookings, 180);
+            return;
+        }
+
 
         let filtered =
             [...bookings];
@@ -1821,7 +1909,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 .map(
                     booking => `
 
-                    <div class="booking-card">
+                    <article class="booking-card booking-card-rich">
 
                         <div>
 
@@ -1857,6 +1945,8 @@ document.addEventListener("DOMContentLoaded", () => {
                                 )}
                             </p>
 
+                            <small class="booking-id">Booking ID: ${escapeHTML(booking.id)}</small>
+
                         </div>
 
 
@@ -1867,6 +1957,8 @@ document.addEventListener("DOMContentLoaded", () => {
                                     booking.status
                                 )}
                             </span>
+
+                            <button type="button" class="secondary-btn" data-view-booking="${escapeHTML(booking.id)}">Details</button>
 
                             ${
                                 booking.status !==
@@ -1887,7 +1979,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         </div>
 
-                    </div>
+                    </article>
                 `
                 )
                 .join("");
@@ -2147,6 +2239,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 event.preventDefault();
 
+                clearInlineErrors(form);
+
 
                 const date =
                     document.getElementById(
@@ -2173,21 +2267,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     )?.value || "";
 
 
-                if (
-                    !date ||
-                    !time ||
-                    !(address || newAddress) ||
-                    !service ||
-                    new Date(`${date}T00:00:00`) < new Date(new Date().toDateString())
-                ) {
-
-                    showToast(
-                        "Please fill all required fields.",
-                        "error"
-                    );
-
-                    return;
+                let invalid = false;
+                if (!date || new Date(`${date}T00:00:00`) < new Date(new Date().toDateString())) {
+                    showInlineError(document.getElementById("bookingDate"), "Choose today or a future date."); invalid = true;
                 }
+                if (!time) { showInlineError(document.getElementById("bookingTime"), "Select a time slot."); invalid = true; }
+                if (!service) { showInlineError(document.getElementById("bookingService"), "Select a service."); invalid = true; }
+                if (!(address || newAddress)) { showInlineError(document.getElementById("bookingAddress"), "Select or enter a service address."); invalid = true; }
+                if (invalid) { showToast("Please correct the highlighted fields.", "error"); return; }
 
 
                 if (newAddress) {
@@ -2229,51 +2316,38 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        const confirmed =
-            confirm(
-                "Are you sure you want to cancel this booking?"
-            );
+        openModal(`
+            <div class="modal-header"><h2>Cancel booking?</h2><button type="button" data-close-modal aria-label="Close modal">×</button></div>
+            <div class="modal-body"><p>Cancel booking <strong>${escapeHTML(booking.id)}</strong> with ${escapeHTML(booking.labour)}? This action cannot be undone.</p></div>
+            <div class="modal-footer"><button type="button" class="secondary-btn" data-close-modal>Keep booking</button><button type="button" class="danger-btn" data-confirm-cancel-booking="${escapeHTML(booking.id)}">Cancel booking</button></div>
+        `);
+    }
 
-
-        if (!confirmed) {
-            return;
-        }
-
-
-        booking.status =
-            "Cancelled";
-
-
-        notifications.unshift({
-
-            id:
-                Date.now(),
-
-            title:
-                "Booking Cancelled",
-
-            message:
-                `Booking ${booking.id} has been cancelled.`,
-
-            time:
-                "Just now",
-
-            unread:
-                true
-        });
-
-
+    function confirmCancelBooking(id) {
+        const booking = bookings.find(item => String(item.id) === String(id));
+        if (!booking) return;
+        booking.status = "Cancelled";
+        notifications.unshift({ id: Date.now(), title: "Booking Cancelled", message: `Booking ${booking.id} has been cancelled.`, time: "Just now", unread: true });
         saveData();
-
-
-        showToast(
-            "Booking cancelled."
-        );
-
-
+        closeModal();
         renderBookings();
-
         renderDashboard();
+        showToast("Booking cancelled successfully.");
+    }
+
+    function viewBookingDetails(id) {
+        const booking = bookings.find(item => String(item.id) === String(id));
+        if (!booking) return;
+        openModal(`
+            <div class="modal-header"><h2>Booking details</h2><button type="button" data-close-modal aria-label="Close modal">×</button></div>
+            <div class="modal-body booking-details-grid">
+                <div><span>Booking ID</span><strong>${escapeHTML(booking.id)}</strong></div><div><span>Status</span><strong>${escapeHTML(booking.status)}</strong></div>
+                <div><span>Professional</span><strong>${escapeHTML(booking.labour)}</strong></div><div><span>Service</span><strong>${escapeHTML(booking.service || booking.skill)}</strong></div>
+                <div><span>Date & time</span><strong>${escapeHTML(booking.date)} · ${escapeHTML(booking.time)}</strong></div><div><span>Amount</span><strong>${formatCurrency(booking.amount)}</strong></div>
+                <div class="booking-detail-wide"><span>Service address</span><strong>${escapeHTML(booking.address || "Not provided")}</strong></div>
+            </div>
+            <div class="modal-footer"><button type="button" class="primary-btn" data-close-modal>Done</button></div>
+        `);
     }
 
 
@@ -2662,6 +2736,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             <span class="todo-badge priority-${escapeHTML(String(todo.priority || "Medium")).toLowerCase()}">
                                 ${escapeHTML(todo.priority || "Medium")}
                             </span>
+
                             <span class="todo-badge category-badge">
                                 ${escapeHTML(todo.category)}
                             </span>
@@ -2711,7 +2786,6 @@ document.addEventListener("DOMContentLoaded", () => {
                             <button class="danger-btn" data-delete-todo="${todo.id}">Delete</button>
                         </div>
                     </div>
-                </div>
             </article>
         `;
         }).join("");
@@ -2900,6 +2974,8 @@ document.addEventListener("DOMContentLoaded", () => {
         form?.addEventListener("submit", event => {
 
             event.preventDefault();
+
+            clearInlineErrors(event.target);
 
             if (isSubmittingTodo) {
                 return;
@@ -3272,6 +3348,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 formatCurrency(wallet);
         }
 
+        const totalAdded = payments
+            .filter(payment => payment.type === "credit" || /recharge|added/i.test(payment.description || ""))
+            .reduce((total, payment) => total + Number(payment.amount || 0), 0);
+        const totalSpent = payments
+            .filter(payment => payment.type === "debit" || !/recharge|added/i.test(payment.description || ""))
+            .reduce((total, payment) => total + Number(payment.amount || 0), 0);
+        document.getElementById("walletTotalAdded") && (document.getElementById("walletTotalAdded").textContent = formatCurrency(totalAdded));
+        document.getElementById("walletTotalSpent") && (document.getElementById("walletTotalSpent").textContent = formatCurrency(totalSpent));
+
 
         const transactionList =
             document.getElementById(
@@ -3281,13 +3366,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (transactionList) {
 
+            if (!transactionList.dataset.loaded) {
+                transactionList.dataset.loaded = "true";
+                transactionList.innerHTML = `<div class="content-skeleton compact"><span></span><span></span></div>`;
+                window.setTimeout(renderWallet, 180);
+                return;
+            }
+
             transactionList.innerHTML =
                 payments.length
                     ? payments
                         .slice(0, 10)
                         .map(
                             payment => `
-                            <div class="transaction-item">
+                            <button type="button" class="transaction-item transaction-button" data-view-payment="${escapeHTML(payment.id)}">
 
                                 <div>
 
@@ -3311,7 +3403,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     )}
                                 </strong>
 
-                            </div>
+                            </button>
                         `
                         )
                         .join("")
@@ -3328,66 +3420,23 @@ document.addEventListener("DOMContentLoaded", () => {
             "click",
             () => {
 
-                const amount =
-                    prompt(
-                        "Enter amount to add:"
-                    );
-
-
-                const value =
-                    Number(amount);
-
-
-                if (
-                    !value ||
-                    value <= 0
-                ) {
-
-                    showToast(
-                        "Please enter a valid amount.",
-                        "error"
-                    );
-
-                    return;
-                }
-
-
-                wallet += value;
-
-
-                payments.unshift({
-
-                    id:
-                        "TXN" +
-                        Date.now(),
-
-                    date:
-                        new Date()
-                            .toISOString()
-                            .split("T")[0],
-
-                    description:
-                        "Wallet Recharge",
-
-                    amount:
-                        value,
-
-                    method:
-                        "Demo",
-
-                    status:
-                        "Successful"
+                openModal(`
+                    <div class="modal-header"><h2>Add money</h2><button type="button" data-close-modal aria-label="Close modal">×</button></div>
+                    <form id="walletTopupForm" class="modal-body">
+                        <div class="form-group"><label for="walletAmount">Amount</label><input id="walletAmount" type="number" min="1" step="1" placeholder="Enter amount" required></div>
+                        <div class="form-group"><label for="walletMethod">Payment method</label><select id="walletMethod"><option>UPI</option><option>Debit card</option><option>Credit card</option></select></div>
+                        <div class="modal-footer"><button type="button" class="secondary-btn" data-close-modal>Cancel</button><button class="primary-btn" type="submit">Add money</button></div>
+                    </form>
+                `);
+                document.getElementById("walletTopupForm")?.addEventListener("submit", event => {
+                    event.preventDefault();
+                    const value = Number(document.getElementById("walletAmount")?.value);
+                    const method = document.getElementById("walletMethod")?.value || "UPI";
+                    if (!value || value <= 0) { showToast("Enter a valid amount.", "error"); return; }
+                    wallet += value;
+                    payments.unshift({ id: "TXN" + Date.now(), date: new Date().toISOString().split("T")[0], description: "Wallet Recharge", amount: value, method, type: "credit", status: "Successful" });
+                    saveData(); closeModal(); renderWallet(); renderPayments(); showToast(`${formatCurrency(value)} added successfully.`);
                 });
-
-
-                saveData();
-
-                renderWallet();
-
-
-                showToast(
-                    `${formatCurrency(value)} added to wallet.`
-                );
             }
         );
 
@@ -3408,13 +3457,23 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        if (!tbody.dataset.loaded) {
+            tbody.dataset.loaded = "true";
+            tbody.innerHTML = `<tr><td colspan="6"><div class="content-skeleton compact"><span></span><span></span></div></td></tr>`;
+            window.setTimeout(renderPayments, 180);
+            return;
+        }
+
+        const paymentCount = document.getElementById("paymentCount");
+        if (paymentCount) paymentCount.textContent = `${payments.length} transaction${payments.length === 1 ? "" : "s"}`;
+
 
         tbody.innerHTML =
             payments.length
                 ? payments
                     .map(
                         payment => `
-                        <tr>
+                        <tr class="payment-row" data-view-payment="${escapeHTML(payment.id)}" tabindex="0" role="button">
 
                             <td>
                                 ${escapeHTML(
@@ -3446,11 +3505,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 )}
                             </td>
 
-                            <td>
-                                ${escapeHTML(
-                                    payment.status
-                                )}
-                            </td>
+                            <td><span class="status-badge ${String(payment.status).toLowerCase() === "successful" ? "completed" : "pending"}">${escapeHTML(payment.status)}</span></td>
 
                         </tr>
                     `
@@ -3470,6 +3525,21 @@ document.addEventListener("DOMContentLoaded", () => {
     // ADDRESSES
     // =================================================
 
+    function viewPaymentDetails(id) {
+        const payment = payments.find(item => String(item.id) === String(id));
+        if (!payment) return;
+        openModal(`
+            <div class="modal-header"><h2>Transaction details</h2><button type="button" data-close-modal aria-label="Close modal">×</button></div>
+            <div class="modal-body booking-details-grid">
+                <div><span>Transaction ID</span><strong>${escapeHTML(payment.id)}</strong></div><div><span>Payment status</span><strong>${escapeHTML(payment.status)}</strong></div>
+                <div><span>Type</span><strong>${escapeHTML(payment.type || (/recharge|added/i.test(payment.description || "") ? "Wallet credit" : "Service payment"))}</strong></div><div><span>Method</span><strong>${escapeHTML(payment.method || "Wallet")}</strong></div>
+                <div><span>Date</span><strong>${escapeHTML(payment.date)}</strong></div><div><span>Amount</span><strong>${formatCurrency(payment.amount)}</strong></div>
+                <div class="booking-detail-wide"><span>Description</span><strong>${escapeHTML(payment.description || "Payment transaction")}</strong></div>
+            </div>
+            <div class="modal-footer"><button type="button" class="primary-btn" data-close-modal>Done</button></div>
+        `);
+    }
+
     function renderAddresses() {
 
         const grid =
@@ -3479,6 +3549,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         if (!grid) {
+            return;
+        }
+
+        if (!grid.dataset.loaded) {
+            grid.dataset.loaded = "true";
+            grid.innerHTML = `<div class="content-skeleton"><span></span><span></span></div>`;
+            window.setTimeout(renderAddresses, 180);
             return;
         }
 
@@ -3510,6 +3587,8 @@ document.addEventListener("DOMContentLoaded", () => {
                                 )}
                             </p>
 
+                            ${address.default ? '<span class="default-address-badge">Default address</span>' : ''}
+
 
                             <div>
 
@@ -3520,6 +3599,8 @@ document.addEventListener("DOMContentLoaded", () => {
                                 >
                                     Edit
                                 </button>
+
+                                ${!address.default ? `<button type="button" class="text-btn" data-default-address="${address.id}">Set default</button>` : ''}
 
                                 <button
                                     type="button"
@@ -3700,6 +3781,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     event.preventDefault();
 
+                    const addressForm = event.target;
+                    clearInlineErrors(addressForm);
+
 
                     const id =
                         document.getElementById(
@@ -3719,13 +3803,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         ).value.trim();
 
 
-                    if (!text) {
-
-                        showToast(
-                            "Please enter an address.",
-                            "error"
-                        );
-
+                    if (text.length < 8) {
+                        showInlineError(document.getElementById("addressText"), "Enter a complete address (at least 8 characters).");
+                        showToast("Please correct the highlighted address.", "error");
                         return;
                     }
 
@@ -3787,7 +3867,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                     showToast(
-                        "Address saved successfully."
+                        id ? "Address updated successfully." : "Address added successfully."
                     );
                 }
             );
@@ -4148,6 +4228,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                             event.preventDefault();
 
+                            clearInlineErrors(event.target);
+
 
                             const ticket = {
 
@@ -4275,6 +4357,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             event.preventDefault();
 
+            clearInlineErrors(event.target);
+
 
             const name =
                 document.getElementById(
@@ -4296,18 +4380,39 @@ document.addEventListener("DOMContentLoaded", () => {
                     "profileLocation"
                 );
 
+            const fullName = name?.value.trim() || "";
+            const emailValue = email?.value.trim() || "";
+            const phoneValue = phone?.value.replace(/\D/g, "") || "";
 
-            user.name =
-                name?.value.trim() ||
-                user.name;
+            if (fullName.length < 2) {
+                showInlineError(name, "Enter your full name.");
+                showToast("Please enter a valid full name.", "error");
+                name?.focus();
+                return;
+            }
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailValue)) {
+                showInlineError(email, "Enter a valid email address.");
+                showToast("Please enter a valid email address.", "error");
+                email?.focus();
+                return;
+            }
+
+            if (phoneValue.length < 10 || phoneValue.length > 13) {
+                showInlineError(phone, "Enter a valid phone number.");
+                showToast("Please enter a valid phone number.", "error");
+                phone?.focus();
+                return;
+            }
+
+
+            user.name = fullName;
 
             user.email =
-                email?.value.trim() ||
-                "";
+                emailValue;
 
             user.phone =
-                phone?.value.trim() ||
-                "";
+                phone?.value.trim() || "";
 
             user.location =
                 location?.value.trim() ||
@@ -4362,6 +4467,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
             }
         );
+    }
+
+    const languageSetting = document.getElementById("languageSetting");
+
+    if (languageSetting) {
+        languageSetting.value = currentLanguage;
+        languageSetting.addEventListener("change", () => {
+            applyLanguage(languageSetting.value);
+            showToast(currentLanguage === "English" ? "Language updated." : "भाषा बदल दी गई है।");
+        });
     }
 
 
@@ -4484,12 +4599,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                             if (
-                                newPassword.length <
-                                6
+                                newPassword.length < 8 ||
+                                !/[A-Z]/.test(newPassword) ||
+                                !/[a-z]/.test(newPassword) ||
+                                !/\d/.test(newPassword)
                             ) {
 
+                                showInlineError(document.getElementById("newPassword"), "Use 8+ characters with uppercase, lowercase and a number.");
                                 showToast(
-                                    "Password must contain at least 6 characters.",
+                                    "Use 8+ characters with uppercase, lowercase and a number.",
                                     "error"
                                 );
 
@@ -4502,6 +4620,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 confirmPassword
                             ) {
 
+                                showInlineError(document.getElementById("confirmPassword"), "Passwords do not match.");
                                 showToast(
                                     "Passwords do not match.",
                                     "error"
@@ -4574,12 +4693,30 @@ document.addEventListener("DOMContentLoaded", () => {
         ?.addEventListener(
             "click",
             () => {
-
-                showToast(
-                    "Profile photo feature is ready for integration."
-                );
+                document.getElementById("profilePhotoInput")?.click();
             }
         );
+
+    document.getElementById("profilePhotoInput")?.addEventListener("change", event => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+        if (!file.type.startsWith("image/")) {
+            showToast("Please select an image file.", "error");
+            return;
+        }
+        if (file.size > 2 * 1024 * 1024) {
+            showToast("Please choose an image smaller than 2 MB.", "error");
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = () => {
+            user.photo = reader.result;
+            saveData();
+            updateUserDisplay();
+            showToast("Profile photo updated successfully.");
+        };
+        reader.readAsDataURL(file);
+    });
 
 
     // =================================================
@@ -5034,6 +5171,24 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
+            const confirmCancelButton = event.target.closest("[data-confirm-cancel-booking]");
+            if (confirmCancelButton) {
+                confirmCancelBooking(confirmCancelButton.dataset.confirmCancelBooking);
+                return;
+            }
+
+            const bookingDetailsButton = event.target.closest("[data-view-booking]");
+            if (bookingDetailsButton) {
+                viewBookingDetails(bookingDetailsButton.dataset.viewBooking);
+                return;
+            }
+
+            const paymentDetailsButton = event.target.closest("[data-view-payment]");
+            if (paymentDetailsButton) {
+                viewPaymentDetails(paymentDetailsButton.dataset.viewPayment);
+                return;
+            }
+
 
             // Delete Address
             const deleteAddress =
@@ -5051,36 +5206,30 @@ document.addEventListener("DOMContentLoaded", () => {
                     );
 
 
-                const confirmed =
-                    confirm(
-                        "Delete this address?"
-                    );
-
-
-                if (!confirmed) {
-                    return;
-                }
-
-
-                addresses =
-                    addresses.filter(
-                        address =>
-                            Number(
-                                address.id
-                            ) !== id
-                    );
-
-
-                saveData();
-
-                renderAddresses();
-
-
-                showToast(
-                    "Address deleted."
-                );
+                const address = addresses.find(item => Number(item.id) === id);
+                openModal(`
+                    <div class="modal-header"><h2>Delete address?</h2><button type="button" data-close-modal aria-label="Close modal">×</button></div>
+                    <div class="modal-body"><p>Remove <strong>${escapeHTML(address?.title || "this address")}</strong> from your saved addresses?</p></div>
+                    <div class="modal-footer"><button type="button" class="secondary-btn" data-close-modal>Keep address</button><button type="button" class="danger-btn" data-confirm-delete-address="${id}">Delete address</button></div>
+                `);
 
                 return;
+            }
+
+            const setDefaultAddress = event.target.closest("[data-default-address]");
+            if (setDefaultAddress) {
+                const id = Number(setDefaultAddress.dataset.defaultAddress);
+                addresses = addresses.map(address => ({ ...address, default: Number(address.id) === id }));
+                saveData(); renderAddresses(); showToast("Default address changed."); return;
+            }
+
+            const confirmDeleteAddress = event.target.closest("[data-confirm-delete-address]");
+            if (confirmDeleteAddress) {
+                const id = Number(confirmDeleteAddress.dataset.confirmDeleteAddress);
+                const wasDefault = addresses.find(address => Number(address.id) === id)?.default;
+                addresses = addresses.filter(address => Number(address.id) !== id);
+                if (wasDefault && addresses.length) addresses[0].default = true;
+                saveData(); closeModal(); renderAddresses(); showToast("Address deleted successfully."); return;
             }
 
 

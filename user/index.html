@@ -935,12 +935,12 @@
 
                         <div>
                             <span>Total Added</span>
-                            <strong>₹8,500</strong>
+                            <strong id="walletTotalAdded">₹0</strong>
                         </div>
 
                         <div>
                             <span>Total Spent</span>
-                            <strong>₹6,050</strong>
+                            <strong id="walletTotalSpent">₹0</strong>
                         </div>
 
                     </div>
@@ -986,6 +986,14 @@
                 </div>
 
                 <div class="dashboard-panel">
+
+                    <div class="panel-header payment-heading">
+                        <div>
+                            <h2>Transactions</h2>
+                            <p>Select a transaction to view its details</p>
+                        </div>
+                        <span id="paymentCount" class="status-badge">0 transactions</span>
+                    </div>
 
                     <div class="table-container">
 
@@ -1368,7 +1376,7 @@
 
                     <div class="profile-header">
 
-                        <div class="large-avatar">
+                        <div class="large-avatar profile-photo-preview" id="profilePhotoPreview">
                             S
                         </div>
 
@@ -1386,6 +1394,7 @@
                             >
                                 Change Photo
                             </button>
+                            <input type="file" id="profilePhotoInput" accept="image/*" hidden>
 
                         </div>
 
