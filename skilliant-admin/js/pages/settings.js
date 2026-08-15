@@ -7,7 +7,7 @@ const SettingsPage = {
         const isSuper = session?.role === 'Super Admin';
         const safe = v => (v === undefined || v === null || String(v).toLowerCase() === 'undefined') ? '' : String(v);
         return `
-            ${UI.renderPageHeader('Settings', 'Manage your profile, password and essential platform settings.')}
+            ${UI.renderPageHeader('Website Settings', 'Manage your profile, password and essential platform settings.')}
             <div class="settings-layout">
                 <div class="glass-card">
                     <h3 style="margin:0 0 .25rem;color:var(--primary-navy);">My Profile</h3>
@@ -49,7 +49,23 @@ const SettingsPage = {
                         <div><label>Support Email</label><input id="setSupportEmail" type="email" class="form-control" value="${safe(s.supportEmail || session?.adminEmail || me.email)}"></div>
                         <div><label>Support Phone (exactly 10 digits)</label><input id="setSupportPhone" type="tel" class="form-control" value="${safe(s.supportPhone)}" maxlength="10" inputmode="numeric" pattern="\\d{10}" oninput="this.value=this.value.replace(/\\D/g,'').slice(0,10)"></div>
                         <div><label>Commission %</label><input id="setCommission" type="number" min="0" max="100" step="0.1" class="form-control" value="${Number.isFinite(Number(s.commissionPercentage)) ? Number(s.commissionPercentage) : 10}"></div>
+                        <div><label>Company Name</label><input id="setCompanyName" class="form-control" value="${safe(s.companyName)}"></div>
+                        <div><label>Business Address</label><input id="setAddress" class="form-control" value="${safe(s.address)}"></div>
+                        <div><label>Working Hours</label><input id="setWorkingHours" class="form-control" value="${safe(s.workingHours)}"></div>
+                        <div><label>Default Currency</label><input id="setCurrency" class="form-control" maxlength="5" value="${safe(s.defaultCurrency || '$')}"></div>
+                        <div><label>Language</label><select id="setLanguage" class="form-control"><option ${s.language==='English'?'selected':''}>English</option><option ${s.language==='Hindi'?'selected':''}>Hindi</option><option ${s.language==='Marathi'?'selected':''}>Marathi</option></select></div>
+                        <div><label>Timezone</label><select id="setTimezone" class="form-control"><option ${s.timezone==='UTC+5:30 (IST)'?'selected':''}>UTC+5:30 (IST)</option><option ${s.timezone==='UTC-5 (EST)'?'selected':''}>UTC-5 (EST)</option><option>UTC+0 (GMT)</option><option>UTC+1 (CET)</option></select></div>
                     </div>
+                    <div style="margin-top:1rem;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;">
+                        <label style="display:flex;align-items:center;gap:.5rem;"><input id="emailNotifs" type="checkbox" ${s.emailNotifs!==false?'checked':''}> Email notifications</label>
+                        <label style="display:flex;align-items:center;gap:.5rem;"><input id="adminNotifications" type="checkbox" ${s.adminNotifications!==false?'checked':''}> Admin notifications</label>
+                        <label style="display:flex;align-items:center;gap:.5rem;"><input id="bookingNotifications" type="checkbox" ${s.bookingNotifications!==false?'checked':''}> Booking notifications</label>
+                        <label style="display:flex;align-items:center;gap:.5rem;"><input id="paymentNotifications" type="checkbox" ${s.paymentNotifications!==false?'checked':''}> Payment notifications</label>
+                        <label style="display:flex;align-items:center;gap:.5rem;"><input id="supportNotifications" type="checkbox" ${s.supportNotifications!==false?'checked':''}> Support notifications</label>
+                        <label style="display:flex;align-items:center;gap:.5rem;"><input id="autoApproveLabour" type="checkbox" ${s.autoApproveLabour?'checked':''}> Auto-approve labour</label>
+                        <label style="display:flex;align-items:center;gap:.5rem;"><input id="maintenanceMode" type="checkbox" ${s.maintenanceMode?'checked':''}> Maintenance mode</label>
+                    </div>
+                    <div style="margin-top:.75rem;"><label>Maintenance Message</label><textarea id="maintenanceMessage" class="form-control" rows="2">${safe(s.maintenanceMessage || 'We are performing scheduled maintenance. Please check back shortly.')}</textarea></div>
                     <button class="btn btn-primary" style="margin-top:1rem;" onclick="SettingsPage.savePlatform()"><i class="fa-solid fa-save"></i> Save Platform Settings</button>
                 </div>` : ''}
             </div>
@@ -102,15 +118,34 @@ const SettingsPage = {
     },
 
     savePlatform() {
+        if (!DataService.requirePermission('manage:settings','Only Super Admin can change platform-wide settings.')) return;
+        const s = DataService.getSettings();
+        const session = DataService.getSession();
+        const admins = DataService.getCollection(DataService.KEYS.ADMINS) || [];
+        const me = admins.find(a => a.id === session?.adminId) || {};
         const phone = document.getElementById('setSupportPhone')?.value.trim();
         const supportEmail = document.getElementById('setSupportEmail')?.value.trim().toLowerCase();
         if (supportEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(supportEmail)) return Toast.show('Enter a valid support email address.', 'warning');
         if (phone && !DataService.validatePhone(phone)) return Toast.show('Support phone must contain exactly 10 digits.', 'warning');
         DataService.updateSettings({
             siteName: document.getElementById('setSiteName')?.value.trim() || 'Skilliant',
+            companyName: document.getElementById('setCompanyName')?.value.trim() || s?.companyName || '',
             supportEmail: supportEmail || session?.adminEmail || me.email || '',
             supportPhone: phone,
-            commissionPercentage: Number(document.getElementById('setCommission')?.value || 0)
+            address: document.getElementById('setAddress')?.value.trim() || '',
+            workingHours: document.getElementById('setWorkingHours')?.value.trim() || '',
+            defaultCurrency: document.getElementById('setCurrency')?.value.trim() || '$',
+            language: document.getElementById('setLanguage')?.value || 'English',
+            timezone: document.getElementById('setTimezone')?.value || 'UTC+5:30 (IST)',
+            commissionPercentage: Number(document.getElementById('setCommission')?.value || 0),
+            emailNotifs: document.getElementById('emailNotifs')?.checked !== false,
+            adminNotifications: document.getElementById('adminNotifications')?.checked !== false,
+            bookingNotifications: document.getElementById('bookingNotifications')?.checked !== false,
+            paymentNotifications: document.getElementById('paymentNotifications')?.checked !== false,
+            supportNotifications: document.getElementById('supportNotifications')?.checked !== false,
+            autoApproveLabour: document.getElementById('autoApproveLabour')?.checked === true,
+            maintenanceMode: document.getElementById('maintenanceMode')?.checked === true,
+            maintenanceMessage: document.getElementById('maintenanceMessage')?.value.trim() || '' 
         });
         DataService.recalculateFinancialState?.();
         Toast.show('Platform settings saved.', 'success');

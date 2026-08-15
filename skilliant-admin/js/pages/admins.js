@@ -60,10 +60,10 @@ const AdminsPage = {
 
         const superCount = admins.filter(a => a.role === 'Super Admin').length;
         const adminCount = admins.filter(a => a.role === 'Admin').length;
-        const financeCount = admins.filter(a => a.role === 'Finance Admin').length;
+        const financeCount = admins.filter(a => a.role === 'Financial Admin').length;
 
         return `
-            ${UI.renderPageHeader('Administrator Management', `Manage platform administrators and their access roles. Current: ${superCount} Super Admin, ${adminCount} Admin, ${financeCount} Finance Admin.`, `
+            ${UI.renderPageHeader('Administrator Management', `Manage platform administrators and their access roles. Current: ${superCount} Super Admin, ${adminCount} Admin, ${financeCount} Financial Admin.`, `
                 <button class="btn btn-primary" onclick="AdminsPage.addAdminModal()">
                     <i class="fa-solid fa-user-plus"></i> Add Admin
                 </button>
@@ -116,7 +116,7 @@ const AdminsPage = {
                         <label style="font-size:0.85rem; font-weight:600;">Role <span class="text-danger">*</span></label>
                         <select id="newAdminRole" class="form-control" style="width:100%; margin-top:4px;" required>
                             <option value="Admin">Admin</option>
-                            <option value="Finance Admin">Finance Admin</option>
+                            <option value="Financial Admin">Financial Admin</option>
                             <option value="Super Admin">Super Admin</option>
                         </select>
                     </div>
@@ -182,10 +182,14 @@ const AdminsPage = {
                         <input type="text" id="editAdminName" class="form-control" style="width:100%; margin-top:4px;" value="${a.name}" required>
                     </div>
                     <div>
+                        <label style="font-size:0.85rem; font-weight:600;">Email Address <span class="text-danger">*</span></label>
+                        <input type="email" id="editAdminEmail" class="form-control" style="width:100%; margin-top:4px;" value="${UI.escapeHtml(a.email || '')}" required>
+                    </div>
+                    <div>
                         <label style="font-size:0.85rem; font-weight:600;">Role</label>
                         <select id="editAdminRole" class="form-control" style="width:100%; margin-top:4px;" ${a.id === 'ADM-001' ? 'disabled' : ''}>
                             <option value="Admin" ${a.role === 'Admin' ? 'selected' : ''}>Admin</option>
-                            <option value="Finance Admin" ${a.role === 'Finance Admin' ? 'selected' : ''}>Finance Admin</option>
+                            <option value="Financial Admin" ${a.role === 'Financial Admin' ? 'selected' : ''}>Financial Admin</option>
                             <option value="Super Admin" ${a.role === 'Super Admin' ? 'selected' : ''}>Super Admin</option>
                         </select>
                     </div>
@@ -207,15 +211,20 @@ const AdminsPage = {
             submitText: 'Save Changes',
             onSubmit: () => {
                 const name = document.getElementById('editAdminName')?.value.trim();
+                const email = document.getElementById('editAdminEmail')?.value.trim().toLowerCase();
                 const role = document.getElementById('editAdminRole')?.value;
                 const status = document.getElementById('editAdminStatus')?.value;
 
-                if (!name) {
-                    Toast.show('Please fill in the full name.', 'warning');
+                if (!name || !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    Toast.show('Enter a valid name and email address.', 'warning');
                     return;
                 }
+                const duplicate = admins.find(x => x.id !== a.id && String(x.email||'').toLowerCase() === email);
+                if (duplicate) { Toast.show('That email is already used by another administrator.', 'warning'); return; }
 
+                const oldName=a.name, oldEmail=a.email, oldRole=a.role;
                 a.name = name;
+                a.email = email;
                 if (a.id !== 'ADM-001') {
                     a.role = role;
                 }
@@ -224,7 +233,10 @@ const AdminsPage = {
                 }
                 
                 DataService.setStorage(DataService.KEYS.ADMINS, admins);
-                DataService.logActivity(`Updated administrator details for ${a.name}`);
+                if (oldEmail !== email) DataService.logActivity(`Changed administrator email for ${a.name} from ${oldEmail} to ${email}`, {entityType:'administrator',entityId:a.id});
+                if (oldRole !== a.role) DataService.logActivity(`Changed administrator role for ${a.name} from ${oldRole} to ${a.role}`, {entityType:'administrator',entityId:a.id});
+                if (oldName !== a.name) DataService.logActivity(`Changed administrator name from ${oldName} to ${a.name}`, {entityType:'administrator',entityId:a.id});
+                if (oldEmail === email && oldRole === a.role && oldName === a.name) DataService.logActivity(`Updated administrator details for ${a.name}`, {entityType:'administrator',entityId:a.id});
                 Toast.show(`Admin ${a.name} updated!`, 'success');
                 ModalManager.close();
                 App.applyRoleVisibility();

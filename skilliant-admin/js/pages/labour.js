@@ -121,6 +121,7 @@ const LabourPage = {
     },
 
     toggleVerification(id) {
+        if (!DataService.requirePermission('verify:labour')) return;
         const labourers = DataService.getCollection(DataService.KEYS.LABOURS);
         const item = labourers.find(x => x.id === id);
         if (item) {
@@ -133,6 +134,7 @@ const LabourPage = {
     },
 
     toggleStatus(id) {
+        if (!DataService.requirePermission('suspend:labour')) return;
         const labourers = DataService.getCollection(DataService.KEYS.LABOURS);
         const item = labourers.find(x => x.id === id);
         if (item) {
@@ -191,6 +193,7 @@ const LabourPage = {
     },
 
     addLabourModal() {
+        if (!DataService.requirePermission('create:labour')) return;
         const skillsList = DataService.getCollection(DataService.KEYS.SKILLS) || [];
         const optionsHtml = skillsList.map(s => `<option value="${s.id}">${s.name} (${s.categoryName})</option>`).join('');
 
@@ -267,6 +270,7 @@ const LabourPage = {
     },
 
     editLabourModal(id) {
+        if (!DataService.requirePermission('edit:labour')) return;
         const labourers = DataService.getCollection(DataService.KEYS.LABOURS);
         const l = labourers.find(x => x.id === id);
         if (!l) return;
@@ -361,6 +365,7 @@ const LabourPage = {
     },
 
     deleteLabour(id) {
+        if (!DataService.requirePermission('delete:labour','Only Super Admin can permanently delete labourer records.')) return;
         const labourers = DataService.getCollection(DataService.KEYS.LABOURS);
         const l = labourers.find(x => x.id === id);
         if (!l) return;

@@ -88,6 +88,7 @@ const BookingsPage = {
     },
 
     addBookingModal() {
+        if (!DataService.requirePermission('create:bookings')) return;
         const customers = DataService.getCollection(DataService.KEYS.USERS) || [];
         const labourers = DataService.getCollection(DataService.KEYS.LABOURS) || [];
         const categories = DataService.getCollection(DataService.KEYS.CATEGORIES) || [];
@@ -203,6 +204,7 @@ const BookingsPage = {
     },
 
     manageModal(id) {
+        if (!DataService.requirePermission('edit:bookings')) return;
         const list = DataService.getCollection(DataService.KEYS.BOOKINGS);
         const b = list.find(x => x.id === id);
         if (!b) return;
@@ -274,6 +276,7 @@ const BookingsPage = {
     },
 
     deleteBooking(id) {
+        if (!DataService.requirePermission('delete:bookings','Only Super Admin can delete booking records.')) return;
         const list = DataService.getCollection(DataService.KEYS.BOOKINGS);
         const b = list.find(x => x.id === id);
         if (!b) return;

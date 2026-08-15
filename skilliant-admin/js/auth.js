@@ -107,9 +107,23 @@ const Auth = {
                 Toast.show(`Welcome back, ${session.adminName.split(' ')[0]}!`, 'success');
                 this.checkAuth();
                 if (window.App) {
-                    window.App.initHeader();
+                    // The header is already initialized by App.init(). Re-initializing it
+                    // here would attach duplicate listeners. Synchronize the session-driven
+                    // UI immediately instead, so role changes take effect without a refresh.
+                    window.App._updateHeaderProfile(session);
+                    window.App.updateGreeting(session.adminName.split(' ')[0]);
                     window.App.updateSidebarUser();
-                    window.App.refreshCurrentPage();
+                    DataService.ensureDay5ModulePermissions();
+                    window.App.applyRoleVisibility();
+                    window.App.updateNotificationBadge();
+
+                    // Always start a newly authenticated session on the dashboard. This also
+                    // prevents a restricted route from remaining visible from the previous account.
+                    if (window.location.hash !== '#dashboard') {
+                        window.location.hash = '#dashboard';
+                    } else {
+                        window.App.refreshCurrentPage();
+                    }
                 }
             } else {
                 Toast.show(result.message, 'error');

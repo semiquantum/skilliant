@@ -114,6 +114,15 @@ const Pagination = {
 // UI COMPONENT FACTORY
 // ============================================================
 const UI = {
+    escapeHtml(value) {
+        return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+    },
+    renderStatCard(title, value, icon='fa-chart-line', colorClass='kpi-icon-blue') {
+        return `<div class="glass-card kpi-card glass-card-hover"><div class="kpi-header"><span class="kpi-title">${this.escapeHtml(title)}</span><div class="kpi-icon-wrapper ${colorClass}"><i class="fa-solid ${icon}" aria-hidden="true"></i></div></div><div class="kpi-value">${this.escapeHtml(value)}</div></div>`;
+    },
+    renderEmptyState(title='No records found', description='', icon='fa-folder-open') {
+        return `<div class="empty-state"><i class="fa-solid ${icon}" aria-hidden="true"></i><strong>${this.escapeHtml(title)}</strong>${description?`<span>${this.escapeHtml(description)}</span>`:''}</div>`;
+    },
     renderPageHeader(title, subtitle, actionBtnHtml = '') {
         return `
             <div class="page-header animate-fade-in">

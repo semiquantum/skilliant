@@ -29,7 +29,8 @@ const DataService = {
         REPORTS: 'skilliant_reports',
         ADMINS: 'skilliant_admins',
         LOGIN_HISTORY: 'skilliant_login_history',
-        TODOS: 'skilliant_todos'
+        TODOS: 'skilliant_todos',
+        SUPPORT_TICKETS: 'skilliant_support_tickets'
     },
 
     // Simple password hash simulation (not cryptographic - swap with bcrypt on backend)
@@ -68,7 +69,11 @@ const DataService = {
                 maintenanceMode: false,
                 autoApproveLabour: false,
                 emailNotifs: true,
-                timezone: 'UTC-5 (EST)'
+                adminNotifications: true,
+                bookingNotifications: true,
+                paymentNotifications: true,
+                supportNotifications: true,
+                timezone: 'UTC+5:30 (IST)'
             });
         }
 
@@ -76,11 +81,21 @@ const DataService = {
             this.KEYS.USERS, this.KEYS.LABOURS, this.KEYS.CONTRACTORS,
             this.KEYS.BOOKINGS, this.KEYS.PAYMENTS, this.KEYS.CATEGORIES,
             this.KEYS.SKILLS, this.KEYS.NOTIFICATIONS, this.KEYS.ACTIVITY_LOGS, this.KEYS.ADMINS,
-            this.KEYS.LOGIN_HISTORY, this.KEYS.TODOS
+            this.KEYS.LOGIN_HISTORY, this.KEYS.TODOS, this.KEYS.SUPPORT_TICKETS
         ];
         collections.forEach(key => {
             if (!localStorage.getItem(key)) this.setStorage(key, []);
         });
+
+        // Day 5: seed a small support queue only when no tickets exist.
+        if ((this.getCollection(this.KEYS.SUPPORT_TICKETS) || []).length === 0) {
+            const now = new Date();
+            this.setStorage(this.KEYS.SUPPORT_TICKETS, [
+                { id:'TKT-1001', customer:'Emily Davis', customerId:'USR-004', subject:'Booking cancellation refund', category:'Payment', description:'I cancelled booking BK-006 and need confirmation of the refund.', priority:'High', status:'Open', assignedAdminId:'ADM-001', assignedAdmin:'Meet Mhatre', createdAt:new Date(now-2*86400000).toISOString(), updatedAt:new Date(now-2*86400000).toISOString(), lastResponseAt:'', resolution:'', messages:[] },
+                { id:'TKT-1002', customer:'Sarah Johnson', customerId:'USR-002', subject:'Ceiling fan booking status', category:'Booking', description:'Please confirm when the assigned labourer will arrive for BK-002.', priority:'Medium', status:'In Progress', assignedAdminId:'ADM-001', assignedAdmin:'Meet Mhatre', createdAt:new Date(now-5*3600000).toISOString(), updatedAt:new Date(now-3600000).toISOString(), lastResponseAt:'', resolution:'', messages:[{author:'Meet Mhatre',text:'We are checking the assignment and will update you shortly.',createdAt:new Date(now-3600000).toISOString()}] },
+                { id:'TKT-1003', customer:'Pedro Santos', customerId:'USR-004', subject:'Verification documents review', category:'Verification', description:'I uploaded the requested verification documents and need an update.', priority:'Urgent', status:'Waiting for User', assignedAdminId:'ADM-001', assignedAdmin:'Meet Mhatre', createdAt:new Date(now-86400000).toISOString(), updatedAt:new Date(now-12*3600000).toISOString(), lastResponseAt:'', resolution:'', messages:[] }
+            ]);
+        }
 
         if (!localStorage.getItem(this.KEYS.WALLET)) {
             this.setStorage(this.KEYS.WALLET, {
@@ -114,6 +129,7 @@ const DataService = {
 
         // Normalize seeded/contact phone numbers to the required 10-digit format.
         this.normalizePhoneData();
+        this.ensureDay5ModulePermissions();
 
         // Apply saved dark mode preference on startup
         const settings = this.getSettings();
@@ -429,21 +445,20 @@ const DataService = {
         return {labels,users:series[0],labours:series[1],contractors:series[2]};
     },
 
-    // Log Activity
-    logActivity(actionDescription) {
+    // Log Activity — enriched audit record for Day 5.
+    logActivity(actionDescription, meta = {}) {
         const logs = this.getStorage(this.KEYS.ACTIVITY_LOGS) || [];
         const session = this.getSession();
         const adminName = session ? session.adminName : 'System';
+        const id = `LOG-${Date.now().toString().slice(-8)}`;
         logs.unshift({
-            id: `LOG-${Date.now().toString().slice(-6)}`,
-            admin: adminName,
-            action: actionDescription,
-            timestamp: new Date().toISOString(),
-            ip: '127.0.0.1 (Local)'
+            id, adminId: session?.adminId || '', admin: adminName, role: session?.role || 'System',
+            action: actionDescription, entityType: meta.entityType || '', entityId: meta.entityId || '',
+            timestamp: new Date().toISOString(), ip: '127.0.0.1 (Local Browser)',
+            userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'Frontend browser',
+            severity: meta.severity || 'info', metadata: meta.metadata || {}
         });
-        // Keep only last 200 logs
-        this.setStorage(this.KEYS.ACTIVITY_LOGS, logs.slice(0, 200));
-        // Important admin actions automatically create one persisted notification.
+        this.setStorage(this.KEYS.ACTIVITY_LOGS, logs.slice(0, 300));
         const lower=String(actionDescription||'').toLowerCase();
         if (!lower.includes('deleted notification') && !lower.includes('marked notification')) {
             let category='System', type='info';
@@ -453,11 +468,12 @@ const DataService = {
             else if(lower.includes('review')) category='Review';
             else if(lower.includes('report') || lower.includes('export')) category='Report';
             else if(lower.includes('password') || lower.includes('security') || lower.includes('login') || lower.includes('logout')) category='Security';
-            const match=String(actionDescription).match(/\b(BK|PAY|PO|REV|USR|LAB|CON|CAT|SKL)-[A-Z0-9-]+/i);
+            else if(lower.includes('support') || lower.includes('ticket')) category='Support';
+            const match=String(actionDescription).match(/\b(BK|PAY|PO|REV|USR|LAB|CON|CAT|SKL|TKT)-[A-Z0-9-]+/i);
             const prefix=match ? match[1].toUpperCase() : '';
-            const entityMap={BK:'booking',PAY:'payment',PO:'payout',REV:'review',USR:'user',LAB:'labourer',CON:'contractor',CAT:'category',SKL:'skill'};
-            const entityType=entityMap[prefix] || '';
-            const entityId=match ? match[0].toUpperCase() : '';
+            const entityMap={BK:'booking',PAY:'payment',PO:'payout',REV:'review',USR:'user',LAB:'labourer',CON:'contractor',CAT:'category',SKL:'skill',TKT:'support-ticket'};
+            const entityType=meta.entityType || entityMap[prefix] || '';
+            const entityId=meta.entityId || (match ? match[0].toUpperCase() : '');
             this.createNotification({title:actionDescription, message:`${actionDescription}.`, category, type, entityType, entityId});
         }
     },
@@ -633,8 +649,103 @@ const DataService = {
             grossRevenueNumber: financial.gross,
             platformCommissionNumber: financial.commission,
             netRevenueNumber: financial.net,
-            openTicketsCount: 0,
+            openTicketsCount: (this.getCollection(this.KEYS.SUPPORT_TICKETS)||[]).filter(x=>!['Resolved','Closed'].includes(x.status)).length,
         };
+    },
+
+    // --- ROLE / PERMISSION AUTHORIZATION ---
+    permissionCatalog() {
+        return {
+            dashboard:['view:dashboard'],
+            users:['view:users','create:users','edit:users','suspend:users','delete:users'],
+            labour:['view:labour','create:labour','edit:labour','verify:labour','suspend:labour','delete:labour'],
+            contractors:['view:contractors','create:contractors','edit:contractors','verify:contractors','suspend:contractors','delete:contractors'],
+            categories:['view:categories','create:categories','edit:categories','delete:categories'],
+            skills:['view:skills','create:skills','edit:skills','delete:skills'],
+            bookings:['view:bookings','create:bookings','edit:bookings','cancel:bookings','delete:bookings'],
+            payments:['view:payments','refund:payments','payout:payments','view:wallet'],
+            reports:['view:reports','export:reports'],
+            notifications:['view:notifications','manage:notifications'],
+            support:['view:support','create:support','reply:support','assign:support','resolve:support'],
+            activity:['view:activity','export:activity','clear:activity'],
+            admins:['manage:admins'],
+            roles:['manage:roles','manage:permissions'],
+            settings:['view:settings','manage:settings']
+        };
+    },
+    canonicalRolePolicies() {
+        return {
+            'Super Admin': Object.values(this.permissionCatalog()).flat(),
+            'Admin': [
+                'view:dashboard',
+                'view:users','create:users','edit:users','suspend:users',
+                'view:labour','create:labour','edit:labour','verify:labour','suspend:labour',
+                'view:contractors','create:contractors','edit:contractors','verify:contractors','suspend:contractors',
+                'view:categories','create:categories','edit:categories',
+                'view:skills','create:skills','edit:skills',
+                'view:bookings','create:bookings','edit:bookings','cancel:bookings',
+                'view:payments',
+                'view:reports','export:reports',
+                'view:notifications','manage:notifications',
+                'view:support','create:support','reply:support','assign:support','resolve:support',
+                'view:activity','export:activity',
+                'view:settings'
+            ],
+            'Financial Admin': [
+                'view:dashboard','view:payments','refund:payments','payout:payments','view:wallet',
+                'view:reports','export:reports',
+                'view:notifications',
+                'view:support','reply:support',
+                'view:activity','export:activity',
+                'view:settings'
+            ]
+        };
+    },
+    ensureDay5ModulePermissions() {
+        const policies=this.canonicalRolePolicies();
+        let roles=this.getCollection(this.KEYS.ROLES)||[];
+        const existingByTitle=new Map(roles.map(r=>[r.title,r]));
+        roles=Object.entries(policies).map(([title,permissions],idx)=>({
+            id: existingByTitle.get(title)?.id || `ROLE-00${idx+1}`,
+            title,
+            permissions:[...permissions]
+        }));
+        // Normalize all administrator records to the same three canonical roles.
+        const admins=this.getCollection(this.KEYS.ADMINS)||[];
+        let adminsChanged=false;
+        const migrated=admins.map(a=>{
+            let role=a.role;
+            if(role==='Finance Admin' || role==='Financial Administrator') role='Financial Admin';
+            else if(role==='Moderator' || role==='Manager') role='Admin';
+            else if(!policies[role]) role='Admin';
+            if(role!==a.role){ adminsChanged=true; return {...a,role}; }
+            return a;
+        });
+        if(adminsChanged) this.setStorage(this.KEYS.ADMINS,migrated);
+        this.setStorage(this.KEYS.ROLES,roles);
+        // If a current session was migrated, keep it aligned with the admin record.
+        const session=this.getSession();
+        if(session){
+            const current=migrated.find(a=>a.id===session.adminId);
+            if(current && (current.role!==session.role || current.email!==session.adminEmail || current.name!==session.adminName)){
+                const next={...session,role:current.role,adminEmail:current.email,adminName:current.name,profilePhoto:current.profilePhoto};
+                this.setStorage(this.KEYS.SESSION,next);
+            }
+        }
+        return roles;
+    },
+    hasPermission(permission) {
+        const session=this.getSession();
+        if(!session) return false;
+        if(session.role==='Super Admin') return true;
+        const roles=this.ensureDay5ModulePermissions();
+        const role=roles.find(r=>r.title===session.role);
+        return !!role?.permissions?.includes(permission);
+    },
+    requirePermission(permission, message='You do not have permission to perform this action.') {
+        if(this.hasPermission(permission)) return true;
+        Toast.show(message,'warning');
+        return false;
     },
 
     // --- SETTINGS ---

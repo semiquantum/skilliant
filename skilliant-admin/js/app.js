@@ -16,6 +16,8 @@ const App = {
         'payments':       PaymentsPage,
         'reports':        ReportsPage,
         'notifications':  NotificationsPage,
+        'support':        SupportPage,
+        'activity':       ActivityLogsPage,
         'settings':       SettingsPage,
         'admins':         AdminsPage,
         'roles':          RolesPage,
@@ -31,6 +33,7 @@ const App = {
         this.startClock();
         this.initDarkModeToggle();
         this.updateSidebarUser();
+        DataService.ensureDay5ModulePermissions();
         this.applyRoleVisibility();
 
         // Global notification refresh: every module can publish a real notification.
@@ -188,15 +191,21 @@ const App = {
         if (roleBadge) roleBadge.textContent = session.role || 'Admin';
     },
 
+    hasPermission(permission) {
+        return typeof DataService.hasPermission === 'function' && DataService.hasPermission(permission);
+    },
+
     applyRoleVisibility() {
-        const role = DataService.getSession()?.role || 'Admin';
-        const allowed = {
-            dashboard:['Super Admin','Admin','Finance Admin'], users:['Super Admin','Admin'], labour:['Super Admin','Admin'], contractors:['Super Admin','Admin'],
-            categories:['Super Admin','Admin'], skills:['Super Admin','Admin'], bookings:['Super Admin','Admin'], payments:['Super Admin','Finance Admin'],
-            reports:['Super Admin','Finance Admin'], notifications:['Super Admin','Admin','Finance Admin'], settings:['Super Admin','Admin','Finance Admin'], admins:['Super Admin'], roles:['Super Admin']
+        const pagePermissions = {
+            dashboard:'view:dashboard', users:'view:users', labour:'view:labour', contractors:'view:contractors',
+            categories:'view:categories', skills:'view:skills', bookings:'view:bookings', payments:'view:payments',
+            reports:'view:reports', notifications:'view:notifications', support:'view:support', activity:'view:activity',
+            settings:'view:settings', admins:'manage:admins', roles:'manage:roles'
         };
-        document.querySelectorAll('.nav-item[data-page]').forEach(item=>{
-            const page=item.dataset.page; item.style.display = !allowed[page] || allowed[page].includes(role) ? '' : 'none';
+        document.querySelectorAll('.nav-item[data-page]').forEach(item => {
+            const page = item.dataset.page;
+            const permission = pagePermissions[page];
+            item.style.display = !permission || this.hasPermission(permission) ? '' : 'none';
         });
     },
 
@@ -283,11 +292,11 @@ const App = {
     },
 
     _openNotification(id, source='Notification') {
-        if (source === 'Activity') { window.location.hash='#notifications'; return; }
+        if (source === 'Activity') { window.location.hash='#activity'; return; }
         const notifications=DataService.getCollection(DataService.KEYS.NOTIFICATIONS)||[];
         const n=notifications.find(x=>x.id===id); if(!n) return;
         n.unread=false; DataService.setStorage(DataService.KEYS.NOTIFICATIONS,notifications); this.renderNotificationDropdown(); this.updateNotificationBadge();
-        const routes={user:'users',labourer:'labour',contractor:'contractors',booking:'bookings',payment:'payments',payout:'payments',report:'reports'};
+        const routes={user:'users',labourer:'labour',contractor:'contractors',booking:'bookings',payment:'payments',payout:'payments',report:'reports','support-ticket':'support'};
         const route=routes[n.entityType]; window.location.hash='#'+(route||'notifications');
     },
 
@@ -337,13 +346,14 @@ const App = {
         const session = DataService.getSession();
         const pageModule = this.pages[rawHash] || null;
         const role = session?.role || 'Admin';
-        const access = {
-            dashboard: ['Super Admin','Admin','Finance Admin'], users: ['Super Admin','Admin'], labour: ['Super Admin','Admin'],
-            contractors: ['Super Admin','Admin'], categories: ['Super Admin','Admin'], skills: ['Super Admin','Admin'],
-            bookings: ['Super Admin','Admin'], payments: ['Super Admin','Finance Admin'], reports: ['Super Admin','Finance Admin'],
-            notifications: ['Super Admin','Admin','Finance Admin'], settings: ['Super Admin','Admin','Finance Admin'], admins: ['Super Admin'], roles: ['Super Admin']
+        const routePermissions = {
+            dashboard:'view:dashboard', users:'view:users', labour:'view:labour', contractors:'view:contractors',
+            categories:'view:categories', skills:'view:skills', bookings:'view:bookings', payments:'view:payments',
+            reports:'view:reports', notifications:'view:notifications', support:'view:support', activity:'view:activity',
+            settings:'view:settings', admins:'manage:admins', roles:'manage:roles'
         };
-        if (access[rawHash] && !access[rawHash].includes(role)) {
+        const requiredPermission = routePermissions[rawHash];
+        if (requiredPermission && !this.hasPermission(requiredPermission)) {
             Toast.show(`Access restricted for ${role}.`, 'warning');
             window.location.hash = '#dashboard';
             return;

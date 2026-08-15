@@ -1,123 +1,103 @@
 /**
- * Day 5 Deliverable: Role Management & Permissions Matrix (SaaS-Ready Audit)
+ * Skilliant Admin Portal — Role Management & Permissions
+ * Keeps the existing role-card UI while making the permission scope functional.
  */
-
 const RolesPage = {
+    permissionGroups() {
+        return {
+            Dashboard: ['view:dashboard'],
+            Users: ['view:users','create:users','edit:users','suspend:users','delete:users'],
+            Labour: ['view:labour','create:labour','edit:labour','verify:labour','suspend:labour','delete:labour'],
+            Contractors: ['view:contractors','create:contractors','edit:contractors','verify:contractors','delete:contractors'],
+            Categories: ['view:categories','create:categories','edit:categories','delete:categories'],
+            Skills: ['view:skills','create:skills','edit:skills','delete:skills'],
+            Bookings: ['view:bookings','create:bookings','edit:bookings','cancel:bookings','delete:bookings'],
+            Payments: ['view:payments','refund:payments','payout:payments','view:wallet'],
+            Reports: ['view:reports','export:reports'],
+            Notifications: ['view:notifications','manage:notifications'],
+            Support: ['view:support','create:support','reply:support','assign:support','resolve:support'],
+            'Activity Logs': ['view:activity','export:activity','clear:activity'],
+            Administration: ['manage:admins','manage:roles','manage:permissions','view:settings','manage:settings']
+        };
+    },
+
+    ensureRoles() {
+        return DataService.ensureDay5ModulePermissions();
+    },
+
     render() {
-        let roles = DataService.getCollection(DataService.KEYS.ROLES) || [];
-        const admins = DataService.getCollection(DataService.KEYS.ADMINS) || [];
-
-        // Self-heal/seed the three supported administrative roles. Counts are always derived from real admin records.
-        if (roles.length === 0) {
-            roles = [
-                { id: 'ROLE-001', title: 'Super Admin', permissions: ['dashboard','users','labour','contractors','categories','skills','bookings','payments','reports','notifications','settings','admins','roles'] },
-                { id: 'ROLE-002', title: 'Admin', permissions: ['dashboard','users','labour','contractors','categories','skills','bookings','notifications'] },
-                { id: 'ROLE-003', title: 'Finance Admin', permissions: ['dashboard','payments','reports'] },
-            ];
-            DataService.setStorage(DataService.KEYS.ROLES, roles);
+        if (DataService.getSession()?.role !== 'Super Admin') {
+            return `${UI.renderPageHeader('Role Management','Role and permission administration is restricted to Super Admin.','')}<div class="glass-card" style="padding:2rem;text-align:center;"><i class="fa-solid fa-lock" style="font-size:2rem;color:var(--accent-gold);"></i><h3 style="margin:.8rem 0 .3rem;">Super Admin Access Required</h3><p class="text-muted">Only Super Admin can view or change role definitions and permissions.</p></div>`;
         }
-
-        // Recalculate assignment counts from the administrator directory; never show fabricated counts.
+        const roles = this.ensureRoles();
+        const admins = DataService.getCollection(DataService.KEYS.ADMINS) || [];
         roles.forEach(r => { r.usersAssigned = admins.filter(a => a.role === r.title).length; });
         DataService.setStorage(DataService.KEYS.ROLES, roles);
 
         const rolesCardsHtml = roles.map(r => `
-            <div class="glass-card animate-slide-up" style="display:flex; flex-direction:column; justify-content:space-between; gap:1.25rem;">
+            <div class="glass-card animate-slide-up role-card">
                 <div class="flex items-center justify-between">
-                    <div class="kpi-icon-wrapper kpi-icon-purple" style="width: 40px; height: 40px; border-radius: 50%; background: rgba(147, 51, 234, 0.08); color: rgb(147, 51, 234); display:flex; align-items:center; justify-content:center; font-size:1.2rem;">
-                        <i class="fa-solid fa-user-shield"></i>
-                    </div>
-                    <span class="badge badge-info">${r.usersAssigned} Admins Assigned</span>
+                    <div class="kpi-icon-wrapper kpi-icon-purple role-icon"><i class="fa-solid fa-user-shield" aria-hidden="true"></i></div>
+                    <span class="badge badge-info">${r.usersAssigned} Admin${r.usersAssigned===1?'':'s'} Assigned</span>
                 </div>
                 <div>
-                    <h3 style="font-size:1.2rem; font-weight:700; color:var(--primary-navy);">${r.title}</h3>
-                    <p style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">ID: ${r.id}</p>
+                    <h3 class="role-card-title">${UI.escapeHtml(r.title)}</h3>
+                    <p class="role-card-id">ID: ${UI.escapeHtml(r.id)}</p>
                 </div>
                 <div>
-                    <span style="font-size:0.75rem; font-weight:700; text-transform:uppercase; color:var(--text-muted); display:block; margin-bottom:6px;">Granted Scope</span>
-                    <div style="display:flex; gap:0.35rem; flex-wrap:wrap;">
-                        ${r.permissions.map(p => `<span class="badge badge-secondary">${p}</span>`).join('')}
+                    <span class="role-scope-label">Granted Scope</span>
+                    <div class="role-scope-list">
+                        ${r.permissions.slice(0,12).map(p => `<span class="badge badge-secondary">${UI.escapeHtml(p)}</span>`).join('')}
+                        ${r.permissions.length>12 ? `<span class="badge badge-secondary">+${r.permissions.length-12} more</span>` : ''}
                     </div>
                 </div>
-                <div style="border-top:1px solid var(--border-color); padding-top:0.75rem;" class="flex items-center justify-between">
-                    <span style="font-size:0.78rem; font-weight:600; color:var(--text-light);">Role Authorization</span>
-                    <div style="display:flex; gap:0.25rem;">
-                        <button class="btn btn-outline btn-sm" onclick="RolesPage.editPermissionsModal('${r.id}')">
-                            <i class="fa-solid fa-sliders"></i> Scope
-                        </button>
-
-                    </div>
+                <div class="role-card-footer">
+                    <span>Role Authorization</span>
+                    <button class="btn btn-outline btn-sm" onclick="RolesPage.editPermissionsModal('${UI.escapeHtml(r.id)}')" aria-label="Configure permissions for ${UI.escapeHtml(r.title)}"><i class="fa-solid fa-sliders"></i> Permissions</button>
                 </div>
             </div>
         `).join('');
 
-        return `
-            ${UI.renderPageHeader('Role Management', 'Super Admin controls administrator roles and access. Admin assignment counts are calculated from the actual administrator records.', '')}
-
-            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:1.25rem;">
-                ${rolesCardsHtml}
-            </div>
-        `;
+        return `${UI.renderPageHeader('Role Management','Super Admin controls administrator roles and access. Changes in the permission matrix are used by route authorization.', '')}
+            <div class="role-grid">${rolesCardsHtml}</div>`;
     },
 
     editPermissionsModal(roleId) {
-        const roles = DataService.getCollection(DataService.KEYS.ROLES);
+        if (!DataService.requirePermission('manage:permissions','Only Super Admin can manage roles and permissions.')) return;
+        const roles = this.ensureRoles();
         const role = roles.find(x => x.id === roleId);
         if (!role) return;
+        const groups = this.permissionGroups();
+        const all = Object.values(groups).flat();
+        const isSuper = role.id === 'ROLE-001' || role.title === 'Super Admin';
+        const has = p => role.permissions.includes(p) || (p.startsWith('view:') && role.permissions.includes(p.split(':')[1]));
 
-        const allPermissions = ['dashboard','users','labour','contractors','categories','skills','bookings','payments','reports','notifications','settings','admins','roles'];
+        const body = `<div class="permission-editor">
+            <p class="text-muted">Choose exactly what members assigned to <strong>${UI.escapeHtml(role.title)}</strong> can access. View permissions control page access; action permissions control operations inside a module.</p>
+            <div class="permission-matrix">
+                ${Object.entries(groups).map(([group, perms]) => `<section class="permission-group">
+                    <h4>${UI.escapeHtml(group)}</h4>
+                    <div class="permission-options">${perms.map(p => `<label class="permission-option"><input type="checkbox" class="perm-checkbox" value="${p}" ${has(p)?'checked':''} ${isSuper?'disabled':''}><span>${UI.escapeHtml(p.replace(':',' — '))}</span></label>`).join('')}</div>
+                </section>`).join('')}
+            </div>
+            ${isSuper ? '<p class="permission-warning"><i class="fa-solid fa-lock"></i> Super Admin always has full access and cannot be restricted.</p>' : ''}
+        </div>`;
 
         ModalManager.open({
-            title: `Configure Scope: ${role.title}`,
-            bodyHtml: `
-                <div>
-                    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Toggle permissions accessible by members assigned to this role:</p>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;">
-                        ${allPermissions.map(p => `
-                            <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.88rem; cursor:pointer;">
-                                <input type="checkbox" value="${p}" class="perm-checkbox" ${role.permissions.includes(p) ? 'checked' : ''} ${role.id === 'ROLE-001' ? 'disabled' : ''}>
-                                <span style="text-transform:capitalize;">${p} Permission</span>
-                            </label>
-                        `).join('')}
-                    </div>
-                    ${role.id === 'ROLE-001' ? '<p style="font-size:0.75rem; color:var(--danger); margin-top:10px;">Note: Super Admin permissions cannot be modified.</p>' : ''}
-                </div>
-            `,
-            submitText: role.id === 'ROLE-001' ? 'Close' : 'Save Role Scope',
-            onSubmit: () => {
-                if (role.id === 'ROLE-001') {
-                    ModalManager.close();
-                    return;
-                }
-                const checkboxes = document.querySelectorAll('.perm-checkbox');
-                const selected = [];
-                checkboxes.forEach(cb => {
-                    if (cb.checked) selected.push(cb.value);
-                });
+            title:`Permissions: ${role.title}`,
+            bodyHtml:body,
+            submitText:isSuper ? 'Close' : 'Save Permissions',
+            onSubmit:()=>{
+                if (isSuper) return ModalManager.close();
+                const selected = [...document.querySelectorAll('.perm-checkbox:checked')].map(cb => cb.value);
                 role.permissions = selected;
                 DataService.setStorage(DataService.KEYS.ROLES, roles);
-                DataService.logActivity(`Updated permission scope for role ${role.title}`);
-                Toast.show(`Role ${role.title} permissions updated!`, 'success');
+                DataService.logActivity(`Updated permissions for role ${role.title}`);
+                Toast.show(`Permissions for ${role.title} saved.`, 'success');
                 ModalManager.close();
+                App.applyRoleVisibility();
                 App.refreshCurrentPage();
             }
         });
-    },
-
-    addRoleModal() {
-        Toast.show('Use Admin Management to assign the supported roles: Admin or Finance Admin.', 'info');
-    },
-
-    deleteRole(id) {
-        const roles = DataService.getCollection(DataService.KEYS.ROLES);
-        const role = roles.find(r => r.id === id);
-        if (!role) return;
-
-        if (confirm(`Are you sure you want to permanently delete the role: ${role.title}?`)) {
-            DataService.deleteItem(DataService.KEYS.ROLES, 'id', id);
-            DataService.logActivity(`Deleted admin role ${role.title}`);
-            Toast.show(`Role ${role.title} deleted successfully.`, 'info');
-            App.refreshCurrentPage();
-        }
     }
 };

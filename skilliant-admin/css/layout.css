@@ -65,7 +65,7 @@
     justify-content: center;
     color: #FFFFFF;
     font-size: 1rem;
-    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.45);
+    box-shadow: 0 4px 14px rgba(197, 168, 128, 0.28);
     flex-shrink: 0;
 }
 
@@ -136,7 +136,7 @@
 
 .nav-item.active {
     color: #FFFFFF;
-    background: linear-gradient(90deg, rgba(37, 99, 235, 0.75), rgba(37, 99, 235, 0.35));
+    background: linear-gradient(90deg, rgba(197, 168, 128, 0.78), rgba(197, 168, 128, 0.34));
     font-weight: 600;
 }
 

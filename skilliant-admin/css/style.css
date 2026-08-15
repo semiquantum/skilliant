@@ -115,3 +115,74 @@
     .main-wrapper { margin-left: 0; width: 100%; }
     .main-content { padding: 0; }
 }
+
+
+/* Golden Luxury Theme — visual polish only */
+:root {
+    color-scheme: light;
+}
+[data-theme="dark"] {
+    color-scheme: dark;
+}
+body {
+    background: var(--bg-body);
+    color: var(--text-main);
+}
+::selection {
+    background: rgba(197, 168, 128, 0.28);
+    color: var(--text-main);
+}
+.btn-primary,
+.btn-gold {
+    background: linear-gradient(135deg, #C5A880 0%, #8E6F3E 100%);
+    color: #FFFFFF;
+}
+.btn-primary:hover,
+.btn-gold:hover {
+    background: linear-gradient(135deg, #DBC193 0%, #8E6F3E 100%);
+}
+
+
+/* ===== Global Gold + Black / White Theme Override ===== */
+html, body {
+    background: var(--bg-body);
+    color: var(--text-main);
+}
+::selection {
+    background: rgba(197, 160, 89, 0.28);
+    color: var(--text-main);
+}
+[data-theme="dark"] body,
+[data-theme="dark"] main,
+[data-theme="dark"] .main-content,
+[data-theme="dark"] .content {
+    background: #000000;
+    color: #F5F5F5;
+}
+.btn-primary,
+.btn-gold,
+button.primary,
+button.btn-primary {
+    background: linear-gradient(135deg, #C5A059, #8E6F3E);
+    border-color: #C5A059;
+    color: #FFFFFF;
+}
+.btn-primary:hover,
+.btn-gold:hover,
+button.primary:hover,
+button.btn-primary:hover {
+    background: linear-gradient(135deg, #D8B96A, #A9823B);
+}
+[data-theme="dark"] .card,
+[data-theme="dark"] .panel,
+[data-theme="dark"] .table-container,
+[data-theme="dark"] .modal-content {
+    background-color: #111111;
+}
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+    background-color: #0A0A0A;
+    color: #F5F5F5;
+    border-color: #292929;
+}

@@ -99,6 +99,7 @@ const UsersPage = {
     },
 
     toggleStatus(id) {
+        if (!DataService.requirePermission('suspend:users')) return;
         const users = DataService.getCollection(DataService.KEYS.USERS);
         const user = users.find(u => u.id === id);
         if (user) {
@@ -148,6 +149,7 @@ const UsersPage = {
     },
 
     addUserModal() {
+        if (!DataService.requirePermission('create:users')) return;
         ModalManager.open({
             title: 'Add New Customer Account',
             bodyHtml: `
@@ -204,6 +206,7 @@ const UsersPage = {
     },
 
     editUserModal(id) {
+        if (!DataService.requirePermission('edit:users')) return;
         const users = DataService.getCollection(DataService.KEYS.USERS);
         const u = users.find(x => x.id === id);
         if (!u) return;
@@ -261,6 +264,7 @@ const UsersPage = {
     },
 
     deleteUser(id) {
+        if (!DataService.requirePermission('delete:users','Only Super Admin can permanently delete customer accounts.')) return;
         const users = DataService.getCollection(DataService.KEYS.USERS);
         const u = users.find(x => x.id === id);
         if (!u) return;
@@ -274,6 +278,7 @@ const UsersPage = {
     },
 
     exportCSV() {
+        if (!DataService.requirePermission('export:reports')) return;
         const users = DataService.getCollection(DataService.KEYS.USERS) || [];
         const headers = ['ID', 'Name', 'Email', 'Phone', 'Total Bookings', 'Spent', 'Joined Date', 'Status'];
         const rows = users.map(u => [u.id, u.name, u.email, u.phone, u.totalBookings, u.spent, u.joinedDate, u.status]);

@@ -92,6 +92,7 @@ const CategoriesPage = {
     },
 
     addCategoryModal() {
+        if (!DataService.requirePermission('create:categories')) return;
         ModalManager.open({
             title: 'Create Trade Category',
             bodyHtml: `
@@ -141,6 +142,7 @@ const CategoriesPage = {
     },
 
     editCategoryModal(id) {
+        if (!DataService.requirePermission('edit:categories')) return;
         const categories = DataService.getCollection(DataService.KEYS.CATEGORIES);
         const cat = categories.find(c => c.id === id);
         if (!cat) return;
@@ -197,6 +199,7 @@ const CategoriesPage = {
     },
 
     deleteCategory(id) {
+        if (!DataService.requirePermission('delete:categories','Only Super Admin can delete categories.')) return;
         const categories = DataService.getCollection(DataService.KEYS.CATEGORIES);
         const cat = categories.find(c => c.id === id);
         if (!cat) return;

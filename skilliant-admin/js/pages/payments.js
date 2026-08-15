@@ -182,6 +182,7 @@ const PaymentsPage = {
     },
 
     refundTransaction(id) {
+        if (!DataService.requirePermission('refund:payments','Only Financial Admin or Super Admin can process refunds.')) return;
         const payments = DataService.getCollection(DataService.KEYS.PAYMENTS);
         const p = payments.find(x => x.id === id);
         if (!p) return;
@@ -204,12 +205,14 @@ const PaymentsPage = {
         ModalManager.open({title:`Payout ${id}`,bodyHtml:`<div style=\"line-height:1.8\"><p><strong>Recipient:</strong> ${r.recipient||'—'}</p><p><strong>Amount:</strong> $${Number(String(r.amount).replace(/[^0-9.]/g,'' )||0).toFixed(2)}</p><p><strong>Status:</strong> ${r.status||'Pending'}</p><p><strong>Requested:</strong> ${r.requestedAt ? new Date(r.requestedAt).toLocaleString() : '—'}</p></div>`,submitText:'Close',onSubmit:()=>ModalManager.close()});
     },
     approvePayout(id) {
+        if (!DataService.requirePermission('payout:payments','Only Financial Admin or Super Admin can approve payouts.')) return;
         if (!confirm(`Approve payout ${id}?`)) return;
         const result = PaymentService.approvePayout(id);
         Toast.show(result.message, result.success ? 'success' : 'warning');
         if (result.success) App.refreshCurrentPage();
     },
     rejectPayout(id) {
+        if (!DataService.requirePermission('payout:payments','Only Financial Admin or Super Admin can reject payouts.')) return;
         if (!confirm(`Reject payout ${id}?`)) return;
         const wallet = DataService.getStorage(DataService.KEYS.WALLET) || {};
         const r = (wallet.payoutRequests || []).find(x => x.requestId === id);

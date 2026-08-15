@@ -1,0 +1,12 @@
+{
+  "name": "skilliant-admin-portal",
+  "version": "1.0.0",
+  "description": "Skilliant – Online Labour Finding Platform (Admin Portal)",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx -y serve ."
+  },
+  "keywords": ["skilliant", "admin-portal", "labour-platform", "dashboard"],
+  "author": "Skilliant Team",
+  "license": "ISC"
+}

@@ -86,6 +86,7 @@ const SkillsPage = {
     },
 
     addSkillModal() {
+        if (!DataService.requirePermission('create:skills')) return;
         const categories = DataService.getCollection(DataService.KEYS.CATEGORIES) || [];
         const catOptions = categories.map(cat => `<option value="${cat.id}">${cat.name}</option>`).join('');
 
@@ -143,6 +144,7 @@ const SkillsPage = {
     },
 
     editSkillModal(id) {
+        if (!DataService.requirePermission('edit:skills')) return;
         const skills = DataService.getCollection(DataService.KEYS.SKILLS);
         const s = skills.find(x => x.id === id);
         if (!s) return;
@@ -208,6 +210,7 @@ const SkillsPage = {
     },
 
     deleteSkill(id) {
+        if (!DataService.requirePermission('delete:skills','Only Super Admin can delete skills.')) return;
         const skills = DataService.getCollection(DataService.KEYS.SKILLS);
         const s = skills.find(x => x.id === id);
         if (!s) return;

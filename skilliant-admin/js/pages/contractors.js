@@ -122,6 +122,7 @@ const ContractorsPage = {
     },
 
     toggleVerification(id) {
+        if (!DataService.requirePermission('verify:contractors')) return;
         const contractors = DataService.getCollection(DataService.KEYS.CONTRACTORS);
         const item = contractors.find(x => x.id === id);
         if (item) {
@@ -184,6 +185,7 @@ const ContractorsPage = {
     },
 
     addContractorModal() {
+        if (!DataService.requirePermission('create:contractors')) return;
         ModalManager.open({
             title: 'Add New Contracting Firm',
             bodyHtml: `
@@ -255,6 +257,7 @@ const ContractorsPage = {
     },
 
     editContractorModal(id) {
+        if (!DataService.requirePermission('edit:contractors')) return;
         const contractors = DataService.getCollection(DataService.KEYS.CONTRACTORS);
         const c = contractors.find(x => x.id === id);
         if (!c) return;
@@ -341,6 +344,7 @@ const ContractorsPage = {
     },
 
     deleteContractor(id) {
+        if (!DataService.requirePermission('delete:contractors','Only Super Admin can permanently delete contractor records.')) return;
         const contractors = DataService.getCollection(DataService.KEYS.CONTRACTORS);
         const c = contractors.find(x => x.id === id);
         if (!c) return;

@@ -303,6 +303,7 @@ const ReportsPage = {
     // ── EXPORTS — each generates a real downloadable CSV ──
 
     exportPayments() {
+        if (!DataService.requirePermission('export:reports')) return;
         const payments = DataService.getCollection(DataService.KEYS.PAYMENTS) || [];
         if (payments.length === 0) { Toast.show('No payment records to export.', 'warning'); return; }
         const headers = ['Transaction ID','User','Booking ID','Amount','Commission Fee','Method','Status','Date'];
@@ -313,6 +314,7 @@ const ReportsPage = {
     },
 
     exportBookings() {
+        if (!DataService.requirePermission('export:reports')) return;
         const bookings = DataService.getCollection(DataService.KEYS.BOOKINGS) || [];
         if (bookings.length === 0) { Toast.show('No booking records to export.', 'warning'); return; }
         const headers = ['Booking ID','Customer','Assigned To','Category','Amount','Date','Status','Escrow Status'];
@@ -322,6 +324,7 @@ const ReportsPage = {
     },
 
     exportUsers() {
+        if (!DataService.requirePermission('export:reports')) return;
         const users = DataService.getCollection(DataService.KEYS.USERS) || [];
         if (users.length === 0) { Toast.show('No user records to export.', 'warning'); return; }
         const headers = ['User ID','Name','Email','Phone','Role','Status','Joined Date'];
@@ -330,6 +333,7 @@ const ReportsPage = {
     },
 
     exportLabour() {
+        if (!DataService.requirePermission('export:reports')) return;
         const labours = DataService.getCollection(DataService.KEYS.LABOURS) || [];
         if (labours.length === 0) { Toast.show('No labour records to export.', 'warning'); return; }
         const headers = ['Labour ID','Name','Email','Phone','Skill','Category','Hourly Rate','Rating','Jobs Completed','Verification','Status'];
@@ -339,6 +343,7 @@ const ReportsPage = {
     },
 
     exportCSV() {
+        if (!DataService.requirePermission('export:reports')) return;
         const payments  = DataService.getCollection(DataService.KEYS.PAYMENTS)  || [];
         const bookings  = DataService.getCollection(DataService.KEYS.BOOKINGS)  || [];
 
@@ -355,6 +360,7 @@ const ReportsPage = {
     },
 
     printReport() {
+        if (!DataService.requirePermission('export:reports')) return;
         const bookings = DataService.getCollection(DataService.KEYS.BOOKINGS) || [];
         const payments = DataService.getCollection(DataService.KEYS.PAYMENTS) || [];
 
