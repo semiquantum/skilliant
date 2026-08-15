@@ -113,6 +113,30 @@
             </a>
           </li>
           <li>
+            <a href="#documents" class="nav-link">
+              <span class="nav-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="8" y1="13" x2="16" y2="13"></line>
+                  <line x1="8" y1="17" x2="16" y2="17"></line>
+                </svg>
+              </span>
+              <span>Documents</span>
+            </a>
+          </li>
+          <li>
+            <a href="#notifications" class="nav-link">
+              <span class="nav-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                </svg>
+              </span>
+              <span>Notifications</span>
+            </a>
+          </li>
+          <li>
             <a href="#settings" class="nav-link">
               <span class="nav-icon">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -166,7 +190,7 @@
             <input type="text" placeholder="Search contractor portal..." id="headerSearchInput">
           </div>
 
-          <button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span class="theme-toggle-icon">☾</span><span class="theme-toggle-label">Dark</span></button><div class="header-date">
+          <button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="theme-toggle-icon" aria-hidden="true">☾</span></button><div class="header-date">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
               <line x1="16" y1="2" x2="16" y2="6"></line>
@@ -176,15 +200,15 @@
             <span id="currentDateText">Today</span>
           </div>
 
-          <div class="header-notification" title="Notifications" onclick="showToast('You have 3 unread contractor updates');">
+          <button type="button" class="header-notification" id="headerNotificationBtn" title="Notifications" aria-label="Notifications" aria-expanded="false">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
               <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
             </svg>
             <span class="notification-badge"></span>
-          </div>
+          </button>
 
-          <div class="user-profile" role="button" tabindex="0" data-route="settings">
+          <div class="user-profile" role="button" tabindex="0" aria-haspopup="menu" aria-expanded="false" data-route="settings">
             <div class="user-avatar">SS</div>
             <div class="user-info">
               <span class="user-name">SHRUTI SHRIVASTAVA</span>
@@ -198,29 +222,27 @@
         <section class="card company-card">
           <div class="company-content">
             <div class="company-details">
-              <h2>ABC Construction Pvt. Ltd.</h2>
+              <h2 id="dashboardCompanyName">ABC Construction Pvt. Ltd.</h2>
               <div class="company-type">Construction & Labour Services</div>
               <div class="company-meta">
                 <span>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                  Pune, Maharashtra
+                  <span id="dashboardCompanyCity">Pune, Maharashtra</span>
                 </span>
                 <span>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                  +91 98765 43210
+                  <span id="dashboardCompanyPhone">+91 98765 43210</span>
                 </span>
                 <span>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                  contact@abcconstruction.com
+                  <span id="dashboardCompanyEmail">contact@abcconstruction.com</span>
                 </span>
               </div>
               <p class="company-desc">
                 Premier Grade-A construction contractor providing certified civil engineering, structural developments, and high-quality skilled manpower deployment across Maharashtra.
               </p>
             </div>
-            <div>
-              <span class="status-badge status-active" style="font-size: 13px; padding: 6px 14px;">Status: Active</span>
-            </div>
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;"><span class="status-badge status-active" style="font-size: 13px; padding: 6px 14px;">Status: Active</span></div>
           </div>
         </section>
 
@@ -272,7 +294,7 @@
                 </svg>
               </div>
             </div>
-            <div class="stat-value">12</div>
+            <div class="stat-value" id="statActiveProjects">0</div>
             <div class="stat-footer">
               <span class="trend-up">+2</span>
               <span>new sites initialized</span>
@@ -291,9 +313,7 @@
               </div>
             </div>
             <div class="stat-value">₹85,000</div>
-            <div class="stat-footer">
-              <span style="color: #C2410C; font-weight: 600;">Due in 7 days</span>
-            </div>
+            <div class="stat-footer"></div>
           </div>
         </section>
 
@@ -323,69 +343,40 @@
             </div>
           </section>
 
-          <!-- Right Column: Recent Projects & Activity -->
-          <div style="display: flex; flex-direction: column; gap: 24px;">
-            <!-- Recent Projects Card -->
-            <section class="card">
-              <div class="card-header">
-                <h3 class="card-title">Recent Projects</h3>
-                <a href="#projects" class="btn btn-secondary btn-sm">All Sites</a>
-              </div>
-              <div style="display: flex; flex-direction: column; gap: 14px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; border-bottom: 1px solid var(--border-color);">
-                  <div>
-                    <div style="font-weight: 700; font-size: 14px;">Metro Line 4 - Station 12</div>
-                    <div style="font-size: 12px; color: var(--text-muted);">Kothrud, Pune</div>
-                  </div>
-                  <span class="status-badge status-active">Active</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; border-bottom: 1px solid var(--border-color);">
-                  <div>
-                    <div style="font-weight: 700; font-size: 14px;">Verdana Luxury Towers</div>
-                    <div style="font-size: 12px; color: var(--text-muted);">Baner, Pune</div>
-                  </div>
-                  <span class="status-badge status-active">Active</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <div>
-                    <div style="font-weight: 700; font-size: 14px;">Pimpri Flyover Extension</div>
-                    <div style="font-size: 12px; color: var(--text-muted);">Pimpri, Pune</div>
-                  </div>
-                  <span class="status-badge status-on-leave">Planning</span>
-                </div>
-              </div>
-            </section>
 
-            <!-- Activity Feed Card -->
-            <section class="card">
-              <div class="card-header">
-                <h3 class="card-title">Recent Activity</h3>
-              </div>
-              <div class="activity-list">
-                <div class="activity-item">
-                  <div class="activity-dot" style="background-color: #2563EB;"></div>
-                  <div class="activity-content">
-                    <div class="activity-title">New labour registered (Rahul Patil)</div>
-                    <div class="activity-time">2 hours ago</div>
-                  </div>
-                </div>
-                <div class="activity-item">
-                  <div class="activity-dot" style="background-color: #FF6B00;"></div>
-                  <div class="activity-content">
-                    <div class="activity-title">Labour profile updated (LAB004)</div>
-                    <div class="activity-time">Yesterday at 4:30 PM</div>
-                  </div>
-                </div>
-                <div class="activity-item">
-                  <div class="activity-dot" style="background-color: #166534;"></div>
-                  <div class="activity-content">
-                    <div class="activity-title">15 Mason workers assigned to Metro Site</div>
-                    <div class="activity-time">2 days ago</div>
-                  </div>
-                </div>
-              </div>
-            </section>
-          </div>
+        </div>
+
+        <!-- 4. INACTIVE RECORDS -->
+        <div class="dashboard-grid dashboard-secondary-grid">
+          <section class="card">
+            <div class="card-header">
+              <h3 class="card-title">Inactive Projects</h3>
+              <a href="#projects" class="btn btn-secondary btn-sm">View All Projects</a>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Project</th><th>Location</th><th>Status</th></tr>
+                </thead>
+                <tbody id="inactiveProjectsTbody"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="card">
+            <div class="card-header">
+              <h3 class="card-title">Inactive Labour</h3>
+              <a href="#labour" class="btn btn-secondary btn-sm">View All Labour</a>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Labour</th><th>Skill</th><th>Status</th></tr>
+                </thead>
+                <tbody id="inactiveLabourTbody"></tbody>
+              </table>
+            </div>
+          </section>
         </div>
       </section><section class="spa-page" id="page-labour" data-page="labour">
         <!-- TOP PAGE HEADER BAR -->
@@ -885,33 +876,65 @@
 </div>
 <section class="card"><div class="card-header"><h3 class="card-title">Team Overview</h3></div><div class="table-responsive"><table class="data-table"><thead><tr><th>Labour</th><th>Skill</th><th>Project</th><th>Status</th></tr></thead><tbody id="teamBody"></tbody></table></div></section>
 <section class="card"><div class="card-header"><h3 class="card-title">Attendance UI</h3><span style="font-size:13px;color:var(--text-muted)">Today</span></div><div class="table-responsive"><table class="data-table"><thead><tr><th>Labour</th><th>Skill</th><th>Attendance</th></tr></thead><tbody id="attendanceBody"></tbody></table></div></section>
-</section><section class="spa-page" id="page-wallet" data-page="wallet"><div class="page-heading"><div><h2>Wallet & Payments</h2><p>Manage payments, transactions and invoices for contractor work.</p></div></div><div class="stats-grid"><div class="stat-card"><div class="stat-label">Available Balance</div><div class="stat-value">₹1,24,500</div></div><div class="stat-card"><div class="stat-label">This Month</div><div class="stat-value">₹82,000</div></div><div class="stat-card"><div class="stat-label">Pending Payments</div><div class="stat-value">₹18,500</div></div></div><div class="grid-2"><section class="card"><div class="card-header"><h3 class="card-title">Payments</h3></div><div class="payment-summary"><strong>₹82,000</strong><span>Paid to labour this month</span></div><div class="mini-list"><div><span>Labour wages</span><b>₹64,000</b></div><div><span>Project advance</span><b>₹18,000</b></div></div></section><section class="card"><div class="card-header"><h3 class="card-title">Invoices</h3></div><div class="mini-list"><div><span>INV-2026-014</span><b>₹45,000 · Paid</b></div><div><span>INV-2026-015</span><b>₹32,000 · Pending</b></div><div><span>INV-2026-016</span><b>₹18,500 · Pending</b></div></div></section></div><section class="card"><div class="card-header"><h3 class="card-title">Transactions</h3></div><div class="table-responsive"><table class="data-table"><thead><tr><th>Date</th><th>Description</th><th>Type</th><th>Amount</th><th>Status</th></tr></thead><tbody><tr><td>13 Aug 2026</td><td>Labour wages - Metro Line 4</td><td>Debit</td><td>₹28,000</td><td><span class="status-badge status-active">Completed</span></td></tr><tr><td>10 Aug 2026</td><td>Project payment received</td><td>Credit</td><td>₹50,000</td><td><span class="status-badge status-active">Completed</span></td></tr><tr><td>08 Aug 2026</td><td>Labour wages - Verdana Towers</td><td>Debit</td><td>₹22,000</td><td><span class="status-badge status-active">Completed</span></td></tr></tbody></table></div></section></section><section class="spa-page" id="page-reports" data-page="reports"><div class="page-heading"><div><h2>Reports</h2><p>Review workforce, project and payment summaries.</p></div></div><div class="stats-grid"><div class="stat-card"><div class="stat-label">Total Labour</div><div class="stat-value" id="totalLabour">0</div></div><div class="stat-card"><div class="stat-label">Active Labour</div><div class="stat-value" id="activeLabour">0</div></div><div class="stat-card"><div class="stat-label">On Leave</div><div class="stat-value" id="leaveLabour">0</div></div></div><div class="grid-2"><section class="card"><div class="card-header"><h3 class="card-title">Workforce Report</h3></div><div class="mini-list" id="skillReport"></div></section><section class="card"><div class="card-header"><h3 class="card-title">Project Report</h3></div><div class="mini-list"><div><span>Metro Line 4 - Station 12</span><b>6 workers</b></div><div><span>Verdana Luxury Towers</span><b>4 workers</b></div><div><span>Pimpri Flyover Extension</span><b>Planning</b></div></div></section></div><section class="card"><div class="card-header"><h3 class="card-title">Payment Report</h3></div><div class="table-responsive"><table class="data-table"><thead><tr><th>Category</th><th>Amount</th><th>Status</th></tr></thead><tbody><tr><td>Labour wages</td><td>₹64,000</td><td><span class="status-badge status-active">Paid</span></td></tr><tr><td>Project advance</td><td>₹18,000</td><td><span class="status-badge status-active">Received</span></td></tr><tr><td>Pending invoice</td><td>₹18,500</td><td><span class="status-badge status-on-leave">Pending</span></td></tr></tbody></table></div></section></section><section class="spa-page" id="page-company" data-page="company"><div class="page-heading"><div><h2>Company Details</h2><p>View contractor company information and submitted documents.</p></div></div><div class="grid-2"><section class="card"><div class="card-header"><h3 class="card-title">Company Information</h3></div><div class="detail-grid"><div><span class="detail-item-label">Company Name</span><strong>ABC Construction Pvt. Ltd.</strong></div><div><span class="detail-item-label">Contractor Type</span><strong>Prime Contractor</strong></div><div><span class="detail-item-label">Email</span><strong>contact@abcconstruction.com</strong></div><div><span class="detail-item-label">Phone</span><strong>+91 98765 43210</strong></div><div><span class="detail-item-label">City</span><strong>Pune, Maharashtra</strong></div><div><span class="detail-item-label">Registration</span><strong>U45200MH2020PTC000001</strong></div></div></section><section class="card"><div class="card-header"><h3 class="card-title">Documents</h3></div><div class="mini-list"><div><span>Company Registration Certificate</span><b>Verified</b></div><div><span>GST Certificate</span><b>Verified</b></div><div><span>PAN Card</span><b>Verified</b></div><div><span>Contractor Licence</span><b>Verified</b></div></div></section></div></section><section class="spa-page" id="page-settings" data-page="settings">
-      <div class="page-heading"><div><h2>Settings</h2><p>Manage portal preferences, theme and labour data.</p></div></div>
+</section><section class="spa-page" id="page-wallet" data-page="wallet"><div class="page-heading"><div><h2>Wallet & Payments</h2><p>Manage payments, transactions and invoices for contractor work.</p></div></div><div class="stats-grid"><div class="stat-card"><div class="stat-label">Available Balance</div><div class="stat-value">₹1,24,500</div></div><div class="stat-card"><div class="stat-label">This Month</div><div class="stat-value">₹82,000</div></div><div class="stat-card"><div class="stat-label">Pending Payments</div><div class="stat-value">₹18,500</div></div></div><div class="grid-2"><section class="card"><div class="card-header"><h3 class="card-title">Payments</h3></div><div class="payment-summary"><strong>₹82,000</strong><span>Paid to labour this month</span></div><div class="mini-list"><div><span>Labour wages</span><b>₹64,000</b></div><div><span>Project advance</span><b>₹18,000</b></div></div></section><section class="card"><div class="card-header"><h3 class="card-title">Invoices</h3></div><div class="mini-list"><div><span>INV-2026-014</span><b>₹45,000 · Paid</b></div><div><span>INV-2026-015</span><b>₹32,000 · Pending</b></div><div><span>INV-2026-016</span><b>₹18,500 · Pending</b></div></div></section></div><section class="card"><div class="card-header"><h3 class="card-title">Transactions</h3></div><div class="table-responsive"><table class="data-table"><thead><tr><th>Date</th><th>Description</th><th>Type</th><th>Amount</th><th>Status</th></tr></thead><tbody><tr><td>13 Aug 2026</td><td>Labour wages - Metro Line 4</td><td>Debit</td><td>₹28,000</td><td><span class="status-badge status-active">Completed</span></td></tr><tr><td>10 Aug 2026</td><td>Project payment received</td><td>Credit</td><td>₹50,000</td><td><span class="status-badge status-active">Completed</span></td></tr><tr><td>08 Aug 2026</td><td>Labour wages - Verdana Towers</td><td>Debit</td><td>₹22,000</td><td><span class="status-badge status-active">Completed</span></td></tr></tbody></table></div></section></section><section class="spa-page" id="page-reports" data-page="reports"><div class="page-heading"><div><h2>Reports</h2><p>Review workforce, project and payment summaries.</p></div></div><div class="stats-grid"><div class="stat-card"><div class="stat-label">Total Labour</div><div class="stat-value" id="totalLabour">0</div></div><div class="stat-card"><div class="stat-label">Active Labour</div><div class="stat-value" id="activeLabour">0</div></div><div class="stat-card"><div class="stat-label">On Leave</div><div class="stat-value" id="leaveLabour">0</div></div></div><div class="grid-2"><section class="card"><div class="card-header"><h3 class="card-title">Workforce Report</h3></div><div class="mini-list" id="skillReport"></div></section><section class="card"><div class="card-header"><h3 class="card-title">Project Report</h3></div><div class="mini-list"><div><span>Metro Line 4 - Station 12</span><b>6 workers</b></div><div><span>Verdana Luxury Towers</span><b>4 workers</b></div><div><span>Pimpri Flyover Extension</span><b>Planning</b></div></div></section></div><section class="card"><div class="card-header"><h3 class="card-title">Payment Report</h3></div><div class="table-responsive"><table class="data-table"><thead><tr><th>Category</th><th>Amount</th><th>Status</th></tr></thead><tbody><tr><td>Labour wages</td><td>₹64,000</td><td><span class="status-badge status-active">Paid</span></td></tr><tr><td>Project advance</td><td>₹18,000</td><td><span class="status-badge status-active">Received</span></td></tr><tr><td>Pending invoice</td><td>₹18,500</td><td><span class="status-badge status-on-leave">Pending</span></td></tr></tbody></table></div></section></section><section class="spa-page" id="page-company" data-page="company">
+<div class="page-heading"><div><h2>Company Details</h2><p>View and edit contractor company information.</p></div></div>
+<div class="grid-2">
+<section class="card">
+<div class="card-header"><h3 class="card-title">Company Information</h3><button class="btn btn-secondary btn-sm" id="editCompanyBtn" type="button">Edit Company</button></div>
+<div class="detail-grid">
+<div><span class="detail-item-label">Company Name</span><strong id="companyNameValue">ABC Construction Pvt. Ltd.</strong></div>
+<div><span class="detail-item-label">Contractor Type</span><strong id="companyTypeValue">Prime Contractor</strong></div>
+<div><span class="detail-item-label">Email</span><strong id="companyEmailValue">contact@abcconstruction.com</strong></div>
+<div><span class="detail-item-label">Phone</span><strong id="companyPhoneValue">+91 98765 43210</strong></div>
+<div><span class="detail-item-label">City</span><strong id="companyCityValue">Pune, Maharashtra</strong></div>
+<div><span class="detail-item-label">Registration</span><strong id="companyRegistrationValue">U45200MH2020PTC000001</strong></div>
+</div>
+</section>
+<section class="card"><div class="card-header"><h3 class="card-title">Company Status</h3></div>
+<div class="mini-list"><div><span>Account Status</span><b class="status-badge status-active">Active</b></div><div><span>Contractor Type</span><b id="companyStatusType">Prime Contractor</b></div></div>
+</section>
+</div>
+</section>
+<section class="spa-page" id="page-documents" data-page="documents">
+  <div class="page-heading">
+    <div><h2>Document Management</h2><p>Manage company documents and keep important records organized.</p></div>
+  </div>
+  <section class="card">
+    <div class="card-header">
+      <h3 class="card-title">Company Documents</h3>
+      <button class="btn btn-primary btn-sm" type="button" id="addDocumentBtn">Add Document</button>
+    </div>
+    <div class="table-responsive">
+      <table class="data-table">
+        <thead><tr><th>Document</th><th>Category</th><th>Uploaded</th><th>Size</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="documentsTableBody"></tbody>
+      </table>
+    </div>
+    <div id="documentsEmpty" style="display:none;text-align:center;color:var(--text-muted);padding:28px;">No company documents added yet.</div>
+  </section>
+</section>
+
+<section class="spa-page" id="page-notifications" data-page="notifications">
+  <div class="page-heading">
+    <div><h2>Notifications</h2><p>Review changes and important activity across the contractor portal.</p></div>
+    <button class="btn btn-secondary btn-sm" type="button" id="clearNotificationsPageBtn">Clear All</button>
+  </div>
+  <section class="card">
+    <div class="card-header"><h3 class="card-title">Activity History</h3><span id="notificationCountLabel" style="font-size:13px;color:var(--text-muted)">0 notifications</span></div>
+    <div id="notificationsList"></div>
+  </section>
+</section>
+<section class="spa-page" id="page-settings" data-page="settings">
+      <div class="page-heading"><div><h2>Settings</h2><p>Manage notifications, profile and labour data.</p></div></div>
 
       <div class="grid-2">
         <section class="card">
           <div class="card-header"><h3 class="card-title">Notifications</h3></div>
-          <div class="setting-row"><div><strong>Payment notifications</strong><span>Receive updates for completed and pending payments.</span></div><label class="switch"><input type="checkbox" checked><span></span></label></div>
-          <div class="setting-row"><div><strong>Labour updates</strong><span>Receive updates when labour records change.</span></div><label class="switch"><input type="checkbox" checked><span></span></label></div>
-          <div class="setting-row"><div><strong>Project updates</strong><span>Receive project and attendance notifications.</span></div><label class="switch"><input type="checkbox" checked><span></span></label></div>
-        </section>
-
-        <section class="card">
-          <div class="card-header"><h3 class="card-title">Portal Settings</h3></div>
-          <div class="form-group"><label for="language">Language</label><select id="language" class="form-control"><option>English</option><option>Hindi</option></select></div>
-          <div class="form-group"><label for="dateFormat">Date Format</label><select id="dateFormat" class="form-control"><option>DD MMM YYYY</option><option>MM/DD/YYYY</option></select></div>
-          <button class="btn btn-primary" id="saveSettings" type="button">Save Settings</button>
+          <div class="setting-row"><div><strong>Payment notifications</strong><span>Receive updates for completed and pending payments.</span></div><label class="switch"><input type="checkbox" id="paymentNotifications" checked><span></span></label></div>
+          <div class="setting-row"><div><strong>Labour updates</strong><span>Receive updates when labour records change.</span></div><label class="switch"><input type="checkbox" id="labourNotifications" checked><span></span></label></div>
+          <div class="setting-row"><div><strong>Project updates</strong><span>Receive project and attendance notifications.</span></div><label class="switch"><input type="checkbox" id="projectNotifications" checked><span></span></label></div>
         </section>
       </div>
-
-      <section class="card" style="margin-top:24px;">
-        <div class="card-header"><h3 class="card-title">Appearance</h3></div>
-        <p style="color:var(--text-muted);margin-bottom:14px;font-size:13px;">Switch between light and dark mode without changing the portal layout or functionality.</p>
-        <div class="theme-choice-row">
-          <button type="button" class="theme-choice" data-theme-choice="light"><strong>☀ Light Mode</strong><span>Creamy beige background with navy blue accents.</span></button>
-          <button type="button" class="theme-choice" data-theme-choice="dark"><strong>☾ Dark Mode</strong><span>Deep navy surfaces with the same navy accent.</span></button>
-        </div>
-      </section>
 
 
       <section class="card profile-section">
@@ -952,8 +975,990 @@
           <button class="btn btn-danger-outline" id="deleteAllLabourBtn" type="button">Delete All Labour</button>
         </div>
       </section>
-    </section><section class="spa-page" id="page-help" data-page="help"><div class="page-heading"><div><h2>Help Center</h2><p>Find quick answers and contact support for portal assistance.</p></div></div><div class="grid-2"><section class="card"><div class="card-header"><h3 class="card-title">Common Help</h3></div><div class="faq-list"><details open><summary>How do I add labour?</summary><p>Open Labour from the sidebar and select Add Labour. Complete the required details and save the record.</p></details><details><summary>How do I edit a labour record?</summary><p>Open Labour, choose the edit action for the required worker, update the information and save it.</p></details><details><summary>Where can I view payments?</summary><p>Open Wallet to review payments, transactions and invoices.</p></details><details><summary>Where are company documents?</summary><p>Open Company to view company details and document verification status.</p></details></div></section><section class="card"><div class="card-header"><h3 class="card-title">Support</h3></div><div class="support-box"><strong>Skilliant Support Desk</strong><span>For portal assistance, contact:</span><a href="mailto:contact@skilliant.com">contact@skilliant.com</a><span>Support hours: Monday to Saturday, 10:00 AM - 6:00 PM</span></div></section></div></section></main>
+    </section><section class="spa-page" id="page-help" data-page="help"><div class="page-heading"><div><h2>Help Center</h2><p>Find quick answers and contact support for portal assistance.</p></div></div><div class="grid-2"><section class="card"><div class="card-header"><h3 class="card-title">Common Help</h3></div><div class="faq-list"><details open><summary>How do I add labour?</summary><p>Open Labour from the sidebar and select Add Labour. Complete the required details and save the record.</p></details><details><summary>How do I edit a labour record?</summary><p>Open Labour, choose the edit action for the required worker, update the information and save it.</p></details><details><summary>Where can I view payments?</summary><p>Open Wallet to review payments, transactions and invoices.</p></details><details><summary>Where can I edit company details?</summary><p>Open Company, select Edit Company, update the information and save it.</p></details></div></section><section class="card"><div class="card-header"><h3 class="card-title">Support</h3></div><div class="support-box"><strong>Skilliant Support Desk</strong><span>For portal assistance, contact:</span><a href="mailto:contact@skilliant.com">contact@skilliant.com</a><span>Support hours: Monday to Saturday, 10:00 AM - 6:00 PM</span></div></section></div></section></main>
 </div></div>
 <script src="js/contractor.js"></script>
+
+<script>
+/* =========================================================
+   SKILLIANT FINAL FUNCTIONAL REPAIR LAYER
+   Keeps the existing DOM/layout intact and fixes persistence,
+   documents, projects, attendance, notifications and profile
+   interactions.
+   ========================================================= */
+(function () {
+  'use strict';
+
+  const K = {
+    projects: 'skilliant_projects_v2',
+    assignments: 'skilliant_project_assignments_v2',
+    attendance: 'skilliant_attendance_v3',
+    wallet: 'skilliant_wallet_v2',
+    company: 'skilliant_company_v2',
+    activities: 'skilliant_activity_log_v3',
+    auth: 'skilliant_auth_v2',
+    documentsMeta: 'skilliant_company_documents_v2'
+  };
+
+  const seedProjects = [
+    {id:'P001',name:'Metro Line 4 - Station 12',location:'Kothrud, Pune',status:'Active'},
+    {id:'P002',name:'Verdana Luxury Towers',location:'Baner, Pune',status:'Active'},
+    {id:'P004',name:'Shivajinagar Commercial Complex',location:'Shivajinagar, Pune',status:'Active'},
+    {id:'P005',name:'Hinjewadi IT Park Phase 3',location:'Hinjewadi, Pune',status:'Active'},
+    {id:'P006',name:'Kharadi Business District',location:'Kharadi, Pune',status:'Active'},
+    {id:'P007',name:'Wakad Residential Development',location:'Wakad, Pune',status:'Active'},
+    {id:'P008',name:'Hadapsar Logistics Hub',location:'Hadapsar, Pune',status:'Active'},
+    {id:'P009',name:'Aundh Road Improvement',location:'Aundh, Pune',status:'Active'},
+    {id:'P010',name:'Pune Airport Expansion Support',location:'Viman Nagar, Pune',status:'Active'},
+    {id:'P011',name:'Magarpatta Infrastructure Works',location:'Magarpatta, Pune',status:'Active'},
+    {id:'P012',name:'Baner Road Commercial Plaza',location:'Baner, Pune',status:'Active'},
+    {id:'P013',name:'Katraj Residential Towers',location:'Katraj, Pune',status:'Active'},
+    {id:'P003',name:'Pimpri Flyover Extension',location:'Pimpri, Pune',status:'Planning'},
+    {id:'P014',name:'Swargate Commercial Renovation',location:'Swargate, Pune',status:'Inactive'},
+    {id:'P015',name:'Balewadi Residential Phase 1',location:'Balewadi, Pune',status:'Inactive'}
+  ];
+
+  const defaultCompany = {
+    name:'ABC Construction Pvt. Ltd.',
+    type:'Prime Contractor',
+    email:'contact@abcconstruction.com',
+    phone:'+91 98765 43210',
+    city:'Pune, Maharashtra',
+    registration:'U45200MH2020PTC000001'
+  };
+
+  const read = (key, fallback) => {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw === null ? fallback : JSON.parse(raw);
+    } catch (_) {
+      return fallback;
+    }
+  };
+
+  const write = (key, value) => localStorage.setItem(key, JSON.stringify(value));
+
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
+  }[c]));
+  window.esc = esc;
+
+  const dateLabel = value => {
+    const d = new Date(value);
+    return Number.isNaN(d.getTime()) ? String(value || '') :
+      d.toLocaleString('en-IN', {
+        day:'2-digit', month:'short', year:'numeric',
+        hour:'2-digit', minute:'2-digit'
+      });
+  };
+
+  const money = value => '₹' + Number(value || 0).toLocaleString('en-IN');
+
+  function getProjects() {
+    let current = read(K.projects, []);
+    if (!Array.isArray(current)) current = [];
+    const byId = new Map(current.map(p => [p.id, p]));
+    seedProjects.forEach(p => {
+      if (!byId.has(p.id)) byId.set(p.id, {...p});
+      else byId.set(p.id, {...p, ...byId.get(p.id)});
+    });
+    current = Array.from(byId.values());
+    write(K.projects, current);
+    return current;
+  }
+  window.skilliantGetProjects = getProjects;
+
+  function getAssignments() {
+    const value = read(K.assignments, {});
+    return value && typeof value === 'object' && !Array.isArray(value) ? value : {};
+  }
+
+  function getCompany() {
+    return {...defaultCompany, ...(read(K.company, {}) || {})};
+  }
+
+  function renderCompanyEverywhere() {
+    const c = getCompany();
+    const map = {
+      companyNameValue:c.name,
+      companyTypeValue:c.type,
+      companyEmailValue:c.email,
+      companyPhoneValue:c.phone,
+      companyCityValue:c.city,
+      companyRegistrationValue:c.registration,
+      companyStatusType:c.type,
+      dashboardCompanyName:c.name,
+      dashboardCompanyCity:c.city,
+      dashboardCompanyPhone:c.phone,
+      dashboardCompanyEmail:c.email
+    };
+    Object.entries(map).forEach(([id,value]) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    });
+    document.querySelectorAll('.header-company-name').forEach(el => el.textContent = c.name);
+    document.querySelectorAll('.company-details h2').forEach(el => el.textContent = c.name);
+  }
+
+  /* -------------------- ACTIVITY / NOTIFICATIONS -------------------- */
+
+  function getActivities() {
+    const hasCurrent = localStorage.getItem(K.activities) !== null;
+    if (!hasCurrent) {
+      let legacy = read('skilliant_activity_log_v2', null);
+      if (!Array.isArray(legacy) || !legacy.length) legacy = read('skilliantActivityLog', []);
+      if (Array.isArray(legacy) && legacy.length) {
+        write(K.activities, legacy.slice(0, 1000));
+      }
+    }
+    let list = read(K.activities, []);
+    if (!Array.isArray(list)) list = [];
+    return list;
+  }
+
+  function renderNotificationTargets() {
+    const list = getActivities();
+
+    const headerBtn = document.getElementById('headerNotificationBtn');
+    if (headerBtn) {
+      const badge = headerBtn.querySelector('.notification-badge');
+      if (badge) {
+        badge.textContent = list.length > 99 ? '99+' : (list.length ? String(list.length) : '');
+        badge.hidden = list.length === 0;
+      }
+    }
+
+    const pageList = document.getElementById('notificationsList');
+    const count = document.getElementById('notificationCountLabel');
+    if (count) count.textContent = `${list.length} notification${list.length === 1 ? '' : 's'}`;
+
+    if (pageList) {
+      pageList.innerHTML = list.length
+        ? list.map(item => `
+          <div class="notification-page-item">
+            <span class="notification-page-dot"></span>
+            <div>
+              <strong>${esc(item.title || 'Portal activity')}</strong>
+              <span>${esc(item.detail || '')}<br>${esc(dateLabel(item.time))}</span>
+            </div>
+          </div>
+        `).join('')
+        : '<div class="notification-page-empty">No notifications yet. Portal changes will appear here.</div>';
+    }
+  }
+
+  function renderHeaderNotificationPanel() {
+    const btn = document.getElementById('headerNotificationBtn');
+    if (!btn) return;
+
+    let panel = document.getElementById('notificationPanel');
+    if (!panel) {
+      panel = document.createElement('div');
+      panel.id = 'notificationPanel';
+      panel.className = 'notification-panel';
+      panel.hidden = true;
+      btn.parentElement.appendChild(panel);
+    }
+
+    const list = getActivities();
+    const recent = list.slice(0, 10);
+
+    panel.innerHTML = `
+      <div class="notification-panel-title">
+        <span>Notifications</span>
+        <span style="font-size:12px;color:var(--text-muted)">${list.length} total</span>
+      </div>
+      ${recent.length ? recent.map(item => `
+        <div class="notification-panel-item">
+          <span class="notification-panel-dot"></span>
+          <div>
+            <strong>${esc(item.title || 'Portal activity')}</strong>
+            <span>${esc(item.detail || '')}<br><small>${esc(dateLabel(item.time))}</small></span>
+          </div>
+        </div>
+      `).join('') : `
+        <div class="notification-panel-item">
+          <div><strong>No recent activity</strong><span>Your portal changes will appear here.</span></div>
+        </div>
+      `}
+      <div style="padding:10px 0 0;border-top:1px solid var(--border-color);display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap">
+        <button type="button" class="btn btn-secondary btn-sm" id="viewAllNotificationsBtn">View All</button>
+        <button type="button" class="btn btn-secondary btn-sm" id="clearActivityBtn">Clear Notifications</button>
+      </div>
+    `;
+
+    const viewAll = document.getElementById('viewAllNotificationsBtn');
+    if (viewAll) viewAll.onclick = e => {
+      e.stopPropagation();
+      panel.hidden = true;
+      btn.setAttribute('aria-expanded', 'false');
+      if (typeof window.navigate === 'function') window.navigate('notifications');
+      else location.hash = '#notifications';
+    };
+
+    const clear = document.getElementById('clearActivityBtn');
+    if (clear) clear.onclick = e => {
+      e.stopPropagation();
+      clearAllNotifications();
+    };
+  }
+
+  function refreshNotifications() {
+    renderNotificationTargets();
+    const panel = document.getElementById('notificationPanel');
+    if (panel && !panel.hidden) renderHeaderNotificationPanel();
+  }
+
+  function logActivity(title, detail) {
+    const list = getActivities();
+    list.unshift({
+      id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+      title,
+      detail,
+      time: new Date().toISOString()
+    });
+    write(K.activities, list.slice(0, 1000));
+    refreshNotifications();
+  }
+
+  function clearAllNotifications() {
+    write(K.activities, []);
+    refreshNotifications();
+    const panel = document.getElementById('notificationPanel');
+    if (panel) panel.hidden = false;
+    renderHeaderNotificationPanel();
+    renderNotificationTargets();
+    if (typeof window.showToast === 'function') window.showToast('All notifications cleared.');
+  }
+
+  window.skilliantLogActivity = logActivity;
+  window.refreshNotificationPanel = refreshNotifications;
+  window.skilliantClearNotifications = clearAllNotifications;
+  window.skilliantActivities = getActivities;
+
+  function initHeaderNotifications() {
+    const btn = document.getElementById('headerNotificationBtn');
+    if (!btn) return;
+
+    if (!btn.dataset.finalNotificationBound) {
+      btn.dataset.finalNotificationBound = '1';
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const panel = document.getElementById('notificationPanel');
+        if (!panel) {
+          renderHeaderNotificationPanel();
+          return;
+        }
+        panel.hidden = !panel.hidden;
+        btn.setAttribute('aria-expanded', String(!panel.hidden));
+        if (!panel.hidden) renderHeaderNotificationPanel();
+      });
+    }
+
+    if (!document.body.dataset.notificationOutsideBound) {
+      document.body.dataset.notificationOutsideBound = '1';
+      document.addEventListener('click', e => {
+        const panel = document.getElementById('notificationPanel');
+        const b = document.getElementById('headerNotificationBtn');
+        if (panel && !panel.hidden && !panel.contains(e.target) && e.target !== b) {
+          panel.hidden = true;
+          if (b) b.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+
+    refreshNotifications();
+  }
+
+  function initNotificationsPageFinal() {
+    renderNotificationTargets();
+    const clear = document.getElementById('clearNotificationsPageBtn');
+    if (clear && !clear.dataset.finalBound) {
+      clear.dataset.finalBound = '1';
+      clear.onclick = e => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (typeof window.showToast === 'function') window.showToast('All notifications cleared.');
+        clearAllNotifications();
+      };
+    }
+  }
+
+  /* -------------------- DOCUMENTS: INDEXEDDB -------------------- */
+
+  const DOC_DB = 'skilliant_documents_db_v1';
+  const DOC_STORE = 'documents';
+
+  function openDocumentDB() {
+    return new Promise((resolve, reject) => {
+      if (!('indexedDB' in window)) {
+        reject(new Error('IndexedDB is not supported by this browser.'));
+        return;
+      }
+      const request = indexedDB.open(DOC_DB, 1);
+      request.onupgradeneeded = () => {
+        const db = request.result;
+        if (!db.objectStoreNames.contains(DOC_STORE)) {
+          db.createObjectStore(DOC_STORE, {keyPath:'id'});
+        }
+      };
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error || new Error('Unable to open document storage.'));
+    });
+  }
+
+  async function getDocumentRecords() {
+    let meta = read(K.documentsMeta, []);
+    if (!Array.isArray(meta)) meta = [];
+    try {
+      const db = await openDocumentDB();
+      const records = await new Promise((resolve, reject) => {
+        const tx = db.transaction(DOC_STORE, 'readonly');
+        const req = tx.objectStore(DOC_STORE).getAll();
+        req.onsuccess = () => resolve(req.result || []);
+        req.onerror = () => reject(req.error);
+      });
+      db.close();
+
+      const byId = new Map(records.map(r => [r.id, r]));
+      return meta.map(m => ({...m, ...(byId.get(m.id) || {})}))
+        .filter(m => m && m.id);
+    } catch (_) {
+      return meta;
+    }
+  }
+
+  async function putDocumentRecord(record) {
+    const db = await openDocumentDB();
+    await new Promise((resolve, reject) => {
+      const tx = db.transaction(DOC_STORE, 'readwrite');
+      tx.objectStore(DOC_STORE).put(record);
+      tx.oncomplete = resolve;
+      tx.onerror = () => reject(tx.error);
+      tx.onabort = () => reject(tx.error || new Error('Document transaction aborted.'));
+    });
+    db.close();
+  }
+
+  async function deleteDocumentRecord(id) {
+    const db = await openDocumentDB();
+    await new Promise((resolve, reject) => {
+      const tx = db.transaction(DOC_STORE, 'readwrite');
+      tx.objectStore(DOC_STORE).delete(id);
+      tx.oncomplete = resolve;
+      tx.onerror = () => reject(tx.error);
+      tx.onabort = () => reject(tx.error || new Error('Document transaction aborted.'));
+    });
+    db.close();
+  }
+
+  async function migrateLegacyDocuments() {
+    const legacyRaw = localStorage.getItem('skilliantCompanyDocuments');
+    if (!legacyRaw) return;
+
+    let legacy;
+    try { legacy = JSON.parse(legacyRaw); } catch (_) { legacy = []; }
+    if (!Array.isArray(legacy) || !legacy.length) {
+      localStorage.removeItem('skilliantCompanyDocuments');
+      return;
+    }
+
+    let meta = read(K.documentsMeta, []);
+    if (!Array.isArray(meta)) meta = [];
+    const existing = new Set(meta.map(x => x.id));
+
+    for (const item of legacy) {
+      if (existing.has(item.id)) continue;
+      const record = {
+        id:item.id,
+        name:item.name,
+        category:item.category || 'Company',
+        size:Number(item.size || 0),
+        type:item.type || 'application/octet-stream',
+        uploaded:item.uploaded || new Date().toLocaleDateString('en-IN'),
+        status:item.status || 'Stored'
+      };
+      try {
+        if (item.dataUrl) {
+          const response = await fetch(item.dataUrl);
+          record.file = await response.blob();
+        }
+        await putDocumentRecord(record);
+        meta.unshift({
+          id:record.id,name:record.name,category:record.category,size:record.size,
+          type:record.type,uploaded:record.uploaded,status:record.status
+        });
+      } catch (_) {}
+    }
+
+    write(K.documentsMeta, meta);
+    localStorage.removeItem('skilliantCompanyDocuments');
+  }
+
+  function formatBytes(bytes) {
+    if (!bytes) return '—';
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  }
+
+  async function renderDocumentsFinal() {
+    const body = document.getElementById('documentsTableBody');
+    const empty = document.getElementById('documentsEmpty');
+    if (!body) return;
+
+    const docs = await getDocumentRecords();
+    if (!docs.length) {
+      body.innerHTML = '';
+      if (empty) empty.style.display = 'block';
+      return;
+    }
+
+    if (empty) empty.style.display = 'none';
+    body.innerHTML = docs.map(d => `
+      <tr>
+        <td><strong>${esc(d.name)}</strong></td>
+        <td>${esc(d.category || 'Company')}</td>
+        <td>${esc(d.uploaded || '')}</td>
+        <td>${esc(formatBytes(d.size))}</td>
+        <td><span class="status-badge status-active">${esc(d.status || 'Stored')}</span></td>
+        <td>
+          <div class="document-action-group">
+            <button type="button" class="btn btn-secondary btn-sm" data-final-doc-view="${esc(d.id)}">View</button>
+            <button type="button" class="btn btn-danger-outline btn-sm" data-final-doc-delete="${esc(d.id)}">Delete</button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  async function initDocumentsFinal() {
+    const body = document.getElementById('documentsTableBody');
+    const add = document.getElementById('addDocumentBtn');
+    if (!body) return;
+
+    await migrateLegacyDocuments();
+    await renderDocumentsFinal();
+
+    if (add && !add.dataset.finalDocumentBound) {
+      add.dataset.finalDocumentBound = '1';
+      add.onclick = () => {
+        const modal = document.createElement('div');
+        modal.className = 'modal-backdrop';
+        modal.innerHTML = `
+          <div class="modal-card" style="max-width:620px">
+            <h3 class="modal-title">Add Company Document</h3>
+            <form id="finalDocumentForm">
+              <div class="form-group">
+                <label for="finalDocumentName">Document Name</label>
+                <input id="finalDocumentName" class="form-control" required placeholder="e.g. GST Certificate">
+              </div>
+              <div class="form-group">
+                <label for="finalDocumentCategory">Category</label>
+                <select id="finalDocumentCategory" class="form-control">
+                  <option>Registration</option><option>Tax</option><option>Compliance</option>
+                  <option>Contract</option><option>Insurance</option><option>Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="finalDocumentFile">File</label>
+                <input id="finalDocumentFile" class="form-control" type="file"
+                  accept=".pdf,.png,.jpg,.jpeg,.doc,.docx,.xls,.xlsx" required>
+              </div>
+              <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" id="finalDocumentCancel">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save Document</button>
+              </div>
+            </form>
+          </div>
+        `;
+        document.body.appendChild(modal);
+
+        modal.querySelector('#finalDocumentCancel').onclick = () => modal.remove();
+
+        modal.querySelector('#finalDocumentForm').onsubmit = async e => {
+          e.preventDefault();
+          const name = modal.querySelector('#finalDocumentName').value.trim();
+          const category = modal.querySelector('#finalDocumentCategory').value;
+          const file = modal.querySelector('#finalDocumentFile').files[0];
+
+          if (!name || !file) {
+            if (typeof window.showToast === 'function') window.showToast('Please provide a document name and file.', 'danger');
+            return;
+          }
+
+          /* IndexedDB can safely hold larger files than LocalStorage. */
+          if (file.size > 25 * 1024 * 1024) {
+            if (typeof window.showToast === 'function') window.showToast('Maximum document size is 25 MB.', 'danger');
+            return;
+          }
+
+          const id = `DOC-${Date.now()}-${Math.random().toString(36).slice(2,7)}`;
+          const record = {
+            id, name, category, size:file.size, type:file.type || 'application/octet-stream',
+            uploaded:new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}),
+            status:'Stored', file
+          };
+
+          try {
+            await putDocumentRecord(record);
+            let meta = read(K.documentsMeta, []);
+            if (!Array.isArray(meta)) meta = [];
+            meta = [{
+              id,name,category,size:file.size,type:record.type,
+              uploaded:record.uploaded,status:'Stored'
+            }, ...meta.filter(x => x.id !== id)];
+            write(K.documentsMeta, meta);
+
+            logActivity('Document added', `${name} was added to company documents.`);
+            modal.remove();
+            await renderDocumentsFinal();
+            if (typeof window.showToast === 'function') window.showToast('Document added successfully.');
+          } catch (err) {
+            console.error(err);
+            if (typeof window.showToast === 'function') {
+              window.showToast('Document could not be saved. Please use a modern browser and try again.', 'danger');
+            }
+          }
+        };
+      };
+    }
+
+    if (!body.dataset.finalDocumentTableBound) {
+      body.dataset.finalDocumentTableBound = '1';
+      body.addEventListener('click', async e => {
+        const view = e.target.closest('[data-final-doc-view]');
+        const del = e.target.closest('[data-final-doc-delete]');
+
+        if (view) {
+          const id = view.dataset.finalDocView;
+          const docs = await getDocumentRecords();
+          const doc = docs.find(x => x.id === id);
+          if (!doc) return;
+
+          try {
+            if (doc.file instanceof Blob) {
+              const url = URL.createObjectURL(doc.file);
+              window.open(url, '_blank', 'noopener');
+              setTimeout(() => URL.revokeObjectURL(url), 60000);
+            } else if (doc.dataUrl) {
+              window.open(doc.dataUrl, '_blank', 'noopener');
+            } else {
+              if (typeof window.showToast === 'function') window.showToast('The document file is unavailable.', 'danger');
+              return;
+            }
+            logActivity('Document viewed', `${doc.name} was opened.`);
+          } catch (err) {
+            console.error(err);
+            if (typeof window.showToast === 'function') window.showToast('Unable to open the document.', 'danger');
+          }
+        }
+
+        if (del) {
+          const id = del.dataset.finalDocDelete;
+          const docs = await getDocumentRecords();
+          const doc = docs.find(x => x.id === id);
+          if (!doc) return;
+
+          if (!window.confirm(`Delete ${doc.name}?`)) return;
+
+          try {
+            await deleteDocumentRecord(id);
+            const meta = read(K.documentsMeta, []).filter(x => x.id !== id);
+            write(K.documentsMeta, meta);
+            logActivity('Document deleted', `${doc.name} was removed.`);
+            await renderDocumentsFinal();
+            if (typeof window.showToast === 'function') window.showToast('Document deleted.');
+          } catch (err) {
+            console.error(err);
+            if (typeof window.showToast === 'function') window.showToast('Unable to delete the document.', 'danger');
+          }
+        }
+      });
+    }
+  }
+
+  window.renderDocuments = renderDocumentsFinal;
+  window.getDocuments = async () => getDocumentRecords();
+
+  /* -------------------- PROJECTS / ASSIGNMENT / ATTENDANCE -------------------- */
+
+  function attendanceDateKey() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  }
+
+  function getTodayAttendance() {
+    const all = read(K.attendance, {});
+    return all && typeof all === 'object' ? (all[attendanceDateKey()] || {}) : {};
+  }
+
+  function saveTodayAttendance(value) {
+    const all = read(K.attendance, {});
+    all[attendanceDateKey()] = value;
+    write(K.attendance, all);
+  }
+
+  function renderProjectsFinal() {
+    const projects = getProjects();
+    const labour = typeof window.getLabourData === 'function' ? window.getLabourData() : [];
+    const assignments = getAssignments();
+
+    const list = document.querySelector('#page-projects .project-list');
+    if (list) {
+      list.innerHTML = projects.map(p => `
+        <div class="project-row">
+          <div>
+            <strong>${esc(p.name)}</strong>
+            <span>${esc(p.location)} · ${esc(p.status)}</span>
+          </div>
+          <span class="status-badge ${
+            p.status === 'Active' ? 'status-active' :
+            p.status === 'Planning' ? 'status-on-leave' : 'status-inactive'
+          }">${esc(p.status)}</span>
+        </div>
+      `).join('');
+    }
+
+    const stats = document.querySelectorAll('#page-projects .stats-grid .stat-value');
+    if (stats[0]) stats[0].textContent = projects.filter(p => p.status === 'Active').length;
+    if (stats[1]) stats[1].textContent = projects.filter(p => p.status === 'Planning').length;
+    if (stats[2]) stats[2].textContent = Object.keys(assignments).length;
+
+    const projectSelect = document.getElementById('projectSelect');
+    if (projectSelect) {
+      projectSelect.innerHTML = projects.map(p =>
+        `<option value="${esc(p.id)}">${esc(p.name)} — ${esc(p.status)}</option>`
+      ).join('');
+    }
+
+    const labourSelect = document.getElementById('labourSelect');
+    if (labourSelect) {
+      labourSelect.innerHTML = labour.length
+        ? labour.map(l => `<option value="${esc(l.id)}">${esc(l.name)} (${esc(l.skill)})</option>`).join('')
+        : '<option value="">No labour available</option>';
+    }
+
+    const team = document.getElementById('teamBody');
+    if (team) {
+      const rows = labour.filter(l => assignments[l.id]);
+      team.innerHTML = rows.length
+        ? rows.map(l => `
+          <tr>
+            <td>${esc(l.name)}</td><td>${esc(l.skill)}</td>
+            <td>${esc(projects.find(p => p.id === assignments[l.id])?.name || assignments[l.id])}</td>
+            <td>${typeof window.getStatusBadgeHtml === 'function' ? window.getStatusBadgeHtml(l.status) : esc(l.status)}</td>
+          </tr>
+        `).join('')
+        : '<tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:20px;">No labour assigned yet.</td></tr>';
+    }
+
+    const att = document.getElementById('attendanceBody');
+    if (att) {
+      const today = getTodayAttendance();
+      att.innerHTML = labour.length
+        ? labour.map(l => `
+          <tr>
+            <td>${esc(l.name)}</td>
+            <td>${esc(l.skill)}</td>
+            <td>
+              <label style="display:inline-flex;align-items:center;gap:8px">
+                <input type="checkbox" class="final-attendance-toggle"
+                  data-att-id="${esc(l.id)}" ${today[l.id] === true ? 'checked' : ''}>
+                Present
+              </label>
+            </td>
+          </tr>
+        `).join('')
+        : '<tr><td colspan="3" style="text-align:center;color:var(--text-muted);padding:20px;">No labour records found.</td></tr>';
+
+      att.querySelectorAll('.final-attendance-toggle').forEach(cb => {
+        cb.onchange = () => {
+          const todayState = getTodayAttendance();
+          todayState[cb.dataset.attId] = cb.checked;
+          saveTodayAttendance(todayState);
+          const person = labour.find(l => l.id === cb.dataset.attId);
+          logActivity('Attendance updated',
+            `${person ? person.name : cb.dataset.attId} marked ${cb.checked ? 'Present' : 'Absent'}.`);
+          if (typeof window.showToast === 'function') window.showToast(
+            `${person ? person.name : 'Labour'} attendance saved as ${cb.checked ? 'Present' : 'Absent'}.`
+          );
+        };
+      });
+    }
+
+    const form = document.getElementById('assignForm');
+    if (form) {
+      form.onsubmit = e => {
+        e.preventDefault();
+        const labourId = labourSelect?.value;
+        const projectId = projectSelect?.value;
+        const person = labour.find(l => l.id === labourId);
+        const project = projects.find(p => p.id === projectId);
+        if (!person || !project) {
+          if (typeof window.showToast === 'function') window.showToast('Select a project and labour member.', 'danger');
+          return;
+        }
+
+        const next = getAssignments();
+        next[labourId] = projectId;
+        write(K.assignments, next);
+        logActivity('Labour assigned', `${person.name} was assigned to ${project.name}.`);
+        if (typeof window.showToast === 'function') window.showToast('Labour assigned successfully.');
+        renderProjectsFinal();
+      };
+    }
+  }
+
+  function renderDashboardFinal() {
+    if (typeof window.calculateStats === 'function') {
+      const stats = window.calculateStats();
+      const total = document.getElementById('statTotalLabour');
+      const active = document.getElementById('statActiveLabour');
+      const pct = document.getElementById('statActivePercentage');
+      if (total) total.textContent = stats.total;
+      if (active) active.textContent = stats.active;
+      if (pct) pct.textContent = `${stats.total ? Math.round(stats.active / stats.total * 100) : 0}%`;
+    }
+
+    const projects = getProjects();
+    const wallet = read(K.wallet, null);
+    const statCards = document.querySelectorAll('#page-dashboard .stats-grid .stat-value');
+    if (statCards[2]) statCards[2].textContent = projects.filter(p => p.status === 'Active').length;
+    if (statCards[3] && wallet && wallet.pending != null) statCards[3].textContent = money(wallet.pending);
+
+    renderCompanyEverywhere();
+  }
+
+  /* -------------------- COMPANY -------------------- */
+
+  function openCompanyEditorFinal() {
+    const c = getCompany();
+    let modal = document.getElementById('finalCompanyEditModal');
+
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'finalCompanyEditModal';
+      modal.className = 'modal-backdrop';
+      modal.innerHTML = `
+        <div class="modal-card" style="max-width:720px">
+          <h3 class="modal-title">Edit Company</h3>
+          <form id="finalCompanyEditForm" class="form-grid">
+            <div class="form-group"><label>Company Name</label><input class="form-control" id="fceName" required></div>
+            <div class="form-group"><label>Contractor Type</label><input class="form-control" id="fceType" required></div>
+            <div class="form-group"><label>Email</label><input class="form-control" type="email" id="fceEmail" required></div>
+            <div class="form-group"><label>Phone</label><input class="form-control" id="fcePhone" required></div>
+            <div class="form-group"><label>City</label><input class="form-control" id="fceCity" required></div>
+            <div class="form-group"><label>Registration</label><input class="form-control" id="fceReg" required></div>
+            <div class="modal-actions" style="grid-column:1/-1">
+              <button type="button" class="btn btn-secondary" id="fceCancel">Cancel</button>
+              <button class="btn btn-primary" type="submit">Save Company</button>
+            </div>
+          </form>
+        </div>
+      `;
+      document.body.appendChild(modal);
+      modal.querySelector('#fceCancel').onclick = () => modal.remove();
+      modal.querySelector('#finalCompanyEditForm').onsubmit = e => {
+        e.preventDefault();
+        const next = {
+          name:modal.querySelector('#fceName').value.trim(),
+          type:modal.querySelector('#fceType').value.trim(),
+          email:modal.querySelector('#fceEmail').value.trim(),
+          phone:modal.querySelector('#fcePhone').value.trim(),
+          city:modal.querySelector('#fceCity').value.trim(),
+          registration:modal.querySelector('#fceReg').value.trim()
+        };
+        if (Object.values(next).some(v => !v)) {
+          if (typeof window.showToast === 'function') window.showToast('Please complete all company fields.', 'danger');
+          return;
+        }
+        write(K.company, next);
+        renderCompanyEverywhere();
+        logActivity('Company updated', `Company information was updated to ${next.name}.`);
+        if (typeof window.showToast === 'function') window.showToast('Company information saved successfully.');
+        modal.remove();
+      };
+    }
+
+    [['fceName',c.name],['fceType',c.type],['fceEmail',c.email],['fcePhone',c.phone],['fceCity',c.city],['fceReg',c.registration]]
+      .forEach(([id,value]) => { modal.querySelector('#' + id).value = value; });
+    modal.style.display = 'flex';
+  }
+
+  function initCompanyFinal() {
+    renderCompanyEverywhere();
+    const button = document.getElementById('editCompanyBtn');
+    if (button) {
+      button.onclick = openCompanyEditorFinal;
+      button.dataset.finalCompanyBound = '1';
+    }
+  }
+
+  /* -------------------- PROFILE LOGIN / LOGOUT -------------------- */
+
+  function initProfileMenuFinal() {
+    const profile = document.querySelector('.user-profile');
+    if (!profile) return;
+
+    profile.onclick = null;
+    profile.onkeydown = null;
+    profile.setAttribute('aria-haspopup','menu');
+
+    let menu = document.getElementById('profileMenu');
+    if (!menu) {
+      menu = document.createElement('div');
+      menu.id = 'profileMenu';
+      menu.className = 'profile-menu';
+      menu.hidden = true;
+      menu.innerHTML = `
+        <button type="button" data-profile-action="profile">My Profile</button>
+        <button type="button" data-profile-action="login">Login</button>
+        <button type="button" data-profile-action="logout">Logout</button>
+      `;
+      profile.parentElement.appendChild(menu);
+      menu.addEventListener('click', e => {
+        const button = e.target.closest('[data-profile-action]');
+        if (!button) return;
+        const action = button.dataset.profileAction;
+        if (action === 'profile') {
+          menu.hidden = true;
+          if (typeof window.navigate === 'function') window.navigate('settings');
+          return;
+        }
+        if (action === 'login') {
+          write(K.auth, {loggedIn:true,time:new Date().toISOString()});
+          logActivity('Login', 'Contractor profile logged in.');
+          if (typeof window.showToast === 'function') window.showToast('Logged in successfully.');
+        }
+        if (action === 'logout') {
+          write(K.auth, {loggedIn:false,time:new Date().toISOString()});
+          logActivity('Logout', 'Contractor profile logged out.');
+          if (typeof window.showToast === 'function') window.showToast('Logged out successfully.');
+        }
+        menu.hidden = true;
+        updateProfileMenuState();
+      });
+    }
+
+    function updateProfileMenuState() {
+      const auth = read(K.auth, {loggedIn:true});
+      const login = menu.querySelector('[data-profile-action="login"]');
+      const logout = menu.querySelector('[data-profile-action="logout"]');
+      if (login) login.disabled = auth.loggedIn === true;
+      if (logout) logout.disabled = auth.loggedIn !== true;
+      profile.setAttribute('aria-expanded', String(!menu.hidden));
+    }
+
+    if (!profile.dataset.finalProfileBound) {
+      profile.dataset.finalProfileBound = '1';
+      profile.addEventListener('click', e => {
+        e.stopPropagation();
+        menu.hidden = !menu.hidden;
+        updateProfileMenuState();
+      });
+      profile.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          menu.hidden = !menu.hidden;
+          updateProfileMenuState();
+        }
+      });
+      document.addEventListener('click', e => {
+        if (!menu.hidden && !menu.contains(e.target) && e.target !== profile) {
+          menu.hidden = true;
+          updateProfileMenuState();
+        }
+      });
+    }
+
+    updateProfileMenuState();
+  }
+
+  /* -------------------- ROUTING PATCH -------------------- */
+
+  function applyRouteRepair() {
+    const page = (location.hash || '#dashboard').slice(1).split('?')[0] || 'dashboard';
+
+    if (page === 'dashboard') renderDashboardFinal();
+    if (page === 'projects') renderProjectsFinal();
+    if (page === 'documents') initDocumentsFinal();
+    if (page === 'notifications') initNotificationsPageFinal();
+    if (page === 'company') initCompanyFinal();
+
+    initHeaderNotifications();
+    initProfileMenuFinal();
+    renderCompanyEverywhere();
+  }
+
+  function installRoutePatch() {
+    if (window.__skilliantFinalRoutePatched) return;
+    window.__skilliantFinalRoutePatched = true;
+
+    const originalRoute = window.renderRoute;
+    if (typeof originalRoute === 'function') {
+      window.renderRoute = function () {
+        originalRoute();
+        setTimeout(applyRouteRepair, 0);
+      };
+    }
+
+    window.addEventListener('hashchange', () => setTimeout(applyRouteRepair, 0));
+  }
+
+  /* Patch labour CRUD once so every labour change appears in notifications,
+     without changing the original labour module's structure. */
+  function installLabourActivityHooks() {
+    if (window.__skilliantLabourActivityHooks) return;
+    window.__skilliantLabourActivityHooks = true;
+
+    const originalAdd = window.addLabour;
+    const originalUpdate = window.updateLabour;
+    const originalDelete = window.deleteLabour;
+
+    if (typeof originalAdd === 'function') {
+      window.addLabour = record => {
+        originalAdd(record);
+        logActivity('Labour added', `${record.name} (${record.id}) was added.`);
+      };
+    }
+    if (typeof originalUpdate === 'function') {
+      window.updateLabour = record => {
+        const result = originalUpdate(record);
+        if (result) logActivity('Labour updated', `${record.name} (${record.id}) was updated.`);
+        return result;
+      };
+    }
+    if (typeof originalDelete === 'function') {
+      window.deleteLabour = id => {
+        const record = typeof window.getLabourById === 'function' ? window.getLabourById(id) : null;
+        originalDelete(id);
+        if (record) logActivity('Labour deleted', `${record.name} (${id}) was deleted.`);
+      };
+    }
+  }
+
+  function initFinalLayer() {
+    installLabourActivityHooks();
+    installRoutePatch();
+    initHeaderNotifications();
+    initProfileMenuFinal();
+    renderCompanyEverywhere();
+
+    const current = (location.hash || '#dashboard').slice(1).split('?')[0];
+    if (current === 'dashboard') renderDashboardFinal();
+    if (current === 'projects') renderProjectsFinal();
+    if (current === 'documents') initDocumentsFinal();
+    if (current === 'notifications') initNotificationsPageFinal();
+    if (current === 'company') initCompanyFinal();
+
+    if (!getActivities().length) {
+      logActivity('Portal ready', 'Skilliant Contractor Portal is ready and working.');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', initFinalLayer);
+})();
+</script>
 </body>
 </html>
