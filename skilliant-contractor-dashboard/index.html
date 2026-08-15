@@ -33,6 +33,7 @@
         href="css/style.css">
 
     <link rel="stylesheet" href="css/day4.css?v=day4final">
+    <link rel="stylesheet" href="css/day5.css?v=day5final">
 </head>
 
 <body>
@@ -115,27 +116,27 @@
         </li>
 
         <!-- Extended workspace navigation from the original Labour Portal dashboard -->
-        <li onclick="showPage('profilePage',this)">
+        <li data-day5-menu="profile" onclick="showPage('profilePage',this)">
             <i class="fa-solid fa-user"></i>
             Profile
         </li>
 
-        <li onclick="showPage('certificates',this)">
+        <li data-day5-menu="certificates" onclick="showPage('certificates',this)">
             <i class="fa-solid fa-certificate"></i>
             Certificates
         </li>
 
-        <li onclick="showPage('portfolio',this)">
+        <li data-day5-menu="portfolio" onclick="showPage('portfolio',this)">
             <i class="fa-solid fa-images"></i>
             Portfolio
         </li>
 
-        <li onclick="showPage('reviews',this)">
+        <li data-day5-menu="reviews" onclick="showPage('reviews',this)">
             <i class="fa-solid fa-star"></i>
             Reviews
         </li>
 
-        <li onclick="showPage('settings',this)">
+        <li data-day5-menu="settings" onclick="showPage('settings',this)">
             <i class="fa-solid fa-gear"></i>
             Settings
         </li>
@@ -1156,7 +1157,7 @@ class="page active-page">
 
         </div>
 
-        <button class="primary-btn">
+        <button class="primary-btn" id="analyticsExportBtn" type="button">
 
             <i class="fa-solid fa-download"></i>
 
@@ -3306,47 +3307,6 @@ id="profileDropdown">
     </ul>
 
 </div>
-<!-- ================= DAY 5 NAVIGATION ================= -->
-
-<li onclick="showPage('profilePage',this)">
-
-    <i class="fa-solid fa-user"></i>
-
-    Profile
-
-</li>
-
-<li onclick="showPage('certificates',this)">
-
-    <i class="fa-solid fa-certificate"></i>
-
-    Certificates
-
-</li>
-
-<li onclick="showPage('portfolio',this)">
-
-    <i class="fa-solid fa-images"></i>
-
-    Portfolio
-
-</li>
-
-<li onclick="showPage('reviews',this)">
-
-    <i class="fa-solid fa-star"></i>
-
-    Reviews
-
-</li>
-
-<li onclick="showPage('settings',this)">
-
-    <i class="fa-solid fa-gear"></i>
-
-    Settings
-
-</li>
 <!-- ========================================= -->
 <!--          PROFILE EDIT MODAL              -->
 <!-- ========================================= -->
@@ -4112,6 +4072,8 @@ id="profileDropdown">
 <script src="js/app.js?v=day4final-complete1"></script>
 <script src="js/day4.js?v=day4complete1"></script>
 <script src="js/final-interactions-fix.js?v=day4complete1"></script>
+<script src="js/day5.js?v=day5final1"></script>
+<script src="js/day5-runtime-fix.js?v=day5fix2"></script>
 
 </body>
 
