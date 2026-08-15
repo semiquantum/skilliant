@@ -3890,6 +3890,14 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        const summary = document.getElementById("reviewSummary");
+        const average = reviews.length
+            ? (reviews.reduce((total, review) => total + Number(review.rating || 0), 0) / reviews.length).toFixed(1)
+            : "0.0";
+        if (summary) {
+            summary.innerHTML = `<div><strong>${average} ★</strong><span>Average rating</span></div><div><strong>${reviews.length}</strong><span>Reviews submitted</span></div>`;
+        }
+
 
         container.innerHTML =
             reviews.length
@@ -4064,7 +4072,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     .map(
                         ticket => `
 
-                        <div class="ticket-card">
+                        <article class="ticket-card">
 
                             <h3>
                                 ${escapeHTML(
@@ -4085,13 +4093,15 @@ document.addEventListener("DOMContentLoaded", () => {
                                 )}
                             </span>
 
-                            <strong>
+                            <span class="status-badge ${String(ticket.status).toLowerCase().replace(/\s+/g, "-")}">
                                 ${escapeHTML(
                                     ticket.status
                                 )}
-                            </strong>
+                            </span>
 
-                        </div>
+                            <button type="button" class="secondary-btn" data-view-ticket="${escapeHTML(ticket.id)}">View details</button>
+
+                        </article>
                     `
                     )
                     .join("")
@@ -4266,6 +4276,12 @@ document.addEventListener("DOMContentLoaded", () => {
                                         .toISOString()
                                         .split("T")[0]
                             };
+
+                            let invalid = false;
+                            if (!ticket.category) { showInlineError(document.getElementById("ticketCategory"), "Select a category."); invalid = true; }
+                            if (ticket.subject.length < 4) { showInlineError(document.getElementById("ticketSubject"), "Enter a subject of at least 4 characters."); invalid = true; }
+                            if (ticket.description.length < 10) { showInlineError(document.getElementById("ticketDescription"), "Describe the issue in at least 10 characters."); invalid = true; }
+                            if (invalid) { showToast("Please correct the highlighted ticket fields.", "error"); return; }
 
 
                             tickets.unshift(
@@ -4469,6 +4485,37 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     }
 
+    document.getElementById("addReviewButton")?.addEventListener("click", () => {
+        const labourOptions = labourers.map(labour => `<option value="${escapeHTML(labour.name)}">${escapeHTML(labour.name)} — ${escapeHTML(labour.skill)}</option>`).join("");
+        openModal(`
+            <div class="modal-header"><h2>Write a review</h2><button type="button" data-close-modal aria-label="Close modal">×</button></div>
+            <form id="reviewForm" class="modal-body" novalidate>
+                <div class="form-group"><label for="reviewLabour">Professional</label><select id="reviewLabour" required><option value="">Select professional</option>${labourOptions}</select></div>
+                <div class="form-group"><label>Your rating</label><div class="star-picker" role="radiogroup" aria-label="Choose rating">${[1,2,3,4,5].map(rating => `<button type="button" class="star-choice" data-star-rating="${rating}" aria-label="${rating} star${rating > 1 ? "s" : ""}">★</button>`).join("")}</div><input type="hidden" id="reviewRating" required></div>
+                <div class="form-group"><label for="reviewText">Review</label><textarea id="reviewText" maxlength="500" placeholder="Share your experience" required></textarea></div>
+                <div class="modal-footer"><button type="button" class="secondary-btn" data-close-modal>Cancel</button><button type="submit" class="primary-btn">Submit review</button></div>
+            </form>
+        `);
+        document.querySelectorAll("[data-star-rating]").forEach(button => button.addEventListener("click", () => {
+            const rating = Number(button.dataset.starRating);
+            document.getElementById("reviewRating").value = rating;
+            document.querySelectorAll("[data-star-rating]").forEach(star => star.classList.toggle("selected", Number(star.dataset.starRating) <= rating));
+        }));
+        document.getElementById("reviewForm")?.addEventListener("submit", event => {
+            event.preventDefault(); clearInlineErrors(event.target);
+            const labour = document.getElementById("reviewLabour").value;
+            const rating = Number(document.getElementById("reviewRating").value);
+            const reviewText = document.getElementById("reviewText").value.trim();
+            let invalid = false;
+            if (!labour) { showInlineError(document.getElementById("reviewLabour"), "Select a professional."); invalid = true; }
+            if (!rating) { showInlineError(document.querySelector(".star-picker"), "Choose a star rating."); invalid = true; }
+            if (reviewText.length < 10) { showInlineError(document.getElementById("reviewText"), "Write at least 10 characters."); invalid = true; }
+            if (invalid) { showToast("Please correct the highlighted review fields.", "error"); return; }
+            reviews.unshift({ id: Date.now(), labour, rating, review: reviewText, date: new Date().toLocaleDateString("en-IN") });
+            saveData(); closeModal(); renderReviews(); showToast("Review submitted successfully.");
+        });
+    });
+
     const languageSetting = document.getElementById("languageSetting");
 
     if (languageSetting) {
@@ -4478,6 +4525,17 @@ document.addEventListener("DOMContentLoaded", () => {
             showToast(currentLanguage === "English" ? "Language updated." : "भाषा बदल दी गई है।");
         });
     }
+
+    ["bookingNotifications", "promoNotifications", "profileVisibility"].forEach(id => {
+        const control = document.getElementById(id);
+        if (!control) return;
+        const saved = localStorage.getItem(`skilliant_${id}`);
+        if (saved !== null) control.checked = saved === "true";
+        control.addEventListener("change", () => {
+            localStorage.setItem(`skilliant_${id}`, String(control.checked));
+            showToast("Preference updated.");
+        });
+    });
 
 
     // =================================================
@@ -4653,33 +4711,20 @@ document.addEventListener("DOMContentLoaded", () => {
         ?.addEventListener(
             "click",
             () => {
-
-                const confirmed =
-                    confirm(
-                        "Are you sure you want to logout?"
-                    );
-
-
-                if (confirmed) {
-
-                    showToast(
-                        "Logged out successfully."
-                    );
-                }
+                openLogoutConfirmation();
             }
         );
 
     document.getElementById("sidebarLogoutButton")?.addEventListener(
         "click",
         () => {
-            const confirmed = confirm("Are you sure you want to logout?");
-
-            if (confirmed) {
-                showToast("Logged out successfully.");
-                navigateTo("dashboard");
-            }
+            openLogoutConfirmation();
         }
     );
+
+    function openLogoutConfirmation() {
+        openModal(`<div class="modal-header"><h2>Log out?</h2><button type="button" data-close-modal aria-label="Close modal">×</button></div><div class="modal-body"><p>You will remain signed in locally, but this portal session will return to the dashboard.</p></div><div class="modal-footer"><button type="button" class="secondary-btn" data-close-modal>Stay signed in</button><button type="button" class="danger-btn" data-confirm-logout>Log out</button></div>`);
+    }
 
 
     // =================================================
@@ -5177,6 +5222,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
+            if (event.target.closest("[data-confirm-logout]")) {
+                closeModal();
+                navigateTo("dashboard");
+                showToast("Logged out successfully.");
+                return;
+            }
+
             const bookingDetailsButton = event.target.closest("[data-view-booking]");
             if (bookingDetailsButton) {
                 viewBookingDetails(bookingDetailsButton.dataset.viewBooking);
@@ -5186,6 +5238,23 @@ document.addEventListener("DOMContentLoaded", () => {
             const paymentDetailsButton = event.target.closest("[data-view-payment]");
             if (paymentDetailsButton) {
                 viewPaymentDetails(paymentDetailsButton.dataset.viewPayment);
+                return;
+            }
+
+            const ticketDetailsButton = event.target.closest("[data-view-ticket]");
+            if (ticketDetailsButton) {
+                const ticket = tickets.find(item => String(item.id) === String(ticketDetailsButton.dataset.viewTicket));
+                if (ticket) {
+                    openModal(`
+                        <div class="modal-header"><h2>Support ticket details</h2><button type="button" data-close-modal aria-label="Close modal">×</button></div>
+                        <div class="modal-body booking-details-grid">
+                            <div><span>Ticket ID</span><strong>${escapeHTML(ticket.id)}</strong></div><div><span>Status</span><strong>${escapeHTML(ticket.status)}</strong></div>
+                            <div><span>Category</span><strong>${escapeHTML(ticket.category)}</strong></div><div><span>Created</span><strong>${escapeHTML(ticket.date)}</strong></div>
+                            <div class="booking-detail-wide"><span>Subject</span><strong>${escapeHTML(ticket.subject)}</strong></div>
+                            <div class="booking-detail-wide"><span>Description</span><strong>${escapeHTML(ticket.description)}</strong></div>
+                        </div><div class="modal-footer"><button type="button" class="primary-btn" data-close-modal>Done</button></div>
+                    `);
+                }
                 return;
             }
 

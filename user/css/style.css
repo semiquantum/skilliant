@@ -2558,6 +2558,7 @@ body[data-theme="dark"] .wallet-balance-card,
 body[data-theme="dark"] .wallet-summary,
 body[data-theme="dark"] .table-container,
 body[data-theme="dark"] .transaction-item,
+body[data-theme="dark"] .labour-card,
 body[data-theme="dark"] .booking-details-grid > div {
     background: #1b2638;
     border-color: #3a4a63;
@@ -2599,6 +2600,68 @@ body[data-theme="dark"] .profile-header {
 }
 
 body[data-theme="dark"] select option { background: #1b2638; color: #f7fbff; }
+
+/* Search Labour controls and cards use the same dark surface as the portal. */
+body[data-theme="dark"] .search-input-wrapper input,
+body[data-theme="dark"] .filter-group select,
+body[data-theme="dark"] .filter-group input {
+    background: #1b2638;
+    color: #f7fbff;
+    border-color: #3a4a63;
+}
+
+body[data-theme="dark"] .search-input-wrapper input::placeholder {
+    color: #b7c7dc;
+    opacity: 1;
+}
+
+body[data-theme="dark"] .labour-card,
+body[data-theme="dark"] .labour-card-body {
+    background: #1b2638;
+    border-color: #3a4a63;
+}
+
+body[data-theme="dark"] .labour-card h3,
+body[data-theme="dark"] .labour-card-body h3 {
+    color: #f7fbff;
+}
+
+body[data-theme="dark"] .labour-card p,
+body[data-theme="dark"] .labour-card-body p {
+    color: #c8d6ea;
+}
+
+body[data-theme="dark"] .labour-card .secondary-btn {
+    background: #263b59;
+    color: #f7fbff;
+    border-color: #3b5477;
+}
+
+/* Wallet inner summary cards and transaction panel contrast. */
+body[data-theme="dark"] .wallet-summary > div {
+    background: #263750;
+    border: 1px solid #3a4a63;
+}
+
+body[data-theme="dark"] .wallet-summary > div span,
+body[data-theme="dark"] .wallet-summary > div strong {
+    color: #f2f7ff;
+    opacity: 1;
+}
+
+body[data-theme="dark"] .dashboard-panel .panel-header h2,
+body[data-theme="dark"] .dashboard-panel .panel-header h3,
+body[data-theme="dark"] .dashboard-panel .panel-header p,
+body[data-theme="dark"] .dashboard-panel .transaction-item strong,
+body[data-theme="dark"] .dashboard-panel .transaction-item small {
+    color: #eef5ff;
+    opacity: 1;
+}
+
+body[data-theme="dark"] .wallet-balance-card {
+    background: linear-gradient(135deg, #155bc0, #277ce3);
+    border: 1px solid #438fe9;
+}
 
 body[data-theme="dark"] .todo-form-error {
     background: rgba(198, 59, 73, 0.18);
@@ -2937,6 +3000,19 @@ body[data-theme="dark"] .todo-form-error {
 @keyframes content-loading { to { background-position: -200% 0; } }
 body[data-theme="dark"] .content-skeleton { background: #1b2638; border-color: #3a4a63; }
 body[data-theme="dark"] .content-skeleton span { background: linear-gradient(90deg, #263750 20%, #354964 45%, #263750 70%); background-size: 200% 100%; }
+.review-summary { display: flex; gap: 14px; margin: 0 0 20px; }
+.review-summary > div { min-width: 150px; padding: 15px 18px; border: 1px solid #dce7f6; border-radius: 14px; background: rgba(255,255,255,.72); }
+.review-summary strong, .review-summary span { display: block; }
+.review-summary strong { color: #1769e0; font-size: 1.3rem; }
+.review-summary span { color: #74839b; font-size: .82rem; margin-top: 3px; }
+.star-picker { display: flex; gap: 5px; }
+.star-choice { border: 0; background: transparent; padding: 2px; color: #cbd5e1; font-size: 2rem; line-height: 1; cursor: pointer; }
+.star-choice.selected, .star-choice:hover { color: #f59b00; }
+.ticket-card { position: relative; }
+.ticket-card .secondary-btn { margin-top: 14px; }
+body[data-theme="dark"] .review-summary > div { background: #1b2638; border-color: #3a4a63; }
+body[data-theme="dark"] .review-summary span { color: #c8d6ea; }
+@media (max-width: 560px) { .review-summary { display: grid; grid-template-columns: 1fr 1fr; } .review-summary > div { min-width: 0; padding: 12px; } }
 
 @media (max-width: 560px) {
     .booking-card-rich, .booking-card-rich > div:last-child { align-items: stretch; }
