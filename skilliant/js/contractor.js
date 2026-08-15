@@ -389,70 +389,40 @@ function getInitials(name) {
  */
 function validateLabourForm(formEl) {
   let isValid = true;
+  formEl.querySelectorAll('.form-control').forEach(input => input.classList.remove('is-invalid'));
 
-  // Clear previous errors
-  formEl.querySelectorAll('.form-control').forEach(input => {
-    input.classList.remove('is-invalid');
-  });
+  const valueOf = id => {
+    const el = formEl.querySelector('#' + id);
+    return el ? el.value.trim() : '';
+  };
+  const mark = (id, message) => {
+    const el = formEl.querySelector('#' + id);
+    if (el) { setError(el, message); isValid = false; }
+  };
 
-  const nameInput = formEl.querySelector('#name');
-  const idInput = formEl.querySelector('#labourId');
-  const phoneInput = formEl.querySelector('#phone');
-  const emailInput = formEl.querySelector('#email');
-  const expInput = formEl.querySelector('#experience');
-  const emgContactInput = formEl.querySelector('#emergencyContact');
-  const emgPhoneInput = formEl.querySelector('#emergencyPhone');
+  const name=valueOf('name'), labourId=valueOf('labourId');
+  const phone=valueOf('phone').replace(/\D/g,'');
+  const email=valueOf('email'), experience=valueOf('experience');
+  const dob=valueOf('dob'), joiningDate=valueOf('joiningDate');
+  const emergencyContact=valueOf('emergencyContact');
+  const emergencyPhone=valueOf('emergencyPhone').replace(/\D/g,'');
 
-  // Name Validation
-  if (nameInput && !nameInput.value.trim()) {
-    setError(nameInput, 'Please enter the labour name.');
-    isValid = false;
+  if (!name) mark('name','Please enter the labour name.');
+  if (!labourId) mark('labourId','Please enter a valid Labour ID.');
+  if (!/^\d{10}$/.test(phone)) mark('phone','Please enter a valid 10-digit phone number.');
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) mark('email','Please enter a valid email address.');
+  if (experience === '' || !/^\d+(?:\.\d+)?$/.test(experience) || Number(experience)<0 || Number(experience)>40) {
+    mark('experience','Please enter valid years of experience (0–40).');
   }
+  if (!dob) mark('dob','Please select the date of birth.');
+  else if (new Date(dob+'T00:00:00') > new Date()) mark('dob','Date of birth cannot be in the future.');
+  if (!joiningDate) mark('joiningDate','Please select the joining date.');
 
-  // Labour ID Validation
-  if (idInput && !idInput.value.trim()) {
-    setError(idInput, 'Please enter a valid Labour ID.');
-    isValid = false;
+  // Emergency contact is optional. If one field is supplied, validate both supplied values.
+  if (emergencyContact || emergencyPhone) {
+    if (!emergencyContact) mark('emergencyContact','Please enter the emergency contact name or leave both fields blank.');
+    if (!/^\d{10}$/.test(emergencyPhone)) mark('emergencyPhone','Please enter a valid 10-digit emergency phone number.');
   }
-
-  // Phone Validation
-  const phoneRegex = /^[0-9]{10}$/;
-  if (phoneInput) {
-    const pVal = phoneInput.value.replace(/[^0-9]/g, '');
-    if (!pVal || pVal.length < 10) {
-      setError(phoneInput, 'Please enter a valid 10-digit phone number.');
-      isValid = false;
-    }
-  }
-
-  // Email Validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (emailInput && emailInput.value.trim()) {
-    if (!emailRegex.test(emailInput.value.trim())) {
-      setError(emailInput, 'Please enter a valid email address.');
-      isValid = false;
-    }
-  }
-
-  // Experience Validation
-  if (expInput && (expInput.value === '' || isNaN(expInput.value) || Number(expInput.value) < 0)) {
-    setError(expInput, 'Please enter valid years of experience.');
-    isValid = false;
-  }
-
-  // Emergency Contact Validation
-  if (emgContactInput && !emgContactInput.value.trim()) {
-    setError(emgContactInput, 'Please enter emergency contact name.');
-    isValid = false;
-  }
-  if (emgPhoneInput) {
-    const epVal = emgPhoneInput.value.replace(/[^0-9]/g, '');
-    if (!epVal || epVal.length < 10) {
-      setError(emgPhoneInput, 'Please enter a valid 10-digit emergency phone number.');
-      isValid = false;
-    }
-  }
-
   return isValid;
 }
 
@@ -467,6 +437,7 @@ function setError(inputEl, msg) {
       parent.appendChild(errEl);
     }
     errEl.textContent = msg;
+    errEl.style.display = 'block';
   }
 }
 
@@ -762,6 +733,13 @@ function initAddLabour(){
   form.reset();
   form.querySelectorAll('.is-invalid').forEach(el=>el.classList.remove('is-invalid'));
   form.querySelectorAll('.error-message').forEach(el=>el.style.display='none');
+  form.querySelectorAll('.form-control').forEach(input=>{
+    if(!input.dataset.validationBound){
+      input.dataset.validationBound='1';
+      input.addEventListener('input',()=>input.classList.remove('is-invalid'));
+      input.addEventListener('change',()=>input.classList.remove('is-invalid'));
+    }
+  });
 
   const data=getLabourData();
   const existingIds=new Set(data.map(item=>String(item.id).toUpperCase()));
@@ -790,10 +768,14 @@ function initAddLabour(){
   // Rebind every time the SPA enters this route.
   form.onsubmit=e=>{
     e.preventDefault();
+    if(form.dataset.saving==='1') return;
     if(!validateLabourForm(form)){
-      showToast('Please fix validation errors before submitting.','danger');
+      const firstInvalid=form.querySelector('.form-control.is-invalid');
+      if(firstInvalid) firstInvalid.focus();
+      showToast('Please fix the highlighted fields before submitting.','danger');
       return;
     }
+    form.dataset.saving='1';
 
     const v=s=>{
       const el=form.querySelector('#'+s);
@@ -820,6 +802,7 @@ function initAddLabour(){
 
     // Guard against duplicate IDs.
     if(getLabourById(newLabour.id)){
+      form.dataset.saving='0';
       showToast(`Labour ID ${newLabour.id} already exists. Please use another ID.`,'danger');
       return;
     }
@@ -878,10 +861,14 @@ function initEditLabour(id){
   form.onsubmit=e=>{
     e.preventDefault();
 
+    if(form.dataset.saving==='1') return;
     if(!validateLabourForm(form)){
-      showToast('Please fix validation errors before saving.','danger');
+      const firstInvalid=form.querySelector('.form-control.is-invalid');
+      if(firstInvalid) firstInvalid.focus();
+      showToast('Please fix the highlighted fields before saving.','danger');
       return;
     }
+    form.dataset.saving='1';
 
     const v=s=>{
       const el=form.querySelector('#'+s);
@@ -909,6 +896,7 @@ function initEditLabour(id){
     const saved=updateLabour(updated);
 
     if(!saved){
+      form.dataset.saving='0';
       showToast('Unable to save labour details. Please try again.','danger');
       return;
     }
@@ -920,7 +908,7 @@ function initEditLabour(id){
 }
 
 function initDetails(id){
-  const record=getLabourById(id); if(!record){showToast('Labour record not found.','danger');navigate('labour');return;}
+  const record=getLabourById(id); if(!record){showToast('Labour record not found. Returning to Labour List.','danger');navigate('labour');return;}
   const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v};
   const html=(id,v)=>{const el=document.getElementById(id);if(el)el.innerHTML=v};
   const link=document.getElementById('editBtnLink');if(link)link.href='#edit-labour?id='+encodeURIComponent(record.id);

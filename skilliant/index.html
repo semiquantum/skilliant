@@ -573,15 +573,15 @@
               <h3 style="font-size: 15px; font-weight: 700; color: var(--primary-blue); margin: 24px 0 16px; padding-bottom: 6px; border-bottom: 1px solid var(--border-color);">4. Emergency Contact</h3>
               <div class="form-grid">
                 <div class="form-group">
-                  <label for="emergencyContact">Emergency Contact Name *</label>
+                  <label for="emergencyContact">Emergency Contact Name (Optional)</label>
                   <input type="text" id="emergencyContact" class="form-control" placeholder="e.g. Suresh Patil">
-                  <div class="error-message">Please enter emergency contact name.</div>
+                  <div class="error-message"></div>
                 </div>
 
                 <div class="form-group">
-                  <label for="emergencyPhone">Emergency Contact Number *</label>
+                  <label for="emergencyPhone">Emergency Contact Number (Optional)</label>
                   <input type="tel" id="emergencyPhone" class="form-control" placeholder="e.g. 9876501234" maxlength="10">
-                  <div class="error-message">Please enter a valid emergency phone number.</div>
+                  <div class="error-message"></div>
                 </div>
               </div>
 
@@ -708,15 +708,15 @@
               <h3 style="font-size: 15px; font-weight: 700; color: var(--primary-blue); margin: 24px 0 16px; padding-bottom: 6px; border-bottom: 1px solid var(--border-color);">4. Emergency Contact</h3>
               <div class="form-grid">
                 <div class="form-group">
-                  <label for="emergencyContact">Emergency Contact Name *</label>
+                  <label for="emergencyContact">Emergency Contact Name (Optional)</label>
                   <input type="text" id="emergencyContact" class="form-control">
-                  <div class="error-message">Please enter emergency contact name.</div>
+                  <div class="error-message"></div>
                 </div>
 
                 <div class="form-group">
-                  <label for="emergencyPhone">Emergency Contact Number *</label>
+                  <label for="emergencyPhone">Emergency Contact Number (Optional)</label>
                   <input type="tel" id="emergencyPhone" class="form-control" maxlength="10">
-                  <div class="error-message">Please enter a valid emergency phone number.</div>
+                  <div class="error-message"></div>
                 </div>
               </div>
 
@@ -864,7 +864,7 @@
           </div>
         </div>
       </section><section class="spa-page" id="page-projects" data-page="projects">
-<div class="page-heading"><div><h2>Active Projects</h2><p>View project details, assign labour, review teams, and track attendance.</p></div></div>
+<div class="page-heading"><div><h2>Active Projects</h2><p>View project details, assign labour, review teams, and track attendance.</p></div><button class="btn btn-primary" type="button" id="addProjectBtn">Add Project</button></div>
 <div class="stats-grid"><div class="stat-card"><div class="stat-label">Active Projects</div><div class="stat-value">2</div></div><div class="stat-card"><div class="stat-label">Planned Projects</div><div class="stat-value">1</div></div><div class="stat-card"><div class="stat-label">Assigned Labour</div><div class="stat-value" id="assignedCount">10</div></div></div>
 <div class="grid-2">
 <section class="card"><div class="card-header"><h3 class="card-title">Project Details</h3></div><div class="project-list">
@@ -917,7 +917,7 @@
 <section class="spa-page" id="page-notifications" data-page="notifications">
   <div class="page-heading">
     <div><h2>Notifications</h2><p>Review changes and important activity across the contractor portal.</p></div>
-    <button class="btn btn-secondary btn-sm" type="button" id="clearNotificationsPageBtn">Clear All</button>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-secondary btn-sm" type="button" id="markAllNotificationsReadBtn">Mark All Read</button><button class="btn btn-secondary btn-sm" type="button" id="clearNotificationsPageBtn">Clear All</button></div>
   </div>
   <section class="card">
     <div class="card-header"><h3 class="card-title">Activity History</h3><span id="notificationCountLabel" style="font-size:13px;color:var(--text-muted)">0 notifications</span></div>
@@ -1103,40 +1103,73 @@
   /* -------------------- ACTIVITY / NOTIFICATIONS -------------------- */
 
   function getActivities() {
-    const hasCurrent = localStorage.getItem(K.activities) !== null;
-    if (!hasCurrent) {
+    let list = read(K.activities, null);
+    if (!Array.isArray(list)) {
       let legacy = read('skilliant_activity_log_v2', null);
       if (!Array.isArray(legacy) || !legacy.length) legacy = read('skilliantActivityLog', []);
-      if (Array.isArray(legacy) && legacy.length) {
-        write(K.activities, legacy.slice(0, 1000));
-      }
+      list = Array.isArray(legacy) ? legacy : [];
     }
-    let list = read(K.activities, []);
-    if (!Array.isArray(list)) list = [];
+
+    let changed = false;
+    const cleaned = [];
+    const seen = new Set();
+    list.forEach(item => {
+      if (!item || typeof item !== 'object') return;
+      const next = {...item};
+      if (typeof next.read !== 'boolean') { next.read=false; changed=true; }
+      const minute = next.time ? new Date(next.time).toISOString().slice(0,16) : '';
+      const key = `${next.title||''}|${next.detail||''}|${minute}`;
+      if (seen.has(key)) { changed=true; return; }
+      seen.add(key); cleaned.push(next);
+    });
+    list=cleaned.slice(0,1000);
+    if (changed || localStorage.getItem(K.activities)===null) write(K.activities,list);
     return list;
+  }
+
+  function unreadActivities() {
+    return getActivities().filter(item => item.read !== true);
+  }
+
+  function markAllNotificationsRead() {
+    const list = getActivities();
+    if (!list.length) {
+      refreshNotifications();
+      return;
+    }
+    const updated = list.map(item => ({...item, read:true}));
+    write(K.activities, updated.slice(0, 1000));
+    refreshNotifications();
+    renderNotificationTargets();
+    renderHeaderNotificationPanel();
+    if (typeof window.showToast === 'function') window.showToast('All notifications marked as read.');
   }
 
   function renderNotificationTargets() {
     const list = getActivities();
+    const unread = list.filter(item => item.read !== true);
 
     const headerBtn = document.getElementById('headerNotificationBtn');
     if (headerBtn) {
       const badge = headerBtn.querySelector('.notification-badge');
       if (badge) {
-        badge.textContent = list.length > 99 ? '99+' : (list.length ? String(list.length) : '');
-        badge.hidden = list.length === 0;
+        badge.textContent = unread.length > 99 ? '99+' : (unread.length ? String(unread.length) : '');
+        badge.hidden = unread.length === 0;
       }
+      headerBtn.setAttribute('aria-label', unread.length
+        ? `Notifications, ${unread.length} unread`
+        : 'Notifications, all read');
     }
 
     const pageList = document.getElementById('notificationsList');
     const count = document.getElementById('notificationCountLabel');
-    if (count) count.textContent = `${list.length} notification${list.length === 1 ? '' : 's'}`;
+    if (count) count.textContent = `${list.length} notification${list.length === 1 ? '' : 's'} · ${unread.length} unread`;
 
     if (pageList) {
       pageList.innerHTML = list.length
         ? list.map(item => `
-          <div class="notification-page-item">
-            <span class="notification-page-dot"></span>
+          <div class="notification-page-item" data-notification-id="${esc(item.id || '')}" style="${item.read === true ? 'opacity:.68' : ''}">
+            <span class="notification-page-dot" style="${item.read === true ? 'opacity:.35' : ''}"></span>
             <div>
               <strong>${esc(item.title || 'Portal activity')}</strong>
               <span>${esc(item.detail || '')}<br>${esc(dateLabel(item.time))}</span>
@@ -1144,6 +1177,23 @@
           </div>
         `).join('')
         : '<div class="notification-page-empty">No notifications yet. Portal changes will appear here.</div>';
+
+      pageList.querySelectorAll('[data-notification-id]').forEach(itemEl => {
+        itemEl.addEventListener('click', () => {
+          const id = itemEl.dataset.notificationId;
+          if (!id) return;
+          const current = getActivities();
+          const next = current.map(item => item.id === id ? {...item, read:true} : item);
+          write(K.activities, next.slice(0, 1000));
+          refreshNotifications();
+        });
+      });
+    }
+
+    const mark = document.getElementById('markAllNotificationsReadBtn');
+    if (mark) {
+      mark.disabled = unread.length === 0;
+      mark.textContent = unread.length ? `Mark All Read (${unread.length})` : 'All Read';
     }
   }
 
@@ -1161,16 +1211,17 @@
     }
 
     const list = getActivities();
+    const unread = list.filter(item => item.read !== true);
     const recent = list.slice(0, 10);
 
     panel.innerHTML = `
       <div class="notification-panel-title">
         <span>Notifications</span>
-        <span style="font-size:12px;color:var(--text-muted)">${list.length} total</span>
+        <span style="font-size:12px;color:var(--text-muted)">${unread.length} unread · ${list.length} total</span>
       </div>
       ${recent.length ? recent.map(item => `
-        <div class="notification-panel-item">
-          <span class="notification-panel-dot"></span>
+        <div class="notification-panel-item" data-panel-notification-id="${esc(item.id || '')}" style="${item.read === true ? 'opacity:.68' : ''}">
+          <span class="notification-panel-dot" style="${item.read === true ? 'opacity:.35' : ''}"></span>
           <div>
             <strong>${esc(item.title || 'Portal activity')}</strong>
             <span>${esc(item.detail || '')}<br><small>${esc(dateLabel(item.time))}</small></span>
@@ -1182,10 +1233,31 @@
         </div>
       `}
       <div style="padding:10px 0 0;border-top:1px solid var(--border-color);display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap">
+        <button type="button" class="btn btn-secondary btn-sm" id="markAllHeaderNotificationsRead">Mark All Read</button>
         <button type="button" class="btn btn-secondary btn-sm" id="viewAllNotificationsBtn">View All</button>
         <button type="button" class="btn btn-secondary btn-sm" id="clearActivityBtn">Clear Notifications</button>
       </div>
     `;
+
+    panel.querySelectorAll('[data-panel-notification-id]').forEach(itemEl => {
+      itemEl.onclick = e => {
+        e.stopPropagation();
+        const id = itemEl.dataset.panelNotificationId;
+        const current = getActivities();
+        write(K.activities, current.map(item => item.id === id ? {...item, read:true} : item));
+        refreshNotifications();
+        renderHeaderNotificationPanel();
+      };
+    });
+
+    const mark = document.getElementById('markAllHeaderNotificationsRead');
+    if (mark) {
+      mark.disabled = unread.length === 0;
+      mark.onclick = e => {
+        e.stopPropagation();
+        markAllNotificationsRead();
+      };
+    }
 
     const viewAll = document.getElementById('viewAllNotificationsBtn');
     if (viewAll) viewAll.onclick = e => {
@@ -1215,7 +1287,8 @@
       id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
       title,
       detail,
-      time: new Date().toISOString()
+      time: new Date().toISOString(),
+      read: false
     });
     write(K.activities, list.slice(0, 1000));
     refreshNotifications();
@@ -1225,8 +1298,7 @@
     write(K.activities, []);
     refreshNotifications();
     const panel = document.getElementById('notificationPanel');
-    if (panel) panel.hidden = false;
-    renderHeaderNotificationPanel();
+    if (panel) panel.hidden = true;
     renderNotificationTargets();
     if (typeof window.showToast === 'function') window.showToast('All notifications cleared.');
   }
@@ -1234,6 +1306,7 @@
   window.skilliantLogActivity = logActivity;
   window.refreshNotificationPanel = refreshNotifications;
   window.skilliantClearNotifications = clearAllNotifications;
+  window.skilliantMarkAllNotificationsRead = markAllNotificationsRead;
   window.skilliantActivities = getActivities;
 
   function initHeaderNotifications() {
@@ -1272,13 +1345,23 @@
 
   function initNotificationsPageFinal() {
     renderNotificationTargets();
+
+    const mark = document.getElementById('markAllNotificationsReadBtn');
+    if (mark && !mark.dataset.finalBound) {
+      mark.dataset.finalBound = '1';
+      mark.onclick = e => {
+        e.preventDefault();
+        e.stopPropagation();
+        markAllNotificationsRead();
+      };
+    }
+
     const clear = document.getElementById('clearNotificationsPageBtn');
     if (clear && !clear.dataset.finalBound) {
       clear.dataset.finalBound = '1';
       clear.onclick = e => {
         e.preventDefault();
         e.stopPropagation();
-        if (typeof window.showToast === 'function') window.showToast('All notifications cleared.');
         clearAllNotifications();
       };
     }
@@ -1599,7 +1682,130 @@
     write(K.attendance, all);
   }
 
+  function saveProjects(list) {
+    write(K.projects, Array.isArray(list) ? list : []);
+  }
+
+  function nextProjectId(list) {
+    const nums = list.map(p => {
+      const m = String(p.id || '').match(/(\d+)$/);
+      return m ? Number(m[1]) : 0;
+    });
+    return `P${String(Math.max(0, ...nums) + 1).padStart(3, '0')}`;
+  }
+
+  function openProjectDetails(projectId) {
+    const project = getProjects().find(p => p.id === projectId);
+    if (!project) return;
+
+    const assignments = getAssignments();
+    const labour = typeof window.getLabourData === 'function' ? window.getLabourData() : [];
+    const assigned = labour.filter(l => assignments[l.id] === project.id);
+
+    let modal = document.getElementById('projectDetailsModal');
+    if (modal) modal.remove();
+
+    modal = document.createElement('div');
+    modal.id = 'projectDetailsModal';
+    modal.className = 'modal-backdrop active';
+    modal.innerHTML = `
+      <div class="modal-card" style="max-width:620px;text-align:left">
+        <h3 class="modal-title">Project Details</h3>
+        <div class="detail-grid" style="margin-top:18px">
+          <div><span class="detail-item-label">Project Name</span><strong>${esc(project.name)}</strong></div>
+          <div><span class="detail-item-label">Project ID</span><strong>${esc(project.id)}</strong></div>
+          <div><span class="detail-item-label">Location</span><strong>${esc(project.location)}</strong></div>
+          <div><span class="detail-item-label">Status</span><strong>${esc(project.status)}</strong></div>
+        </div>
+        <div style="margin-top:18px">
+          <div class="detail-item-label" style="margin-bottom:8px">Assigned Labour</div>
+          ${assigned.length
+            ? `<ul style="margin:0;padding-left:20px">${assigned.map(l => `<li style="margin:5px 0">${esc(l.name)} — ${esc(l.skill)}</li>`).join('')}</ul>`
+            : '<div style="color:var(--text-muted)">No labour assigned to this project.</div>'}
+        </div>
+        <div class="modal-actions" style="justify-content:flex-end;margin-top:24px">
+          <button type="button" class="btn btn-secondary" id="projectDetailsClose">Close</button>
+        </div>
+      </div>`;
+    document.body.appendChild(modal);
+    modal.querySelector('#projectDetailsClose').onclick = () => modal.remove();
+    modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+  }
+
+  function openAddProjectModal() {
+    let modal = document.getElementById('addProjectModal');
+    if (modal) {
+      modal.classList.add('active');
+      return;
+    }
+
+    modal = document.createElement('div');
+    modal.id = 'addProjectModal';
+    modal.className = 'modal-backdrop active';
+    modal.innerHTML = `
+      <div class="modal-card" style="max-width:620px;text-align:left">
+        <h3 class="modal-title">Add Project</h3>
+        <form id="addProjectForm" style="margin-top:18px">
+          <div class="form-group">
+            <label for="newProjectName">Project Name</label>
+            <input id="newProjectName" class="form-control" required placeholder="Enter project name">
+          </div>
+          <div class="form-group" style="margin-top:14px">
+            <label for="newProjectLocation">Location</label>
+            <input id="newProjectLocation" class="form-control" required placeholder="Enter project location">
+          </div>
+          <div class="form-group" style="margin-top:14px">
+            <label for="newProjectStatus">Status</label>
+            <select id="newProjectStatus" class="form-control">
+              <option value="Active">Active</option>
+              <option value="Planning">Planning</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+          <div class="modal-actions" style="justify-content:flex-end;margin-top:24px">
+            <button type="button" class="btn btn-secondary" id="addProjectCancel">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Project</button>
+          </div>
+        </form>
+      </div>`;
+    document.body.appendChild(modal);
+
+    modal.querySelector('#addProjectCancel').onclick = () => modal.remove();
+    modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+
+    modal.querySelector('#addProjectForm').onsubmit = e => {
+      e.preventDefault();
+      const name = modal.querySelector('#newProjectName').value.trim();
+      const location = modal.querySelector('#newProjectLocation').value.trim();
+      const status = modal.querySelector('#newProjectStatus').value;
+      if (!name || !location) {
+        if (typeof window.showToast === 'function') window.showToast('Please enter project name and location.', 'danger');
+        return;
+      }
+
+      const projects = getProjects();
+      if (projects.some(p => p.name.trim().toLowerCase() === name.toLowerCase())) {
+        if (typeof window.showToast === 'function') window.showToast('A project with this name already exists.', 'danger');
+        return;
+      }
+
+      const project = {id: nextProjectId(projects), name, location, status};
+      saveProjects([project, ...projects]);
+      logActivity('Project added', `${project.name} (${project.id}) was added.`);
+      modal.remove();
+      renderProjectsFinal();
+      renderDashboardFinal();
+      if (typeof window.showToast === 'function') window.showToast('Project added successfully.');
+    };
+  }
+
   function renderProjectsFinal() {
+    const addProject = document.getElementById('addProjectBtn');
+    if (addProject && !addProject.dataset.bound) {
+      addProject.dataset.bound = '1';
+      addProject.onclick = openAddProjectModal;
+    }
+
     const projects = getProjects();
     const labour = typeof window.getLabourData === 'function' ? window.getLabourData() : [];
     const assignments = getAssignments();
@@ -1607,17 +1813,30 @@
     const list = document.querySelector('#page-projects .project-list');
     if (list) {
       list.innerHTML = projects.map(p => `
-        <div class="project-row">
+        <div class="project-row" data-project-id="${esc(p.id)}" tabindex="0" role="button" title="View project details">
           <div>
             <strong>${esc(p.name)}</strong>
             <span>${esc(p.location)} · ${esc(p.status)}</span>
           </div>
-          <span class="status-badge ${
-            p.status === 'Active' ? 'status-active' :
-            p.status === 'Planning' ? 'status-on-leave' : 'status-inactive'
-          }">${esc(p.status)}</span>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="status-badge ${
+              p.status === 'Active' ? 'status-active' :
+              p.status === 'Planning' ? 'status-on-leave' : 'status-inactive'
+            }">${esc(p.status)}</span>
+            <span style="font-size:12px;color:var(--primary-blue);font-weight:600">View</span>
+          </div>
         </div>
       `).join('');
+
+      list.querySelectorAll('[data-project-id]').forEach(row => {
+        row.onclick = () => openProjectDetails(row.dataset.projectId);
+        row.onkeydown = e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openProjectDetails(row.dataset.projectId);
+          }
+        };
+      });
     }
 
     const stats = document.querySelectorAll('#page-projects .stats-grid .stat-value');
@@ -1939,7 +2158,8 @@
   }
 
   function initFinalLayer() {
-    installLabourActivityHooks();
+    // Labour add/edit/delete already log activity in the original module.
+    // Do not wrap those methods again, otherwise one action creates duplicates.
     installRoutePatch();
     initHeaderNotifications();
     initProfileMenuFinal();
