@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | Skilliant</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="../index.html" class="logo"><div class="logo-icon">S</div>Skilliant<span>.</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html" class="nav-link">Home</a></li>
+        <li><a href="contact.html" class="nav-link active">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="theme-toggle">🌙</button>
+      </div>
+    </div>
+  </nav>
+
+  <section style="background: linear-gradient(135deg, var(--primary-800), var(--primary-900)); color: #FFFFFF; padding: 4rem 0; text-align: center;">
+    <div class="container">
+      <h1 style="font-size: 3rem; font-weight: 800;">Get in Touch</h1>
+      <p style="font-size: 1.15rem; opacity: 0.9;">Have questions or need support? Our team is available 24/7.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;">
+        <div class="glass-card" style="padding: 2.5rem;">
+          <h2 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 1.5rem;">Send Us a Message</h2>
+          <form onsubmit="event.preventDefault(); showToast('Thank you! Your message has been sent to support.', 'success');">
+            <div style="margin-bottom: 1rem;">
+              <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">Your Name</label>
+              <input type="text" placeholder="Rahul Sharma" required style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main);">
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">Email Address</label>
+              <input type="email" placeholder="rahul@example.com" required style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main);">
+            </div>
+            <div style="margin-bottom: 1.5rem;">
+              <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">Message</label>
+              <textarea rows="4" placeholder="How can we help you today?" required style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main);"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Inquiry</button>
+          </form>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+          <div class="glass-card" style="padding: 1.75rem;">
+            <h3>📍 Corporate Headquarters</h3>
+            <p style="color: var(--text-muted); margin-top: 0.5rem;">Skilliant Towers, Suite 501, BKC Trade Center, Mumbai, Maharashtra 400051</p>
+          </div>
+          <div class="glass-card" style="padding: 1.75rem;">
+            <h3>📞 Support Hotline</h3>
+            <p style="color: var(--text-muted); margin-top: 0.5rem;">Toll-Free: +91 1800-SKILLIANT (1800-754-554)</p>
+          </div>
+          <div class="glass-card" style="padding: 1.75rem;">
+            <h3>✉️ Email Support</h3>
+            <p style="color: var(--text-muted); margin-top: 0.5rem;">support@skilliant.com</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container" style="text-align: center; font-size: 0.9rem;">
+      © 2026 Skilliant Platform. All Rights Reserved.
+    </div>
+  </footer>
+  <script src="../js/theme.js"></script>
+  <script src="../js/toast.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find Labourers | Skilliant</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <!-- STICKY NAVBAR -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="../index.html" class="logo">
+        <div class="logo-icon">S</div>
+        Skilliant<span>.</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="../index.html" class="nav-link">Home</a></li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="services.html" class="nav-link">Services</a></li>
+        <li><a href="find-labour.html" class="nav-link active">Find Labour</a></li>
+        <li><a href="become-labour.html" class="nav-link">Become Labour</a></li>
+        <li><a href="become-contractor.html" class="nav-link">Become Contractor</a></li>
+        <li><a href="pricing.html" class="nav-link">Pricing</a></li>
+        <li><a href="blog.html" class="nav-link">Blog</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="theme-toggle" aria-label="Toggle Theme">🌙</button>
+        <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+        <a href="register.html" class="btn btn-primary btn-sm">Register</a>
+        <button class="menu-btn" aria-label="Open Menu">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <section style="background: linear-gradient(135deg, var(--primary-800), var(--primary-900)); color: #FFFFFF; padding: 3.5rem 0; text-align: center;">
+    <div class="container">
+      <h1 style="font-size: 2.75rem; font-weight: 800;">Find Verified Skilled Labourers</h1>
+      <p style="font-size: 1.1rem; opacity: 0.9;">Filter workers by rating, price, experience, and immediate availability.</p>
+    </div>
+  </section>
+
+  <!-- MAIN FILTER & RESULTS LAYOUT -->
+  <section class="section">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: 280px 1fr; gap: 2.5rem;">
+        
+        <!-- SIDEBAR FILTERS -->
+        <div class="glass-card" style="padding: 1.5rem; height: fit-content;">
+          <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 1.25rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">Filter Results</h3>
+
+          <!-- Search Input -->
+          <div style="margin-bottom: 1.25rem;">
+            <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">Keywords</label>
+            <input type="text" id="filter-keyword" placeholder="e.g. Wiring, Leak repair..." style="width: 100%; padding: 0.65rem 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main);">
+          </div>
+
+          <!-- Category Filter -->
+          <div style="margin-bottom: 1.25rem;">
+            <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">Category</label>
+            <select id="filter-category" style="width: 100%; padding: 0.65rem 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main);">
+              <option value="">All Categories</option>
+              <option value="electrician">Electrician</option>
+              <option value="plumber">Plumber</option>
+              <option value="carpenter">Carpenter</option>
+              <option value="painter">Painter</option>
+              <option value="mason">Mason</option>
+              <option value="ac-technician">AC Technician</option>
+            </select>
+          </div>
+
+          <!-- City Filter -->
+          <div style="margin-bottom: 1.25rem;">
+            <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">City Location</label>
+            <select id="filter-city" style="width: 100%; padding: 0.65rem 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main);">
+              <option value="">All Cities</option>
+              <option value="Mumbai">Mumbai</option>
+              <option value="Delhi">Delhi</option>
+              <option value="Bengaluru">Bengaluru</option>
+              <option value="Pune">Pune</option>
+            </select>
+          </div>
+
+          <!-- Rating Filter -->
+          <div style="margin-bottom: 1.25rem;">
+            <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">Minimum Rating</label>
+            <select id="filter-rating" style="width: 100%; padding: 0.65rem 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main);">
+              <option value="0">Any Rating</option>
+              <option value="4.5">⭐ 4.5 & Above</option>
+              <option value="4.0">⭐ 4.0 & Above</option>
+            </select>
+          </div>
+
+          <!-- Availability Checkbox -->
+          <div style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+            <input type="checkbox" id="filter-available" checked style="accent-color: var(--primary-600); width: 18px; height: 18px;">
+            <label for="filter-available" style="font-size: 0.9rem; font-weight: 600;">Available Today Only</label>
+          </div>
+
+          <button class="btn btn-primary" style="width: 100%;" onclick="showToast('Filter options updated!', 'info');">Apply Filters</button>
+        </div>
+
+        <!-- LABOUR RESULTS CARDS -->
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <div style="font-weight: 700; color: var(--text-muted);">Showing <span style="color: var(--primary-600);">6 Verified Workers</span> in Mumbai & Delhi</div>
+            <div>
+              <select style="padding: 0.5rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-main);">
+                <option>Sort By: Top Rated</option>
+                <option>Price: Low to High</option>
+                <option>Experience: High to Low</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="labour-grid" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));">
+            
+            <!-- Labourer 1 -->
+            <div class="glass-card labour-card">
+              <div class="labour-header">
+                <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=200&q=80" alt="Rajesh Kumar" class="labour-avatar">
+                <div class="labour-info">
+                  <h3>Rajesh Kumar</h3>
+                  <div class="category-tag">⚡ Electrician</div>
+                  <div style="font-size: 0.85rem; color: var(--text-muted);">📍 Mumbai • 8 Yrs Exp</div>
+                </div>
+              </div>
+              <div class="labour-body">
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">Master electrician specializing in heavy load breaker panels, short circuits, and LED fitting.</p>
+                <div class="labour-stats">
+                  <div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">Rating</div>
+                    <div style="font-weight: 700;">⭐ 4.9 (42)</div>
+                  </div>
+                  <div style="text-align: right;">
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">Hourly Rate</div>
+                    <div class="labour-rate">₹350/hr</div>
+                  </div>
+                </div>
+              </div>
+              <div class="labour-footer">
+                <span style="color: var(--success); font-weight: 600; font-size: 0.85rem;">🟢 Available Today</span>
+                <button class="btn btn-primary btn-sm" onclick="openModal('book-modal')">Book Now</button>
+              </div>
+            </div>
+
+            <!-- Labourer 2 -->
+            <div class="glass-card labour-card">
+              <div class="labour-header">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80" alt="Amit Patel" class="labour-avatar">
+                <div class="labour-info">
+                  <h3>Amit Patel</h3>
+                  <div class="category-tag">💧 Plumber</div>
+                  <div style="font-size: 0.85rem; color: var(--text-muted);">📍 Delhi • 6 Yrs Exp</div>
+                </div>
+              </div>
+              <div class="labour-body">
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">High pressure water line expert, leak detection, and luxury bathroom fitting specialist.</p>
+                <div class="labour-stats">
+                  <div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">Rating</div>
+                    <div style="font-weight: 700;">⭐ 4.8 (31)</div>
+                  </div>
+                  <div style="text-align: right;">
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">Hourly Rate</div>
+                    <div class="labour-rate">₹300/hr</div>
+                  </div>
+                </div>
+              </div>
+              <div class="labour-footer">
+                <span style="color: var(--success); font-weight: 600; font-size: 0.85rem;">🟢 Available Today</span>
+                <button class="btn btn-primary btn-sm" onclick="openModal('book-modal')">Book Now</button>
+              </div>
+            </div>
+
+            <!-- Labourer 3 -->
+            <div class="glass-card labour-card">
+              <div class="labour-header">
+                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80" alt="Suresh Verma" class="labour-avatar">
+                <div class="labour-info">
+                  <h3>Suresh Verma</h3>
+                  <div class="category-tag">🔨 Carpenter</div>
+                  <div style="font-size: 0.85rem; color: var(--text-muted);">📍 Mumbai • 10 Yrs Exp</div>
+                </div>
+              </div>
+              <div class="labour-body">
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">Senior woodwork specialist, custom cabinetry, bed repair, and door fitting.</p>
+                <div class="labour-stats">
+                  <div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">Rating</div>
+                    <div style="font-weight: 700;">⭐ 4.95 (58)</div>
+                  </div>
+                  <div style="text-align: right;">
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">Hourly Rate</div>
+                    <div class="labour-rate">₹400/hr</div>
+                  </div>
+                </div>
+              </div>
+              <div class="labour-footer">
+                <span style="color: var(--success); font-weight: 600; font-size: 0.85rem;">🟢 Available Today</span>
+                <button class="btn btn-primary btn-sm" onclick="openModal('book-modal')">Book Now</button>
+              </div>
+            </div>
+
+            <!-- Labourer 4 -->
+            <div class="glass-card labour-card">
+              <div class="labour-header">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" alt="Karan Singh" class="labour-avatar">
+                <div class="labour-info">
+                  <h3>Karan Singh</h3>
+                  <div class="category-tag">🌀 AC Technician</div>
+                  <div style="font-size: 0.85rem; color: var(--text-muted);">📍 Mumbai • 7 Yrs Exp</div>
+                </div>
+              </div>
+              <div class="labour-body">
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">Split & inverter AC gas charging, deep jet cleaning, compressor replacement.</p>
+                <div class="labour-stats">
+                  <div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">Rating</div>
+                    <div style="font-weight: 700;">⭐ 4.85 (24)</div>
+                  </div>
+                  <div style="text-align: right;">
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">Hourly Rate</div>
+                    <div class="labour-rate">₹450/hr</div>
+                  </div>
+                </div>
+              </div>
+              <div class="labour-footer">
+                <span style="color: var(--success); font-weight: 600; font-size: 0.85rem;">🟢 Available Today</span>
+                <button class="btn btn-primary btn-sm" onclick="openModal('book-modal')">Book Now</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOKING MODAL POPUP -->
+  <div class="modal-overlay" id="book-modal">
+    <div class="modal-content">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
+        <h3 style="font-size: 1.35rem; font-weight: 700;">Book Labourer</h3>
+        <button onclick="closeModal('book-modal')" style="background: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted);">✕</button>
+      </div>
+
+      <form onsubmit="event.preventDefault(); showToast('Booking request sent successfully to worker!', 'success'); closeModal('book-modal');">
+        <div style="margin-bottom: 1rem;">
+          <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">Service Address</label>
+          <input type="text" placeholder="Flat / Building, Street, City" required style="width: 100%; padding: 0.65rem 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main);">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+          <div>
+            <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">Date</label>
+            <input type="date" required style="width: 100%; padding: 0.65rem 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main);">
+          </div>
+          <div>
+            <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">Start Time</label>
+            <input type="time" required style="width: 100%; padding: 0.65rem 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main);">
+          </div>
+        </div>
+
+        <div style="margin-bottom: 1rem;">
+          <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">Estimated Hours</label>
+          <select style="width: 100%; padding: 0.65rem 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main);">
+            <option>2 Hours (₹700)</option>
+            <option>4 Hours (₹1400)</option>
+            <option>Full Day / 8 Hours (₹2400)</option>
+          </select>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">Work Description</label>
+          <textarea placeholder="Describe the job in detail..." rows="3" style="width: 100%; padding: 0.65rem 0.85rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main);"></textarea>
+        </div>
+
+        <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+          <button type="button" class="btn btn-outline" onclick="closeModal('book-modal')">Cancel</button>
+          <button type="submit" class="btn btn-accent">Confirm & Pay</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container" style="text-align: center; font-size: 0.9rem;">
+      © 2026 Skilliant Platform. All Rights Reserved.
+    </div>
+  </footer>
+
+  <script src="../js/theme.js"></script>
+  <script src="../js/toast.js"></script>
+  <script src="../js/modal.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

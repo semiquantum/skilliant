@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Admin Panel | Skilliant</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+  <div class="dashboard-layout">
+    
+    <!-- SIDEBAR -->
+    <aside class="dash-sidebar">
+      <div class="sidebar-header">
+        <a href="../index.html" class="logo">
+          <div class="logo-icon" style="background: linear-gradient(135deg, #EF4444, #F97316);">A</div>
+          Admin<span>.</span>
+        </a>
+      </div>
+
+      <div class="sidebar-menu">
+        <div class="sidebar-label">Platform Control</div>
+        <div class="sidebar-item active" data-tab="tab-overview">
+          <span class="icon">📈</span> Analytics Overview
+        </div>
+        <div class="sidebar-item" data-tab="tab-users">
+          <span class="icon">👥</span> Manage Users
+        </div>
+        <div class="sidebar-item" data-tab="tab-labours">
+          <span class="icon">👷</span> Manage Labourers
+        </div>
+        <div class="sidebar-item" data-tab="tab-contractors">
+          <span class="icon">🏢</span> Manage Contractors
+        </div>
+        <div class="sidebar-item" data-tab="tab-categories">
+          <span class="icon">🏷️</span> Categories & Skills
+        </div>
+        <div class="sidebar-item" data-tab="tab-tickets">
+          <span class="icon">🎫</span> Support Tickets
+        </div>
+        <div class="sidebar-item" data-tab="tab-logs">
+          <span class="icon">📜</span> Activity Logs
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <a href="login.html" class="sidebar-item" style="color: var(--danger);">
+          <span class="icon">🚪</span> Admin Logout
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN BODY -->
+    <main class="dash-main">
+      <header class="dash-topbar">
+        <div style="font-weight: 800; font-size: 1.1rem; color: var(--danger);">
+          🛡️ Skilliant Global System Administration
+        </div>
+
+        <div class="topbar-actions">
+          <button class="theme-toggle">🌙</button>
+          <div class="profile-widget">
+            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80" alt="System Admin" class="profile-avatar" style="border-color: var(--danger);">
+            <div>
+              <div style="font-weight: 700; font-size: 0.9rem;">System Admin</div>
+              <div style="font-size: 0.75rem; color: var(--danger); font-weight: 700;">Super Admin</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="dash-content">
+        
+        <!-- TAB 1: OVERVIEW -->
+        <div class="tab-pane active" id="tab-overview">
+          <div class="welcome-banner" style="background: linear-gradient(135deg, #1E293B, #0F172A);">
+            <h2>Skilliant Platform System Health: 100% Operational 🟢</h2>
+            <p>Database queries healthy, 48,000+ total bookings processed across all states.</p>
+          </div>
+
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div>
+                <div class="metric-label">Total Users</div>
+                <div class="metric-number">14,250</div>
+              </div>
+              <div class="metric-icon blue">👥</div>
+            </div>
+            <div class="metric-card">
+              <div>
+                <div class="metric-label">Verified Labourers</div>
+                <div class="metric-number">12,500</div>
+              </div>
+              <div class="metric-icon green">👷</div>
+            </div>
+            <div class="metric-card">
+              <div>
+                <div class="metric-label">Contractors</div>
+                <div class="metric-number">1,400</div>
+              </div>
+              <div class="metric-icon orange">🏢</div>
+            </div>
+            <div class="metric-card">
+              <div>
+                <div class="metric-label">Platform Revenue (10%)</div>
+                <div class="metric-number">₹12,50,000</div>
+              </div>
+              <div class="metric-icon purple">💰</div>
+            </div>
+          </div>
+
+          <!-- Revenue Analytics Chart -->
+          <div class="chart-widget">
+            <h3>Global Platform Revenue Growth (2026)</h3>
+            <div class="bar-chart">
+              <div class="chart-bar-group"><div class="bar" style="height: 50%;"></div><span class="bar-label">Jan</span></div>
+              <div class="chart-bar-group"><div class="bar" style="height: 65%;"></div><span class="bar-label">Feb</span></div>
+              <div class="chart-bar-group"><div class="bar" style="height: 80%;"></div><span class="bar-label">Mar</span></div>
+              <div class="chart-bar-group"><div class="bar" style="height: 85%;"></div><span class="bar-label">Apr</span></div>
+              <div class="chart-bar-group"><div class="bar orange" style="height: 95%;"></div><span class="bar-label">May</span></div>
+              <div class="chart-bar-group"><div class="bar orange" style="height: 100%;"></div><span class="bar-label">Jun</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: MANAGE USERS -->
+        <div class="tab-pane" id="tab-users">
+          <div class="table-card">
+            <div class="table-header">
+              <h3>User Accounts Management</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>User ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>usr-1</td>
+                    <td>Rahul Sharma</td>
+                    <td>user@skilliant.com</td>
+                    <td><span class="badge badge-primary">USER</span></td>
+                    <td><span class="status-chip status-completed">ACTIVE</span></td>
+                    <td><button class="btn btn-outline btn-sm" onclick="showToast('User account suspended', 'error');">Suspend</button></td>
+                  </tr>
+                  <tr>
+                    <td>usr-2</td>
+                    <td>Rajesh Kumar</td>
+                    <td>labour@skilliant.com</td>
+                    <td><span class="badge badge-accent">LABOUR</span></td>
+                    <td><span class="status-chip status-completed">VERIFIED</span></td>
+                    <td><button class="btn btn-outline btn-sm" onclick="showToast('Credentials updated', 'info');">Edit</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 5: CATEGORIES -->
+        <div class="tab-pane" id="tab-categories">
+          <div class="table-card">
+            <div class="table-header">
+              <h3>Service Categories</h3>
+              <button class="btn btn-primary btn-sm" onclick="showToast('Category editor modal opened!', 'info');">+ Add Category</button>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Icon</th>
+                    <th>Category Name</th>
+                    <th>Slug</th>
+                    <th>Labourers Count</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>⚡</td><td style="font-weight: 700;">Electrician</td><td>electrician</td><td>3,420</td></tr>
+                  <tr><td>💧</td><td style="font-weight: 700;">Plumber</td><td>plumber</td><td>2,810</td></tr>
+                  <tr><td>🔨</td><td style="font-weight: 700;">Carpenter</td><td>carpenter</td><td>2,150</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 7: LOGS -->
+        <div class="tab-pane" id="tab-logs">
+          <div class="table-card">
+            <div class="table-header">
+              <h3>System Activity & Audit Logs</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Timestamp</th>
+                    <th>Admin</th>
+                    <th>Action</th>
+                    <th>IP Address</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2026-08-02 22:00:00</td>
+                    <td>System Admin</td>
+                    <td>SYSTEM_STARTUP (Mock DB & Pure Frontend Initialized)</td>
+                    <td>127.0.0.1</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/theme.js"></script>
+  <script src="../js/toast.js"></script>
+  <script src="../js/modal.js"></script>
+  <script src="../js/dashboard.js"></script>
+</body>
+</html>

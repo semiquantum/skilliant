@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skilliant | Connecting Skilled Workers with Opportunities</title>
+  <meta name="description" content="Book verified electricians, plumbers, carpenters, painters, masons, mechanics, and skilled labourers on demand with Skilliant.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+</head>
+<body>
+
+  <!-- STICKY NAVBAR -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">S</div>
+        Skilliant<span>.</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link active">Home</a></li>
+        <li><a href="pages/about.html" class="nav-link">About</a></li>
+        <li><a href="pages/services.html" class="nav-link">Services</a></li>
+        <li><a href="pages/find-labour.html" class="nav-link">Find Labour</a></li>
+        <li><a href="pages/become-labour.html" class="nav-link">Become Labour</a></li>
+        <li><a href="pages/become-contractor.html" class="nav-link">Become Contractor</a></li>
+        <li><a href="pages/pricing.html" class="nav-link">Pricing</a></li>
+        <li><a href="pages/blog.html" class="nav-link">Blog</a></li>
+        <li><a href="pages/contact.html" class="nav-link">Contact</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="theme-toggle" aria-label="Toggle Theme">🌙</button>
+        <a href="pages/login.html" class="btn btn-outline btn-sm">Login</a>
+        <a href="pages/register.html" class="btn btn-primary btn-sm">Register</a>
+        <button class="menu-btn" aria-label="Open Menu">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MOBILE DRAWER -->
+  <div class="drawer-overlay"></div>
+  <div class="mobile-drawer">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">S</div>
+      Skilliant<span>.</span>
+    </a>
+    <hr style="border-color: var(--border-color);">
+    <a href="index.html" class="nav-link active">Home</a>
+    <a href="pages/about.html" class="nav-link">About</a>
+    <a href="pages/services.html" class="nav-link">Services</a>
+    <a href="pages/find-labour.html" class="nav-link">Find Labour</a>
+    <a href="pages/become-labour.html" class="nav-link">Become Labour</a>
+    <a href="pages/become-contractor.html" class="nav-link">Become Contractor</a>
+    <a href="pages/pricing.html" class="nav-link">Pricing</a>
+    <a href="pages/blog.html" class="nav-link">Blog</a>
+    <a href="pages/contact.html" class="nav-link">Contact</a>
+    <a href="pages/login.html" class="btn btn-outline" style="width: 100%;">Login</a>
+    <a href="pages/register.html" class="btn btn-primary" style="width: 100%;">Register</a>
+  </div>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <span class="badge badge-accent mb-3">⚡ On-Demand Labour Booking</span>
+        <h1>Connecting <span>Skilled Workers</span> with Opportunities</h1>
+        <p>Book verified electricians, plumbers, carpenters, painters, masons, and technicians in minutes. Transparent pricing & 100% satisfaction guaranteed.</p>
+
+        <!-- Search Bar Component -->
+        <div class="hero-search-card">
+          <div class="search-field">
+            <span>🛠️</span>
+            <select id="hero-skill-select">
+              <option value="">Select Service / Skill...</option>
+              <option value="electrician">Electrician</option>
+              <option value="plumber">Plumber</option>
+              <option value="carpenter">Carpenter</option>
+              <option value="painter">Painter</option>
+              <option value="mason">Mason</option>
+              <option value="welder">Welder</option>
+              <option value="driver">Driver</option>
+              <option value="cleaner">Cleaner</option>
+              <option value="ac-technician">AC Technician</option>
+            </select>
+          </div>
+          <div class="search-field">
+            <span>📍</span>
+            <input type="text" placeholder="City or Pincode (e.g. Mumbai)" value="Mumbai">
+          </div>
+          <a href="pages/find-labour.html" class="btn btn-accent">
+            <span>Search Labour</span>
+            <span>🔍</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-media">
+        <div class="hero-img-wrapper">
+          <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80" alt="Skilled Electrician">
+        </div>
+
+        <!-- Floating Pills -->
+        <div class="floating-pill floating-pill-1">
+          <div style="font-size: 1.5rem;">⭐ 4.9</div>
+          <div>
+            <div style="font-weight: 700; font-size: 0.9rem;">Rajesh Kumar</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Master Electrician (42 Reviews)</div>
+          </div>
+        </div>
+
+        <div class="floating-pill floating-pill-2">
+          <div style="font-size: 1.5rem;">🛡️</div>
+          <div>
+            <div style="font-weight: 700; font-size: 0.9rem;">Background Verified</div>
+            <div style="font-size: 0.75rem; color: var(--success);">Government ID & Skill Checked</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POPULAR CATEGORIES -->
+  <section class="section">
+    <div class="container">
+      <div class="section-title">
+        <span class="badge badge-primary">Categories</span>
+        <h2>Popular Labour Services</h2>
+        <p>Explore thousands of background-checked workers across all major trades.</p>
+      </div>
+
+      <div class="categories-grid">
+        <a href="pages/find-labour.html?cat=electrician" class="glass-card category-card">
+          <div class="category-icon">⚡</div>
+          <h3>Electrician</h3>
+          <p>Wiring, sockets, breakers & fans</p>
+        </a>
+        <a href="pages/find-labour.html?cat=plumber" class="glass-card category-card">
+          <div class="category-icon">💧</div>
+          <h3>Plumber</h3>
+          <p>Leaks, pipes, taps & pumps</p>
+        </a>
+        <a href="pages/find-labour.html?cat=carpenter" class="glass-card category-card">
+          <div class="category-icon">🔨</div>
+          <h3>Carpenter</h3>
+          <p>Furniture, doors & cabinets</p>
+        </a>
+        <a href="pages/find-labour.html?cat=painter" class="glass-card category-card">
+          <div class="category-icon">🎨</div>
+          <h3>Painter</h3>
+          <p>Wall paint, texture & waterproofing</p>
+        </a>
+        <a href="pages/find-labour.html?cat=mason" class="glass-card category-card">
+          <div class="category-icon">🧱</div>
+          <h3>Mason</h3>
+          <p>Brickwork, tiles & plaster</p>
+        </a>
+        <a href="pages/find-labour.html?cat=welder" class="glass-card category-card">
+          <div class="category-icon">🔥</div>
+          <h3>Welder</h3>
+          <p>Iron gates, grills & structural</p>
+        </a>
+        <a href="pages/find-labour.html?cat=driver" class="glass-card category-card">
+          <div class="category-icon">🚚</div>
+          <h3>Driver</h3>
+          <p>Personal, transit & commercial</p>
+        </a>
+        <a href="pages/find-labour.html?cat=ac-technician" class="glass-card category-card">
+          <div class="category-icon">🌀</div>
+          <h3>AC Technician</h3>
+          <p>Installation, gas fill & repair</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED LABOURERS -->
+  <section class="section" style="background: rgba(59, 130, 246, 0.03);">
+    <div class="container">
+      <div class="section-title">
+        <span class="badge badge-accent">Top Rated</span>
+        <h2>Popular Skilled Labourers</h2>
+        <p>Book top-rated specialists directly for your upcoming home or site projects.</p>
+      </div>
+
+      <div class="labour-grid">
+        <!-- Labour Card 1 -->
+        <div class="glass-card labour-card">
+          <div class="labour-header">
+            <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=200&q=80" alt="Rajesh Kumar" class="labour-avatar">
+            <div class="labour-info">
+              <h3>Rajesh Kumar</h3>
+              <div class="category-tag">⚡ Electrician</div>
+              <div style="font-size: 0.85rem; color: var(--text-muted);">📍 Mumbai • 8 Yrs Exp</div>
+            </div>
+          </div>
+          <div class="labour-body">
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">Government approved master electrician specializing in heavy load breaker panels and rewiring.</p>
+            <div class="labour-stats">
+              <div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Rating</div>
+                <div style="font-weight: 700;">⭐ 4.9 (42)</div>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Hourly Rate</div>
+                <div class="labour-rate">₹350/hr</div>
+              </div>
+            </div>
+          </div>
+          <div class="labour-footer">
+            <span style="color: var(--success); font-weight: 600; font-size: 0.85rem;">🟢 Available Today</span>
+            <a href="pages/find-labour.html" class="btn btn-primary btn-sm">Book Now</a>
+          </div>
+        </div>
+
+        <!-- Labour Card 2 -->
+        <div class="glass-card labour-card">
+          <div class="labour-header">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80" alt="Amit Patel" class="labour-avatar">
+            <div class="labour-info">
+              <h3>Amit Patel</h3>
+              <div class="category-tag">💧 Plumber</div>
+              <div style="font-size: 0.85rem; color: var(--text-muted);">📍 Delhi • 6 Yrs Exp</div>
+            </div>
+          </div>
+          <div class="labour-body">
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">High pressure water line expert, leak detection, and luxury bathroom fitting specialist.</p>
+            <div class="labour-stats">
+              <div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Rating</div>
+                <div style="font-weight: 700;">⭐ 4.8 (31)</div>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Hourly Rate</div>
+                <div class="labour-rate">₹300/hr</div>
+              </div>
+            </div>
+          </div>
+          <div class="labour-footer">
+            <span style="color: var(--success); font-weight: 600; font-size: 0.85rem;">🟢 Available Today</span>
+            <a href="pages/find-labour.html" class="btn btn-primary btn-sm">Book Now</a>
+          </div>
+        </div>
+
+        <!-- Labour Card 3 -->
+        <div class="glass-card labour-card">
+          <div class="labour-header">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80" alt="Suresh Verma" class="labour-avatar">
+            <div class="labour-info">
+              <h3>Suresh Verma</h3>
+              <div class="category-tag">🔨 Carpenter</div>
+              <div style="font-size: 0.85rem; color: var(--text-muted);">📍 Mumbai • 10 Yrs Exp</div>
+            </div>
+          </div>
+          <div class="labour-body">
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">Expert custom furniture builder, door hinge alignment, and modular kitchen installer.</p>
+            <div class="labour-stats">
+              <div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Rating</div>
+                <div style="font-weight: 700;">⭐ 4.95 (58)</div>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Hourly Rate</div>
+                <div class="labour-rate">₹400/hr</div>
+              </div>
+            </div>
+          </div>
+          <div class="labour-footer">
+            <span style="color: var(--success); font-weight: 600; font-size: 0.85rem;">🟢 Available Today</span>
+            <a href="pages/find-labour.html" class="btn btn-primary btn-sm">Book Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-title">
+        <span class="badge badge-primary">Seamless Workflow</span>
+        <h2>How Skilliant Works</h2>
+        <p>Get your work done in 3 simple steps with verified experts.</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+        <div class="glass-card" style="padding: 2.5rem; text-align: center;">
+          <div style="width: 70px; height: 70px; background: var(--primary-100); color: var(--primary-700); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800; margin: 0 auto 1.5rem;">1</div>
+          <h3 style="margin-bottom: 0.75rem;">Search & Filter</h3>
+          <p style="color: var(--text-muted);">Select the category, trade skill, and location to find available verified workers in your area.</p>
+        </div>
+
+        <div class="glass-card" style="padding: 2.5rem; text-align: center;">
+          <div style="width: 70px; height: 70px; background: var(--accent-100); color: var(--accent-600); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800; margin: 0 auto 1.5rem;">2</div>
+          <h3 style="margin-bottom: 0.75rem;">Book & Confirm</h3>
+          <p style="color: var(--text-muted);">Pick date, time, and service location. The worker gets instant notification and accepts your slot.</p>
+        </div>
+
+        <div class="glass-card" style="padding: 2.5rem; text-align: center;">
+          <div style="width: 70px; height: 70px; background: var(--success-bg); color: var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800; margin: 0 auto 1.5rem;">3</div>
+          <h3 style="margin-bottom: 0.75rem;">Job Done & Pay</h3>
+          <p style="color: var(--text-muted);">Worker completes the service to your satisfaction. Pay safely using Escrow Wallet or UPI.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE STATS COUNTER -->
+  <section class="section" style="background: linear-gradient(135deg, var(--primary-900), var(--primary-700)); color: #FFFFFF;">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2.5rem; text-align: center;">
+        <div>
+          <div style="font-size: 3.25rem; font-weight: 800; color: var(--accent-400);"><span class="counter" data-target="12500">0</span>+</div>
+          <div style="font-size: 1.1rem; opacity: 0.9;">Skilled Labourers</div>
+        </div>
+        <div>
+          <div style="font-size: 3.25rem; font-weight: 800; color: var(--accent-400);"><span class="counter" data-target="48000">0</span>+</div>
+          <div style="font-size: 1.1rem; opacity: 0.9;">Completed Jobs</div>
+        </div>
+        <div>
+          <div style="font-size: 3.25rem; font-weight: 800; color: var(--accent-400);"><span class="counter" data-target="1400">0</span>+</div>
+          <div style="font-size: 1.1rem; opacity: 0.9;">Verified Contractors</div>
+        </div>
+        <div>
+          <div style="font-size: 3.25rem; font-weight: 800; color: var(--accent-400);"><span class="counter" data-target="99">0</span>.8%</div>
+          <div style="font-size: 1.1rem; opacity: 0.9;">Satisfaction Rate</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APP DOWNLOAD CTA -->
+  <section class="section">
+    <div class="container">
+      <div class="glass-card" style="padding: 4rem 3rem; background: linear-gradient(135deg, var(--bg-card), var(--primary-50)); display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 3rem; align-items: center;">
+        <div>
+          <span class="badge badge-accent mb-3">📱 Mobile App Coming Soon</span>
+          <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem;">Book Labour On The Go</h2>
+          <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem;">Get real-time GPS tracking, instant worker chat, emergency SOS booking, and seamless wallet payments on your mobile device.</p>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="#" class="btn btn-primary" onclick="showToast('App store link will open upon mobile release!', 'info'); return false;">Google Play Store</a>
+            <a href="#" class="btn btn-outline" onclick="showToast('iOS App Store link will open upon mobile release!', 'info'); return false;">Apple App Store</a>
+          </div>
+        </div>
+        <div style="text-align: center;">
+          <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=400&q=80" alt="Mobile App" style="border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); margin: 0 auto; max-width: 280px;">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <div class="logo-icon">S</div>
+            Skilliant<span>.</span>
+          </a>
+          <p style="margin-top: 1rem; font-size: 0.95rem;">Production-ready Online Labour Finding Platform connecting verified workers, contractors, and clients seamlessly.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="pages/about.html">About Us</a></li>
+            <li><a href="pages/services.html">Services</a></li>
+            <li><a href="pages/find-labour.html">Find Labour</a></li>
+            <li><a href="pages/pricing.html">Pricing</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Dashboards</h4>
+          <ul>
+            <li><a href="pages/dashboard-user.html">User Dashboard</a></li>
+            <li><a href="pages/dashboard-labour.html">Labour Dashboard</a></li>
+            <li><a href="pages/dashboard-contractor.html">Contractor Dashboard</a></li>
+            <li><a href="pages/dashboard-admin.html">Admin Dashboard</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal & Support</h4>
+          <ul>
+            <li><a href="pages/faq.html">Help & FAQ</a></li>
+            <li><a href="pages/privacy.html">Privacy Policy</a></li>
+            <li><a href="pages/terms.html">Terms & Conditions</a></li>
+            <li><a href="pages/contact.html">Contact Support</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 Skilliant Platform. All Rights Reserved.</div>
+        <div style="display: flex; gap: 1.5rem;">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <a href="#">Security</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="js/theme.js"></script>
+  <script src="js/toast.js"></script>
+  <script src="js/modal.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

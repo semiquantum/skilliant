@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Labour Dashboard | Skilliant</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+  <div class="dashboard-layout">
+    
+    <!-- SIDEBAR -->
+    <aside class="dash-sidebar">
+      <div class="sidebar-header">
+        <a href="../index.html" class="logo">
+          <div class="logo-icon">S</div>
+          Skilliant<span>.</span>
+        </a>
+      </div>
+
+      <div class="sidebar-menu">
+        <div class="sidebar-label">Labour Worker Menu</div>
+        <div class="sidebar-item active" data-tab="tab-overview">
+          <span class="icon">📊</span> Overview & Requests
+        </div>
+        <div class="sidebar-item" data-tab="tab-calendar">
+          <span class="icon">📅</span> Job Calendar
+        </div>
+        <div class="sidebar-item" data-tab="tab-analytics">
+          <span class="icon">📈</span> Income & Analytics
+        </div>
+        <div class="sidebar-item" data-tab="tab-wallet">
+          <span class="icon">💳</span> Earnings Wallet
+        </div>
+        <div class="sidebar-item" data-tab="tab-reviews">
+          <span class="icon">⭐</span> Customer Reviews
+        </div>
+        <div class="sidebar-item" data-tab="tab-profile">
+          <span class="icon">🛠️</span> Skills & Bio
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <a href="login.html" class="sidebar-item" style="color: var(--danger);">
+          <span class="icon">🚪</span> Logout
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN BODY -->
+    <main class="dash-main">
+      
+      <!-- TOPBAR -->
+      <header class="dash-topbar">
+        <button id="availability-toggle" class="btn btn-primary btn-sm">🟢 Available Now</button>
+
+        <div class="topbar-actions">
+          <button class="theme-toggle">🌙</button>
+          <div class="profile-widget">
+            <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=200&q=80" alt="Rajesh Kumar" class="profile-avatar">
+            <div>
+              <div style="font-weight: 700; font-size: 0.9rem;">Rajesh Kumar</div>
+              <div style="font-size: 0.75rem; color: var(--accent-600); font-weight: 600;">⚡ Master Electrician</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- CONTENT -->
+      <div class="dash-content">
+        
+        <!-- TAB 1: OVERVIEW & JOB REQUESTS -->
+        <div class="tab-pane active" id="tab-overview">
+          <div class="welcome-banner" style="background: linear-gradient(135deg, var(--accent-600), var(--accent-700));">
+            <h2>Worker Portal | Rajesh Kumar 👋</h2>
+            <p>You have 1 new pending job request from Rahul Sharma (MG Road, Mumbai).</p>
+          </div>
+
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div>
+                <div class="metric-label">Today's Jobs</div>
+                <div class="metric-number">2</div>
+              </div>
+              <div class="metric-icon blue">⚡</div>
+            </div>
+            <div class="metric-card">
+              <div>
+                <div class="metric-label">Monthly Income</div>
+                <div class="metric-number">₹32,400</div>
+              </div>
+              <div class="metric-icon green">💰</div>
+            </div>
+            <div class="metric-card">
+              <div>
+                <div class="metric-label">Pending Requests</div>
+                <div class="metric-number">1</div>
+              </div>
+              <div class="metric-icon orange">🔔</div>
+            </div>
+            <div class="metric-card">
+              <div>
+                <div class="metric-label">Average Rating</div>
+                <div class="metric-number">4.9⭐</div>
+              </div>
+              <div class="metric-icon purple">🏆</div>
+            </div>
+          </div>
+
+          <!-- Pending Job Requests Table -->
+          <div class="table-card">
+            <div class="table-header">
+              <h3 style="font-size: 1.15rem; font-weight: 700;">New Incoming Job Requests</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Customer Name</th>
+                    <th>Address</th>
+                    <th>Est. Hours</th>
+                    <th>Payout</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="font-weight: 700;">SK-2026-1003</td>
+                    <td>Rahul Sharma</td>
+                    <td>Office Suite 304, Link Road, Mumbai</td>
+                    <td>3 Hours</td>
+                    <td style="font-weight: 700; color: var(--success);">₹1,050</td>
+                    <td>
+                      <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-primary btn-sm btn-accept-job">Accept Job</button>
+                        <button class="btn btn-outline btn-sm btn-reject-job" style="color: var(--danger); border-color: var(--danger);">Decline</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: ANALYTICS -->
+        <div class="tab-pane" id="tab-analytics">
+          <div class="chart-widget">
+            <h3>Monthly Income Analytics (2026)</h3>
+            <div class="bar-chart">
+              <div class="chart-bar-group"><div class="bar" style="height: 40%;"></div><span class="bar-label">Apr</span></div>
+              <div class="chart-bar-group"><div class="bar" style="height: 60%;"></div><span class="bar-label">May</span></div>
+              <div class="chart-bar-group"><div class="bar" style="height: 75%;"></div><span class="bar-label">Jun</span></div>
+              <div class="chart-bar-group"><div class="bar orange" style="height: 90%;"></div><span class="bar-label">Jul</span></div>
+              <div class="chart-bar-group"><div class="bar orange" style="height: 100%;"></div><span class="bar-label">Aug</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 4: WALLET & WITHDRAWAL -->
+        <div class="tab-pane" id="tab-wallet">
+          <div class="glass-card" style="padding: 2rem; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-size: 0.9rem; color: var(--text-muted);">Withdrawable Balance</div>
+              <div style="font-size: 2.5rem; font-weight: 800; color: var(--success);">₹3,400.00</div>
+            </div>
+            <button class="btn btn-accent" onclick="showToast('Withdrawal request sent to Bank Account / UPI!', 'success');">Withdraw to Bank / UPI</button>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/theme.js"></script>
+  <script src="../js/toast.js"></script>
+  <script src="../js/modal.js"></script>
+  <script src="../js/dashboard.js"></script>
+</body>
+</html>

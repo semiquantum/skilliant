@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register Account | Skilliant</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body style="min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between;">
+
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="../index.html" class="logo"><div class="logo-icon">S</div>Skilliant<span>.</span></a>
+      <div class="nav-actions">
+        <button class="theme-toggle">🌙</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container" style="max-width: 520px; margin: 2.5rem auto; width: 100%;">
+    <div class="glass-card" style="padding: 2.5rem;">
+      <h2 style="font-size: 1.85rem; font-weight: 800; text-align: center; margin-bottom: 0.35rem;">Create Account</h2>
+      <p style="text-align: center; color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.95rem;">Join Skilliant as a Client, Skilled Labourer, or Contractor</p>
+
+      <form onsubmit="event.preventDefault(); showToast('Account registered successfully! Welcome bonus ₹1000 added.', 'success'); setTimeout(() => window.location.href='dashboard-user.html', 1200);">
+        <div style="margin-bottom: 1rem;">
+          <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">I want to register as:</label>
+          <select id="reg-role" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main); font-weight: 600;">
+            <option value="user">User (Book Labourers)</option>
+            <option value="labour">Skilled Labourer (Get Jobs)</option>
+            <option value="contractor">Contractor (Manage Teams)</option>
+          </select>
+        </div>
+
+        <div style="margin-bottom: 1rem;">
+          <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">Full Name</label>
+          <input type="text" placeholder="e.g. Rahul Sharma" required style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main);">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+          <div>
+            <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">Email Address</label>
+            <input type="email" placeholder="rahul@example.com" required style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main);">
+          </div>
+          <div>
+            <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">Phone Number</label>
+            <input type="tel" placeholder="+91 9876543210" required style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main);">
+          </div>
+        </div>
+
+        <div style="margin-bottom: 1.25rem;">
+          <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">Password</label>
+          <input type="password" placeholder="••••••••" required style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main);">
+        </div>
+
+        <button type="submit" class="btn btn-accent" style="width: 100%; padding: 0.85rem;">Create My Account</button>
+      </form>
+
+      <div style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-muted);">
+        Already have an account? <a href="login.html" style="color: var(--primary-600); font-weight: 700;">Login Here</a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer" style="padding: 1.5rem 0;">
+    <div class="container" style="text-align: center; font-size: 0.9rem;">
+      © 2026 Skilliant Platform. All Rights Reserved.
+    </div>
+  </footer>
+
+  <script src="../js/theme.js"></script>
+  <script src="../js/toast.js"></script>
+</body>
+</html>

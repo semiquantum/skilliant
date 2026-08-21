@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frequently Asked Questions | Skilliant</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .accordion-item {
+      border-bottom: 1px solid var(--border-color);
+      padding: 1.25rem 0;
+    }
+    .accordion-header {
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .accordion-content {
+      display: none;
+      padding-top: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .accordion-item.active .accordion-content {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="../index.html" class="logo"><div class="logo-icon">S</div>Skilliant<span>.</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html" class="nav-link">Home</a></li>
+        <li><a href="faq.html" class="nav-link active">FAQ</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="theme-toggle">🌙</button>
+      </div>
+    </div>
+  </nav>
+
+  <section style="background: linear-gradient(135deg, var(--primary-800), var(--primary-900)); color: #FFFFFF; padding: 4rem 0; text-align: center;">
+    <div class="container">
+      <h1 style="font-size: 3rem; font-weight: 800;">Help Center & FAQ</h1>
+      <p style="font-size: 1.15rem; opacity: 0.9;">Answers to common questions about bookings, payments, and worker safety.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container" style="max-width: 800px;">
+      <div class="glass-card" style="padding: 2rem;">
+        <div class="accordion-item active">
+          <div class="accordion-header">
+            <span>How are labourers verified on Skilliant?</span>
+            <span>▼</span>
+          </div>
+          <div class="accordion-content">
+            Every skilled worker must submit government ID proof (Aadhaar / PAN), criminal background checks, and trade skill certifications before accepting jobs.
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <span>What payment methods are supported?</span>
+            <span>▼</span>
+          </div>
+          <div class="accordion-content">
+            We support Skilliant In-App Escrow Wallet, UPI (Google Pay, PhonePe, Paytm), Credit/Debit Cards, and Cash on Completion.
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <span>What happens if a worker cancels a booking?</span>
+            <span>▼</span>
+          </div>
+          <div class="accordion-content">
+            If a worker cancels, your wallet is instantly refunded 100% of the funds, and our dispatch system auto-assigns an alternative top-rated worker nearby.
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <span>Can contractors hire multiple labourers for a site?</span>
+            <span>▼</span>
+          </div>
+          <div class="accordion-content">
+            Yes! Contractor accounts can manage team rosters, assign multiple labourers to single commercial sites, and receive unified GST invoices.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container" style="text-align: center; font-size: 0.9rem;">
+      © 2026 Skilliant Platform. All Rights Reserved.
+    </div>
+  </footer>
+  <script src="../js/theme.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

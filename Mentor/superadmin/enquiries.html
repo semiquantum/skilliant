@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Enquiries | Skilliant Superadmin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <script src="js/auth.js"></script>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="index.html" class="brand"><div class="brand-logo"><i class="fa-solid fa-bolt"></i></div><div><div class="brand-name">Skilliant</div><div class="brand-badge">SUPERADMIN PORTAL</div></div></a>
+      <button class="sidebar-close-btn" id="sidebarCloseBtn"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <nav class="sidebar-menu">
+      <a href="index.html" class="menu-item"><div class="menu-item-left"><i class="fa-solid fa-layer-group"></i><span>Dashboard</span></div></a>
+      <a href="users.html" class="menu-item"><div class="menu-item-left"><i class="fa-solid fa-users"></i><span>Users</span></div></a>
+      <a href="roles.html" class="menu-item"><div class="menu-item-left"><i class="fa-solid fa-user-shield"></i><span>Roles & Permissions</span></div></a>
+      <a href="categories.html" class="menu-item"><div class="menu-item-left"><i class="fa-solid fa-folder"></i><span>Categories</span></div></a>
+      <a href="services.html" class="menu-item"><div class="menu-item-left"><i class="fa-solid fa-briefcase"></i><span>Services</span></div></a>
+      <a href="providers.html" class="menu-item"><div class="menu-item-left"><i class="fa-solid fa-user-nurse"></i><span>Providers/Labour</span></div></a>
+      <a href="bookings.html" class="menu-item"><div class="menu-item-left"><i class="fa-solid fa-calendar-check"></i><span>Bookings</span></div></a>
+      <a href="reviews.html" class="menu-item"><div class="menu-item-left"><i class="fa-solid fa-star"></i><span>Reviews & Ratings</span></div></a>
+      <a href="payments.html" class="menu-item"><div class="menu-item-left"><i class="fa-solid fa-credit-card"></i><span>Payments</span></div></a>
+      <a href="withdrawals.html" class="menu-item"><div class="menu-item-left"><i class="fa-solid fa-hand-holding-dollar"></i><span>Withdrawals</span></div></a>
+      <a href="coupons.html" class="menu-item"><div class="menu-item-left"><i class="fa-solid fa-ticket"></i><span>Coupons & Offers</span></div></a>
+      <a href="announcements.html" class="menu-item"><div class="menu-item-left"><i class="fa-solid fa-bullhorn"></i><span>Announcements</span></div></a>
+      <a href="cms.html" class="menu-item"><div class="menu-item-left"><i class="fa-solid fa-file-code"></i><span>CMS Pages</span></div></a>
+      <a href="blog.html" class="menu-item"><div class="menu-item-left"><i class="fa-solid fa-newspaper"></i><span>Blog Management</span></div></a>
+      <a href="enquiries.html" class="menu-item active"><div class="menu-item-left"><i class="fa-solid fa-comments"></i><span>Enquiries</span></div></a>
+      <a href="reports.html" class="menu-item"><div class="menu-item-left"><i class="fa-solid fa-chart-line"></i><span>Reports & Analytics</span></div></a>
+      <a href="settings.html" class="menu-item"><div class="menu-item-left"><i class="fa-solid fa-gear"></i><span>Settings</span></div></a>
+      <a href="system-logs.html" class="menu-item"><div class="menu-item-left"><i class="fa-solid fa-receipt"></i><span>System Logs</span></div></a>
+      <a href="support-tickets.html" class="menu-item"><div class="menu-item-left"><i class="fa-solid fa-headset"></i><span>Support Tickets</span></div></a>
+    </nav>
+  </aside>
+
+  <div class="main-wrapper">
+    <header class="navbar">
+      <div class="navbar-left">
+        <button class="btn-icon mobile-toggle" id="sidebarToggleBtn"><i class="fa-solid fa-bars"></i></button>
+        <div class="search-box"><i class="fa-solid fa-magnifying-glass search-icon"></i><input type="text" id="globalSearchInput" placeholder="Search enquiries..."><span class="shortcut-badge">Ctrl + K</span></div>
+      </div>
+      <div class="navbar-right">
+        <button class="btn-icon" id="themeToggleBtn"><i class="fa-solid fa-moon"></i></button>
+        <a href="../../index.html" target="_blank" class="btn-website">Skilliant Website</a>
+      </div>
+    </header>
+
+    <main class="content-body">
+      <div class="page-header">
+        <div class="page-title-group">
+          <h2><i class="fa-solid fa-comments" style="color: var(--primary);"></i> Customer Contact Enquiries (3,456 Total)</h2>
+          <p>Respond to lead inquiries, partnership requests, and website contact forms</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title">Incoming Contact Requests</div></div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr><th>Enquiry ID</th><th>Name & Email</th><th>Subject</th><th>Received Date</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>#ENQ-1042</td><td><strong>Amit Shah</strong><br><span style="font-size:0.75rem;color:var(--text-muted);">amit@company.com</span></td><td>Bulk Contractor Registration Partnership</td><td>10 min ago</td><td><span class="badge badge-pending">New</span></td><td><button class="btn btn-primary btn-sm" onclick="showToast('Replying to Enquiry #ENQ-1042')">Reply</button></td></tr>
+              <tr><td>#ENQ-1043</td><td><strong>Neha Gupta</strong><br><span style="font-size:0.75rem;color:var(--text-muted);">neha@gmail.com</span></td><td>Corporate Office Cleaning Inquiry</td><td>2 hours ago</td><td><span class="badge badge-success">Resolved</span></td><td><button class="btn btn-secondary btn-sm" onclick="showToast('View Thread')">View Thread</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="js/data.js"></script><script src="js/app.js"></script>
+</body>
+</html>

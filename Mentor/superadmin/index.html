@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Super Admin Portal | Skilliant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- Auth Verification Script -->
+  <script src="js/auth.js"></script>
+
+  <!-- ================= 1. SIDEBAR NAV ================= -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="index.html" class="brand">
+        <div class="brand-logo">
+          <i class="fa-solid fa-bolt"></i>
+        </div>
+        <div>
+          <div class="brand-name">Skilliant</div>
+          <div class="brand-badge">SUPERADMIN PORTAL</div>
+        </div>
+      </a>
+      <button class="sidebar-close-btn" id="sidebarCloseBtn"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <nav class="sidebar-menu">
+      <a href="index.html" class="menu-item active">
+        <div class="menu-item-left">
+          <i class="fa-solid fa-layer-group"></i>
+          <span>Dashboard</span>
+        </div>
+      </a>
+
+      <div>
+        <a class="menu-item menu-item-parent">
+          <div class="menu-item-left">
+            <i class="fa-solid fa-users"></i>
+            <span>Users</span>
+          </div>
+          <i class="fa-solid fa-chevron-down arrow-icon" style="font-size: 0.75rem; transition: transform 0.25s;"></i>
+        </a>
+        <div class="menu-dropdown">
+          <a href="users.html" class="dropdown-item">All Customers</a>
+          <a href="users.html?type=active" class="dropdown-item">Active Users</a>
+          <a href="users.html?type=blocked" class="dropdown-item">Blocked Users</a>
+        </div>
+      </div>
+
+      <a href="roles.html" class="menu-item">
+        <div class="menu-item-left">
+          <i class="fa-solid fa-user-shield"></i>
+          <span>Roles & Permissions</span>
+        </div>
+      </a>
+
+      <a href="categories.html" class="menu-item">
+        <div class="menu-item-left">
+          <i class="fa-solid fa-folder"></i>
+          <span>Categories</span>
+        </div>
+      </a>
+
+      <a href="services.html" class="menu-item">
+        <div class="menu-item-left">
+          <i class="fa-solid fa-briefcase"></i>
+          <span>Services</span>
+        </div>
+      </a>
+
+      <a href="providers.html" class="menu-item">
+        <div class="menu-item-left">
+          <i class="fa-solid fa-user-nurse"></i>
+          <span>Providers/Labour</span>
+        </div>
+      </a>
+
+      <a href="bookings.html" class="menu-item">
+        <div class="menu-item-left">
+          <i class="fa-solid fa-calendar-check"></i>
+          <span>Bookings</span>
+        </div>
+      </a>
+
+      <a href="reviews.html" class="menu-item">
+        <div class="menu-item-left">
+          <i class="fa-solid fa-star"></i>
+          <span>Reviews & Ratings</span>
+        </div>
+      </a>
+
+      <a href="payments.html" class="menu-item">
+        <div class="menu-item-left">
+          <i class="fa-solid fa-credit-card"></i>
+          <span>Payments</span>
+        </div>
+      </a>
+
+      <a href="withdrawals.html" class="menu-item">
+        <div class="menu-item-left">
+          <i class="fa-solid fa-hand-holding-dollar"></i>
+          <span>Withdrawals</span>
+        </div>
+      </a>
+
+      <a href="coupons.html" class="menu-item">
+        <div class="menu-item-left">
+          <i class="fa-solid fa-ticket"></i>
+          <span>Coupons & Offers</span>
+        </div>
+      </a>
+
+      <a href="announcements.html" class="menu-item">
+        <div class="menu-item-left">
+          <i class="fa-solid fa-bullhorn"></i>
+          <span>Announcements</span>
+        </div>
+      </a>
+
+      <a href="cms.html" class="menu-item">
+        <div class="menu-item-left">
+          <i class="fa-solid fa-file-code"></i>
+          <span>CMS Pages</span>
+        </div>
+      </a>
+
+      <a href="blog.html" class="menu-item">
+        <div class="menu-item-left">
+          <i class="fa-solid fa-newspaper"></i>
+          <span>Blog Management</span>
+        </div>
+      </a>
+
+      <a href="enquiries.html" class="menu-item">
+        <div class="menu-item-left">
+          <i class="fa-solid fa-comments"></i>
+          <span>Enquiries</span>
+        </div>
+      </a>
+
+      <div>
+        <a class="menu-item menu-item-parent">
+          <div class="menu-item-left">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>Reports & Analytics</span>
+          </div>
+          <i class="fa-solid fa-chevron-down arrow-icon" style="font-size: 0.75rem; transition: transform 0.25s;"></i>
+        </a>
+        <div class="menu-dropdown">
+          <a href="reports.html" class="dropdown-item">Revenue Reports</a>
+          <a href="reports.html" class="dropdown-item">Booking Growth</a>
+        </div>
+      </div>
+
+      <div>
+        <a class="menu-item menu-item-parent">
+          <div class="menu-item-left">
+            <i class="fa-solid fa-gear"></i>
+            <span>Settings</span>
+          </div>
+          <i class="fa-solid fa-chevron-down arrow-icon" style="font-size: 0.75rem; transition: transform 0.25s;"></i>
+        </a>
+        <div class="menu-dropdown">
+          <a href="settings.html" class="dropdown-item">General System</a>
+          <a href="settings.html" class="dropdown-item">Payment Gateways</a>
+        </div>
+      </div>
+
+      <a href="system-logs.html" class="menu-item">
+        <div class="menu-item-left">
+          <i class="fa-solid fa-receipt"></i>
+          <span>System Logs</span>
+        </div>
+      </a>
+
+      <a href="support-tickets.html" class="menu-item">
+        <div class="menu-item-left">
+          <i class="fa-solid fa-headset"></i>
+          <span>Support Tickets</span>
+        </div>
+      </a>
+    </nav>
+
+    <!-- User Profile Footer -->
+    <div class="sidebar-user" id="userProfileWidget" title="Click to Logout">
+      <div class="user-info">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Avatar" class="user-avatar">
+        <div class="user-details">
+          <div class="user-name">Super Admin</div>
+          <div class="user-email">superadmin@skilliant.com</div>
+          <div class="user-status"><span class="status-dot"></span> Online</div>
+        </div>
+        <i class="fa-solid fa-chevron-down" style="font-size: 0.75rem; color: var(--text-muted);"></i>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ================= 2. MAIN WRAPPER ================= -->
+  <div class="main-wrapper">
+
+    <!-- Top Navbar -->
+    <header class="navbar">
+      <div class="navbar-left">
+        <button class="btn-icon mobile-toggle" id="sidebarToggleBtn"><i class="fa-solid fa-bars"></i></button>
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input type="text" id="globalSearchInput" placeholder="Search anything...">
+          <span class="shortcut-badge">Ctrl + K</span>
+        </div>
+      </div>
+
+      <div class="navbar-right">
+        <button class="btn-icon" id="themeToggleBtn" title="Toggle Dark/Light Mode">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+
+        <button class="btn-icon" title="Notifications">
+          <i class="fa-solid fa-bell"></i>
+          <span class="badge-notification">12</span>
+        </button>
+
+        <div class="date-picker-btn">
+          <i class="fa-solid fa-calendar"></i> <span>May 12, 2025</span> <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem;"></i>
+        </div>
+
+        <a href="../../index.html" target="_blank" class="btn-website">Skilliant Website</a>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="content-body">
+
+      <!-- Welcome Banner -->
+      <div class="welcome-header">
+        <h2>Welcome back, Super Admin! 👋</h2>
+        <p>Here's what's happening on Skilliant today.</p>
+      </div>
+
+      <!-- Top 6 KPI Summary Cards -->
+      <div class="kpi-grid-top">
+        
+        <div class="kpi-card">
+          <div class="kpi-icon-box icon-purple"><i class="fa-solid fa-users"></i></div>
+          <div class="kpi-details">
+            <div class="kpi-title">Total Users</div>
+            <div class="kpi-value">24,589</div>
+            <div class="kpi-trend trend-up"><i class="fa-solid fa-arrow-up"></i> 12.5% <span class="trend-subtext">vs last week</span></div>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-icon-box icon-blue"><i class="fa-solid fa-briefcase"></i></div>
+          <div class="kpi-details">
+            <div class="kpi-title">Total Services</div>
+            <div class="kpi-value">1,489</div>
+            <div class="kpi-trend trend-up"><i class="fa-solid fa-arrow-up"></i> 8.7% <span class="trend-subtext">vs last week</span></div>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-icon-box icon-green"><i class="fa-solid fa-user-nurse"></i></div>
+          <div class="kpi-details">
+            <div class="kpi-title">Active Providers</div>
+            <div class="kpi-value">8,354</div>
+            <div class="kpi-trend trend-up"><i class="fa-solid fa-arrow-up"></i> 10.3% <span class="trend-subtext">vs last week</span></div>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-icon-box icon-orange"><i class="fa-solid fa-calendar-check"></i></div>
+          <div class="kpi-details">
+            <div class="kpi-title">Total Bookings</div>
+            <div class="kpi-value">12,843</div>
+            <div class="kpi-trend trend-up"><i class="fa-solid fa-arrow-up"></i> 15.8% <span class="trend-subtext">vs last week</span></div>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-icon-box icon-pink"><i class="fa-solid fa-wallet"></i></div>
+          <div class="kpi-details">
+            <div class="kpi-title">Total Revenue</div>
+            <div class="kpi-value">₹18,75,430</div>
+            <div class="kpi-trend trend-up"><i class="fa-solid fa-arrow-up"></i> 18.9% <span class="trend-subtext">vs last week</span></div>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-icon-box icon-purple"><i class="fa-solid fa-star"></i></div>
+          <div class="kpi-details">
+            <div class="kpi-title">Total Reviews</div>
+            <div class="kpi-value">6,247</div>
+            <div class="kpi-trend trend-up"><i class="fa-solid fa-arrow-up"></i> 11.2% <span class="trend-subtext">vs last week</span></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Middle Row -->
+      <div class="middle-grid">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Overview Analytics</div>
+            <select class="card-filter"><option>This Week</option><option>This Month</option></select>
+          </div>
+          <div class="chart-container"><canvas id="overviewAnalyticsChart"></canvas></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Bookings by Status</div>
+            <select class="card-filter"><option>This Week</option><option>This Month</option></select>
+          </div>
+          <div class="chart-container"><canvas id="bookingsStatusChart"></canvas></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><div class="card-title">Quick Actions</div></div>
+          <div class="actions-list">
+            <div class="action-btn" onclick="openActionModal('category')">
+              <div class="action-btn-content"><div class="action-btn-icon icon-purple"><i class="fa-solid fa-folder-plus"></i></div><span>Add New Category</span></div>
+              <i class="fa-solid fa-chevron-right" style="font-size: 0.75rem; color: var(--text-muted);"></i>
+            </div>
+            <div class="action-btn" onclick="openActionModal('service')">
+              <div class="action-btn-content"><div class="action-btn-icon icon-blue"><i class="fa-solid fa-user-gear"></i></div><span>Add New Service</span></div>
+              <i class="fa-solid fa-chevron-right" style="font-size: 0.75rem; color: var(--text-muted);"></i>
+            </div>
+            <div class="action-btn" onclick="openActionModal('provider')">
+              <div class="action-btn-content"><div class="action-btn-icon icon-green"><i class="fa-solid fa-user-plus"></i></div><span>Add New Provider</span></div>
+              <i class="fa-solid fa-chevron-right" style="font-size: 0.75rem; color: var(--text-muted);"></i>
+            </div>
+            <div class="action-btn" onclick="openActionModal('announcement')">
+              <div class="action-btn-content"><div class="action-btn-icon icon-orange"><i class="fa-solid fa-bullhorn"></i></div><span>Create Announcement</span></div>
+              <i class="fa-solid fa-chevron-right" style="font-size: 0.75rem; color: var(--text-muted);"></i>
+            </div>
+            <div class="action-btn" onclick="openActionModal('coupon')">
+              <div class="action-btn-content"><div class="action-btn-icon icon-pink"><i class="fa-solid fa-ticket"></i></div><span>Create Offer / Coupon</span></div>
+              <i class="fa-solid fa-chevron-right" style="font-size: 0.75rem; color: var(--text-muted);"></i>
+            </div>
+            <a href="bookings.html" class="action-btn">
+              <div class="action-btn-content"><div class="action-btn-icon icon-blue"><i class="fa-solid fa-calendar-days"></i></div><span>View All Bookings</span></div>
+              <i class="fa-solid fa-chevron-right" style="font-size: 0.75rem; color: var(--text-muted);"></i>
+            </a>
+            <a href="reports.html" class="action-btn">
+              <div class="action-btn-content"><div class="action-btn-icon icon-green"><i class="fa-solid fa-file-export"></i></div><span>Generate Reports</span></div>
+              <i class="fa-solid fa-chevron-right" style="font-size: 0.75rem; color: var(--text-muted);"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lower Middle Row -->
+      <div class="lower-grid">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Recent Activities</div>
+            <button class="card-filter" onclick="showToast('Viewing full activity stream...')">View All</button>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-left">
+                <div class="activity-icon icon-green"><i class="fa-solid fa-user-plus"></i></div>
+                <div><div class="activity-text">New user registered</div><div class="activity-subtext">John Deo (john@example.com)</div></div>
+              </div>
+              <div class="activity-time">2 min ago</div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-left">
+                <div class="activity-icon icon-blue"><i class="fa-solid fa-calendar-plus"></i></div>
+                <div><div class="activity-text">New booking received</div><div class="activity-subtext">Plumbing Service (#BK-12569)</div></div>
+              </div>
+              <div class="activity-time">8 min ago</div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-left">
+                <div class="activity-icon icon-orange"><i class="fa-solid fa-user-nurse"></i></div>
+                <div><div class="activity-text">New provider joined</div><div class="activity-subtext">Ravi Kumar (Provider ID: PR-4587)</div></div>
+              </div>
+              <div class="activity-time">15 min ago</div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-left">
+                <div class="activity-icon icon-purple"><i class="fa-solid fa-star"></i></div>
+                <div><div class="activity-text">New review received</div><div class="activity-subtext">by Anjali Sharma (5★ for Cleaning Service)</div></div>
+              </div>
+              <div class="activity-time">28 min ago</div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-left">
+                <div class="activity-icon icon-pink"><i class="fa-solid fa-ticket"></i></div>
+                <div><div class="activity-text">New coupon created</div><div class="activity-subtext">FLAT20 (20% off on all services)</div></div>
+              </div>
+              <div class="activity-time">45 min ago</div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-left">
+                <div class="activity-icon icon-cyan"><i class="fa-solid fa-money-bill-transfer"></i></div>
+                <div><div class="activity-text">Payout completed</div><div class="activity-subtext">Ravi Kumar (₹4,250)</div></div>
+              </div>
+              <div class="activity-time">1 hour ago</div>
+            </div>
+          </div>
+          <button class="btn-view-all" onclick="showToast('Loading complete logs...')">View All Activities</button>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Top Services</div>
+            <select class="card-filter"><option>This Week</option><option>This Month</option></select>
+          </div>
+          <div class="services-list">
+            <div class="service-item">
+              <div class="service-meta"><div class="service-name"><i class="fa-solid fa-broom" style="color: #8b5cf6;"></i> Home Cleaning</div><div class="service-count">2,543 Bookings</div></div>
+              <div class="progress-bg"><div class="progress-fill" style="width: 85%; background: var(--primary-gradient);"></div></div>
+            </div>
+            <div class="service-item">
+              <div class="service-meta"><div class="service-name"><i class="fa-solid fa-faucet" style="color: #f97316;"></i> Plumbing</div><div class="service-count">1,987 Bookings</div></div>
+              <div class="progress-bg"><div class="progress-fill" style="width: 70%; background: linear-gradient(90deg, #f97316, #fb923c);"></div></div>
+            </div>
+            <div class="service-item">
+              <div class="service-meta"><div class="service-name"><i class="fa-solid fa-bolt" style="color: #f59e0b;"></i> Electrical Work</div><div class="service-count">1,685 Bookings</div></div>
+              <div class="progress-bg"><div class="progress-fill" style="width: 60%; background: linear-gradient(90deg, #f59e0b, #fbbf24);"></div></div>
+            </div>
+            <div class="service-item">
+              <div class="service-meta"><div class="service-name"><i class="fa-solid fa-paint-roller" style="color: #ec4899;"></i> Painting</div><div class="service-count">1,256 Bookings</div></div>
+              <div class="progress-bg"><div class="progress-fill" style="width: 48%; background: linear-gradient(90deg, #ec4899, #f472b6);"></div></div>
+            </div>
+            <div class="service-item">
+              <div class="service-meta"><div class="service-name"><i class="fa-solid fa-hammer" style="color: #3b82f6;"></i> Carpentry</div><div class="service-count">1,034 Bookings</div></div>
+              <div class="progress-bg"><div class="progress-fill" style="width: 40%; background: linear-gradient(90deg, #3b82f6, #60a5fa);"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><div class="card-title">System Overview</div></div>
+          <div class="system-list">
+            <div class="system-item"><div class="system-name"><i class="fa-solid fa-circle-check" style="color: var(--green);"></i> Website Status</div><div class="system-status"><span class="status-dot"></span> Operational</div></div>
+            <div class="system-item"><div class="system-name"><i class="fa-solid fa-server" style="color: var(--green);"></i> Server Status</div><div class="system-status"><span class="status-dot"></span> Operational</div></div>
+            <div class="system-item"><div class="system-name"><i class="fa-solid fa-database" style="color: var(--green);"></i> Database</div><div class="system-status"><span class="status-dot"></span> Operational</div></div>
+            <div class="system-item"><div class="system-name"><i class="fa-solid fa-hard-drive" style="color: var(--green);"></i> Storage</div><div class="system-status"><span class="status-dot"></span> Operational</div></div>
+            <div class="system-item"><div class="system-name"><i class="fa-solid fa-envelope" style="color: var(--green);"></i> Email Service</div><div class="system-status"><span class="status-dot"></span> Operational</div></div>
+            <div class="system-item"><div class="system-name"><i class="fa-solid fa-credit-card" style="color: var(--green);"></i> Payment Gateway</div><div class="system-status"><span class="status-dot"></span> Operational</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom 5 KPI Summary Cards -->
+      <div class="kpi-grid-bottom">
+        <div class="kpi-card">
+          <div class="kpi-icon-box icon-purple"><i class="fa-solid fa-comments"></i></div>
+          <div class="kpi-details">
+            <div class="kpi-title">Total Enquiries</div>
+            <div class="kpi-value">3,456</div>
+            <div class="kpi-trend trend-up"><i class="fa-solid fa-arrow-up"></i> 9.4% <span class="trend-subtext">vs last week</span></div>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon-box icon-pink"><i class="fa-solid fa-tags"></i></div>
+          <div class="kpi-details">
+            <div class="kpi-title">Active Coupons</div>
+            <div class="kpi-value">28</div>
+            <div class="kpi-trend trend-up"><i class="fa-solid fa-arrow-up"></i> 6.1% <span class="trend-subtext">vs last week</span></div>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon-box icon-amber"><i class="fa-solid fa-newspaper"></i></div>
+          <div class="kpi-details">
+            <div class="kpi-title">Total Blog Posts</div>
+            <div class="kpi-value">156</div>
+            <div class="kpi-trend trend-up"><i class="fa-solid fa-arrow-up"></i> 7.8% <span class="trend-subtext">vs last week</span></div>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon-box icon-blue"><i class="fa-solid fa-file-lines"></i></div>
+          <div class="kpi-details">
+            <div class="kpi-title">Total Pages</div>
+            <div class="kpi-value">42</div>
+            <div class="kpi-trend trend-up"><i class="fa-solid fa-arrow-up"></i> 5.2% <span class="trend-subtext">vs last week</span></div>
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon-box icon-cyan"><i class="fa-solid fa-headset"></i></div>
+          <div class="kpi-details">
+            <div class="kpi-title">Support Tickets</div>
+            <div class="kpi-value">87</div>
+            <div class="kpi-trend trend-down"><i class="fa-solid fa-arrow-down"></i> 3.6% <span class="trend-subtext">vs last week</span></div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Quick Action Modal -->
+  <div class="modal-overlay" id="actionModal">
+    <div class="modal-box">
+      <div class="modal-title-bar">
+        <h3 id="modalTitle">Quick Action</h3>
+        <button class="close-modal" onclick="closeActionModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>

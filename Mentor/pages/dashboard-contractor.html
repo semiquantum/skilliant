@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contractor Dashboard | Skilliant</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+  <div class="dashboard-layout">
+    
+    <!-- SIDEBAR -->
+    <aside class="dash-sidebar">
+      <div class="sidebar-header">
+        <a href="../index.html" class="logo">
+          <div class="logo-icon">S</div>
+          Skilliant<span>.</span>
+        </a>
+      </div>
+
+      <div class="sidebar-menu">
+        <div class="sidebar-label">Contractor Firm Menu</div>
+        <div class="sidebar-item active" data-tab="tab-overview">
+          <span class="icon">🏢</span> Company Overview
+        </div>
+        <div class="sidebar-item" data-tab="tab-team">
+          <span class="icon">👷</span> Manage Team Roster
+        </div>
+        <div class="sidebar-item" data-tab="tab-projects">
+          <span class="icon">🏗️</span> Site Projects
+        </div>
+        <div class="sidebar-item" data-tab="tab-revenue">
+          <span class="icon">📊</span> GST Revenue & Reports
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <a href="login.html" class="sidebar-item" style="color: var(--danger);">
+          <span class="icon">🚪</span> Logout
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN BODY -->
+    <main class="dash-main">
+      <header class="dash-topbar">
+        <div style="font-weight: 700; font-size: 1.1rem; color: var(--primary-700);">
+          Apex Labour Solutions & Contracting (GST: 27AAAAA0000A1Z5)
+        </div>
+
+        <div class="topbar-actions">
+          <button class="theme-toggle">🌙</button>
+          <div class="profile-widget">
+            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80" alt="Vikram Manager" class="profile-avatar">
+            <div>
+              <div style="font-weight: 700; font-size: 0.9rem;">Vikram Buildtech</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Contractor Admin</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="dash-content">
+        <div class="tab-pane active" id="tab-overview">
+          <div class="welcome-banner">
+            <h2>Contractor Control Panel</h2>
+            <p>Your team of 24 labourers is currently assigned to 3 active commercial construction sites.</p>
+          </div>
+
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div>
+                <div class="metric-label">Total Labourers</div>
+                <div class="metric-number">24</div>
+              </div>
+              <div class="metric-icon blue">👷</div>
+            </div>
+            <div class="metric-card">
+              <div>
+                <div class="metric-label">Available Labour</div>
+                <div class="metric-number">18</div>
+              </div>
+              <div class="metric-icon green">🟢</div>
+            </div>
+            <div class="metric-card">
+              <div>
+                <div class="metric-label">Busy on Site</div>
+                <div class="metric-number">6</div>
+              </div>
+              <div class="metric-icon orange">🏗️</div>
+            </div>
+            <div class="metric-card">
+              <div>
+                <div class="metric-label">Monthly Revenue</div>
+                <div class="metric-number">₹1,45,000</div>
+              </div>
+              <div class="metric-icon purple">💰</div>
+            </div>
+          </div>
+
+          <!-- Team Roster Table -->
+          <div class="table-card">
+            <div class="table-header">
+              <h3>Managed Team Roster</h3>
+              <button class="btn btn-accent btn-sm" onclick="openModal('add-labour-modal')">+ Add Labourer</button>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Worker Name</th>
+                    <th>Trade Category</th>
+                    <th>Daily Rate</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="font-weight: 700;">Rajesh Kumar</td>
+                    <td>Electrician</td>
+                    <td>₹2,400/day</td>
+                    <td><span class="status-chip status-accepted">AVAILABLE</span></td>
+                    <td><button class="btn btn-outline btn-sm" onclick="showToast('Assigned to Metro Station Site project', 'info');">Assign Project</button></td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight: 700;">Dinesh Yadav</td>
+                    <td>Painter</td>
+                    <td>₹1,800/day</td>
+                    <td><span class="status-chip status-completed">BUSY ON SITE</span></td>
+                    <td><button class="btn btn-outline btn-sm">View Profile</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ADD LABOUR MODAL POPUP -->
+  <div class="modal-overlay" id="add-labour-modal">
+    <div class="modal-content">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h3>Add Skilled Worker to Team Roster</h3>
+        <button onclick="closeModal('add-labour-modal')" style="background: none; font-size: 1.5rem; cursor: pointer;">✕</button>
+      </div>
+      <form onsubmit="event.preventDefault(); showToast('New labourer added to contractor team roster!', 'success'); closeModal('add-labour-modal');">
+        <div style="margin-bottom: 1rem;">
+          <label style="font-size: 0.85rem; font-weight: 700;">Worker Full Name</label>
+          <input type="text" placeholder="e.g. Ramesh Mali" required style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-main);">
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <label style="font-size: 0.85rem; font-weight: 700;">Category</label>
+          <select style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-main);">
+            <option>Mason</option>
+            <option>Welder</option>
+            <option>Carpenter</option>
+            <option>Electrician</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Add Worker</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="../js/theme.js"></script>
+  <script src="../js/toast.js"></script>
+  <script src="../js/modal.js"></script>
+  <script src="../js/dashboard.js"></script>
+</body>
+</html>

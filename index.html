@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skilliant | Branch Directory Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  
+  <style>
+    :root {
+      --bg-dark: #0f172a;
+      --bg-card: rgba(30, 41, 59, 0.7);
+      --bg-card-hover: rgba(30, 41, 59, 0.9);
+      --border-color: rgba(255, 255, 255, 0.1);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-primary: #3b82f6;
+      --accent-secondary: #f97316;
+      --accent-purple: #8b5cf6;
+      --accent-emerald: #10b981;
+      --accent-rose: #f43f5e;
+      --glass-blur: blur(16px);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient Background Animated Blobs */
+    .blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.25;
+      z-index: 0;
+      pointer-events: none;
+      animation: float 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .blob-1 { top: -10%; left: -10%; width: 500px; height: 500px; background: #3b82f6; }
+    .blob-2 { bottom: -10%; right: -10%; width: 600px; height: 600px; background: #f97316; animation-delay: -5s; }
+    .blob-3 { top: 40%; left: 35%; width: 450px; height: 450px; background: #8b5cf6; animation-delay: -10s; }
+
+    @keyframes float {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(40px, 30px) scale(1.08); }
+      100% { transform: translate(-30px, 50px) scale(0.95); }
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header Styling */
+    header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+      position: relative;
+    }
+
+    .brand-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      padding: 0.4rem 1.2rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #60a5fa;
+      margin-bottom: 1.25rem;
+      backdrop-filter: var(--glass-blur);
+    }
+
+    h1 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
+
+    p.subtitle {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+      max-width: 650px;
+      margin: 0 auto 2rem;
+      line-height: 1.6;
+    }
+
+    /* Filter & Search Bar */
+    .search-wrapper {
+      max-width: 500px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border-color);
+      padding: 0.9rem 1.25rem 0.9rem 3rem;
+      border-radius: 1rem;
+      color: #fff;
+      font-size: 0.95rem;
+      backdrop-filter: var(--glass-blur);
+      transition: var(--transition);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.25);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1.1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    /* Grid Layout */
+    .branch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 1.75rem;
+    }
+
+    /* Card Component */
+    .branch-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 1.25rem;
+      padding: 1.75rem;
+      backdrop-filter: var(--glass-blur);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .branch-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-purple));
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .branch-card:hover {
+      transform: translateY(-5px);
+      background: var(--bg-card-hover);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.5);
+    }
+
+    .branch-card:hover::before {
+      opacity: 1;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.25rem;
+    }
+
+    .branch-title-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .branch-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+
+    .branch-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .status-badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .badge-primary { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+    .badge-emerald { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-purple { background: rgba(139, 92, 246, 0.15); color: #a78bfa; border: 1px solid rgba(139, 92, 246, 0.3); }
+    .badge-orange { background: rgba(249, 115, 22, 0.15); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.3); }
+
+    .card-description {
+      color: var(--text-muted);
+      font-size: 0.925rem;
+      line-height: 1.55;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Sub-links List */
+    .links-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #64748b;
+      margin-bottom: 0.75rem;
+    }
+
+    .entry-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .entry-chip {
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #cbd5e1;
+      padding: 0.35rem 0.75rem;
+      border-radius: 0.5rem;
+      font-size: 0.825rem;
+      text-decoration: none;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .entry-chip:hover {
+      background: rgba(59, 130, 246, 0.2);
+      border-color: rgba(59, 130, 246, 0.4);
+      color: #fff;
+    }
+
+    /* Card Action Footer */
+    .card-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem;
+      border-radius: 0.75rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #1d4ed8, #2563eb);
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: #e2e8f0;
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    /* Preview Iframe Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+    }
+
+    .modal-backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      width: 100%;
+      max-width: 1200px;
+      height: 90vh;
+      background: #0f172a;
+      border: 1px solid var(--border-color);
+      border-radius: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      transform: scale(0.95);
+      transition: var(--transition);
+    }
+
+    .modal-backdrop.active .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      padding: 1rem 1.5rem;
+      background: rgba(30, 41, 59, 0.8);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.25rem;
+      cursor: pointer;
+      padding: 0.25rem;
+      border-radius: 0.5rem;
+      transition: var(--transition);
+    }
+
+    .modal-close:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .iframe-container {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 3rem 0 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    @media (max-width: 640px) {
+      h1 { font-size: 2.25rem; }
+      .branch-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Blobs -->
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <div class="container">
+    <header>
+      <div class="brand-tag">
+        <i class="fa-solid fa-code-branch"></i> GitHub Workspace Directory
+      </div>
+      <h1>Skilliant Branch Explorer</h1>
+      <p class="subtitle">Select any pulled branch below to open and inspect its complete original source code and live output without modifications.</p>
+
+      <div style="margin-bottom: 2rem; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+        <a href="./Mentor/superadmin/login.html" target="_blank" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: #fff; text-decoration: none; padding: 0.7rem 1.4rem; border-radius: 9999px; font-weight: 700; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 0.6rem; box-shadow: 0 4px 14px rgba(139, 92, 246, 0.4);">
+          <i class="fa-solid fa-bolt"></i> Open Superadmin Portal (Mentor/superadmin)
+        </a>
+      </div>
+
+      <div class="search-wrapper">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search branches or components (e.g., admin, contractor, auth)...">
+      </div>
+    </header>
+
+    <div class="branch-grid" id="branchGrid">
+      
+      <!-- 1. Main Branch -->
+      <div class="branch-card" data-branch="main">
+        <div>
+          <div class="card-header">
+            <div class="branch-title-group">
+              <div class="branch-icon" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">
+                <i class="fa-solid fa-code-merge"></i>
+              </div>
+              <div class="branch-name">main</div>
+            </div>
+            <span class="status-badge badge-emerald">Consolidated</span>
+          </div>
+          <p class="card-description">Primary unified codebase containing the fully merged landing site, Auth, Admin dashboard, Contractor dashboard, and User portal.</p>
+          
+          <div class="links-title">Available Entry Pages</div>
+          <div class="entry-list">
+            <a href="./branches/main/index.html" class="entry-chip"><i class="fa-solid fa-house"></i> Landing Page</a>
+            <a href="./branches/main/skilliant-admin/index.html" class="entry-chip"><i class="fa-solid fa-user-shield"></i> Admin Portal</a>
+            <a href="./branches/main/skilliant-contractor-dashboard/index.html" class="entry-chip"><i class="fa-solid fa-helmet-safety"></i> Contractor Portal</a>
+            <a href="./branches/main/user/index.html" class="entry-chip"><i class="fa-solid fa-user"></i> User Portal</a>
+            <a href="./branches/main/auth/login.html" class="entry-chip"><i class="fa-solid fa-right-to-bracket"></i> Auth System</a>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-secondary" onclick="openPreview('./branches/main/index.html', 'main Branch - Consolidated Workspace')"><i class="fa-solid fa-eye"></i> Quick View</button>
+          <a href="./branches/main/index.html" class="btn btn-primary"><i class="fa-solid fa-up-right-from-square"></i> Open Branch</a>
+        </div>
+      </div>
+
+      <!-- 2. Khushil Branch -->
+      <div class="branch-card" data-branch="khushil">
+        <div>
+          <div class="card-header">
+            <div class="branch-title-group">
+              <div class="branch-icon" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa;">
+                <i class="fa-solid fa-layer-group"></i>
+              </div>
+              <div class="branch-name">Khushil</div>
+            </div>
+            <span class="status-badge badge-primary">Landing & Auth</span>
+          </div>
+          <p class="card-description">Root public site features including responsive home landing page, about, services, pricing, blog, contact, and full authentication views.</p>
+          
+          <div class="links-title">Available Entry Pages</div>
+          <div class="entry-list">
+            <a href="./branches/Khushil/index.html" class="entry-chip"><i class="fa-solid fa-house"></i> Home Page</a>
+            <a href="./branches/Khushil/auth/login.html" class="entry-chip"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+            <a href="./branches/Khushil/auth/register.html" class="entry-chip"><i class="fa-solid fa-user-plus"></i> Register</a>
+            <a href="./branches/Khushil/services.html" class="entry-chip"><i class="fa-solid fa-briefcase"></i> Services</a>
+            <a href="./branches/Khushil/pricing.html" class="entry-chip"><i class="fa-solid fa-tags"></i> Pricing</a>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-secondary" onclick="openPreview('./branches/Khushil/index.html', 'Khushil Branch - Public & Auth')"><i class="fa-solid fa-eye"></i> Quick View</button>
+          <a href="./branches/Khushil/index.html" class="btn btn-primary"><i class="fa-solid fa-up-right-from-square"></i> Open Branch</a>
+        </div>
+      </div>
+
+      <!-- 3. meet Branch -->
+      <div class="branch-card" data-branch="meet">
+        <div>
+          <div class="card-header">
+            <div class="branch-title-group">
+              <div class="branch-icon" style="background: rgba(139, 92, 246, 0.15); color: #a78bfa;">
+                <i class="fa-solid fa-user-shield"></i>
+              </div>
+              <div class="branch-name">meet</div>
+            </div>
+            <span class="status-badge badge-purple">Admin Portal</span>
+          </div>
+          <p class="card-description">Comprehensive Admin Portal UI & analytics dashboard including user management, booking logs, revenue, roles, and security settings.</p>
+          
+          <div class="links-title">Available Entry Pages</div>
+          <div class="entry-list">
+            <a href="./branches/meet/skilliant-admin/index.html" class="entry-chip"><i class="fa-solid fa-gauge-high"></i> Admin Dashboard</a>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-secondary" onclick="openPreview('./branches/meet/skilliant-admin/index.html', 'meet Branch - Admin Portal')"><i class="fa-solid fa-eye"></i> Quick View</button>
+          <a href="./branches/meet/skilliant-admin/index.html" class="btn btn-primary"><i class="fa-solid fa-up-right-from-square"></i> Open Branch</a>
+        </div>
+      </div>
+
+      <!-- 4. shruti Branch -->
+      <div class="branch-card" data-branch="shruti">
+        <div>
+          <div class="card-header">
+            <div class="branch-title-group">
+              <div class="branch-icon" style="background: rgba(249, 115, 22, 0.15); color: #fb923c;">
+                <i class="fa-solid fa-helmet-safety"></i>
+              </div>
+              <div class="branch-name">shruti</div>
+            </div>
+            <span class="status-badge badge-orange">Contractor Multi-Page</span>
+          </div>
+          <p class="card-description">Modular Contractor Dashboard app featuring company profiles, team rosters, site project management, and wallet management screens.</p>
+          
+          <div class="links-title">Available Entry Pages</div>
+          <div class="entry-list">
+            <a href="./branches/shruti/skilliant-contractor-dashboard/index.html" class="entry-chip"><i class="fa-solid fa-gauge"></i> Main Dashboard</a>
+            <a href="./branches/shruti/skilliant-contractor-dashboard/company.html" class="entry-chip"><i class="fa-solid fa-building"></i> Company</a>
+            <a href="./branches/shruti/skilliant-contractor-dashboard/labour.html" class="entry-chip"><i class="fa-solid fa-users"></i> Labour Roster</a>
+            <a href="./branches/shruti/skilliant-contractor-dashboard/projects.html" class="entry-chip"><i class="fa-solid fa-list-check"></i> Projects</a>
+            <a href="./branches/shruti/skilliant-contractor-dashboard/wallet.html" class="entry-chip"><i class="fa-solid fa-wallet"></i> Wallet</a>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-secondary" onclick="openPreview('./branches/shruti/skilliant-contractor-dashboard/index.html', 'shruti Branch - Contractor Portal')"><i class="fa-solid fa-eye"></i> Quick View</button>
+          <a href="./branches/shruti/skilliant-contractor-dashboard/index.html" class="btn btn-primary"><i class="fa-solid fa-up-right-from-square"></i> Open Branch</a>
+        </div>
+      </div>
+
+      <!-- 5. shreeya Branch -->
+      <div class="branch-card" data-branch="shreeya">
+        <div>
+          <div class="card-header">
+            <div class="branch-title-group">
+              <div class="branch-icon" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa;">
+                <i class="fa-solid fa-user-gear"></i>
+              </div>
+              <div class="branch-name">shreeya</div>
+            </div>
+            <span class="status-badge badge-primary">User Portal</span>
+          </div>
+          <p class="card-description">Dedicated User Portal application with modular JS components, active job bookings, and customer workflow features.</p>
+          
+          <div class="links-title">Available Entry Pages</div>
+          <div class="entry-list">
+            <a href="./branches/shreeya/user/index.html" class="entry-chip"><i class="fa-solid fa-user"></i> User Dashboard</a>
+            <a href="./branches/shreeya/user-portal/index.html" class="entry-chip"><i class="fa-solid fa-folder-open"></i> User Portal (Legacy)</a>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-secondary" onclick="openPreview('./branches/shreeya/user/index.html', 'shreeya Branch - User Portal')"><i class="fa-solid fa-eye"></i> Quick View</button>
+          <a href="./branches/shreeya/user/index.html" class="btn btn-primary"><i class="fa-solid fa-up-right-from-square"></i> Open Branch</a>
+        </div>
+      </div>
+
+      <!-- 6. amisha Branch -->
+      <div class="branch-card" data-branch="amisha">
+        <div>
+          <div class="card-header">
+            <div class="branch-title-group">
+              <div class="branch-icon" style="background: rgba(244, 63, 94, 0.15); color: #fb7185;">
+                <i class="fa-solid fa-person-digging"></i>
+              </div>
+              <div class="branch-name">amisha</div>
+            </div>
+            <span class="status-badge badge-orange">Labour & Contractor</span>
+          </div>
+          <p class="card-description">Single-page Labour & Contractor dashboard layout along with initial user portal modules.</p>
+          
+          <div class="links-title">Available Entry Pages</div>
+          <div class="entry-list">
+            <a href="./branches/amisha/skilliant-contractor-dashboard/index.html" class="entry-chip"><i class="fa-solid fa-toolbox"></i> Labour Portal</a>
+            <a href="./branches/amisha/user-portal/index.html" class="entry-chip"><i class="fa-solid fa-user"></i> User Portal</a>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-secondary" onclick="openPreview('./branches/amisha/skilliant-contractor-dashboard/index.html', 'amisha Branch - Labour Portal')"><i class="fa-solid fa-eye"></i> Quick View</button>
+          <a href="./branches/amisha/skilliant-contractor-dashboard/index.html" class="btn btn-primary"><i class="fa-solid fa-up-right-from-square"></i> Open Branch</a>
+        </div>
+      </div>
+
+    </div>
+
+    <footer>
+      <p>⚡ Skilliant Platform Multi-Branch Explorer • Original branch source code strictly preserved inside dedicated directories.</p>
+    </footer>
+  </div>
+
+  <!-- Interactive Preview Modal -->
+  <div class="modal-backdrop" id="previewModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title" id="modalTitle">
+          <i class="fa-solid fa-window-maximize"></i> Branch Live Preview
+        </div>
+        <button class="modal-close" onclick="closePreview()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="iframe-container">
+        <iframe id="previewFrame" src="about:blank"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Search / Filter logic
+    const searchInput = document.getElementById('searchInput');
+    const cards = document.querySelectorAll('.branch-card');
+
+    searchInput.addEventListener('input', (e) => {
+      const term = e.target.value.toLowerCase().trim();
+      cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        if (text.includes(term)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+
+    // Preview Modal logic
+    const modal = document.getElementById('previewModal');
+    const iframe = document.getElementById('previewFrame');
+    const modalTitle = document.getElementById('modalTitle');
+
+    function openPreview(url, title) {
+      iframe.src = url;
+      modalTitle.innerHTML = `<i class="fa-solid fa-window-maximize"></i> ${title}`;
+      modal.classList.add('active');
+    }
+
+    function closePreview() {
+      modal.classList.remove('active');
+      iframe.src = 'about:blank';
+    }
+
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        closePreview();
+      }
+    });
+  </script>
+</body>
+</html>

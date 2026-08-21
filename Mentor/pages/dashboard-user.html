@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard | Skilliant</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+  <div class="dashboard-layout">
+    
+    <!-- SIDEBAR -->
+    <aside class="dash-sidebar">
+      <div class="sidebar-header">
+        <a href="../index.html" class="logo">
+          <div class="logo-icon">S</div>
+          Skilliant<span>.</span>
+        </a>
+      </div>
+
+      <div class="sidebar-menu">
+        <div class="sidebar-label">User Navigation</div>
+        <div class="sidebar-item active" data-tab="tab-overview">
+          <span class="icon">📊</span> Overview
+        </div>
+        <div class="sidebar-item" data-tab="tab-bookings">
+          <span class="icon">📅</span> My Bookings
+        </div>
+        <div class="sidebar-item" data-tab="tab-wallet">
+          <span class="icon">💳</span> Wallet & Payments
+        </div>
+        <div class="sidebar-item" data-tab="tab-profile">
+          <span class="icon">👤</span> My Profile
+        </div>
+        <div class="sidebar-item" data-tab="tab-settings">
+          <span class="icon">⚙️</span> Settings
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <a href="login.html" class="sidebar-item" style="color: var(--danger);">
+          <span class="icon">🚪</span> Logout
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN BODY -->
+    <main class="dash-main">
+      
+      <!-- TOPBAR -->
+      <header class="dash-topbar">
+        <div class="topbar-search">
+          <span>🔍</span>
+          <input type="text" placeholder="Search my bookings, workers...">
+        </div>
+
+        <div class="topbar-actions">
+          <button class="theme-toggle">🌙</button>
+          <div class="profile-widget">
+            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80" alt="Rahul Sharma" class="profile-avatar">
+            <div>
+              <div style="font-weight: 700; font-size: 0.9rem;">Rahul Sharma</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Client User</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- CONTENT -->
+      <div class="dash-content">
+        
+        <!-- TAB 1: OVERVIEW -->
+        <div class="tab-pane active" id="tab-overview">
+          <div class="welcome-banner">
+            <h2>Welcome back, Rahul! 👋</h2>
+            <p>You have 1 active electrician booking scheduled for today.</p>
+          </div>
+
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div>
+                <div class="metric-label">Active Bookings</div>
+                <div class="metric-number">1</div>
+              </div>
+              <div class="metric-icon blue">📅</div>
+            </div>
+            <div class="metric-card">
+              <div>
+                <div class="metric-label">Wallet Balance</div>
+                <div class="metric-number" id="wallet-balance">₹5,000</div>
+              </div>
+              <div class="metric-icon green">💳</div>
+            </div>
+            <div class="metric-card">
+              <div>
+                <div class="metric-label">Completed Jobs</div>
+                <div class="metric-number">4</div>
+              </div>
+              <div class="metric-icon orange">✅</div>
+            </div>
+            <div class="metric-card">
+              <div>
+                <div class="metric-label">Total Spent</div>
+                <div class="metric-number">₹3,450</div>
+              </div>
+              <div class="metric-icon purple">💰</div>
+            </div>
+          </div>
+
+          <!-- Active Bookings Table -->
+          <div class="table-card">
+            <div class="table-header">
+              <h3 style="font-size: 1.15rem; font-weight: 700;">Active & Upcoming Bookings</h3>
+              <a href="find-labour.html" class="btn btn-accent btn-sm">+ Book New Labour</a>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Booking Code</th>
+                    <th>Worker</th>
+                    <th>Category</th>
+                    <th>Date & Time</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="font-weight: 700;">SK-2026-1001</td>
+                    <td>Rajesh Kumar</td>
+                    <td>Electrician</td>
+                    <td>Today • 10:00 AM</td>
+                    <td style="font-weight: 700;">₹1,400</td>
+                    <td><span class="status-chip status-accepted">ACCEPTED</span></td>
+                    <td>
+                      <button class="btn btn-outline btn-sm" onclick="showToast('Worker location map tracking opened!', 'info');">Track Live</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight: 700;">SK-2026-1003</td>
+                    <td>Amit Patel</td>
+                    <td>Plumber</td>
+                    <td>Aug 10 • 02:00 PM</td>
+                    <td style="font-weight: 700;">₹600</td>
+                    <td><span class="status-chip status-pending">PENDING</span></td>
+                    <td>
+                      <button class="btn btn-outline btn-sm" onclick="showToast('Booking cancelled and wallet refunded.', 'warning');">Cancel</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: BOOKINGS -->
+        <div class="tab-pane" id="tab-bookings">
+          <div class="table-card">
+            <div class="table-header">
+              <h3 style="font-size: 1.15rem; font-weight: 700;">Complete Booking History</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Worker</th>
+                    <th>Service</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Receipt</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>SK-2026-1002</td>
+                    <td>Rajesh Kumar</td>
+                    <td>Leak Repair</td>
+                    <td>Aug 01, 2026</td>
+                    <td>₹600</td>
+                    <td><span class="status-chip status-completed">COMPLETED</span></td>
+                    <td><button class="btn btn-outline btn-sm" onclick="showToast('Downloading PDF Tax Invoice...', 'success');">Invoice PDF 📄</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: WALLET -->
+        <div class="tab-pane" id="tab-wallet">
+          <div class="glass-card" style="padding: 2rem; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-size: 0.9rem; color: var(--text-muted);">Current Wallet Balance</div>
+              <div style="font-size: 2.5rem; font-weight: 800; color: var(--primary-700);">₹5,000.00</div>
+            </div>
+            <button class="btn btn-accent btn-deposit">+ Deposit Funds</button>
+          </div>
+
+          <div class="table-card">
+            <div class="table-header">
+              <h3>Recent Wallet Transactions</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Reference</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>REF-883920</td>
+                    <td><span style="color: var(--danger); font-weight: 700;">DEBIT</span></td>
+                    <td>Payment for Plumbing Booking SK-2026-1002</td>
+                    <td style="font-weight: 700;">- ₹600.00</td>
+                    <td>Aug 01, 2026</td>
+                  </tr>
+                  <tr>
+                    <td>REF-100492</td>
+                    <td><span style="color: var(--success); font-weight: 700;">CREDIT</span></td>
+                    <td>UPI Wallet Deposit</td>
+                    <td style="font-weight: 700; color: var(--success);">+ ₹2,000.00</td>
+                    <td>Jul 28, 2026</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 4: PROFILE -->
+        <div class="tab-pane" id="tab-profile">
+          <div class="glass-card" style="padding: 2.5rem; max-width: 600px;">
+            <h3>User Profile Details</h3>
+            <form onsubmit="event.preventDefault(); showToast('Profile updated successfully!', 'success');" style="margin-top: 1.5rem;">
+              <div style="margin-bottom: 1rem;">
+                <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">Full Name</label>
+                <input type="text" value="Rahul Sharma" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main);">
+              </div>
+              <div style="margin-bottom: 1rem;">
+                <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">Email Address</label>
+                <input type="email" value="user@skilliant.com" readonly style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-muted);">
+              </div>
+              <button type="submit" class="btn btn-primary">Save Profile Changes</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- TAB 5: SETTINGS -->
+        <div class="tab-pane" id="tab-settings">
+          <div class="glass-card" style="padding: 2.5rem; max-width: 600px;">
+            <h3>Account Settings</h3>
+            <div style="margin-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem;">
+              <div>
+                <div style="font-weight: 700;">Theme Preference</div>
+                <div style="font-size: 0.85rem; color: var(--text-muted);">Toggle dark mode theme across website</div>
+              </div>
+              <button class="theme-toggle">🌙</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/theme.js"></script>
+  <script src="../js/toast.js"></script>
+  <script src="../js/modal.js"></script>
+  <script src="../js/dashboard.js"></script>
+</body>
+</html>

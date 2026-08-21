@@ -1,0 +1,60 @@
+/* Skilliant Superadmin Design System Tokens */
+:root {
+  /* Color System */
+  --bg-body: #0b0f19;
+  --bg-sidebar: #0e1424;
+  --bg-card: #131c31;
+  --bg-card-hover: #18233d;
+  --bg-input: #182238;
+  --bg-modal: #111827;
+  
+  --border-color: rgba(255, 255, 255, 0.07);
+  --border-focus: rgba(139, 92, 246, 0.5);
+  
+  /* Brand Accents */
+  --primary: #8b5cf6;
+  --primary-hover: #7c3aed;
+  --primary-glow: rgba(139, 92, 246, 0.35);
+  --primary-gradient: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
+  
+  /* Functional Colors */
+  --blue: #3b82f6;
+  --green: #10b981;
+  --orange: #f97316;
+  --pink: #ec4899;
+  --amber: #f59e0b;
+  --cyan: #06b6d4;
+  --red: #ef4444;
+  
+  /* Text System */
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  
+  /* Shadows & Glass */
+  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 25px rgba(139, 92, 246, 0.25);
+  --glass-blur: blur(16px);
+  
+  /* Transitions & Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark/Light Mode Overrides (if toggled) */
+body.light-theme {
+  --bg-body: #f1f5f9;
+  --bg-sidebar: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f8fafc;
+  --bg-input: #f1f5f9;
+  --border-color: #e2e8f0;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --text-dim: #94a3b8;
+}
