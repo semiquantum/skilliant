@@ -1,0 +1,212 @@
+/* =====================================================
+   STYLE — Utility Classes & Global Helpers
+   ===================================================== */
+@import url('variables.css');
+@import url('reset.css');
+@import url('layout.css');
+@import url('components.css');
+@import url('animations.css');
+@import url('auth.css');
+
+/* ── Flex Utilities ── */
+.flex       { display: flex; }
+.flex-col   { flex-direction: column; }
+.flex-1     { flex: 1; }
+.flex-wrap  { flex-wrap: wrap; }
+.items-center   { align-items: center; }
+.items-start    { align-items: flex-start; }
+.justify-between{ justify-content: space-between; }
+.justify-end    { justify-content: flex-end; }
+.justify-center { justify-content: center; }
+
+/* ── Gap Utilities ── */
+.gap-1  { gap: 0.25rem; }
+.gap-2  { gap: 0.5rem; }
+.gap-3  { gap: 0.75rem; }
+.gap-4  { gap: 1rem; }
+.gap-6  { gap: 1.5rem; }
+
+/* ── Margin Utilities ── */
+.mt-2  { margin-top: 0.5rem; }
+.mt-4  { margin-top: 1rem; }
+.mt-6  { margin-top: 1.5rem; }
+.mb-2  { margin-bottom: 0.5rem; }
+.mb-4  { margin-bottom: 1rem; }
+.mb-6  { margin-bottom: 1.5rem; }
+.mb-8  { margin-bottom: 2rem; }
+.mr-2  { margin-right: 0.5rem; }
+
+/* ── Text Utilities ── */
+.text-center { text-align: center; }
+.text-right  { text-align: right; }
+.text-left   { text-align: left; }
+
+.font-bold   { font-weight: 700; }
+.font-semibold { font-weight: 600; }
+.font-medium { font-weight: 500; }
+
+.text-sm     { font-size: 0.8rem; }
+.text-xs     { font-size: 0.72rem; }
+.text-base   { font-size: 0.875rem; }
+.text-lg     { font-size: 1.1rem; }
+.text-xl     { font-size: 1.3rem; }
+
+.text-primary    { color: var(--primary-blue); }
+.text-navy       { color: var(--primary-navy); }
+.text-orange     { color: var(--accent-orange); }
+.text-gold       { color: var(--accent-gold); }
+.text-success    { color: var(--success); }
+.text-danger     { color: var(--danger); }
+.text-warning    { color: var(--warning); }
+.text-muted      { color: var(--text-muted); }
+.text-white      { color: #FFFFFF; }
+
+/* ── Display Utilities ── */
+.hidden      { display: none !important; }
+.block       { display: block; }
+.inline-flex { display: inline-flex; }
+
+/* ── Width ── */
+.w-full { width: 100%; }
+
+/* ── Overflow ── */
+.overflow-hidden { overflow: hidden; }
+.truncate { 
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+}
+
+/* ── Chart Container ── */
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 300px;
+}
+
+.chart-container-lg { height: 380px; }
+.chart-container-sm { height: 220px; }
+
+/* ── Section Title ── */
+.section-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--primary-navy);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.section-title i { color: var(--primary-blue); font-size: 0.95rem; }
+
+/* ── Two-column grid helpers ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+
+@media (max-width: 768px) {
+    .grid-2 { grid-template-columns: 1fr; }
+    .grid-3 { grid-template-columns: 1fr; }
+}
+
+/* ── Print Utility ── */
+@media print {
+    .sidebar, .header, .toast-container { display: none !important; }
+    .main-wrapper { margin-left: 0; width: 100%; }
+    .main-content { padding: 0; }
+}
+
+
+/* Golden Luxury Theme — visual polish only */
+:root {
+    color-scheme: light;
+}
+[data-theme="dark"] {
+    color-scheme: dark;
+}
+body {
+    background: var(--bg-body);
+    color: var(--text-main);
+}
+::selection {
+    background: rgba(197, 168, 128, 0.28);
+    color: var(--text-main);
+}
+.btn-primary,
+.btn-gold {
+    background: linear-gradient(135deg, #C5A880 0%, #8E6F3E 100%);
+    color: #FFFFFF;
+}
+.btn-primary:hover,
+.btn-gold:hover {
+    background: linear-gradient(135deg, #DBC193 0%, #8E6F3E 100%);
+}
+
+
+/* ===== Global Gold + Black / White Theme Override ===== */
+html, body {
+    background: var(--bg-body);
+    color: var(--text-main);
+}
+::selection {
+    background: rgba(197, 160, 89, 0.28);
+    color: var(--text-main);
+}
+[data-theme="dark"] body,
+[data-theme="dark"] main,
+[data-theme="dark"] .main-content,
+[data-theme="dark"] .content {
+    background: #000000;
+    color: #F5F5F5;
+}
+.btn-primary,
+.btn-gold,
+button.primary,
+button.btn-primary {
+    background: linear-gradient(135deg, #C5A059, #8E6F3E);
+    border-color: #C5A059;
+    color: #FFFFFF;
+}
+.btn-primary:hover,
+.btn-gold:hover,
+button.primary:hover,
+button.btn-primary:hover {
+    background: linear-gradient(135deg, #D8B96A, #A9823B);
+}
+[data-theme="dark"] .card,
+[data-theme="dark"] .panel,
+[data-theme="dark"] .table-container,
+[data-theme="dark"] .modal-content {
+    background-color: #111111;
+}
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+    background-color: #0A0A0A;
+    color: #F5F5F5;
+    border-color: #292929;
+}
+
+
+/* ===== Operations modules: responsive and usable admin controls ===== */
+.table-actions{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}.table-description{margin-top:.25rem;color:var(--text-muted);font-size:.8rem;line-height:1.45;max-width:360px;white-space:normal;overflow-wrap:anywhere}.page-actions{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:flex-end}.form-stack{display:grid;gap:1rem}.form-grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.form-grid-full{grid-column:1/-1}.detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}.detail-grid>div{padding:.85rem;border:1px solid var(--border-color);border-radius:10px;background:var(--bg-card,rgba(255,255,255,.6))}.detail-grid span,.detail-label{display:block;color:var(--text-muted);font-size:.75rem;margin-bottom:.25rem}.detail-section{margin-top:1rem}.detail-section p{margin:.4rem 0 0;line-height:1.6;color:var(--text-main)}.workflow-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.65rem;margin-top:.6rem}.workflow-step{display:grid;gap:.35rem;padding:.75rem;border:1px solid var(--border-color);border-radius:10px;color:var(--text-muted);font-size:.8rem}.workflow-step span{width:28px;height:28px;display:grid;place-items:center;border-radius:50%;background:var(--bg-body);border:1px solid var(--border-color);font-weight:700}.workflow-step.is-done{border-color:rgba(197,160,89,.55);color:var(--text-main)}.workflow-step.is-done span{background:#C5A059;color:#fff;border-color:#C5A059}
+@media(max-width:900px){.form-grid-2,.detail-grid{grid-template-columns:1fr}.workflow-list{grid-template-columns:repeat(2,minmax(0,1fr))}.page-actions{justify-content:flex-start}}
+@media(max-width:640px){.main-content{padding:.85rem .75rem}.page-header{align-items:flex-start;flex-direction:column}.page-actions{width:100%;justify-content:flex-start}.page-actions .btn{flex:1 1 140px}.controls-bar{padding:.8rem!important}.controls-bar .header-search{max-width:none!important;width:100%}.controls-bar .filter-group{width:100%;flex-wrap:wrap}.controls-bar .filter-group>div[style*="border-left"]{border-left:0!important;border-top:1px solid var(--border-color);padding-left:0!important;padding-top:.65rem;width:100%}.table-responsive{width:100%;max-width:100%}.data-table{min-width:900px}.table-actions{min-width:240px}.workflow-list{grid-template-columns:1fr}.modal-content{width:calc(100vw - 1.5rem);max-width:none;max-height:90vh;overflow:auto}}
+
+/* Frontend-only responsive hardening */
+@media (max-width: 768px) {
+  .page-actions { flex-wrap: wrap; }
+  .page-actions .btn { min-width: 120px; }
+  .modal-content { max-height: 88vh; overflow-y: auto; }
+  .form-grid-2, .form-grid-3 { grid-template-columns: 1fr !important; }
+  .table-responsive { -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+  .data-table { min-width: 760px; }
+}
+@media (max-width: 480px) {
+  .page-actions .btn { width: 100%; }
+  .modal-content { width: calc(100vw - 1rem); }
+  .data-table { min-width: 700px; }
+}
+.password-field { position: relative; }
+.password-field .form-control { padding-right: 2.75rem; }
+.password-field .password-toggle { position: absolute; right: .45rem; top: 50%; transform: translateY(-50%); }

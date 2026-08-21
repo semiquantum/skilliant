@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skilliant – Online Labour Finding Platform | Admin Portal</title>
+    <meta name="description" content="Skilliant Admin Portal – Manage Users, Labourers, Contractors, Bookings, Payments, Wallets, Analytics, and Platform Settings.">
+    <meta name="robots" content="noindex, nofollow">
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="icon" href="assets/skilliant-logo.svg" type="image/svg+xml">
+</head>
+<body><a class="skip-link" href="#mainContent">Skip to main content</a>
+
+    <!-- ╔════════════════════════════════════╗ -->
+    <!-- ║         LOGIN / AUTH SCREEN        ║ -->
+    <!-- ╚════════════════════════════════════╝ -->
+    <div class="login-container" id="loginContainer" style="display: none;">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fa-solid fa-hammer"></i>
+                    </div>
+                    <span class="logo-text">Skilliant</span>
+                    <span class="logo-badge">Admin</span>
+                </div>
+                <h2>Welcome Back</h2>
+                <p>Sign in to manage the platform</p>
+            </div>
+            <form id="loginForm" class="login-form" novalidate>
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <div class="input-with-icon">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input
+                            type="email"
+                            id="loginEmail"
+                            name="email"
+                            placeholder="Enter your email"
+                            autocomplete="email"
+                            required
+                            aria-required="true"
+                            aria-label="Email Address"
+                        >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <div class="input-with-icon">
+                        <i class="fa-solid fa-lock"></i>
+                        <input
+                            type="password"
+                            id="loginPassword"
+                            name="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                            aria-required="true"
+                            aria-label="Password"
+                        >
+                        <button type="button" class="password-toggle" id="togglePassword" aria-label="Show password" aria-pressed="false">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="login-options">
+                    <label class="remember-me">
+                        <input type="checkbox" id="rememberMe" name="rememberMe">
+                        <span>Remember Me</span>
+                    </label>
+                    <a href="#" class="forgot-password" id="forgotPasswordLink">Forgot Password?</a>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" id="loginSubmitBtn">
+                    <span class="btn-text">Sign In</span>
+                    <i class="fa-solid fa-circle-notch fa-spin btn-loader" style="display: none;" aria-hidden="true"></i>
+                </button>
+                <p class="login-footer-note">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    Secured by Skilliant Platform Auth
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- ╔════════════════════════════════════╗ -->
+    <!-- ║        MAIN APPLICATION SHELL      ║ -->
+    <!-- ╚════════════════════════════════════╝ -->
+    <div class="app-container" id="appContainer">
+
+        <!-- Mobile Sidebar Overlay -->
+        <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
+
+        <!-- ── Sidebar Navigation ── -->
+        <aside class="sidebar" id="sidebar" role="navigation" aria-label="Main Navigation">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon" aria-hidden="true" style="background:transparent;box-shadow:none;">
+                        <img src="assets/skilliant-logo.svg" alt="Skilliant Admin Portal" style="width:42px;height:42px;display:block;">
+                    </div>
+                    <span class="logo-text">Skilliant</span>
+                    <span class="logo-badge" id="sidebarRoleBadge">Super Admin</span>
+                </div>
+                <button class="sidebar-close" id="sidebarClose" aria-label="Close sidebar">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav" id="sidebarNav" aria-label="Admin Navigation">
+                <!-- Overview -->
+                <div class="nav-section">
+                    <span class="nav-section-title">Overview</span>
+                    <a href="#dashboard" class="nav-item active" data-page="dashboard" role="menuitem">
+                        <i class="fa-solid fa-table-columns" aria-hidden="true"></i>
+                        <span class="nav-text">Dashboard</span>
+                    </a>
+                </div>
+
+                <!-- Management (Primary Day 3 Modules) -->
+                <div class="nav-section">
+                    <span class="nav-section-title">Management</span>
+                    <a href="#users" class="nav-item" data-page="users" role="menuitem">
+                        <i class="fa-solid fa-users" aria-hidden="true"></i>
+                        <span class="nav-text">Users</span>
+                    </a>
+                    <a href="#labour" class="nav-item" data-page="labour" role="menuitem">
+                        <i class="fa-solid fa-helmet-safety" aria-hidden="true"></i>
+                        <span class="nav-text">Labourers</span>
+                    </a>
+                    <a href="#contractors" class="nav-item" data-page="contractors" role="menuitem">
+                        <i class="fa-solid fa-building" aria-hidden="true"></i>
+                        <span class="nav-text">Contractors</span>
+                    </a>
+                    <a href="#categories" class="nav-item" data-page="categories" role="menuitem">
+                        <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
+                        <span class="nav-text">Categories</span>
+                    </a>
+                    <a href="#skills" class="nav-item" data-page="skills" role="menuitem">
+                        <i class="fa-solid fa-brain" aria-hidden="true"></i>
+                        <span class="nav-text">Skills</span>
+                    </a>
+                </div>
+
+                <!-- Extended Operations from User / Contractor / Workforce modules -->
+                <div class="nav-section">
+                    <span class="nav-section-title">TEAM OPERATIONS</span>
+                    <a href="#reviews" class="nav-item" data-page="reviews" role="menuitem">
+                        <i class="fa-solid fa-star" aria-hidden="true"></i><span class="nav-text">Reviews & Feedback</span>
+                    </a>
+                    <a href="#projects" class="nav-item" data-page="projects" role="menuitem">
+                        <i class="fa-solid fa-diagram-project" aria-hidden="true"></i><span class="nav-text">Projects & Workforce</span>
+                    </a>
+                    <a href="#attendance" class="nav-item" data-page="attendance" role="menuitem">
+                        <i class="fa-solid fa-user-check" aria-hidden="true"></i><span class="nav-text">Attendance</span>
+                    </a>
+                    <a href="#documents" class="nav-item" data-page="documents" role="menuitem">
+                        <i class="fa-solid fa-file-shield" aria-hidden="true"></i><span class="nav-text">Documents & Verification</span>
+                    </a>
+                    <a href="#availability" class="nav-item" data-page="availability" role="menuitem">
+                        <i class="fa-solid fa-calendar-days" aria-hidden="true"></i><span class="nav-text">Availability</span>
+                    </a>
+                </div>
+
+                <!-- Operations / Finance / Admin -->
+                <div class="nav-section" style="border-top: 1px dashed rgba(255, 255, 255, 0.1); margin-top: 0.75rem; padding-top: 0.75rem;">
+                    <span class="nav-section-title">OPERATIONS</span>
+                    <a href="#bookings" class="nav-item" data-page="bookings" role="menuitem">
+                        <i class="fa-solid fa-calendar-check" aria-hidden="true"></i><span class="nav-text">Bookings</span>
+                    </a>
+                    <a href="#payments" class="nav-item" data-page="payments" role="menuitem">
+                        <i class="fa-solid fa-money-bill-wave" aria-hidden="true"></i><span class="nav-text">Payments & Escrow</span>
+                    </a>
+                    <a href="#reports" class="nav-item" data-page="reports" role="menuitem">
+                        <i class="fa-solid fa-chart-line" aria-hidden="true"></i><span class="nav-text">Reports & Analytics</span>
+                    </a>
+                    <a href="#notifications" class="nav-item" data-page="notifications" role="menuitem">
+                        <i class="fa-solid fa-bell" aria-hidden="true"></i><span class="nav-text">Activity & Notifications</span>
+                        <span class="nav-badge" id="sidebarNotifBadge" style="display:none;">0</span>
+                    </a>
+                    <a href="#support" class="nav-item" data-page="support" role="menuitem">
+                        <i class="fa-solid fa-ticket" aria-hidden="true"></i><span class="nav-text">Support Tickets</span>
+                    </a>
+                    <a href="#activity" class="nav-item" data-page="activity" role="menuitem">
+                        <i class="fa-solid fa-list-check" aria-hidden="true"></i><span class="nav-text">Activity Logs</span>
+                    </a>
+                    <a href="#settings" class="nav-item" data-page="settings" role="menuitem">
+                        <i class="fa-solid fa-gear" aria-hidden="true"></i><span class="nav-text">Settings</span>
+                    </a>
+                    <a href="#admins" class="nav-item" data-page="admins" role="menuitem">
+                        <i class="fa-solid fa-users-gear" aria-hidden="true"></i><span class="nav-text">Admin Management</span>
+                    </a>
+                    <a href="#roles" class="nav-item" data-page="roles" role="menuitem">
+                        <i class="fa-solid fa-user-shield" aria-hidden="true"></i><span class="nav-text">Role Management</span>
+                    </a>
+                </div>
+            <!-- Sidebar Footer – Logged-in user -->
+            <div class="sidebar-footer">
+                <div class="sidebar-user" id="sidebarUser" title="View profile">
+                    <div class="sidebar-user-avatar" id="sidebarAvatar">SA</div>
+                    <div class="sidebar-user-info">
+                        <span class="sidebar-user-name" id="sidebarUserName">Super Admin</span>
+                        <span class="sidebar-user-role" id="sidebarUserRole">Super Admin</span>
+                    </div>
+                    <i class="fa-solid fa-circle" style="font-size:0.45rem; color:var(--success); margin-left:auto;" title="Online" aria-label="Online"></i>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ── Main Workspace ── -->
+        <div class="main-wrapper">
+
+            <!-- Header -->
+            <header class="header" role="banner">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menuToggle" aria-label="Toggle sidebar navigation" aria-expanded="false" aria-controls="sidebar">
+                        <i class="fa-solid fa-bars" aria-hidden="true"></i>
+                    </button>
+                    <nav class="breadcrumb" id="breadcrumb" aria-label="Breadcrumb">
+                        <i class="fa-solid fa-house" aria-hidden="true"></i>
+                        <span class="active-crumb">/ Dashboard</span>
+                    </nav>
+                    <div class="header-greeting" id="headerGreeting" aria-live="polite">
+                        Good Morning, Admin
+                    </div>
+                </div>
+
+                <div class="header-right">
+                    <div class="header-datetime" id="headerDateTime" aria-label="Current date and time">
+                        <span id="currentDate">Aug 7, 2026</span>
+                        <span id="currentTime">10:00 PM</span>
+                    </div>
+
+                    <!-- Global Search -->
+                    <div class="header-search" role="search">
+                        <i class="fa-magnifying-glass fa-solid" aria-hidden="true"></i>
+                        <input
+                            type="search"
+                            id="globalSearchInput"
+                            placeholder="Search users, bookings..."
+                            aria-label="Global search — press Enter to search"
+                            autocomplete="off"
+                        >
+                    </div>
+
+                    <div class="header-actions">
+                        <!-- Notifications Bell -->
+                        <div class="header-action-wrapper" style="position:relative;">
+                            <button
+                                class="header-action-btn"
+                                id="headerNotifBtn"
+                                title="Notifications"
+                                aria-label="Notifications"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                            >
+                                <i class="fa-solid fa-bell" aria-hidden="true"></i>
+                                <span class="header-badge" id="notifBadge" style="display:none;" aria-label="Unread notifications">0</span>
+                            </button>
+                            <!-- Notification Dropdown -->
+                            <div class="notif-dropdown" id="notifDropdown" role="dialog" aria-label="Notifications panel" aria-modal="false">
+                                <div style="display:flex;justify-content:space-between;align-items:center;padding:0.85rem 1rem;border-bottom:1px solid var(--border-color);background:rgba(248,250,252,0.7);">
+                                    <h4 style="margin:0;font-size:0.9rem;font-weight:700;color:var(--primary-navy);">Notifications</h4>
+                                    <button class="btn btn-sm btn-outline" id="markAllReadBtn" style="font-size:0.72rem;padding:0.25rem 0.6rem;">
+                                        Mark All Read
+                                    </button>
+                                </div>
+                                <div class="notif-list" id="notifList" style="max-height:310px;overflow-y:auto;" role="list">
+                                    <!-- Populated by JS -->
+                                </div>
+                                <div style="padding:0.7rem;border-top:1px solid var(--border-color);text-align:center;">
+                                    <a href="#notifications" style="font-size:0.82rem;color:var(--primary-blue);font-weight:600;">
+                                        View All Notifications
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Fullscreen Toggle -->
+                        <button class="header-action-btn" id="fullscreenToggleBtn" title="Toggle Fullscreen" aria-label="Toggle fullscreen">
+                            <i class="fa-solid fa-expand" aria-hidden="true"></i>
+                        </button>
+
+                        <!-- Dark Mode Toggle -->
+                        <button class="header-action-btn" id="themeToggleBtn" title="Toggle Dark Mode" aria-label="Toggle dark/light mode">
+                            <i class="fa-solid fa-moon" aria-hidden="true"></i>
+                        </button>
+
+                        <!-- Admin Profile -->
+                        <div
+                            class="header-profile"
+                            id="headerProfileBtn"
+                            role="button"
+                            tabindex="0"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            aria-label="Admin profile menu"
+                        >
+                            <div class="header-profile-avatar" id="headerAvatar" aria-hidden="true">SA</div>
+                            <span class="header-profile-name" id="headerName">Admin</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+
+                            <div class="profile-dropdown" id="profileDropdown" role="menu">
+                                <a href="#settings" class="profile-dropdown-item" role="menuitem">
+                                    <i class="fa-solid fa-user" aria-hidden="true"></i> My Profile
+                                </a>
+                                <div class="profile-dropdown-divider" role="separator"></div>
+                                <a href="#settings" class="profile-dropdown-item" role="menuitem" onclick="setTimeout(()=>SettingsPage.changePassword(),50)">
+                                    <i class="fa-solid fa-key" aria-hidden="true"></i> Change Password
+                                </a>
+                                <div class="profile-dropdown-divider" role="separator"></div>
+                                <a href="#settings" class="profile-dropdown-item" role="menuitem">
+                                    <i class="fa-solid fa-gear" aria-hidden="true"></i> Settings
+                                </a>
+                                <div class="profile-dropdown-divider" role="separator"></div>
+                                <a href="#" class="profile-dropdown-item text-danger" id="logoutBtn" role="menuitem">
+                                    <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> Sign Out
+                                </a>
+                            </div>
+                        </div>
+                    </div><!-- /.header-actions -->
+                </div><!-- /.header-right -->
+            </header>
+
+            <!-- Dynamic Page Content -->
+            <main class="main-content" id="mainContent" role="main" aria-live="polite" aria-atomic="false">
+                <!-- Pages injected here by SPA router -->
+            </main>
+        </div><!-- /.main-wrapper -->
+    </div><!-- /.app-container -->
+
+    <!-- ── Global Modal ── -->
+    <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-card" id="modalCard">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Modal Title</h3>
+                <button class="btn btn-ghost btn-icon" id="modalCloseBtn" aria-label="Close modal">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+            <div class="modal-footer" id="modalFooter">
+                <button class="btn btn-outline" id="modalCancelBtn">Cancel</button>
+                <button class="btn btn-primary" id="modalSubmitBtn">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Toast Container ── -->
+    <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true" role="status"></div>
+
+    <!-- ══════════════════════════════════════════════════════ -->
+    <!--  JavaScript – Load Order Matters                       -->
+    <!-- ══════════════════════════════════════════════════════ -->
+    <script src="js/services/dataService.js"></script>
+    <script src="js/services/paymentService.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/modals.js"></script>
+    <script src="js/notifications.js"></script>
+    <script src="js/sidebar.js"></script>
+
+    <!-- Page Controllers -->
+    <script src="js/pages/dashboard.js"></script>
+    <script src="js/pages/users.js"></script>
+    <script src="js/pages/labour.js"></script>
+    <script src="js/pages/contractors.js"></script>
+    <script src="js/pages/categories.js"></script>
+    <script src="js/pages/skills.js"></script>
+    <script src="js/pages/bookings.js"></script>
+    <script src="js/pages/payments.js"></script>
+    <script src="js/pages/reports.js"></script>
+    <script src="js/pages/notifications.js"></script>
+    <script src="js/pages/support.js"></script>
+    <script src="js/pages/activity-logs.js"></script>
+    <script src="js/pages/settings.js"></script>
+    <script src="js/pages/admins.js"></script>
+    <script src="js/pages/roles.js"></script>
+    <script src="js/pages/reviews.js"></script>
+    <script src="js/pages/projects.js"></script>
+    <script src="js/pages/attendance.js"></script>
+    <script src="js/pages/documents.js"></script>
+    <script src="js/pages/availability.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+    <!-- App Entry Point -->
+    <script src="js/app.js"></script>
+
+</body>
+</html>
