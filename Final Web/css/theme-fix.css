@@ -1,0 +1,220 @@
+/* SKILLIANT THEME FIX
+   Visual-only CSS. No JS/functionality changes.
+   Explicit light/dark scopes prevent theme leakage between modes.
+*/
+
+:root{
+  --gold:#D4AF57;
+  --gold-strong:#B88A24;
+  --gold-soft:#F4E8C5;
+  --light-bg:#F7F7F5;
+  --light-surface:#FFFFFF;
+  --light-text:#171717;
+  --light-muted:#625C53;
+  --light-border:#E5E1D8;
+  --dark-bg:#0A0A0A;
+  --dark-surface:#141414;
+  --dark-surface-2:#1A1A1A;
+  --dark-text:#F7F4EC;
+  --dark-muted:#A9A39A;
+  --dark-border:#2B2B2B;
+}
+
+/* ================= LIGHT MODE ================= */
+html[data-theme="light"], html:not([data-theme="dark"]){
+  background:var(--light-bg)!important;
+  color:var(--light-text)!important;
+}
+html[data-theme="light"] body, html:not([data-theme="dark"]) body,
+html[data-theme="light"] .container, html:not([data-theme="dark"]) .container,
+html[data-theme="light"] .main-content, html:not([data-theme="dark"]) .main-content{
+  background:var(--light-bg)!important;
+  color:var(--light-text)!important;
+}
+
+html[data-theme="light"] .topbar, html:not([data-theme="dark"]) .topbar{
+  background:rgba(255,255,255,.96)!important;
+  color:var(--light-text)!important;
+  border-bottom:1px solid var(--light-border)!important;
+}
+html[data-theme="light"] .topbar h1, html[data-theme="light"] .topbar h4,
+html:not([data-theme="dark"]) .topbar h1, html:not([data-theme="dark"]) .topbar h4{color:#171717!important}
+html[data-theme="light"] .topbar p, html:not([data-theme="dark"]) .topbar p{color:#625C53!important}
+
+html[data-theme="light"] .search-box, html:not([data-theme="dark"]) .search-box{
+  background:#fff!important;color:#171717!important;border-color:#DED9CF!important;
+}
+html[data-theme="light"] .search-box input, html:not([data-theme="dark"]) .search-box input{color:#171717!important}
+html[data-theme="light"] .search-box input::placeholder, html:not([data-theme="dark"]) .search-box input::placeholder{color:#8A847A!important}
+html[data-theme="light"] .search-box i, html:not([data-theme="dark"]) .search-box i{color:#B88A24!important}
+html[data-theme="light"] .topbar .icon, html[data-theme="light"] .theme-toggle,
+html:not([data-theme="dark"]) .topbar .icon, html:not([data-theme="dark"]) .theme-toggle{
+  background:#fff!important;color:#171717!important;border-color:#DED9CF!important;
+}
+html[data-theme="light"] .topbar .icon i, html[data-theme="light"] .theme-toggle i,
+html:not([data-theme="dark"]) .topbar .icon i, html:not([data-theme="dark"]) .theme-toggle i{color:#171717!important}
+
+/* Light cards/panels */
+html[data-theme="light"] .card, html[data-theme="light"] .glass,
+html[data-theme="light"] .job-card, html[data-theme="light"] .request-card,
+html[data-theme="light"] .performance-card, html[data-theme="light"] .activity-card,
+html[data-theme="light"] .analytics-card, html[data-theme="light"] .chart-card,
+html[data-theme="light"] .calendar-card, html[data-theme="light"] .payment-card,
+html[data-theme="light"] .profile-section-card, html[data-theme="light"] .rating-card,
+html[data-theme="light"] .review-card, html[data-theme="light"] .settings-card,
+html[data-theme="light"] .certificate-card, html[data-theme="light"] .portfolio-card,
+html[data-theme="light"] .portfolio-item, html[data-theme="light"] .profile-stat-card,
+html[data-theme="light"] .experience-item, html[data-theme="light"] .day4-panel,
+html[data-theme="light"] .day5-payment-panel, html[data-theme="light"] .day5-setting-card,
+html[data-theme="light"] .d4-performance-list,
+html:not([data-theme="dark"]) .card, html:not([data-theme="dark"]) .glass,
+html:not([data-theme="dark"]) .job-card, html:not([data-theme="dark"]) .request-card,
+html:not([data-theme="dark"]) .performance-card, html:not([data-theme="dark"]) .activity-card,
+html:not([data-theme="dark"]) .analytics-card, html:not([data-theme="dark"]) .chart-card,
+html:not([data-theme="dark"]) .calendar-card, html:not([data-theme="dark"]) .payment-card,
+html:not([data-theme="dark"]) .profile-section-card, html:not([data-theme="dark"]) .rating-card,
+html:not([data-theme="dark"]) .review-card, html:not([data-theme="dark"]) .settings-card,
+html:not([data-theme="dark"]) .certificate-card, html:not([data-theme="dark"]) .portfolio-card,
+html:not([data-theme="dark"]) .portfolio-item, html:not([data-theme="dark"]) .profile-stat-card,
+html:not([data-theme="dark"]) .experience-item, html:not([data-theme="dark"]) .day4-panel,
+html:not([data-theme="dark"]) .day5-payment-panel, html:not([data-theme="dark"]) .day5-setting-card,
+html:not([data-theme="dark"]) .d4-performance-list{
+  background:#fff!important;color:#171717!important;border-color:#E5E1D8!important;
+  box-shadow:0 8px 24px rgba(23,23,23,.06)!important;
+}
+
+/* Force readable text on white surfaces */
+html[data-theme="light"] .card *, html[data-theme="light"] .job-card *, html[data-theme="light"] .request-card *,
+html[data-theme="light"] .performance-card *, html[data-theme="light"] .activity-card *,
+html[data-theme="light"] .analytics-card *, html[data-theme="light"] .chart-card *,
+html[data-theme="light"] .portfolio-card *, html[data-theme="light"] .portfolio-item *,
+html[data-theme="light"] .profile-stat-card *, html[data-theme="light"] .experience-item *,
+html[data-theme="light"] .certificate-card *, html[data-theme="light"] .settings-card *,
+html[data-theme="light"] .day4-panel *, html[data-theme="light"] .d4-performance-list *,
+html:not([data-theme="dark"]) .card *, html:not([data-theme="dark"]) .job-card *, html:not([data-theme="dark"]) .request-card *,
+html:not([data-theme="dark"]) .performance-card *, html:not([data-theme="dark"]) .activity-card *,
+html:not([data-theme="dark"]) .analytics-card *, html:not([data-theme="dark"]) .chart-card *,
+html:not([data-theme="dark"]) .portfolio-card *, html:not([data-theme="dark"]) .portfolio-item *,
+html:not([data-theme="dark"]) .profile-stat-card *, html:not([data-theme="dark"]) .experience-item *,
+html:not([data-theme="dark"]) .certificate-card *, html:not([data-theme="dark"]) .settings-card *,
+html:not([data-theme="dark"]) .day4-panel *, html:not([data-theme="dark"]) .d4-performance-list *{
+  border-color:#E5E1D8;
+}
+html[data-theme="light"] .card h1,html[data-theme="light"] .card h2,html[data-theme="light"] .card h3,html[data-theme="light"] .card h4,html[data-theme="light"] .card h5,
+html[data-theme="light"] .job-card h3,html[data-theme="light"] .request-card h4,
+html[data-theme="light"] .portfolio-card h3,html[data-theme="light"] .portfolio-item h3,
+html[data-theme="light"] .profile-stat-card h3,html[data-theme="light"] .experience-item h3,
+html[data-theme="light"] .certificate-card h3,html[data-theme="light"] .settings-card h3,
+html[data-theme="light"] .day4-panel h2,html[data-theme="light"] .day4-panel h3,
+html:not([data-theme="dark"]) .card h1,html:not([data-theme="dark"]) .card h2,html:not([data-theme="dark"]) .card h3,html:not([data-theme="dark"]) .card h4,html:not([data-theme="dark"]) .card h5,
+html:not([data-theme="dark"]) .job-card h3,html:not([data-theme="dark"]) .request-card h4,
+html:not([data-theme="dark"]) .portfolio-card h3,html:not([data-theme="dark"]) .portfolio-item h3,
+html:not([data-theme="dark"]) .profile-stat-card h3,html:not([data-theme="dark"]) .experience-item h3,
+html:not([data-theme="dark"]) .certificate-card h3,html:not([data-theme="dark"]) .settings-card h3,
+html:not([data-theme="dark"]) .day4-panel h2,html:not([data-theme="dark"]) .day4-panel h3{color:#171717!important}
+
+html[data-theme="light"] .card p,html[data-theme="light"] .card span,html[data-theme="light"] .job-card p,
+html[data-theme="light"] .request-card p,html[data-theme="light"] .activity-card li,
+html[data-theme="light"] .performance-card p,html[data-theme="light"] .portfolio-card p,
+html[data-theme="light"] .portfolio-item p,html[data-theme="light"] .experience-item p,
+html[data-theme="light"] .settings-card p,html[data-theme="light"] .day4-panel p,
+html:not([data-theme="dark"]) .card p,html:not([data-theme="dark"]) .card span,html:not([data-theme="dark"]) .job-card p,
+html:not([data-theme="dark"]) .request-card p,html:not([data-theme="dark"]) .activity-card li,
+html:not([data-theme="dark"]) .performance-card p,html:not([data-theme="dark"]) .portfolio-card p,
+html:not([data-theme="dark"]) .portfolio-item p,html:not([data-theme="dark"]) .experience-item p,
+html:not([data-theme="dark"]) .settings-card p,html:not([data-theme="dark"]) .day4-panel p{color:#625C53!important}
+
+/* Welcome banner stays dark in light mode, therefore it needs light text */
+html[data-theme="light"] .welcome-banner,html:not([data-theme="dark"]) .welcome-banner{
+  background:linear-gradient(135deg,#17130c,#211b10 58%,#151515)!important;border-color:#6A5527!important;
+}
+html[data-theme="light"] .welcome-banner h1,html[data-theme="light"] .welcome-banner h2,html[data-theme="light"] .welcome-banner p,
+html:not([data-theme="dark"]) .welcome-banner h1,html:not([data-theme="dark"]) .welcome-banner h2,html:not([data-theme="dark"]) .welcome-banner p{color:#FFFDF8!important}
+html[data-theme="light"] .welcome-banner p,html:not([data-theme="dark"]) .welcome-banner p{color:#C8C0B3!important}
+
+/* KPI / stat strips */
+html[data-theme="light"] .day3-dashboard-strip .day3-kpi,html[data-theme="light"] .day4-stat-card,
+html:not([data-theme="dark"]) .day3-dashboard-strip .day3-kpi,html:not([data-theme="dark"]) .day4-stat-card{
+  background:#fff!important;color:#171717!important;border-color:#E5E1D8!important;
+}
+html[data-theme="light"] .day3-kpi strong,html[data-theme="light"] .day4-stat-card strong,
+html:not([data-theme="dark"]) .day3-kpi strong,html:not([data-theme="dark"]) .day4-stat-card strong{color:#171717!important}
+html[data-theme="light"] .day3-kpi span,html[data-theme="light"] .day4-stat-card span,html[data-theme="light"] .day4-stat-card small,
+html:not([data-theme="dark"]) .day3-kpi span,html:not([data-theme="dark"]) .day4-stat-card span,html:not([data-theme="dark"]) .day4-stat-card small{color:#625C53!important}
+
+/* Wallet white cards */
+html[data-theme="light"] .income-card,html[data-theme="light"] .withdraw-card,html[data-theme="light"] .pending-card,
+html:not([data-theme="dark"]) .income-card,html:not([data-theme="dark"]) .withdraw-card,html:not([data-theme="dark"]) .pending-card{background:#fff!important;color:#171717!important;border-color:#E5E1D8!important}
+html[data-theme="light"] .income-card h2,html[data-theme="light"] .withdraw-card h2,html[data-theme="light"] .pending-card h2,
+html:not([data-theme="dark"]) .income-card h2,html:not([data-theme="dark"]) .withdraw-card h2,html:not([data-theme="dark"]) .pending-card h2{color:#171717!important}
+html[data-theme="light"] .income-card p,html[data-theme="light"] .withdraw-card p,html[data-theme="light"] .pending-card p,
+html:not([data-theme="dark"]) .income-card p,html:not([data-theme="dark"]) .withdraw-card p,html:not([data-theme="dark"]) .pending-card p{color:#625C53!important}
+
+/* ================= DARK MODE ================= */
+html[data-theme="dark"]{
+  background:var(--dark-bg)!important;color:var(--dark-text)!important;
+}
+html[data-theme="dark"] body,html[data-theme="dark"] .container,html[data-theme="dark"] .main-content{
+  background:var(--dark-bg)!important;color:var(--dark-text)!important;
+}
+html[data-theme="dark"] .topbar{background:rgba(10,10,10,.96)!important;color:var(--dark-text)!important;border-color:#242424!important}
+html[data-theme="dark"] .topbar h1,html[data-theme="dark"] .topbar h4{color:#F7F4EC!important}
+html[data-theme="dark"] .topbar p{color:#A9A39A!important}
+html[data-theme="dark"] .search-box{background:#151515!important;border-color:#2D2D2D!important}
+html[data-theme="dark"] .search-box input{color:#F7F4EC!important}
+html[data-theme="dark"] .search-box input::placeholder{color:#77736D!important}
+html[data-theme="dark"] .topbar .icon,html[data-theme="dark"] .theme-toggle{background:#151515!important;color:#EEE!important;border-color:#2D2D2D!important}
+html[data-theme="dark"] .topbar .icon i,html[data-theme="dark"] .theme-toggle i{color:#EEE!important}
+
+html[data-theme="dark"] .card,html[data-theme="dark"] .glass,html[data-theme="dark"] .job-card,html[data-theme="dark"] .request-card,
+html[data-theme="dark"] .performance-card,html[data-theme="dark"] .activity-card,html[data-theme="dark"] .analytics-card,
+html[data-theme="dark"] .chart-card,html[data-theme="dark"] .calendar-card,html[data-theme="dark"] .payment-card,
+html[data-theme="dark"] .profile-section-card,html[data-theme="dark"] .rating-card,html[data-theme="dark"] .review-card,
+html[data-theme="dark"] .settings-card,html[data-theme="dark"] .certificate-card,html[data-theme="dark"] .portfolio-card,
+html[data-theme="dark"] .portfolio-item,html[data-theme="dark"] .profile-stat-card,html[data-theme="dark"] .experience-item,
+html[data-theme="dark"] .day4-panel,html[data-theme="dark"] .day5-payment-panel,html[data-theme="dark"] .day5-setting-card,
+html[data-theme="dark"] .d4-performance-list{
+  background:linear-gradient(180deg,#151515,#111)!important;color:#F7F4EC!important;border-color:#2B2B2B!important;
+}
+html[data-theme="dark"] .card h1,html[data-theme="dark"] .card h2,html[data-theme="dark"] .card h3,html[data-theme="dark"] .card h4,
+html[data-theme="dark"] .job-card h3,html[data-theme="dark"] .request-card h4,html[data-theme="dark"] .portfolio-card h3,
+html[data-theme="dark"] .portfolio-item h3,html[data-theme="dark"] .profile-stat-card h3,html[data-theme="dark"] .experience-item h3,
+html[data-theme="dark"] .certificate-card h3,html[data-theme="dark"] .settings-card h3,html[data-theme="dark"] .day4-panel h2,
+html[data-theme="dark"] .day4-panel h3{color:#F7F4EC!important}
+html[data-theme="dark"] .card p,html[data-theme="dark"] .card span,html[data-theme="dark"] .job-card p,
+html[data-theme="dark"] .request-card p,html[data-theme="dark"] .performance-card p,html[data-theme="dark"] .portfolio-card p,
+html[data-theme="dark"] .portfolio-item p,html[data-theme="dark"] .experience-item p,html[data-theme="dark"] .settings-card p,
+html[data-theme="dark"] .day4-panel p{color:#A9A39A!important}
+
+html[data-theme="dark"] .welcome-banner{background:linear-gradient(135deg,#17130c,#211b10 58%,#151515)!important;border-color:#6A5527!important}
+html[data-theme="dark"] .welcome-banner h1,html[data-theme="dark"] .welcome-banner h2,html[data-theme="dark"] .welcome-banner p{color:#FFFDF8!important}
+html[data-theme="dark"] .welcome-banner p{color:#C8C0B3!important}
+
+html[data-theme="dark"] .day3-dashboard-strip .day3-kpi,html[data-theme="dark"] .day4-stat-card{
+  background:#151515!important;color:#F7F4EC!important;border-color:#2B2B2B!important;
+}
+html[data-theme="dark"] .day3-kpi strong,html[data-theme="dark"] .day4-stat-card strong{color:#F7F4EC!important}
+html[data-theme="dark"] .day3-kpi span,html[data-theme="dark"] .day4-stat-card span,html[data-theme="dark"] .day4-stat-card small{color:#A9A39A!important}
+html[data-theme="dark"] .income-card,html[data-theme="dark"] .withdraw-card,html[data-theme="dark"] .pending-card{
+  background:#151515!important;color:#F7F4EC!important;border-color:#2B2B2B!important;
+}
+html[data-theme="dark"] .income-card h2,html[data-theme="dark"] .withdraw-card h2,html[data-theme="dark"] .pending-card h2{color:#F7F4EC!important}
+html[data-theme="dark"] .income-card p,html[data-theme="dark"] .withdraw-card p,html[data-theme="dark"] .pending-card p{color:#A9A39A!important}
+
+/* Gold accent, readable in both modes */
+html[data-theme="light"] .section-title span,html[data-theme="light"] .day4-eyebrow,html[data-theme="light"] .day4-label,
+html:not([data-theme="dark"]) .section-title span,html:not([data-theme="dark"]) .day4-eyebrow,html:not([data-theme="dark"]) .day4-label,
+html[data-theme="dark"] .section-title span,html[data-theme="dark"] .day4-eyebrow,html[data-theme="dark"] .day4-label{color:#B88A24!important}
+html[data-theme="dark"] .section-title span,html[data-theme="dark"] .day4-eyebrow,html[data-theme="dark"] .day4-label{color:#D4AF57!important}
+
+/* Never allow accidental white text on light page-level elements */
+html[data-theme="light"] .page-header h2,html[data-theme="light"] .section-title h2,html[data-theme="light"] .section-title h3,
+html:not([data-theme="dark"]) .page-header h2,html:not([data-theme="dark"]) .section-title h2,html:not([data-theme="dark"]) .section-title h3{color:#171717!important}
+html[data-theme="light"] .page-header p,html[data-theme="light"] .section-title p,
+html:not([data-theme="dark"]) .page-header p,html:not([data-theme="dark"]) .section-title p{color:#625C53!important}
+
+/* Buttons */
+html[data-theme="light"] .primary-btn,html[data-theme="light"] .day4-btn-primary,html:not([data-theme="dark"]) .primary-btn,html:not([data-theme="dark"]) .day4-btn-primary{
+  background:linear-gradient(135deg,#B88A24,#D4AF57)!important;color:#111!important;border-color:#D4AF57!important;
+}
+html[data-theme="dark"] .primary-btn,html[data-theme="dark"] .day4-btn-primary{background:linear-gradient(135deg,#B8943E,#D4AF57)!important;color:#111!important;border-color:#E1C66D!important}

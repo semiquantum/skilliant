@@ -1,0 +1,946 @@
+
+/* =========================================================
+   SKILLIANT — BLACK / GOLD MASTER THEME
+   Visual-only override. No JavaScript or interaction logic changed.
+   Default: premium dark black + warm gold.
+   data-theme="dark": deeper black variant.
+   ========================================================= */
+
+:root{
+  --theme-black:#090909;
+  --theme-black-2:#101010;
+  --theme-panel:#141414;
+  --theme-panel-2:#191919;
+  --theme-border:#2b2b2b;
+  --theme-gold:#D4AF57;
+  --theme-gold-2:#E2C16A;
+  --theme-gold-dark:#A88732;
+  --theme-cream:#F5F1E8;
+  --theme-muted:#A9A39A;
+  --theme-white:#FAFAF8;
+  --theme-success:#18B981;
+  --theme-danger:#E05252;
+  --theme-shadow:0 18px 50px rgba(0,0,0,.38);
+}
+
+/* ---------- GLOBAL FOUNDATION ---------- */
+html,body{
+  background:var(--theme-black)!important;
+  color:var(--theme-white)!important;
+}
+body{
+  background:linear-gradient(180deg,#080808 0%,#0c0c0c 100%)!important;
+}
+.container{background:var(--theme-black)!important}
+.main-content{
+  background:var(--theme-black)!important;
+  color:var(--theme-white)!important;
+}
+.page{color:var(--theme-white)}
+.page.active-page{background:transparent!important}
+
+/* ---------- SIDEBAR ---------- */
+.sidebar{
+  background:linear-gradient(180deg,#050505 0%,#0d0d0d 55%,#111111 100%)!important;
+  border-right:1px solid #252525!important;
+  box-shadow:10px 0 35px rgba(0,0,0,.35)!important;
+}
+.logo{border-bottom:1px solid #252525;padding-bottom:20px}
+.logo i,.logo h2{color:var(--theme-gold)!important}
+.menu li{
+  color:#d9d4ca!important;
+  background:transparent!important;
+  border:1px solid transparent!important;
+}
+.menu li:hover{
+  color:#fff!important;
+  background:#191919!important;
+  border-color:#2a2a2a!important;
+  transform:translateX(3px)!important;
+}
+.menu li.active{
+  color:#fff!important;
+  background:linear-gradient(135deg,#4a3a1d,#5b4724)!important;
+  border-color:#80662f!important;
+  box-shadow:0 10px 28px rgba(212,175,87,.14)!important;
+}
+.menu li.active i{color:var(--theme-gold)!important}
+.day4-nav-badge{
+  background:#2a2417!important;
+  color:var(--theme-gold-2)!important;
+  border:1px solid #665126!important;
+}
+
+/* ---------- TOP BAR ---------- */
+.topbar{
+  background:rgba(9,9,9,.94)!important;
+  border-bottom:1px solid #242424!important;
+  color:#fff!important;
+  backdrop-filter:blur(18px);
+}
+.topbar h1,.topbar h4,.topbar p{color:#fff!important}
+.topbar p{color:#aaa49a!important}
+.search-box{
+  background:#151515!important;
+  border:1px solid #2d2d2d!important;
+  box-shadow:none!important;
+}
+.search-box input{color:#f8f6f0!important;background:transparent!important}
+.search-box input::placeholder{color:#77736d!important}
+.search-box i{color:var(--theme-gold)!important}
+.search-box:focus-within{
+  border-color:var(--theme-gold)!important;
+  box-shadow:0 0 0 3px rgba(212,175,87,.12)!important;
+}
+.topbar .icon,.theme-toggle{
+  background:#151515!important;
+  color:#eee!important;
+  border:1px solid #2d2d2d!important;
+}
+.topbar .icon:hover,.theme-toggle:hover{
+  color:var(--theme-gold)!important;
+  border-color:#5e4c27!important;
+}
+.badge{
+  background:var(--theme-gold)!important;
+  color:#111!important;
+}
+
+/* ---------- TEXT / HEADINGS ---------- */
+h1,h2,h3,h4,h5,h6,
+.page-header h2,.section-title h2,.section-title h3,
+.day4-hero h1,.day4-panel h2,.day4-panel-head h2,
+.profile-information h2,.portfolio-card h3,.analytics-card h2{
+  color:#f7f4ec!important;
+}
+p,small,label,.page-header p,.day4-hero p,.day4-panel-head p{
+  color:var(--theme-muted)!important;
+}
+.day4-eyebrow,.day4-label{color:var(--theme-gold)!important}
+
+/* ---------- GENERIC CARDS / PANELS ---------- */
+.card,.glass,
+.job-card,.request-card,.performance-card,.activity-card,
+.analytics-card,.chart-card,.calendar-card,.payment-card,
+.profile-section-card,.rating-card,.review-card,.settings-card,
+.certificate-card,.portfolio-card,.certificate-view,
+.day4-panel,.day5-payment-panel,.day5-setting-card,
+.d4-performance-list,.d4-review-highlight{
+  background:linear-gradient(180deg,#151515 0%,#111111 100%)!important;
+  border:1px solid #2a2a2a!important;
+  color:#eee!important;
+  box-shadow:var(--theme-shadow)!important;
+}
+.card:hover,.job-card:hover,.request-card:hover{
+  border-color:#4a402d!important;
+}
+.card p,.job-card p,.request-card p,.activity-card li,
+.card span:not(.success),.performance-card p{
+  color:#aaa49a!important;
+}
+.card h2,.card h3,.job-card h3,.request-card h4,
+.activity-card li span,.request-price{
+  color:#f5f2ea!important;
+}
+.section-title{color:#fff!important}
+.section-title span{color:var(--theme-gold)!important}
+
+/* ---------- DASHBOARD HERO ---------- */
+.welcome-banner{
+  background:linear-gradient(135deg,#17130c 0%,#211b10 55%,#171717 100%)!important;
+  border:1px solid #59491f!important;
+  box-shadow:0 18px 45px rgba(0,0,0,.34)!important;
+}
+.welcome-banner h2,.welcome-banner p{color:#fff!important}
+.welcome-banner p{color:#b6b0a6!important}
+.welcome-image{
+  color:var(--theme-gold)!important;
+  background:rgba(212,175,87,.10)!important;
+}
+.view-all{
+  background:#171717!important;
+  color:var(--theme-gold)!important;
+  border:1px solid #5a4925!important;
+}
+.view-all:hover{background:#221c10!important}
+
+/* ---------- ICONS ---------- */
+.card-icon.blue,.card-icon.green,.card-icon.orange,.card-icon.yellow,
+.day4-stat-icon.blue,.day4-stat-icon.purple,.day4-stat-icon.green,.day4-stat-icon.amber{
+  background:#211d15!important;
+  color:var(--theme-gold)!important;
+  border:1px solid #4e4125!important;
+}
+.card-icon i,.day4-stat-icon i{color:inherit!important}
+
+/* ---------- BUTTONS ---------- */
+.primary-btn,.day4-btn-primary,.day5-btn.primary,
+.root-actions .day4-btn-primary{
+  background:linear-gradient(135deg,#B8943E,#D4AF57)!important;
+  color:#111!important;
+  border:1px solid #E1C66D!important;
+  box-shadow:0 10px 25px rgba(212,175,87,.16)!important;
+}
+.primary-btn:hover,.day4-btn-primary:hover,.day5-btn.primary:hover{
+  background:linear-gradient(135deg,#D4AF57,#E6CA78)!important;
+  color:#0b0b0b!important;
+}
+.secondary-btn,.day4-btn-secondary{
+  background:#171717!important;
+  color:#eee!important;
+  border:1px solid #343434!important;
+}
+.secondary-btn:hover,.day4-btn-secondary:hover{
+  border-color:#6a5628!important;
+  color:var(--theme-gold-2)!important;
+}
+.danger-btn{
+  background:#8f2525!important;
+  color:#fff!important;
+  border:1px solid #a63a3a!important;
+}
+.danger-btn:hover{background:#b33232!important}
+
+/* ---------- STATUS / PROGRESS ---------- */
+.success,.positive,.completed,.confirmed{
+  color:var(--theme-success)!important;
+}
+.pending,.warning{
+  color:var(--theme-gold)!important;
+}
+.status.confirmed,.status.completed,.status.pending{
+  background:#201c15!important;
+  border-color:#4d4025!important;
+}
+.progress-bar,.d4-progress{
+  background:#272727!important;
+}
+.progress-bar span,.d4-progress i{background:var(--theme-gold)!important}
+.progress-circle{
+  border-color:#5b4922!important;
+  color:var(--theme-gold)!important;
+}
+
+/* ---------- DAY 4 PERFORMANCE / FINANCE ---------- */
+.day4-hero{
+  background:linear-gradient(135deg,#111 0%,#19160f 58%,#121212 100%)!important;
+  border:1px solid #3b311c!important;
+}
+.day4-stat-card{
+  background:#141414!important;
+  border-color:#2b2b2b!important;
+}
+.day4-stat-card:nth-child(1),
+.day4-stat-card:nth-child(2),
+.day4-stat-card:nth-child(3),
+.day4-stat-card:nth-child(4){border-top-color:#7b632e!important}
+.day4-stat-card strong{color:#f5f2ea!important}
+.day4-stat-card span,.day4-stat-card small{color:#9f9a91!important}
+.day4-select,.d4-select,.d4-search{
+  background:#171717!important;
+  color:#eee!important;
+  border-color:#333!important;
+}
+.d4-day{
+  background:#151515!important;
+  color:#ddd!important;
+  border-color:#292929!important;
+}
+.d4-day:hover{background:#201c14!important;border-color:#6a5528!important}
+.d4-day.selected{
+  background:var(--theme-gold)!important;
+  color:#111!important;
+  border-color:var(--theme-gold)!important;
+}
+.d4-slot{
+  background:#151515!important;
+  color:#ddd!important;
+  border-color:#2d2d2d!important;
+}
+.d4-slot.selected{
+  background:#2a2315!important;
+  color:#f4e7bd!important;
+  outline-color:var(--theme-gold)!important;
+}
+.d4-wallet-balance{
+  background:linear-gradient(135deg,#0c0c0c 0%,#211b10 55%,#302512 100%)!important;
+  border:1px solid #5a4823!important;
+}
+.d4-wallet-balance *{color:#fff!important}
+.d4-wallet-balance strong{color:var(--theme-gold-2)!important}
+.d4-tx-icon{background:#241f14!important;color:var(--theme-gold)!important}
+.d4-view-btn{color:var(--theme-gold)!important}
+.d4-table th{color:#9f998f!important;border-color:#2a2a2a!important}
+.d4-table td{color:#e8e3d8!important;border-color:#242424!important}
+
+/* ---------- CHARTS ---------- */
+.chart,.chart-card,.d4-chart-wrap{
+  background:#111!important;
+  border-color:#292929!important;
+}
+.d4-chart-y,.d4-legend,.d4-chart-summary{color:#9d978e!important}
+.bar{
+  background:linear-gradient(180deg,#E2C16A,#A88732)!important;
+}
+.analytics-card canvas,.chart canvas{background:transparent!important}
+
+/* ---------- FORMS ---------- */
+input,textarea,select{
+  background:#151515!important;
+  color:#f3f0e8!important;
+  border-color:#323232!important;
+}
+input::placeholder,textarea::placeholder{color:#77736d!important}
+input:focus,textarea:focus,select:focus{
+  border-color:var(--theme-gold)!important;
+  box-shadow:0 0 0 3px rgba(212,175,87,.10)!important;
+  outline:none!important;
+}
+label{color:#bdb7ad!important}
+
+/* ---------- PROFILE / PORTFOLIO / SETTINGS ---------- */
+.profile-cover{
+  background:linear-gradient(135deg,#1b160d,#4a3a1d 55%,#151515)!important;
+  border-color:#5a4925!important;
+}
+.profile-avatar,.advanced-avatar{
+  background:linear-gradient(135deg,#B8943E,#D4AF57)!important;
+  color:#111!important;
+}
+.profile-stat-card,.portfolio-item,.experience-item{
+  background:#151515!important;
+  border-color:#2a2a2a!important;
+}
+.profile-stat-card i,.experience-icon,.certificate-icon{
+  background:#211c12!important;
+  color:var(--theme-gold)!important;
+}
+.portfolio-card,.portfolio-item h3,.portfolio-item p{color:#eee!important}
+.portfolio-card span{color:#a39d94!important}
+.day5-section-title>div>span,.day5-setting-card>div>span{
+  color:var(--theme-gold)!important;
+}
+.day5-section-title h3,.day5-setting-card h3{color:#f5f2ea!important}
+.day5-section-title p,.day5-setting-card p{color:#9f9a91!important}
+.day5-payment-card,.day5-switch-list label{
+  background:#181818!important;
+  border-color:#2a2a2a!important;
+  color:#ddd!important;
+}
+.day5-switch-list input{accent-color:var(--theme-gold)!important}
+
+/* ---------- MODALS / DROPDOWNS ---------- */
+.modal-content,.d4-modal-dialog,.auth-modal-card,.profile-dropdown{
+  background:#121212!important;
+  color:#f5f2ea!important;
+  border:1px solid #343434!important;
+  box-shadow:0 30px 90px rgba(0,0,0,.58)!important;
+}
+.modal-content h2,.modal-content p,
+.d4-modal-dialog h2,.d4-modal-dialog h3,
+.auth-modal-card h2,.profile-dropdown strong{
+  color:#fff!important;
+}
+.modal-content p,.profile-dropdown span{color:#a9a39a!important}
+.modal-icon{color:var(--theme-gold)!important}
+.modal-backdrop,.d4-modal-backdrop{
+  background:rgba(0,0,0,.78)!important;
+  backdrop-filter:blur(5px);
+}
+.profile-dropdown{
+  background:#111!important;
+}
+.profile-dropdown>[data-profile-action]{
+  color:#eee!important;
+}
+.profile-dropdown>[data-profile-action]:hover{
+  background:#1c1c1c!important;
+}
+.profile-dropdown>[data-profile-action]>i{
+  background:#211c12!important;
+  color:var(--theme-gold)!important;
+}
+.profile-dropdown .logout-action,
+.profile-dropdown [data-profile-action="logout"]{
+  color:#ef6666!important;
+}
+
+/* ---------- AUTH / LOGIN ---------- */
+.auth-gate{
+  background:
+    radial-gradient(circle at 15% 15%,rgba(212,175,87,.10),transparent 28%),
+    linear-gradient(135deg,#050505 0%,#0c0c0c 55%,#15120c 100%)!important;
+}
+.auth-card{
+  background:linear-gradient(180deg,#121212,#0d0d0d)!important;
+  border:1px solid #3a3325!important;
+  box-shadow:0 30px 90px rgba(0,0,0,.62)!important;
+  color:#fff!important;
+}
+.auth-brand-mark{
+  background:linear-gradient(135deg,#B8943E,#D4AF57)!important;
+  color:#111!important;
+}
+.auth-brand strong,.auth-copy h1{color:#fff!important}
+.auth-brand span,.auth-copy p{color:#a9a39a!important}
+.auth-kicker{color:var(--theme-gold)!important}
+.auth-input{
+  background:#151515!important;
+  border-color:#333!important;
+}
+.auth-input i{color:var(--theme-gold)!important}
+.auth-input input{color:#fff!important}
+.auth-input:focus-within{border-color:var(--theme-gold)!important}
+.auth-submit{
+  background:linear-gradient(135deg,#B8943E,#D4AF57)!important;
+  color:#111!important;
+  border-color:#e0c36b!important;
+}
+.auth-secondary,.auth-link{color:var(--theme-gold-2)!important}
+
+/* ---------- NOTIFICATIONS ---------- */
+.notification-panel{
+  background:#111!important;
+  border:1px solid #333!important;
+  color:#eee!important;
+  box-shadow:0 25px 70px rgba(0,0,0,.55)!important;
+}
+.notification-panel-head h3{color:#fff!important}
+.notification-panel-head span,.notification-panel-head button{color:var(--theme-gold)!important}
+.notification-item{
+  background:#181818!important;
+  border-color:#292929!important;
+}
+
+/* ---------- TABLES / LISTS ---------- */
+table,th,td{border-color:#292929!important}
+th{color:#a9a39a!important}
+td{color:#e9e5dc!important}
+.list-item,.detail-item{
+  background:#161616!important;
+  border-color:#292929!important;
+}
+
+/* ---------- SCROLLBARS ---------- */
+*{
+  scrollbar-color:#4a4a4a #0b0b0b;
+}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:#0a0a0a}
+::-webkit-scrollbar-thumb{background:#3d3d3d;border-radius:10px;border:2px solid #0a0a0a}
+::-webkit-scrollbar-thumb:hover{background:#6a5528}
+
+/* ---------- DARK MODE: same brand, deeper contrast ---------- */
+html[data-theme="dark"] body,
+html[data-theme="dark"] .main-content{
+  background:#050505!important;
+}
+html[data-theme="dark"] .topbar{background:rgba(5,5,5,.96)!important}
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .glass,
+html[data-theme="dark"] .day4-panel,
+html[data-theme="dark"] .day5-setting-card,
+html[data-theme="dark"] .day5-payment-panel{
+  background:#101010!important;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media(max-width:900px){
+  .sidebar{box-shadow:6px 0 28px rgba(0,0,0,.45)!important}
+  .main-content{background:#090909!important}
+}
+
+/* =========================================================
+   ACCESSIBILITY + LIGHT MODE PATCH
+   Keeps the black/gold visual identity while guaranteeing
+   readable text in both themes. JavaScript/theme behavior
+   remains unchanged.
+========================================================= */
+
+/* ---------- DARK MODE: FORCE HIGH-CONTRAST TEXT ---------- */
+html[data-theme="dark"] .transaction-table,
+html[data-theme="dark"] .transaction-table table{
+  background:#141414!important;
+  color:#F5F2EA!important;
+}
+html[data-theme="dark"] .transaction-table thead{
+  background:#1B1B1B!important;
+  color:#D4AF57!important;
+}
+html[data-theme="dark"] .transaction-table th{
+  color:#C9C2B5!important;
+  border-bottom:1px solid #303030!important;
+}
+html[data-theme="dark"] .transaction-table td{
+  color:#E9E5DC!important;
+  border-bottom:1px solid #2A2A2A!important;
+}
+html[data-theme="dark"] .transaction-table td strong,
+html[data-theme="dark"] .transaction-table .d4-tx-main strong,
+html[data-theme="dark"] .transaction-table .transaction-name,
+html[data-theme="dark"] .transaction-table .tx-title{
+  color:#FFFDF8!important;
+}
+html[data-theme="dark"] .transaction-table td small,
+html[data-theme="dark"] .transaction-table td span:not(.d4-tx-status),
+html[data-theme="dark"] .transaction-table .tx-id,
+html[data-theme="dark"] .transaction-table .muted{
+  color:#AFA99F!important;
+}
+html[data-theme="dark"] .transaction-table tbody tr,
+html[data-theme="dark"] .transaction-table tbody tr:nth-child(even){
+  background:#141414!important;
+}
+html[data-theme="dark"] .transaction-table tbody tr:hover{
+  background:#1D1A14!important;
+}
+html[data-theme="dark"] .transaction-table tbody tr:hover td{
+  color:#FFFDF8!important;
+}
+html[data-theme="dark"] .transaction-table tbody tr.selected,
+html[data-theme="dark"] .transaction-table tbody tr.active,
+html[data-theme="dark"] .transaction-table tbody tr.highlighted{
+  background:#201B12!important;
+}
+html[data-theme="dark"] .transaction-table .debit,
+html[data-theme="dark"] .transaction-table td.debit{
+  color:#F0B66B!important;
+}
+html[data-theme="dark"] .transaction-table .credit,
+html[data-theme="dark"] .transaction-table td.credit{
+  color:#42D6A1!important;
+}
+html[data-theme="dark"] .transaction-table button,
+html[data-theme="dark"] .transaction-table .d4-view-btn{
+  background:#F5F1E8!important;
+  color:#9B7626!important;
+  border:1px solid #E1D8C8!important;
+}
+html[data-theme="dark"] .d4-empty,
+html[data-theme="dark"] .d4-empty h3{
+  color:#D8D1C5!important;
+}
+
+/* ---------- DARK MODE: COMMON SECONDARY TEXT ---------- */
+html[data-theme="dark"] .card p,
+html[data-theme="dark"] .card span,
+html[data-theme="dark"] .job-card p,
+html[data-theme="dark"] .request-card p,
+html[data-theme="dark"] .activity-card li,
+html[data-theme="dark"] .form-hint,
+html[data-theme="dark"] .helper-text,
+html[data-theme="dark"] .empty-state p{
+  color:#B8B1A7!important;
+}
+html[data-theme="dark"] table th{color:#C8C1B5!important}
+html[data-theme="dark"] table td{color:#E8E3D9!important}
+html[data-theme="dark"] .profile-dropdown span,
+html[data-theme="dark"] .profile-dropdown small{
+  color:#B8B1A7!important;
+}
+
+/* =========================================================
+   WHITE / LIGHT MODE
+   White = 30% visual surface, black/charcoal = structure,
+   gold = 10% accent. Activated by the existing theme toggle.
+========================================================= */
+html[data-theme="light"] body,
+html:not([data-theme="dark"]) body{
+  background:#F7F7F5!important;
+  color:#171717!important;
+}
+html[data-theme="light"] .main-content,
+html:not([data-theme="dark"]) .main-content{
+  background:#F7F7F5!important;
+  color:#171717!important;
+}
+html[data-theme="light"] .topbar,
+html:not([data-theme="dark"]) .topbar{
+  background:rgba(247,247,245,.94)!important;
+  color:#171717!important;
+  border-bottom:1px solid #E5E1D8!important;
+}
+html[data-theme="light"] .topbar h1,
+html[data-theme="light"] .topbar h4,
+html[data-theme="light"] .page-header h2,
+html[data-theme="light"] h1,
+html[data-theme="light"] h2,
+html[data-theme="light"] h3,
+html[data-theme="light"] h4,
+html:not([data-theme="dark"]) h1,
+html:not([data-theme="dark"]) h2,
+html:not([data-theme="dark"]) h3,
+html:not([data-theme="dark"]) h4{
+  color:#171717!important;
+}
+html[data-theme="light"] .topbar p,
+html[data-theme="light"] .page-header p,
+html[data-theme="light"] p,
+html[data-theme="light"] small,
+html[data-theme="light"] label,
+html:not([data-theme="dark"]) p,
+html:not([data-theme="dark"]) small,
+html:not([data-theme="dark"]) label{
+  color:#5F5A52!important;
+}
+
+html[data-theme="light"] .card,
+html[data-theme="light"] .glass,
+html[data-theme="light"] .job-card,
+html[data-theme="light"] .request-card,
+html[data-theme="light"] .performance-card,
+html[data-theme="light"] .activity-card,
+html[data-theme="light"] .analytics-card,
+html[data-theme="light"] .chart-card,
+html[data-theme="light"] .calendar-card,
+html[data-theme="light"] .payment-card,
+html[data-theme="light"] .profile-section-card,
+html[data-theme="light"] .rating-card,
+html[data-theme="light"] .review-card,
+html[data-theme="light"] .settings-card,
+html[data-theme="light"] .certificate-card,
+html[data-theme="light"] .portfolio-card,
+html[data-theme="light"] .day4-panel,
+html[data-theme="light"] .day4-stat-card,
+html:not([data-theme="dark"]) .card,
+html:not([data-theme="dark"]) .glass,
+html:not([data-theme="dark"]) .job-card,
+html:not([data-theme="dark"]) .request-card,
+html:not([data-theme="dark"]) .analytics-card,
+html:not([data-theme="dark"]) .day4-panel,
+html:not([data-theme="dark"]) .day4-stat-card{
+  background:#FFFFFF!important;
+  color:#171717!important;
+  border-color:#E5E1D8!important;
+  box-shadow:0 12px 35px rgba(23,23,23,.07)!important;
+}
+
+html[data-theme="light"] .transaction-table,
+html[data-theme="light"] .transaction-table table,
+html:not([data-theme="dark"]) .transaction-table,
+html:not([data-theme="dark"]) .transaction-table table{
+  background:#FFFFFF!important;
+  color:#171717!important;
+}
+html[data-theme="light"] .transaction-table thead,
+html:not([data-theme="dark"]) .transaction-table thead{
+  background:#F4F1EA!important;
+  color:#8A681F!important;
+}
+html[data-theme="light"] .transaction-table th,
+html:not([data-theme="dark"]) .transaction-table th{
+  color:#6B6255!important;
+  border-bottom:1px solid #E5E1D8!important;
+}
+html[data-theme="light"] .transaction-table td,
+html:not([data-theme="dark"]) .transaction-table td{
+  color:#27231E!important;
+  border-bottom:1px solid #ECE9E2!important;
+}
+html[data-theme="light"] .transaction-table td strong,
+html[data-theme="light"] .transaction-table .transaction-name,
+html:not([data-theme="dark"]) .transaction-table td strong,
+html:not([data-theme="dark"]) .transaction-table .transaction-name{
+  color:#171717!important;
+}
+html[data-theme="light"] .transaction-table td small,
+html[data-theme="light"] .transaction-table td span:not(.d4-tx-status),
+html:not([data-theme="dark"]) .transaction-table td small,
+html:not([data-theme="dark"]) .transaction-table td span:not(.d4-tx-status){
+  color:#70695F!important;
+}
+html[data-theme="light"] .transaction-table tbody tr:hover,
+html:not([data-theme="dark"]) .transaction-table tbody tr:hover{
+  background:#FBF8F1!important;
+}
+html[data-theme="light"] .transaction-table .debit,
+html[data-theme="light"] .transaction-table td.debit,
+html:not([data-theme="dark"]) .transaction-table .debit,
+html:not([data-theme="dark"]) .transaction-table td.debit{
+  color:#A56F13!important;
+}
+html[data-theme="light"] .transaction-table .credit,
+html[data-theme="light"] .transaction-table td.credit,
+html:not([data-theme="dark"]) .transaction-table .credit,
+html:not([data-theme="dark"]) .transaction-table td.credit{
+  color:#16845E!important;
+}
+
+/* ---------- LIGHT MODE FOR CONTROLS / FORMS ---------- */
+html[data-theme="light"] input,
+html[data-theme="light"] textarea,
+html[data-theme="light"] select,
+html:not([data-theme="dark"]) input,
+html:not([data-theme="dark"]) textarea,
+html:not([data-theme="dark"]) select{
+  background:#FFFFFF!important;
+  color:#171717!important;
+  border-color:#DCD7CC!important;
+}
+html[data-theme="light"] input::placeholder,
+html[data-theme="light"] textarea::placeholder,
+html:not([data-theme="dark"]) input::placeholder,
+html:not([data-theme="dark"]) textarea::placeholder{
+  color:#8C877F!important;
+}
+html[data-theme="light"] .search-box,
+html:not([data-theme="dark"]) .search-box{
+  background:#FFFFFF!important;
+  border-color:#DED9CF!important;
+}
+html[data-theme="light"] .search-box input,
+html:not([data-theme="dark"]) .search-box input{color:#171717!important}
+html[data-theme="light"] .secondary-btn,
+html[data-theme="light"] .day4-btn-secondary,
+html:not([data-theme="dark"]) .secondary-btn,
+html:not([data-theme="dark"]) .day4-btn-secondary{
+  background:#FFFFFF!important;
+  color:#171717!important;
+  border-color:#DCD7CC!important;
+}
+
+/* ---------- LIGHT MODALS / DROPDOWNS ---------- */
+html[data-theme="light"] .modal-content,
+html[data-theme="light"] .d4-modal-dialog,
+html[data-theme="light"] .auth-modal-card,
+html[data-theme="light"] .profile-dropdown,
+html:not([data-theme="dark"]) .modal-content,
+html:not([data-theme="dark"]) .d4-modal-dialog,
+html:not([data-theme="dark"]) .auth-modal-card,
+html:not([data-theme="dark"]) .profile-dropdown{
+  background:#FFFFFF!important;
+  color:#171717!important;
+  border-color:#E1DDD4!important;
+}
+html[data-theme="light"] .modal-content h2,
+html[data-theme="light"] .modal-content h3,
+html[data-theme="light"] .d4-modal-dialog h2,
+html[data-theme="light"] .profile-dropdown strong,
+html:not([data-theme="dark"]) .modal-content h2,
+html:not([data-theme="dark"]) .modal-content h3,
+html:not([data-theme="dark"]) .d4-modal-dialog h2,
+html:not([data-theme="dark"]) .profile-dropdown strong{
+  color:#171717!important;
+}
+html[data-theme="light"] .modal-content p,
+html[data-theme="light"] .profile-dropdown span,
+html:not([data-theme="dark"]) .modal-content p,
+html:not([data-theme="dark"]) .profile-dropdown span{
+  color:#625C53!important;
+}
+
+/* Gold remains the single primary accent in both modes. */
+html[data-theme="light"] .primary-btn,
+html[data-theme="light"] .day4-btn-primary,
+html:not([data-theme="dark"]) .primary-btn,
+html:not([data-theme="dark"]) .day4-btn-primary{
+  background:linear-gradient(135deg,#B8943E,#D4AF57)!important;
+  color:#111!important;
+}
+
+/* =========================================================
+   FINAL LIGHT-MODE READABILITY FIX
+   Visual-only: no JavaScript or functionality changes.
+   Fixes inherited dark-theme text that became invisible on
+   white surfaces when data-theme="light" is active.
+========================================================= */
+
+html[data-theme="light"] .welcome-banner,
+html:not([data-theme="dark"]) .welcome-banner{
+  background:linear-gradient(135deg,#17130c 0%,#211b10 58%,#151515 100%)!important;
+  border-color:#6a5527!important;
+}
+html[data-theme="light"] .welcome-banner h2,
+html[data-theme="light"] .welcome-banner p,
+html:not([data-theme="dark"]) .welcome-banner h2,
+html:not([data-theme="dark"]) .welcome-banner p{
+  color:#FFFDF8!important;
+}
+html[data-theme="light"] .welcome-banner p,
+html:not([data-theme="dark"]) .welcome-banner p{
+  color:#C8C0B3!important;
+}
+html[data-theme="light"] .welcome-image,
+html:not([data-theme="dark"]) .welcome-image{
+  color:#D4AF57!important;
+  background:rgba(212,175,87,.12)!important;
+}
+
+/* Dashboard KPI strip injected by the existing JS */
+html[data-theme="light"] .day3-dashboard-strip .day3-kpi,
+html:not([data-theme="dark"]) .day3-dashboard-strip .day3-kpi{
+  background:#FFFFFF!important;
+  border-color:#E5E1D8!important;
+  color:#171717!important;
+  box-shadow:0 8px 24px rgba(23,23,23,.06)!important;
+}
+html[data-theme="light"] .day3-kpi strong,
+html:not([data-theme="dark"]) .day3-kpi strong{
+  color:#171717!important;
+}
+html[data-theme="light"] .day3-kpi span,
+html:not([data-theme="dark"]) .day3-kpi span{
+  color:#5F5A52!important;
+}
+html[data-theme="light"] .day3-kpi-icon,
+html:not([data-theme="dark"]) .day3-kpi-icon{
+  background:#F4F1EA!important;
+  color:#A87918!important;
+}
+
+/* Day-4 stat cards */
+html[data-theme="light"] .day4-stat-card,
+html:not([data-theme="dark"]) .day4-stat-card{
+  background:#FFFFFF!important;
+  color:#171717!important;
+  border-color:#E5E1D8!important;
+}
+html[data-theme="light"] .day4-stat-card strong,
+html:not([data-theme="dark"]) .day4-stat-card strong{
+  color:#171717!important;
+}
+html[data-theme="light"] .day4-stat-card span,
+html:not([data-theme="dark"]) .day4-stat-card span,
+html[data-theme="light"] .day4-stat-card small,
+html:not([data-theme="dark"]) .day4-stat-card small{
+  color:#625C53!important;
+}
+
+/* Common content that previously inherited white text */
+html[data-theme="light"] .portfolio-card,
+html[data-theme="light"] .portfolio-item,
+html[data-theme="light"] .profile-stat-card,
+html[data-theme="light"] .experience-item,
+html[data-theme="light"] .certificate-card,
+html[data-theme="light"] .settings-card,
+html:not([data-theme="dark"]) .portfolio-card,
+html:not([data-theme="dark"]) .portfolio-item,
+html:not([data-theme="dark"]) .profile-stat-card,
+html:not([data-theme="dark"]) .experience-item,
+html:not([data-theme="dark"]) .certificate-card,
+html:not([data-theme="dark"]) .settings-card{
+  color:#171717!important;
+}
+html[data-theme="light"] .portfolio-card h3,
+html[data-theme="light"] .portfolio-item h3,
+html[data-theme="light"] .profile-stat-card h3,
+html[data-theme="light"] .experience-item h3,
+html[data-theme="light"] .certificate-card h3,
+html[data-theme="light"] .settings-card h3,
+html:not([data-theme="dark"]) .portfolio-card h3,
+html:not([data-theme="dark"]) .portfolio-item h3,
+html:not([data-theme="dark"]) .profile-stat-card h3,
+html:not([data-theme="dark"]) .experience-item h3,
+html:not([data-theme="dark"]) .certificate-card h3,
+html:not([data-theme="dark"]) .settings-card h3{
+  color:#171717!important;
+}
+html[data-theme="light"] .portfolio-card p,
+html[data-theme="light"] .portfolio-item p,
+html[data-theme="light"] .profile-stat-card p,
+html[data-theme="light"] .experience-item p,
+html[data-theme="light"] .certificate-card p,
+html[data-theme="light"] .settings-card p,
+html:not([data-theme="dark"]) .portfolio-card p,
+html:not([data-theme="dark"]) .portfolio-item p,
+html:not([data-theme="dark"]) .profile-stat-card p,
+html:not([data-theme="dark"]) .experience-item p,
+html:not([data-theme="dark"]) .certificate-card p,
+html:not([data-theme="dark"]) .settings-card p{
+  color:#625C53!important;
+}
+
+/* Day-4 panels and their secondary labels */
+html[data-theme="light"] .day4-panel-head h2,
+html[data-theme="light"] .day4-panel h2,
+html[data-theme="light"] .day4-panel h3,
+html:not([data-theme="dark"]) .day4-panel-head h2,
+html:not([data-theme="dark"]) .day4-panel h2,
+html:not([data-theme="dark"]) .day4-panel h3{
+  color:#171717!important;
+}
+html[data-theme="light"] .day4-panel-head p,
+html[data-theme="light"] .day4-panel p,
+html[data-theme="light"] .d4-chart-y,
+html[data-theme="light"] .d4-chart-summary span,
+html[data-theme="light"] .d4-performance-list>div>div:first-child,
+html:not([data-theme="dark"]) .day4-panel-head p,
+html:not([data-theme="dark"]) .day4-panel p,
+html:not([data-theme="dark"]) .d4-chart-y,
+html:not([data-theme="dark"]) .d4-chart-summary span,
+html:not([data-theme="dark"]) .d4-performance-list>div>div:first-child{
+  color:#625C53!important;
+}
+html[data-theme="light"] .d4-chart-summary strong,
+html[data-theme="light"] .d4-performance-list strong,
+html:not([data-theme="dark"]) .d4-chart-summary strong,
+html:not([data-theme="dark"]) .d4-performance-list strong{
+  color:#171717!important;
+}
+
+/* Wallet cards: preserve intentional dark/gold balance card,
+   but make white cards readable. */
+html[data-theme="light"] .income-card,
+html[data-theme="light"] .withdraw-card,
+html[data-theme="light"] .pending-card,
+html:not([data-theme="dark"]) .income-card,
+html:not([data-theme="dark"]) .withdraw-card,
+html:not([data-theme="dark"]) .pending-card{
+  background:#FFFFFF!important;
+  color:#171717!important;
+  border:1px solid #E5E1D8!important;
+}
+html[data-theme="light"] .income-card h2,
+html[data-theme="light"] .withdraw-card h2,
+html[data-theme="light"] .pending-card h2,
+html:not([data-theme="dark"]) .income-card h2,
+html:not([data-theme="dark"]) .withdraw-card h2,
+html:not([data-theme="dark"]) .pending-card h2{
+  color:#171717!important;
+}
+html[data-theme="light"] .income-card p,
+html[data-theme="light"] .withdraw-card p,
+html[data-theme="light"] .pending-card p,
+html:not([data-theme="dark"]) .income-card p,
+html:not([data-theme="dark"]) .withdraw-card p,
+html:not([data-theme="dark"]) .pending-card p{
+  color:#625C53!important;
+}
+
+/* Analytics / charts / ratings */
+html[data-theme="light"] .analytics-card h2,
+html[data-theme="light"] .chart-card h2,
+html[data-theme="light"] .rating-card h2,
+html[data-theme="light"] .performance-card h3,
+html:not([data-theme="dark"]) .analytics-card h2,
+html:not([data-theme="dark"]) .chart-card h2,
+html:not([data-theme="dark"]) .rating-card h2,
+html:not([data-theme="dark"]) .performance-card h3{
+  color:#171717!important;
+}
+html[data-theme="light"] .analytics-card p,
+html[data-theme="light"] .chart-card p,
+html[data-theme="light"] .rating-card p,
+html[data-theme="light"] .performance-card p,
+html:not([data-theme="dark"]) .analytics-card p,
+html:not([data-theme="dark"]) .chart-card p,
+html:not([data-theme="dark"]) .rating-card p,
+html:not([data-theme="dark"]) .performance-card p{
+  color:#625C53!important;
+}
+
+/* Search / header controls */
+html[data-theme="light"] .topbar .icon,
+html[data-theme="light"] .theme-toggle,
+html:not([data-theme="dark"]) .topbar .icon,
+html:not([data-theme="dark"]) .theme-toggle{
+  background:#FFFFFF!important;
+  color:#171717!important;
+  border-color:#DED9CF!important;
+}
+html[data-theme="light"] .topbar .icon i,
+html[data-theme="light"] .theme-toggle i,
+html:not([data-theme="dark"]) .topbar .icon i,
+html:not([data-theme="dark"]) .theme-toggle i{
+  color:#171717!important;
+}
