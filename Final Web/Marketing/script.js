@@ -1,11 +1,15 @@
-/**
- * SKILLIANT - Core JavaScript Application
- * Production Frontend - Vanilla ES6+
+﻿/**
+ * SKILLIANT - Core JavaScript Application & Authentication Engine
+ * Production SaaS Frontend - Vanilla ES6+
+ * Version: 2.0.0
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
+  initAuthSession();
   initNavigation();
+  initAuthNavigation();
+  initAccountModal();
   initCounters();
   initAccordions();
   initPasswordToggles();
@@ -17,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initLabourSearch();
   initBlogFilter();
   initRoleSelectors();
+  initSuccessPage();
 });
 
 /* ==========================================================================
@@ -70,7 +75,7 @@ const WORKERS_DATA = [
     rate: "$42",
     rateUnit: "/hr",
     avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80",
-    bio: "Expert bespoke cabinetry, custom wooden shelving, furniture restoration, and framing. Detail-oriented craftsman.",
+    bio: "Expert bespoke cabinetry, custom wooden shelving, furniture restoration, and structural framing. Detail-oriented craftsman.",
     verified: true,
     available: true,
     badges: ["Master Craftsman"]
@@ -260,7 +265,235 @@ const BLOG_DATA = [
 ];
 
 /* ==========================================================================
-   2. THEME ENGINE (DARK / LIGHT MODE)
+   2. AUTHENTICATION & SESSION ENGINE
+   ========================================================================== */
+
+const DEFAULT_USERS = [
+  {
+    name: "Alex Morgan",
+    email: "alex@example.com",
+    password: "Password123!",
+    phone: "+1 (555) 019-2834",
+    role: "customer",
+    joinedDate: "August 2026",
+    bookingsCount: 2
+  },
+  {
+    name: "Marcus Vance",
+    email: "marcus@skilliant.com",
+    password: "Password123!",
+    phone: "+1 (555) 014-9988",
+    role: "worker",
+    profession: "Master Electrician",
+    joinedDate: "June 2025",
+    bookingsCount: 142
+  }
+];
+
+function initAuthSession() {
+  if (!localStorage.getItem('skilliant_users')) {
+    localStorage.setItem('skilliant_users', JSON.stringify(DEFAULT_USERS));
+  }
+  if (!localStorage.getItem('skilliant_bookings')) {
+    const defaultBookings = [
+      {
+        id: "BK-84920",
+        workerName: "Marcus Vance",
+        workerProfession: "Master Electrician",
+        date: "2026-08-28",
+        hours: "4",
+        status: "Escrow Protected",
+        rate: "$45/hr",
+        total: "$180.00"
+      }
+    ];
+    localStorage.setItem('skilliant_bookings', JSON.stringify(defaultBookings));
+  }
+}
+
+function getAuthSession() {
+  try {
+    const data = localStorage.getItem('skilliant_auth');
+    return data ? JSON.parse(data) : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function setAuthSession(user) {
+  const session = {
+    isLoggedIn: true,
+    user: user,
+    token: 'sk_' + Math.random().toString(36).substring(2, 15) + Date.now().toString(36),
+    loginTime: new Date().toISOString()
+  };
+  localStorage.setItem('skilliant_auth', JSON.stringify(session));
+  return session;
+}
+
+function clearAuthSession() {
+  localStorage.removeItem('skilliant_auth');
+}
+
+function initAuthNavigation() {
+  const navActions = document.querySelector('.nav-actions');
+  if (!navActions) return;
+
+  const session = getAuthSession();
+  const themeBtn = navActions.querySelector('.theme-toggle');
+  const mobileBtn = navActions.querySelector('.mobile-toggle');
+
+  if (session && session.isLoggedIn && session.user) {
+    const u = session.user;
+    const initials = u.name ? u.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2) : 'SK';
+
+    let profileHtml = `
+      <div class="user-nav-profile" id="userNavProfile" role="button" tabindex="0" aria-label="Open User Account">
+        <div class="user-avatar-badge">${initials}</div>
+        <span style="max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${u.name.split(' ')[0]}</span>
+        <span class="user-role-pill">${u.role}</span>
+      </div>
+      <button type="button" class="btn btn-outline btn-sm" id="logoutNavBtn">Log Out</button>
+    `;
+
+    // Retain theme button & mobile toggle
+    navActions.querySelectorAll('.btn, .user-nav-profile').forEach(el => el.remove());
+    if (themeBtn) {
+      themeBtn.insertAdjacentHTML('afterend', profileHtml);
+    } else {
+      navActions.insertAdjacentHTML('afterbegin', profileHtml);
+    }
+
+    const profileEl = document.getElementById('userNavProfile');
+    if (profileEl) {
+      profileEl.addEventListener('click', openAccountModal);
+      profileEl.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openAccountModal();
+        }
+      });
+    }
+
+    const logoutBtn = document.getElementById('logoutNavBtn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        clearAuthSession();
+        showToast('You have been logged out successfully', 'info');
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
+      });
+    }
+  }
+}
+
+/* ==========================================================================
+   3. USER ACCOUNT DASHBOARD MODAL
+   ========================================================================== */
+
+function initAccountModal() {
+  if (document.getElementById('accountModal')) return;
+
+  const modalHtml = `
+    <div class="modal-backdrop" id="accountModal" aria-hidden="true" role="dialog">
+      <div class="modal-content" style="max-width: 580px;">
+        <button class="modal-close-btn" aria-label="Close Account Modal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+
+        <div class="account-card-header">
+          <div class="account-avatar-large" id="accAvatarLarge">AM</div>
+          <div>
+            <h3 id="accName" style="margin-bottom: 0.15rem;">User Name</h3>
+            <p id="accEmail" style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.35rem;">user@example.com</p>
+            <span class="badge badge-primary" id="accRoleBadge">Customer</span>
+          </div>
+        </div>
+
+        <div class="account-stat-grid">
+          <div class="account-stat-box">
+            <span class="number" id="accBookingsCount">1</span>
+            <span class="label">Active Trade Bookings</span>
+          </div>
+          <div class="account-stat-box">
+            <span class="number" style="color: var(--accent-green);" id="accEscrowStatus">$10,000</span>
+            <span class="label">Escrow Guarantee Protected</span>
+          </div>
+        </div>
+
+        <h4 style="font-size: 1.05rem; margin-bottom: 0.75rem;">Your Scheduled Services</h4>
+        <div id="accBookingsList" style="margin-bottom: 1.75rem; max-height: 180px; overflow-y: auto;">
+          <!-- Bookings injected here -->
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+          <button type="button" class="btn btn-outline" onclick="closeModal('accountModal')">Close</button>
+          <button type="button" class="btn btn-primary" onclick="window.location.href='services.html'">Find More Workers</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.body.insertAdjacentHTML('beforeend', modalHtml);
+}
+
+function openAccountModal() {
+  const session = getAuthSession();
+  if (!session || !session.user) {
+    window.location.href = 'login.html';
+    return;
+  }
+
+  const u = session.user;
+  const modal = document.getElementById('accountModal');
+  if (!modal) return;
+
+  const initials = u.name ? u.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2) : 'SK';
+  const avatarLarge = modal.querySelector('#accAvatarLarge');
+  const nameEl = modal.querySelector('#accName');
+  const emailEl = modal.querySelector('#accEmail');
+  const roleBadge = modal.querySelector('#accRoleBadge');
+  const bookingsList = modal.querySelector('#accBookingsList');
+
+  if (avatarLarge) avatarLarge.textContent = initials;
+  if (nameEl) nameEl.textContent = u.name;
+  if (emailEl) emailEl.textContent = `${u.email} â€¢ ${u.phone || 'Phone verified'}`;
+  if (roleBadge) {
+    roleBadge.textContent = u.role === 'worker' ? 'Verified Worker Pro' : 'Verified Homeowner / Client';
+  }
+
+  // Load bookings
+  let bookings = [];
+  try {
+    bookings = JSON.parse(localStorage.getItem('skilliant_bookings') || '[]');
+  } catch (e) {
+    bookings = [];
+  }
+
+  if (bookingsList) {
+    if (bookings.length === 0) {
+      bookingsList.innerHTML = `<p style="font-size: 0.88rem; color: var(--text-muted); padding: 1rem 0;">No active bookings. Browse services to hire verified tradespeople.</p>`;
+    } else {
+      bookingsList.innerHTML = bookings.map(b => `
+        <div class="booking-item">
+          <div>
+            <strong style="display: block; color: var(--text-dark);">${b.workerProfession || 'Service'} with ${b.workerName}</strong>
+            <span style="font-size: 0.78rem; color: var(--text-muted);">Date: ${b.date} â€¢ ${b.hours} hrs (${b.rate})</span>
+          </div>
+          <span class="badge badge-success" style="font-size: 0.75rem;">${b.status || 'Escrow Protected'}</span>
+        </div>
+      `).join('');
+    }
+  }
+
+  openModal('accountModal');
+}
+window.openAccountModal = openAccountModal;
+
+/* ==========================================================================
+   4. THEME ENGINE (DARK / LIGHT MODE)
    ========================================================================== */
 
 function initTheme() {
@@ -292,7 +525,7 @@ function setTheme(theme) {
 }
 
 /* ==========================================================================
-   3. NAVIGATION & MOBILE DRAWER
+   5. NAVIGATION & MOBILE DRAWER
    ========================================================================== */
 
 function initNavigation() {
@@ -351,7 +584,7 @@ function initNavigation() {
 }
 
 /* ==========================================================================
-   4. ROLE SELECTOR HELPER (REGISTER PAGE)
+   6. ROLE SELECTOR HELPER (REGISTER PAGE)
    ========================================================================== */
 
 function initRoleSelectors() {
@@ -371,7 +604,7 @@ function initRoleSelectors() {
 }
 
 /* ==========================================================================
-   5. TOAST NOTIFICATION SYSTEM
+   7. TOAST NOTIFICATION SYSTEM
    ========================================================================== */
 
 function showToast(message, type = 'info', duration = 4000) {
@@ -424,7 +657,7 @@ function showToast(message, type = 'info', duration = 4000) {
 window.showToast = showToast;
 
 /* ==========================================================================
-   6. MODAL SYSTEM
+   8. MODAL SYSTEM
    ========================================================================== */
 
 function initModals() {
@@ -476,8 +709,12 @@ function closeModal(modalId) {
 }
 window.closeModal = closeModal;
 
+let currentSelectedWorker = null;
+
 function openHireModal(workerId) {
   const worker = WORKERS_DATA.find(w => w.id === Number(workerId)) || WORKERS_DATA[0];
+  currentSelectedWorker = worker;
+
   const modal = document.getElementById('hireModal');
   if (!modal) return;
 
@@ -491,18 +728,30 @@ function openHireModal(workerId) {
   if (targetRate) targetRate.textContent = `${worker.rate}${worker.rateUnit}`;
   if (targetImg) targetImg.src = worker.avatar;
 
+  // Set minimum date to today
+  const dateInput = modal.querySelector('#hireDate');
+  if (dateInput) {
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.setAttribute('min', today);
+    if (!dateInput.value) dateInput.value = today;
+  }
+
   openModal('hireModal');
 }
 window.openHireModal = openHireModal;
 
 /* ==========================================================================
-   7. LABOUR SEARCH & FILTER ENGINE
+   9. LABOUR SEARCH & FILTER ENGINE
    ========================================================================== */
 
 function initLabourSearch() {
   const searchInput = document.getElementById('searchQuery');
   const categorySelect = document.getElementById('searchCategory');
   const locationSelect = document.getElementById('searchLocation');
+  const urlCategory = new URLSearchParams(window.location.search).get('category');
+  if (urlCategory && categorySelect) {
+    categorySelect.value = urlCategory;
+  }
   const searchBtn = document.getElementById('searchSubmitBtn');
   const resultsContainer = document.getElementById('labourResultsContainer');
 
@@ -540,7 +789,7 @@ function initLabourSearch() {
             <h4>${w.name} ${w.verified ? '<span class="badge badge-verified"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Verified</span>' : ''}</h4>
             <div class="worker-profession">${w.profession}</div>
             <div class="worker-meta">
-              <span class="rating-badge">★ ${w.rating}</span>
+              <span class="rating-badge">â˜… ${w.rating}</span>
               <span>(${w.reviews} reviews)</span>
             </div>
           </div>
@@ -620,7 +869,7 @@ function initLabourSearch() {
 }
 
 /* ==========================================================================
-   8. BLOG SEARCH & FILTER ENGINE
+   10. BLOG SEARCH & FILTER ENGINE
    ========================================================================== */
 
 function initBlogFilter() {
@@ -663,13 +912,13 @@ function initBlogFilter() {
           <div class="blog-meta">
             <span class="badge badge-primary">${post.category.replace('-', ' ')}</span>
             <span>${post.date}</span>
-            <span>• ${post.readTime}</span>
+            <span>â€¢ ${post.readTime}</span>
           </div>
           <h4>${post.title}</h4>
           <p>${post.snippet}</p>
           <div style="margin-top: auto; display: flex; justify-content: space-between; align-items: center;">
             <span style="font-size: 0.85rem; font-weight: 500; color: var(--text-dark);">${post.author}</span>
-            <a href="#" class="btn btn-ghost btn-sm" onclick="event.preventDefault(); showToast('Full article reader view coming soon!', 'info')">Read Article →</a>
+            <a href="#" class="btn btn-ghost btn-sm" onclick="event.preventDefault(); showToast('Full article reader view: ' + '${post.title.replace(/'/g, "\\'")}', 'info')">Read Article â†’</a>
           </div>
         </div>
       </article>
@@ -693,7 +942,7 @@ function initBlogFilter() {
 }
 
 /* ==========================================================================
-   9. ANIMATED COUNTERS (STATISTICS)
+   11. ANIMATED COUNTERS (STATISTICS)
    ========================================================================== */
 
 function initCounters() {
@@ -731,7 +980,7 @@ function initCounters() {
 }
 
 /* ==========================================================================
-   10. FAQ ACCORDION ENGINE
+   12. FAQ ACCORDION ENGINE
    ========================================================================== */
 
 function initAccordions() {
@@ -768,7 +1017,7 @@ function initAccordions() {
 }
 
 /* ==========================================================================
-   11. PASSWORD TOOLS & VISIBILITY
+   13. PASSWORD TOOLS & VISIBILITY
    ========================================================================== */
 
 function initPasswordToggles() {
@@ -812,7 +1061,7 @@ function initPasswordStrength() {
         { width: '0%', color: 'transparent', text: 'Enter at least 8 characters' },
         { width: '25%', color: '#EF4444', text: 'Weak password' },
         { width: '50%', color: '#F59E0B', text: 'Fair password' },
-        { width: '75%', color: '#D97706', text: 'Good password' },
+        { width: '75%', color: '#0284C7', text: 'Good password' },
         { width: '100%', color: '#10B981', text: 'Strong & secure password' }
       ];
 
@@ -825,12 +1074,24 @@ function initPasswordStrength() {
 }
 
 /* ==========================================================================
-   12. OTP INPUT HANDLER (EMAIL VERIFICATION)
+   14. OTP INPUT HANDLER (EMAIL VERIFICATION)
    ========================================================================== */
 
 function initOtpInputs() {
   const otpBoxes = document.querySelectorAll('.otp-box');
   if (otpBoxes.length === 0) return;
+
+  // Display user pending email if available
+  const pendingReg = sessionStorage.getItem('skilliant_pending_reg');
+  if (pendingReg) {
+    try {
+      const regObj = JSON.parse(pendingReg);
+      const emailNotice = document.querySelector('.auth-header p');
+      if (emailNotice && regObj.email) {
+        emailNotice.innerHTML = `Weâ€™ve sent a 6-digit confirmation code to <strong>${regObj.email}</strong>. Please enter it below to activate your account.`;
+      }
+    } catch (e) {}
+  }
 
   otpBoxes.forEach((box, index) => {
     box.addEventListener('input', (e) => {
@@ -891,7 +1152,7 @@ function initOtpInputs() {
 
     resendBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      showToast('A new 6-digit code has been sent to your email.', 'success');
+      showToast('A new 6-digit verification code has been dispatched to your email.', 'success');
       resendBtn.setAttribute('disabled', 'true');
       resendBtn.style.opacity = '0.5';
       resendBtn.style.pointerEvents = 'none';
@@ -901,7 +1162,7 @@ function initOtpInputs() {
 }
 
 /* ==========================================================================
-   13. PRICING TOGGLE ENGINE
+   15. PRICING TOGGLE ENGINE
    ========================================================================== */
 
 function initPricingToggle() {
@@ -931,7 +1192,7 @@ function initPricingToggle() {
 }
 
 /* ==========================================================================
-   14. FORM VALIDATION & SIMULATION ENGINE
+   16. FORM VALIDATION & SIMULATION ENGINE
    ========================================================================== */
 
 function validateEmail(email) {
@@ -964,6 +1225,7 @@ function setFieldValidation(input, isValid, errorMsg = '') {
 }
 
 function initForms() {
+  // Contact & Concierge Form
   document.querySelectorAll('form#contactForm').forEach(form => {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -1009,18 +1271,25 @@ function initForms() {
           submitBtn.classList.remove('loading');
           form.reset();
           form.querySelectorAll('.is-valid').forEach(el => el.classList.remove('is-valid'));
-          showToast('Thank you! Your message has been sent to our dispatch team.', 'success');
-        }, 1200);
+          showToast('Thank you! Your inquiry has been routed to our concierge team.', 'success', 5000);
+        }, 1100);
       }
     });
   });
 
+  // Login Form
   const loginForm = document.getElementById('loginForm');
   if (loginForm) {
+    const session = getAuthSession();
+    if (session && session.isLoggedIn) {
+      showToast('You are already logged in as ' + session.user.name, 'info');
+    }
+
     loginForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const email = loginForm.querySelector('#loginEmail');
       const password = loginForm.querySelector('#loginPassword');
+      const rememberMe = loginForm.querySelector('#rememberMe');
       const submitBtn = loginForm.querySelector('button[type="submit"]');
 
       let valid = true;
@@ -1040,17 +1309,39 @@ function initForms() {
 
       if (valid) {
         submitBtn.classList.add('loading');
+
         setTimeout(() => {
           submitBtn.classList.remove('loading');
-          showToast('Login successful! Redirecting...', 'success');
+          const users = JSON.parse(localStorage.getItem('skilliant_users') || '[]');
+          const inputEmail = email.value.trim().toLowerCase();
+          const foundUser = users.find(u => u.email.toLowerCase() === inputEmail);
+
+          let activeUser;
+          if (foundUser) {
+            activeUser = foundUser;
+          } else {
+            // Create user object based on login details
+            activeUser = {
+              name: inputEmail.split('@')[0].replace('.', ' ').replace(/\b\w/g, l => l.toUpperCase()),
+              email: email.value.trim(),
+              role: 'customer',
+              phone: '+1 (555) 019-2834',
+              joinedDate: 'August 2026'
+            };
+          }
+
+          setAuthSession(activeUser);
+          showToast(`Welcome back, ${activeUser.name}!`, 'success');
+
           setTimeout(() => {
             window.location.href = 'index.html';
-          }, 700);
+          }, 800);
         }, 900);
       }
     });
   }
 
+  // Registration Form
   const registerForm = document.getElementById('registerForm');
   if (registerForm) {
     registerForm.addEventListener('submit', (e) => {
@@ -1061,6 +1352,7 @@ function initForms() {
       const password = registerForm.querySelector('#registerPassword');
       const confirmPassword = registerForm.querySelector('#registerConfirmPassword');
       const termsCheck = registerForm.querySelector('#registerTerms');
+      const roleInput = registerForm.querySelector('input[name="accountRole"]:checked');
       const submitBtn = registerForm.querySelector('button[type="submit"]');
 
       let valid = true;
@@ -1107,14 +1399,27 @@ function initForms() {
 
       if (valid) {
         submitBtn.classList.add('loading');
+
+        const pendingUser = {
+          name: name.value.trim(),
+          email: email.value.trim(),
+          phone: phone.value.trim(),
+          password: password.value,
+          role: roleInput ? roleInput.value : 'customer',
+          joinedDate: 'August 2026'
+        };
+
+        sessionStorage.setItem('skilliant_pending_reg', JSON.stringify(pendingUser));
+
         setTimeout(() => {
           submitBtn.classList.remove('loading');
           window.location.href = 'email-verification.html';
-        }, 1100);
+        }, 1000);
       }
     });
   }
 
+  // Forgot Password Form
   const forgotForm = document.getElementById('forgotPasswordForm');
   if (forgotForm) {
     forgotForm.addEventListener('submit', (e) => {
@@ -1129,16 +1434,19 @@ function initForms() {
 
       setFieldValidation(email, true);
       submitBtn.classList.add('loading');
+      sessionStorage.setItem('skilliant_reset_email', email.value.trim());
+
       setTimeout(() => {
         submitBtn.classList.remove('loading');
-        showToast('Password reset link sent to your email!', 'success');
+        showToast('Password reset verification link sent to ' + email.value.trim(), 'success');
         setTimeout(() => {
           window.location.href = 'reset-password.html';
-        }, 1000);
+        }, 900);
       }, 900);
     });
   }
 
+  // Reset Password Form
   const resetForm = document.getElementById('resetPasswordForm');
   if (resetForm) {
     resetForm.addEventListener('submit', (e) => {
@@ -1166,12 +1474,16 @@ function initForms() {
         submitBtn.classList.add('loading');
         setTimeout(() => {
           submitBtn.classList.remove('loading');
-          window.location.href = 'success.html';
+          showToast('Password updated successfully!', 'success');
+          setTimeout(() => {
+            window.location.href = 'success.html?action=password-reset';
+          }, 800);
         }, 900);
       }
     });
   }
 
+  // OTP Form (Email Verification)
   const otpForm = document.getElementById('otpForm');
   if (otpForm) {
     otpForm.addEventListener('submit', (e) => {
@@ -1186,18 +1498,35 @@ function initForms() {
       }
 
       submitBtn.classList.add('loading');
+
+      // Promote pending user to active registered user
+      const pendingReg = sessionStorage.getItem('skilliant_pending_reg');
+      if (pendingReg) {
+        try {
+          const userObj = JSON.parse(pendingReg);
+          const users = JSON.parse(localStorage.getItem('skilliant_users') || '[]');
+          users.push(userObj);
+          localStorage.setItem('skilliant_users', JSON.stringify(users));
+          setAuthSession(userObj);
+          sessionStorage.removeItem('skilliant_pending_reg');
+        } catch (e) {}
+      }
+
       setTimeout(() => {
         submitBtn.classList.remove('loading');
-        window.location.href = 'success.html';
+        window.location.href = 'success.html?action=registered';
       }, 1000);
     });
   }
 
+  // Hire Booking Modal Form
   const hireForm = document.getElementById('hireBookingForm');
   if (hireForm) {
     hireForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const serviceDate = hireForm.querySelector('#hireDate');
+      const hoursSelect = hireForm.querySelector('#hireHours');
+      const notes = hireForm.querySelector('#hireNotes');
       const submitBtn = hireForm.querySelector('button[type="submit"]');
 
       if (!serviceDate.value) {
@@ -1206,12 +1535,57 @@ function initForms() {
       }
 
       submitBtn.classList.add('loading');
+
+      const worker = currentSelectedWorker || WORKERS_DATA[0];
+      const newBooking = {
+        id: "BK-" + Math.floor(10000 + Math.random() * 90000),
+        workerName: worker.name,
+        workerProfession: worker.profession,
+        date: serviceDate.value,
+        hours: hoursSelect ? hoursSelect.value : '4',
+        rate: `${worker.rate}${worker.rateUnit}`,
+        notes: notes ? notes.value.trim() : '',
+        status: "Escrow Confirmed",
+        timestamp: new Date().toISOString()
+      };
+
+      try {
+        const bookings = JSON.parse(localStorage.getItem('skilliant_bookings') || '[]');
+        bookings.unshift(newBooking);
+        localStorage.setItem('skilliant_bookings', JSON.stringify(bookings));
+      } catch (e) {}
+
       setTimeout(() => {
         submitBtn.classList.remove('loading');
         closeModal('hireModal');
-        showToast('Booking request confirmed! The professional will contact you shortly.', 'success', 5000);
+        showToast(`Booking request confirmed with ${worker.name}! Escrow guarantee active.`, 'success', 5000);
         hireForm.reset();
-      }, 1100);
+      }, 1000);
     });
+  }
+}
+
+/* ==========================================================================
+   17. SUCCESS PAGE DYNAMIC HANDLER
+   ========================================================================== */
+
+function initSuccessPage() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const action = urlParams.get('action');
+  const mainHeading = document.querySelector('.auth-card h2');
+  const subtitle = document.querySelector('.auth-card p');
+  const badge = document.querySelector('.auth-card .badge');
+
+  if (!mainHeading) return;
+
+  if (action === 'password-reset') {
+    if (badge) badge.textContent = 'Security Updated';
+    if (mainHeading) mainHeading.textContent = 'Password Reset Successfully!';
+    if (subtitle) subtitle.textContent = 'Your account password has been updated. You can now log in securely with your new credentials.';
+  } else if (action === 'registered') {
+    const session = getAuthSession();
+    if (badge) badge.textContent = 'Account Activated';
+    if (mainHeading) mainHeading.textContent = session ? `Welcome, ${session.user.name}!` : 'Registration Complete!';
+    if (subtitle) subtitle.textContent = 'Your email has been verified and your profile is now active on the Skilliant labour marketplace.';
   }
 }
