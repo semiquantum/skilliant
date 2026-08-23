@@ -673,3 +673,21 @@ This should be implemented during the backend phase rather than using temporary 
 **Later phase:** 🗄️ SQL / Database
 
 This separation keeps the current frontend integration safe, testable, and maintainable.
+
+
+## Real Admin OTP Delivery
+- Sender EmailJS service: `hunter14112001@gmail.com`
+- Recipient is always the authorized Admin email stored in the Admin Portal.
+- OTP is generated automatically only after authorization succeeds.
+- OTP expires after 60 seconds and previous OTP state is invalidated.
+- EmailJS template must use `{{to_email}}` for To Email and `{{passcode}}` for OTP.
+- Set the template Reply-To to `hunter14112001@gmail.com` if you want replies to go to Hunter.
+- No Gmail password or EmailJS private key is stored in the frontend.
+
+
+## Password Reset / OTP
+- Authorized Admin email for the current frontend build: `meetmhatre2006@gmail.com`.
+- A fresh 6-digit OTP is generated automatically only after the email matches an active Admin record.
+- OTP validity: 60 seconds; every resend invalidates the previous OTP.
+- Email delivery uses the configured EmailJS Gmail service. The connected Gmail account is the sender; the authorized Admin email is the recipient.
+- This build is frontend-only. When SQL/backend is introduced, the authorized-account check and OTP verification must be moved server-side; do not treat localStorage as a secure authentication boundary.

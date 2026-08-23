@@ -167,10 +167,17 @@
 }
 
 .forgot-password {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    margin: 0;
     color: var(--primary-blue);
+    font: inherit;
     font-weight: 600;
     transition: color var(--transition-fast);
     font-size: 0.85rem;
+    cursor: pointer;
 }
 
 .forgot-password:hover {
@@ -206,4 +213,187 @@
     display: flex;
     align-items: center;
     gap: 4px;
+}
+
+
+/* Forgot-password / OTP delivery states */
+.reset-status,.verification-badge{display:flex;align-items:flex-start;gap:.75rem;padding:.9rem 1rem;border:1px solid rgba(34,197,94,.28);background:rgba(34,197,94,.08);border-radius:12px;color:var(--text-primary)}
+.reset-status i,.verification-badge i{color:#16a34a;font-size:1.15rem;margin-top:.12rem}.reset-status div,.verification-badge div{display:flex;flex-direction:column;gap:.18rem}.reset-status span,.verification-badge span{font-size:.82rem;color:var(--text-muted)}
+.otp-flow{display:flex;flex-direction:column;gap:1rem}.email-delivery-state{display:flex;align-items:center;gap:.5rem;font-size:.82rem;color:var(--text-muted)}.delivery-dot{width:8px;height:8px;border-radius:50%;background:#16a34a;box-shadow:0 0 0 5px rgba(22,163,74,.10)}.otp-input{text-align:center;letter-spacing:.35em;font-weight:700;font-size:1.25rem}.otp-timer{text-align:center;font-weight:700;color:var(--accent-primary,#a67c2f);font-variant-numeric:tabular-nums}.otp-flow .btn{width:100%}
+
+/* =====================================================
+   PROFESSIONAL PASSWORD RECOVERY FLOW
+   ===================================================== */
+.recovery-flow{display:flex;flex-direction:column;gap:1.1rem}.recovery-steps{display:flex;align-items:center;justify-content:center;width:100%;gap:.45rem;padding:.15rem 0 .65rem}.recovery-step{display:flex;align-items:center;gap:.4rem;color:var(--text-light);font-size:.72rem;white-space:nowrap}.recovery-step span{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--border-color);background:var(--surface-secondary,#f8fafc);font-weight:800}.recovery-step.active,.recovery-step.complete{color:var(--primary-blue,#2563eb)}.recovery-step.active span,.recovery-step.complete span{border-color:currentColor;color:currentColor;background:rgba(37,99,235,.08)}.recovery-step.complete span{background:#ecfdf5;color:#059669;border-color:#a7f3d0}.recovery-line{height:1px;flex:1;max-width:48px;background:var(--border-color)}.recovery-line.active{background:#059669}.recovery-intro{display:flex;gap:1rem;align-items:flex-start;padding:1rem;border:1px solid var(--border-color);border-radius:16px;background:linear-gradient(135deg,rgba(255,255,255,.9),rgba(248,250,252,.95))}.recovery-icon{width:42px;height:42px;flex:0 0 42px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,#111827,#6b4f21);color:#fff;font-size:1rem}.recovery-intro h4,.verification-hero h4{margin:0;font-size:1rem;color:var(--text-main)}.recovery-intro p,.verification-hero p{margin:.25rem 0 0;color:var(--text-muted);font-size:.82rem;line-height:1.55}.recovery-field{display:flex;flex-direction:column;gap:.45rem}.recovery-field label{font-size:.78rem;font-weight:700;color:var(--text-main)}.recovery-field small{font-size:.72rem;color:var(--text-light);line-height:1.4}.recovery-input-wrap{position:relative;display:flex;align-items:center}.recovery-input-wrap>i{position:absolute;left:.9rem;color:var(--text-muted);z-index:1}.recovery-input-wrap input{padding-left:2.55rem;padding-right:2.8rem}.recovery-eye{position:absolute;right:.7rem;border:0;background:transparent;color:var(--text-muted);cursor:pointer;padding:.4rem}.recovery-eye:hover{color:var(--primary-blue,#2563eb)}.recovery-status:empty{display:none}.recovery-status-card{display:flex;align-items:flex-start;gap:.7rem;padding:.85rem 1rem;border-radius:13px;border:1px solid var(--border-color);font-size:.8rem}.recovery-status-card strong{display:block;color:var(--text-main)}.recovery-status-card span{display:block;color:var(--text-muted);margin-top:.15rem}.recovery-status-card.sending{background:rgba(37,99,235,.06);border-color:rgba(37,99,235,.2)}.recovery-status-card.error{background:rgba(239,68,68,.06);border-color:rgba(239,68,68,.2);color:#b91c1c}.status-spinner{color:#2563eb}.verification-hero{text-align:center;padding:.15rem 0 .35rem}.verification-badge-large{width:58px;height:58px;border-radius:18px;margin:0 auto .7rem;display:grid;place-items:center;background:linear-gradient(135deg,#eef2ff,#dbeafe);color:#2563eb;font-size:1.35rem}.verification-badge-large.success{background:linear-gradient(135deg,#ecfdf5,#d1fae5);color:#059669}.delivery-confirmed{display:flex;align-items:center;justify-content:center;gap:.5rem;font-size:.72rem;color:var(--text-muted);padding:.65rem;border-radius:10px;background:var(--surface-secondary,#f8fafc)}.delivery-dot{width:7px;height:7px;border-radius:50%;background:#10b981;box-shadow:0 0 0 4px rgba(16,185,129,.12)}.otp-entry-card{padding:1rem;border:1px solid var(--border-color);border-radius:16px;background:var(--surface-secondary,#f8fafc)}.otp-entry-card label{display:block;text-align:center;font-size:.78rem;font-weight:700;margin-bottom:.6rem}.otp-input{text-align:center;letter-spacing:.48em;font-weight:800;font-size:1.45rem;padding:.9rem!important}.otp-input::placeholder{letter-spacing:.48em}.otp-meta{display:flex;align-items:center;justify-content:space-between;margin-top:.7rem;font-size:.72rem;color:var(--text-light)}.otp-timer{font-weight:800;color:#a67c2f;font-variant-numeric:tabular-nums}.otp-timer.expired{color:#dc2626}.recovery-resend{border:0;background:transparent;color:#a67c2f;font-weight:700;font-size:.78rem;cursor:pointer;padding:.35rem}.recovery-resend:disabled{color:var(--text-light);cursor:not-allowed}.recovery-inline-status{text-align:center;min-height:1.1rem;font-size:.76rem}.status-error{color:#dc2626}.password-requirements{display:flex;flex-wrap:wrap;gap:.7rem;font-size:.7rem;color:var(--text-muted)}.password-requirements i{color:#059669;margin-right:.2rem}.recovery-submit{min-width:190px}.modal-card{max-width:560px!important;border-radius:22px!important;box-shadow:0 30px 90px rgba(0,0,0,.24)!important}.modal-header{border-bottom:1px solid var(--border-color);padding:1.15rem 1.35rem!important}.modal-body{padding:1.25rem 1.35rem!important}.modal-footer{padding:1rem 1.35rem!important;border-top:1px solid var(--border-color)}
+@media(max-width:600px){.recovery-step b{display:none}.recovery-steps{gap:.25rem}.recovery-line{max-width:28px}.recovery-intro{padding:.85rem}.modal-card{width:calc(100vw - 24px)!important}.otp-input{font-size:1.2rem;letter-spacing:.35em}.password-requirements{flex-direction:column;gap:.3rem}}
+
+/* Native-prompt replacement: keep password recovery entirely inside the portal. */
+#modalOverlay.active .modal-card{
+    animation: recoveryModalIn .22s cubic-bezier(.16,1,.3,1) both;
+}
+#modalOverlay.active .modal-body{
+    animation: recoveryBodyIn .26s ease both;
+}
+@keyframes recoveryModalIn{
+    from{opacity:0;transform:translateY(12px) scale(.985)}
+    to{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes recoveryBodyIn{
+    from{opacity:0;transform:translateY(4px)}
+    to{opacity:1;transform:translateY(0)}
+}
+.recovery-flow .form-control:focus{
+    border-color:#a67c2f;
+    box-shadow:0 0 0 3px rgba(166,124,47,.14);
+}
+.recovery-flow .recovery-submit{
+    background:linear-gradient(135deg,#caa45a,#9b7434);
+    color:#fff;
+    border:0;
+}
+.recovery-flow .recovery-submit:hover{filter:brightness(1.04)}
+
+/* =====================================================
+   SKILLIANT PROFESSIONAL RECOVERY EXPERIENCE
+   Reference-inspired, no native browser prompts.
+   ===================================================== */
+#modalOverlay.recovery-overlay{background:rgba(9,12,18,.72);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);padding:20px;z-index:9999}
+#modalOverlay.recovery-overlay .modal-card{width:min(560px,calc(100vw - 28px))!important;max-width:560px!important;overflow:hidden;border:1px solid rgba(255,255,255,.10)!important;border-radius:28px!important;background:#fff!important;box-shadow:0 35px 100px rgba(0,0,0,.38)!important}
+#modalOverlay.recovery-overlay .modal-body{padding:0!important;max-height:min(92vh,760px);overflow:auto}
+#modalOverlay.recovery-overlay .modal-body::-webkit-scrollbar{width:6px}
+#modalOverlay.recovery-overlay .modal-body::-webkit-scrollbar-thumb{background:#d6d8de;border-radius:10px}
+.recovery-screen{position:relative;padding:34px 42px 28px;text-align:center;background:linear-gradient(180deg,#fff 0%,#fbfbfc 100%);color:#101318;min-height:570px;display:flex;flex-direction:column;align-items:center}
+.recovery-close{position:absolute;right:18px;top:16px;width:38px;height:38px;border:1px solid #e7e8eb;border-radius:50%;background:#fff;color:#777;display:grid;place-items:center;cursor:pointer;transition:.2s}
+.recovery-close:hover{background:#f5f5f6;color:#111;transform:rotate(3deg)}
+.recovery-brand{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:800;letter-spacing:-.4px;margin-bottom:22px;color:#1c1d20}
+.recovery-brand-mark{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#cba65e,#8d6b35);color:#fff;display:grid;place-items:center;box-shadow:0 8px 20px rgba(166,124,47,.22)}
+.recovery-brand small{font-size:9px;letter-spacing:.9px;background:#efe2bd;color:#806129;border-radius:5px;padding:3px 6px;margin-left:5px;vertical-align:middle}
+.recovery-hero-icon{width:68px;height:68px;border-radius:18px;background:#fff2cf;color:#c57b00;display:grid;place-items:center;font-size:28px;margin:3px auto 18px;box-shadow:inset 0 0 0 1px #f2dfae}
+.recovery-hero-icon.success{background:#ecfdf5;color:#0d9a6b;box-shadow:inset 0 0 0 1px #bcefdc}
+.recovery-screen h1{font-size:34px;line-height:1.08;letter-spacing:-1.2px;margin:0 0 9px;font-weight:800;color:#0c1422}
+.recovery-subtitle{max-width:455px;margin:0 auto 22px;color:#667085;font-size:15px;line-height:1.55}
+.recovery-subtitle strong{color:#273044}
+.recovery-progress{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;margin:0 0 20px;color:#9aa0aa;font-size:11px;font-weight:700}
+.recovery-progress span{display:flex;align-items:center;gap:5px}.recovery-progress b{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;border:1px solid #dfe2e8;background:#fff;font-size:11px}.recovery-progress .active{color:#a16f19}.recovery-progress .active b{background:#fff5dc;border-color:#d9b665;color:#a16f19}.recovery-progress i{height:1px;width:38px;background:#e5e7eb}
+.recovery-form-block{width:100%;text-align:left;margin-bottom:14px}.recovery-form-block label{display:block;font-size:13px;font-weight:750;color:#202633;margin:0 0 7px}.recovery-form-block label em{font-style:normal;color:#c16c00}.recovery-input-wrap{position:relative;width:100%;display:flex;align-items:center}.recovery-input-wrap>i{position:absolute;left:14px;color:#7c838d;z-index:1}.recovery-input{width:100%;height:52px;border:1px solid #dfe2e7;border-radius:11px;background:#f8f9fa;padding:0 46px 0 42px;font-size:15px;outline:none;transition:.2s;color:#171a1f}.recovery-input::placeholder{color:#9aa0aa}.recovery-input:focus{background:#fff;border-color:#c39a4d;box-shadow:0 0 0 4px rgba(195,154,77,.12)}
+.recovery-hint{display:flex;gap:7px;align-items:flex-start;margin-top:8px;color:#858c97;font-size:11px;line-height:1.45}.recovery-hint i{color:#b28130;margin-top:2px}
+.recovery-live-status{width:100%;min-height:0;margin:2px 0 10px;font-size:12px;text-align:left}.recovery-live-status:empty{display:none}.recovery-status-card{display:flex;gap:10px;align-items:flex-start;padding:11px 13px;border-radius:10px}.recovery-status-card.sending{background:#f3f7ff;border:1px solid #d7e3ff;color:#355f9c}.recovery-status-card.error{background:#fff5f5;border:1px solid #ffd2d2;color:#b42318}.recovery-status-card span{color:inherit}
+.recovery-primary-btn{width:100%;height:54px;border:0;border-radius:12px;background:linear-gradient(135deg,#cda75b,#a17a3d);color:#fff;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:12px;cursor:pointer;box-shadow:0 10px 24px rgba(151,111,49,.22);transition:.2s}.recovery-primary-btn:hover{transform:translateY(-1px);box-shadow:0 13px 28px rgba(151,111,49,.28)}.recovery-primary-btn:disabled{opacity:.65;cursor:wait;transform:none}
+.recovery-back-btn{border:0;background:transparent;color:#a16f19;font-size:13px;font-weight:700;margin-top:16px;cursor:pointer;padding:7px}.recovery-back-btn:hover{text-decoration:underline}.recovery-security{font-size:10px;color:#9aa0aa;margin:14px 0 0}.recovery-security i{margin-right:5px;color:#9a7a42}
+.verified-badge{display:inline-flex;align-items:center;gap:6px;background:#ecfdf5;color:#087a57;border:1px solid #bcebd8;border-radius:999px;padding:6px 11px;font-size:11px;font-weight:800;margin:-3px 0 12px}.verified-badge i{font-size:12px}
+.otp-delivery-card{width:100%;display:flex;align-items:center;gap:12px;text-align:left;padding:13px 15px;background:#f8fafc;border:1px solid #e6e9ee;border-radius:12px;margin:2px 0 18px}.otp-delivery-card>i{width:36px;height:36px;border-radius:10px;background:#fff5df;color:#a16f19;display:grid;place-items:center}.otp-delivery-card strong{display:block;font-size:12px;color:#252a34}.otp-delivery-card span{display:block;font-size:10px;color:#858c97;margin-top:2px}
+.otp-boxes{display:flex;justify-content:center;gap:9px;width:100%;margin:2px 0 13px}.otp-box{width:52px;height:58px;border:1px solid #dfe2e8;border-radius:11px;background:#f8f9fa;text-align:center;font-size:24px;font-weight:800;color:#1d2530;outline:none;transition:.18s}.otp-box:focus{background:#fff;border-color:#c39a4d;box-shadow:0 0 0 4px rgba(195,154,77,.12)}
+.otp-meta-row{width:100%;display:flex;align-items:center;justify-content:space-between;font-size:12px;color:#7d8591;margin-bottom:10px}.otp-meta-row strong{color:#a16f19;font-variant-numeric:tabular-nums}.recovery-link-btn{border:0;background:none;color:#a16f19;font-weight:800;font-size:12px;cursor:pointer}.recovery-link-btn:disabled{color:#b8bdc5;cursor:not-allowed}
+.password-strength-list{width:100%;display:flex;flex-wrap:wrap;gap:12px;text-align:left;color:#77808c;font-size:10px;margin:2px 0 13px}.password-strength-list i{color:#12966b;margin-right:4px}
+@media(max-width:600px){.recovery-screen{padding:28px 20px 22px;min-height:540px}.recovery-screen h1{font-size:29px}.recovery-subtitle{font-size:14px}.recovery-progress{font-size:10px}.recovery-progress i{width:18px}.otp-boxes{gap:6px}.otp-box{width:43px;height:52px;font-size:21px}.recovery-brand{margin-bottom:16px}}
+
+
+/* =====================================================
+   FINAL RECOVERY RESPONSIVENESS / STATUS FIX
+   Prevents validation cards from overlapping actions or
+   pushing the recovery layout into an unusable scroll state.
+   ===================================================== */
+#modalOverlay.recovery-overlay {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:auto;
+    box-sizing:border-box;
+}
+#modalOverlay.recovery-overlay .modal-card {
+    max-height:calc(100dvh - 40px)!important;
+    height:auto!important;
+    display:flex;
+    flex-direction:column;
+}
+#modalOverlay.recovery-overlay .modal-body {
+    min-height:0!important;
+    height:auto!important;
+    max-height:calc(100dvh - 40px)!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+}
+#modalOverlay.recovery-overlay .recovery-screen {
+    min-height:0!important;
+    height:auto!important;
+    box-sizing:border-box;
+    overflow:visible;
+}
+#modalOverlay.recovery-overlay .recovery-live-status {
+    position:relative!important;
+    display:block;
+    flex:0 0 auto;
+    margin:4px 0 12px!important;
+    z-index:2;
+}
+#modalOverlay.recovery-overlay .recovery-status-card {
+    position:relative!important;
+    width:100%;
+    box-sizing:border-box;
+    margin:0!important;
+    overflow-wrap:anywhere;
+    line-height:1.45;
+}
+#modalOverlay.recovery-overlay .recovery-status-card strong,
+#modalOverlay.recovery-overlay .recovery-status-card span {
+    position:static!important;
+}
+#modalOverlay.recovery-overlay .recovery-primary-btn {
+    position:relative!important;
+    z-index:3;
+    flex:0 0 auto;
+    margin-top:0!important;
+}
+#modalOverlay.recovery-overlay .recovery-back-btn,
+#modalOverlay.recovery-overlay .recovery-security {
+    position:relative!important;
+    z-index:2;
+    flex:0 0 auto;
+}
+#modalOverlay.recovery-overlay .recovery-form-block,
+#modalOverlay.recovery-overlay .recovery-progress,
+#modalOverlay.recovery-overlay .recovery-live-status,
+#modalOverlay.recovery-overlay .recovery-primary-btn {
+    transform:none!important;
+}
+@media (max-width:700px) {
+    #modalOverlay.recovery-overlay { padding:10px!important; }
+    #modalOverlay.recovery-overlay .modal-card {
+        width:min(100%,560px)!important;
+        max-height:calc(100dvh - 20px)!important;
+        border-radius:22px!important;
+    }
+    #modalOverlay.recovery-overlay .modal-body {
+        max-height:calc(100dvh - 20px)!important;
+    }
+    #modalOverlay.recovery-overlay .recovery-screen {
+        padding:24px 18px 20px!important;
+    }
+    #modalOverlay.recovery-overlay .recovery-screen h1 {
+        font-size:clamp(25px,7vw,31px)!important;
+    }
+    #modalOverlay.recovery-overlay .recovery-subtitle {
+        font-size:13px!important;
+        margin-bottom:17px!important;
+    }
+    #modalOverlay.recovery-overlay .recovery-progress {
+        margin-bottom:16px!important;
+    }
+    #modalOverlay.recovery-overlay .recovery-status-card {
+        font-size:11px!important;
+        padding:10px 11px!important;
+    }
+    #modalOverlay.recovery-overlay .recovery-primary-btn {
+        min-height:52px!important;
+        height:auto!important;
+        padding:12px 14px!important;
+    }
+}
+@media (max-width:420px) {
+    #modalOverlay.recovery-overlay .recovery-screen { padding:20px 14px 18px!important; }
+    #modalOverlay.recovery-overlay .recovery-brand { margin-bottom:13px!important; }
+    #modalOverlay.recovery-overlay .recovery-hero-icon { width:58px!important;height:58px!important;font-size:23px!important;margin-bottom:13px!important; }
+    #modalOverlay.recovery-overlay .recovery-input { height:48px!important;font-size:14px!important; }
+    #modalOverlay.recovery-overlay .otp-boxes { gap:5px!important; }
+    #modalOverlay.recovery-overlay .otp-box { width:calc((100% - 25px)/6)!important; max-width:46px!important; height:50px!important; }
 }

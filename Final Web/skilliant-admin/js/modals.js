@@ -33,7 +33,7 @@ const ModalManager = {
         });
     },
 
-    open({ title, bodyHtml, submitText = 'Save Changes', submitBtnClass = 'btn-primary', onSubmit }) {
+    open({ title, bodyHtml, submitText = 'Save Changes', submitBtnClass = 'btn-primary', onSubmit, hideChrome = false, variant = '' }) {
         if (!this.overlay) this.init();
 
         this.titleEl.textContent = title;
@@ -42,15 +42,25 @@ const ModalManager = {
         this.submitBtn.className = `btn ${submitBtnClass}`;
         this.onSubmitCallback = onSubmit;
 
+        this.overlay.classList.toggle('recovery-overlay', hideChrome);
+        this.overlay.dataset.variant = variant || '';
+        this.titleEl.parentElement.style.display = hideChrome ? 'none' : '';
+        this.overlay.querySelector('.modal-footer')?.style.setProperty('display', hideChrome ? 'none' : '');
         this.overlay.classList.add('active');
     },
 
     close() {
         if (this.overlay) {
-            this.overlay.classList.remove('active');
+            this.overlay.classList.remove('active', 'recovery-overlay');
+            delete this.overlay.dataset.variant;
+            if (this.titleEl?.parentElement) this.titleEl.parentElement.style.display = '';
+            this.overlay.querySelector('.modal-footer')?.style.setProperty('display', '');
             this.onSubmitCallback = null;
         }
     }
 };
 
 document.addEventListener('DOMContentLoaded', () => ModalManager.init());
+
+// Expose the modal manager globally so authentication and page controllers can invoke it.
+window.ModalManager = ModalManager;

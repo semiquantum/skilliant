@@ -79,7 +79,7 @@
                         <input type="checkbox" id="rememberMe" name="rememberMe">
                         <span>Remember Me</span>
                     </label>
-                    <a href="#" class="forgot-password" id="forgotPasswordLink">Forgot Password?</a>
+                    <button type="button" class="forgot-password" id="forgotPasswordLink" aria-haspopup="dialog" aria-controls="modalOverlay">Forgot Password?</button>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block" id="loginSubmitBtn">
                     <span class="btn-text">Sign In</span>
@@ -363,6 +363,9 @@
     <!-- ══════════════════════════════════════════════════════ -->
     <script src="js/services/dataService.js"></script>
     <script src="js/services/paymentService.js"></script>
+    <script src="js/email-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="js/email-service.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/components.js"></script>
     <script src="js/charts.js"></script>

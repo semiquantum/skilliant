@@ -382,36 +382,33 @@ const DataService = {
 
     // Safely migrate admin email/name without clearing localStorage
     migrateAdminEmail() {
-        const admins = this.getCollection(this.KEYS.ADMINS);
+        const admins = this.getCollection(this.KEYS.ADMINS) || [];
         let changed = false;
-        admins.forEach(a => {
-            // Update the placeholder Super Admin from old email/password to configured primary credentials
-            if (a.id === 'ADM-001') {
-                // Preserve credentials/profile after the first seed; never silently reset a user-changed password.
-                if (!a.email) { a.email = 'meetmhatre2006@gmail.com'; changed = true; }
-                if (!a.name) { a.name = 'Meet Mhatre'; changed = true; }
-                if (!a.profilePhoto) { a.profilePhoto = 'MM'; changed = true; }
-                if (!a.role) { a.role = 'Super Admin'; changed = true; }
-            }
-            // Remove old fallback placeholders if present
-            if (a.email === 'alex@skilliant.com' || a.email === 'admin@skilliant.com' || a.email === 'NeetMatra26@gmail.com') {
-                if (a.id !== 'ADM-001') {
-                    a._markedForRemoval = true;
-                    changed = true;
-                }
-            }
-        });
-        if (changed) {
-            const cleaned = admins.filter(a => !a._markedForRemoval);
-            this.setStorage(this.KEYS.ADMINS, cleaned);
-            // Also update active session if it used old admin data
-            const session = this.getSession();
-            if (session && session.adminId === 'ADM-001') {
-                session.adminEmail = 'meetmhatre2006@gmail.com';
-                session.adminName  = 'Meet Mhatre';
-                session.profilePhoto = 'MM';
-                this.setStorage(this.KEYS.SESSION, session);
-            }
+        let primary = admins.find(a => a.id === 'ADM-001');
+        if (!primary) {
+            primary = { id:'ADM-001', name:'Meet Mhatre', email:'meetmhatre2006@gmail.com', password:this.hashPassword('meet2006'), profilePhoto:'MM', role:'Super Admin', lastLogin:'', status:'Active', phone:'9876543200', createdAt:new Date().toISOString() };
+            admins.unshift(primary); changed = true;
+        }
+        // One-time credential migration for the supplied Super Admin account.
+        const migrationKey = 'skilliant_superadmin_credentials_v4';
+        if (localStorage.getItem(migrationKey) !== 'done') {
+            primary.name = 'Meet Mhatre';
+            primary.email = 'meetmhatre2006@gmail.com';
+            primary.password = this.hashPassword('meet2006');
+            primary.profilePhoto = 'MM';
+            primary.role = 'Super Admin';
+            primary.status = 'Active';
+            localStorage.setItem(migrationKey, 'done');
+            changed = true;
+        }
+        const cleaned = admins.filter(a => !(a.id !== 'ADM-001' && ['alex@skilliant.com','admin@skilliant.com','NeetMatra26@gmail.com'].includes(a.email)));
+        if (changed || cleaned.length !== admins.length) this.setStorage(this.KEYS.ADMINS, cleaned);
+        const session = this.getSession();
+        if (session && session.adminId === 'ADM-001') {
+            session.adminEmail = 'meetmhatre2006@gmail.com';
+            session.adminName = 'Meet Mhatre';
+            session.profilePhoto = 'MM';
+            this.setStorage(this.KEYS.SESSION, session);
         }
     },
 

@@ -121,7 +121,10 @@ const App = {
             setTimeout(() => {
                 DataService.logout();
                 this.checkAuth();
-                window.location.hash = '#dashboard';
+                // Frontend-only cross-portal navigation: Admin logout returns to the
+                // existing Marketing portal without copying/merging its files.
+                const marketingUrl = window.SKILLIANT_MARKETING_URL || '../Marketing/index.html';
+                window.location.href = marketingUrl;
             }, 600);
         });
 
