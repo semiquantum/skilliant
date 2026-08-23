@@ -1,693 +1,129 @@
-# 🚀 Skilliant Admin Portal — Frontend Connectivity
+# Skilliant Admin Portal — Final HREF Connectivity Build
 
-> **Current Phase:** Frontend Connectivity Only  
-> **Scope:** Connect the Admin Portal with all Skilliant frontend portals without introducing backend, API, SQL, or database integration.
+## What this build contains
 
----
+This package contains **only `skilliant-admin/`**.
 
-## 🎯 1. Objective
+It does **not** copy, merge, extract, or duplicate the Marketing, User, Contractor, or Labour portal files into the Admin folder.
 
-The objective of this task is to make the **Skilliant Admin Portal the central frontend entry point** for the complete Skilliant ecosystem.
+The Admin Portal connects to the existing sibling portals using normal HTML relative `href` links.
 
-The Admin Portal must be able to access:
+## Required repository structure
 
-- 🌐 Public Website
-- 👤 User Portal
-- 👷 Labour Portal
-- 🏢 Contractor Portal
-
-Each portal must retain its existing frontend structure and functionality.
-
-### Core Principle
-
-> **Connect the portals without breaking the portals.**
-
----
-
-## 🔗 2. Frontend Connectivity Scope
-
-The current phase includes only:
-
-- Admin → Public Website
-- Admin → User Portal
-- Admin → Labour Portal
-- Admin → Contractor Portal
-- Required return navigation → Admin
-- Correct frontend routes/paths
-- Correct CSS, JavaScript, image, icon, and font paths
-- Preservation of existing UI
-- Preservation of existing frontend functionality
-- Responsive navigation
-- Cross-portal manual testing
-
----
-
-## 🚫 3. Out of Scope
-
-No backend or database work should be introduced during this phase.
-
-### ❌ Not included
-
-- SQL
-- Database
-- API
-- Backend
-- Node.js
-- Express
-- Supabase
-- PostgreSQL
-- Database connectors
-- Backend authentication
-- Server-side sessions
-- API authentication
-- Shared database state
-- Real-time data synchronization
-
-These will be handled as **separate future phases**.
-
----
-
-# 🏗️ 4. Portal Architecture
+Keep the existing GitHub repository structure unchanged:
 
 ```text
-                         🌐 SKILLIANT
-                              │
-                           🛡️ ADMIN
-                              │
-             ┌────────────────┼────────────────┐
-             │                │                │
-             ▼                ▼                ▼
-        👤 USER          🏢 CONTRACTOR     👷 LABOUR
-         PORTAL             PORTAL           PORTAL
-             │                │                │
-             └────────────────┼────────────────┘
-                              ▼
-                         🛡️ ADMIN
-                              │
-                              ▼
-                       🌐 PUBLIC WEBSITE
+Final Web/
+├── Contractor Portal/
+│   └── skilliant-shruti/
+│       └── skilliant/
+│           └── index.html
+├── Marketing/
+│   └── index.html
+├── skilliant-admin/
+│   └── index.html
+├── skilliant-labour-dashboard/
+│   └── index.html
+└── user portal final/
+    └── index.html
 ```
 
-The Admin Portal acts as the **central administrative frontend**, while each team's portal remains independent.
+**Important:** The other portals must remain beside `skilliant-admin` under `Final Web`. Do not place them inside `skilliant-admin`.
 
----
+## Portal links
 
-# 📁 5. Recommended Project Structure
+The Admin Portal uses these portable relative links:
 
-Each portal should remain isolated.
+| From Admin | Destination |
+|---|---|
+| Marketing Website | `../Marketing/index.html` |
+| User Portal | `../user%20portal%20final/index.html` |
+| Contractor Portal | `../Contractor%20Portal/skilliant-shruti/skilliant/index.html` |
+| Labour Portal | `../skilliant-labour-dashboard/index.html` |
+| Sign Out | `../Marketing/index.html` |
+
+These paths contain **no Windows `C:\Users\...` path**, so they remain portable when the complete repository is downloaded to another location or computer, provided the `Final Web` structure is preserved.
+
+## Local testing
+
+This is a static HTML/CSS/JavaScript portal. **`npm start` is not required.**
+
+1. Put/replace `skilliant-admin` inside the existing `Final Web` directory.
+2. Open Command Prompt in the **`Final Web` directory** — not inside `skilliant-admin`.
+3. Run:
+
+```cmd
+npx serve .
+```
+
+4. Open:
 
 ```text
-Skilliant/
-│
-├── admin/
-│   ├── index.html
-│   ├── css/
-│   ├── js/
-│   └── assets/
-│
-├── website/
-│   ├── index.html
-│   ├── css/
-│   ├── js/
-│   └── assets/
-│
-├── user/
-│   ├── index.html
-│   ├── css/
-│   ├── js/
-│   └── assets/
-│
-├── contractor/
-│   ├── index.html
-│   ├── css/
-│   ├── js/
-│   └── assets/
-│
-└── labour/
-    ├── index.html
-    ├── css/
-    ├── js/
-    └── assets/
+http://localhost:3000/skilliant-admin/
 ```
 
-### ⚠️ Important
+5. Test login, Admin modules, portal links, and Sign Out.
 
-Do **not** merge every portal's CSS and JavaScript into one common folder.
+### Why a server is recommended
 
-Keeping portals isolated prevents:
+Opening `skilliant-admin/index.html` directly with `file://` does not provide the same environment as a web server. Cross-folder navigation and browser security rules can behave differently. `npx serve .` serves the complete `Final Web` directory so the relative links can resolve correctly.
 
-- 🎨 CSS conflicts
-- ⚙️ JavaScript conflicts
-- 🆔 Duplicate element IDs
-- 🖱️ Event-handler conflicts
-- 🖼️ Broken asset paths
-- 💥 One portal breaking another portal
+## GitHub workflow
 
----
+Commit the **Admin changes** into the existing repository without merging the other portals into Admin:
 
-# 🧭 6. Admin Portal Navigation
-
-The Admin Portal should provide a clear **Team Portals** section:
-
-```text
-🛡️ ADMIN PORTAL
-│
-├── 📊 Dashboard
-├── 👥 Users
-├── 👷 Labour
-├── 🏢 Contractors
-├── 📅 Bookings
-├── 💳 Payments
-├── ⭐ Reviews
-├── 📁 Projects
-│
-└── 🔗 TEAM PORTALS
-    ├── 🌐 Public Website
-    ├── 👤 User Portal
-    ├── 🏢 Contractor Portal
-    └── 👷 Labour Portal
+```cmd
+git add Final Web/skilliant-admin
+git commit -m "Finalize Admin Portal HREF connectivity and local setup"
+git push origin main
 ```
 
-Each portal should open without replacing or damaging its existing UI.
+When downloading the project from GitHub, download the **complete repository ZIP**, not only the `skilliant-admin` folder. After extracting it, preserve the `Final Web` directory structure and run `npx serve .` from `Final Web` for local testing.
 
----
+## Sign Out behavior
 
-# 🌐 7. Localhost Connectivity
+Admin Sign Out is a real anchor link:
 
-During development, the portals can initially run on separate localhost ports.
-
-Example:
-
-```text
-🌐 Public Website     → http://localhost:5500
-👤 User Portal        → http://localhost:5501
-🏢 Contractor Portal  → http://localhost:5502
-👷 Labour Portal      → http://localhost:5503
-🛡️ Admin Portal       → http://localhost:5504
+```html
+<a href="../Marketing/index.html" id="logoutBtn">Sign Out</a>
 ```
 
-Alternatively, after consolidating the frontend structure:
+The Admin session is cleared by the existing logout handler, and the browser then follows the real HREF to the Marketing website.
 
-```text
-http://localhost:3000/
-http://localhost:3000/admin
-http://localhost:3000/user
-http://localhost:3000/contractor
-http://localhost:3000/labour
-```
+## OTP / Forgot Password
 
-> The exact port numbers depend on the local frontend development setup.
+The working Admin verification flow is preserved. This connectivity build does not replace the OTP logic.
 
----
+Current EmailJS configuration remains in `js/email-config.js`. Do not commit private EmailJS secret/private credentials to a public repository.
 
-# 🔄 8. Frontend Navigation Flow
+The OTP flow is intended to:
 
-### 👤 Admin → User
+- verify an existing authorized Admin account;
+- generate a fresh 6-digit OTP;
+- send the OTP to the matched Admin email;
+- expire the OTP after 60 seconds;
+- invalidate the previous OTP when a new one is generated;
+- prevent password reset for an unknown or inactive account.
 
-```text
-Admin Portal
-     ↓
-User Portal
-     ↓
-Admin Portal
-```
+## Verification checklist
 
-### 🏢 Admin → Contractor
+Before committing, test:
 
-```text
-Admin Portal
-     ↓
-Contractor Portal
-     ↓
-Admin Portal
-```
+- [ ] Admin login
+- [ ] Admin dashboard loads
+- [ ] Sidebar navigation works
+- [ ] Refresh keeps the current Admin route/session as intended
+- [ ] Marketing link opens Marketing
+- [ ] User Portal link opens User Portal
+- [ ] Contractor Portal link opens Contractor Portal
+- [ ] Labour Portal link opens Labour Portal
+- [ ] Sign Out clears the Admin session and opens Marketing
+- [ ] Forgot Password opens its professional reset flow
+- [ ] Authorized Admin receives/enters OTP successfully
+- [ ] Invalid/unregistered Admin is rejected
+- [ ] OTP expires after 60 seconds
+- [ ] No portal files are copied into `skilliant-admin`
 
-### 👷 Admin → Labour
+## Important limitation
 
-```text
-Admin Portal
-     ↓
-Labour Portal
-     ↓
-Admin Portal
-```
-
-### 🌐 Admin → Website
-
-```text
-Admin Portal
-     ↓
-Public Website
-```
-
----
-
-# 🔗 9. Relative Path Rules
-
-Use portable relative paths when portals are stored together.
-
-Example:
-
-```text
-/admin/index.html
-/user/index.html
-```
-
-Admin can navigate to User with:
-
-```text
-../user/index.html
-```
-
-### ❌ Never use
-
-```text
-C:\Users\Name\Downloads\...
-```
-
-### ❌ Avoid depending on
-
-```text
-http://localhost:5500/...
-```
-
-when a portable relative path can be used.
-
-Portable paths make the project easier to move between computers and hosting environments.
-
----
-
-# 🧩 10. Portal Responsibilities
-
-## 🛡️ Admin Portal
-
-Administrative management:
-
-- Dashboard
-- Users
-- Labour
-- Contractors
-- Categories
-- Skills
-- Reviews
-- Projects
-- Attendance
-- Documents
-- Availability
-- Bookings
-- Payments
-- Reports
-- Notifications
-- Support
-- Activity Logs
-- Settings
-- Admin Management
-- Role Management
-
-## 🌐 Public Website
-
-Public-facing experience:
-
-- Home
-- About
-- Services
-- Contact
-- Public information
-- Login/registration entry points
-- Portal entry points
-
-## 👤 User Portal
-
-User-facing functionality:
-
-- Dashboard
-- Profile
-- Labour/service discovery
-- Bookings
-- Reviews
-- User account features
-
-## 🏢 Contractor Portal
-
-Contractor-facing functionality:
-
-- Dashboard
-- Projects
-- Requests
-- Labour management
-- Contractor profile
-- Contractor operations
-
-## 👷 Labour Portal
-
-Labour-facing functionality:
-
-- Dashboard
-- Jobs
-- Tasks
-- Attendance
-- Availability
-- Labour profile
-- Labour operations
-
----
-
-# 🧪 11. Manual Testing Checklist
-
-## 🛡️ Admin Portal
-
-- [ ] Admin loads correctly
-- [ ] Dashboard loads
-- [ ] Sidebar modules load
-- [ ] Team Portals section loads
-- [ ] User Portal opens
-- [ ] Contractor Portal opens
-- [ ] Labour Portal opens
-- [ ] Public Website opens
-- [ ] Return navigation works
-
-## 👤 User Portal
-
-- [ ] Portal loads
-- [ ] CSS loads
-- [ ] JavaScript loads
-- [ ] Images/assets load
-- [ ] Navigation works
-- [ ] Buttons work
-- [ ] Forms work
-- [ ] Modals work
-- [ ] Responsive layout works
-
-## 🏢 Contractor Portal
-
-- [ ] Portal loads
-- [ ] CSS loads
-- [ ] JavaScript loads
-- [ ] Images/assets load
-- [ ] Navigation works
-- [ ] Buttons work
-- [ ] Forms work
-- [ ] Modals work
-- [ ] Responsive layout works
-
-## 👷 Labour Portal
-
-- [ ] Portal loads
-- [ ] CSS loads
-- [ ] JavaScript loads
-- [ ] Images/assets load
-- [ ] Navigation works
-- [ ] Buttons work
-- [ ] Forms work
-- [ ] Modals work
-- [ ] Responsive layout works
-
-## 🌐 Public Website
-
-- [ ] Home loads
-- [ ] CSS loads
-- [ ] JavaScript loads
-- [ ] Images/assets load
-- [ ] Navigation works
-- [ ] Login/portal links work where applicable
-- [ ] Responsive layout works
-
----
-
-# 🔍 12. Cross-Portal Testing
-
-The following flows must be manually tested:
-
-```text
-🛡️ Admin
-   ↓
-👤 User Portal
-   ↓
-🛡️ Admin
-```
-
-```text
-🛡️ Admin
-   ↓
-🏢 Contractor Portal
-   ↓
-🛡️ Admin
-```
-
-```text
-🛡️ Admin
-   ↓
-👷 Labour Portal
-   ↓
-🛡️ Admin
-```
-
-```text
-🛡️ Admin
-   ↓
-🌐 Public Website
-```
-
-Each flow should also be tested after refreshing the browser.
-
----
-
-# 🖼️ 13. Asset Verification
-
-When connecting portals, verify all frontend assets:
-
-- [ ] CSS files
-- [ ] JavaScript files
-- [ ] Images
-- [ ] Icons
-- [ ] Fonts
-- [ ] Favicon
-- [ ] Internal links
-- [ ] Navigation links
-
-There must be no broken asset paths caused by moving the portals.
-
----
-
-# 🎨 14. UI Preservation Rule
-
-Connecting the portals does **not** mean redesigning them.
-
-Preserve:
-
-- Existing layout
-- Existing components
-- Existing colors
-- Existing forms
-- Existing functionality
-- Existing responsive behavior
-
-Only modify what is necessary for:
-
-- Navigation
-- Routing/paths
-- Portal entry points
-- Return links
-- Frontend integration
-
----
-
-# 🚀 15. Integration Workflow
-
-```text
-1️⃣ Collect latest portal ZIPs
-          ↓
-2️⃣ Scan every portal
-          ↓
-3️⃣ Map pages and modules
-          ↓
-4️⃣ Identify portal entry points
-          ↓
-5️⃣ Keep portals separated
-          ↓
-6️⃣ Connect Admin → Website
-          ↓
-7️⃣ Connect Admin → User
-          ↓
-8️⃣ Connect Admin → Contractor
-          ↓
-9️⃣ Connect Admin → Labour
-          ↓
-🔟 Add required return navigation
-          ↓
-1️⃣1️⃣ Fix paths and assets
-          ↓
-1️⃣2️⃣ Test every portal
-          ↓
-1️⃣3️⃣ Test cross-portal navigation
-          ↓
-1️⃣4️⃣ Verify responsive behavior
-          ↓
-1️⃣5️⃣ Freeze frontend connectivity
-```
-
----
-
-# ✅ 16. Acceptance Criteria
-
-Frontend connectivity is considered complete when:
-
-- [ ] Admin can access every required portal
-- [ ] Every portal opens correctly
-- [ ] Existing UI remains intact
-- [ ] Existing functionality remains intact
-- [ ] Return navigation works where required
-- [ ] No personal computer paths are used
-- [ ] CSS loads correctly
-- [ ] JavaScript loads correctly
-- [ ] Images/icons/fonts load correctly
-- [ ] No major integration-related console errors exist
-- [ ] Responsive layouts remain usable
-- [ ] Frontend navigation does not require a backend or database
-
----
-
-# 🧱 17. Development Phases
-
-## Phase 1 — Current
-
-### 🔗 Frontend Connectivity
-
-```text
-Admin ↔ Public Website
-Admin ↔ User Portal
-Admin ↔ Contractor Portal
-Admin ↔ Labour Portal
-```
-
----
-
-## Phase 2 — Future
-
-### ⚙️ Backend / API
-
-```text
-Frontend
-    ↓
-Backend
-    ↓
-API
-```
-
----
-
-## Phase 3 — Future
-
-### 🗄️ SQL / Database
-
-```text
-Frontend
-    ↓
-Backend / API
-    ↓
-SQL Database
-```
-
----
-
-# 🔐 18. Authentication Note
-
-Authentication backend integration is **not included in the current phase**.
-
-The current task only establishes frontend navigation.
-
-Later, authentication can be centralized so that:
-
-```text
-Login
-   ↓
-Authentication Service
-   ↓
-User / Contractor / Labour / Admin
-```
-
-This should be implemented during the backend phase rather than using temporary LocalStorage hacks.
-
----
-
-# 📌 19. Important Rules
-
-### DO ✅
-
-- Keep portals separated.
-- Use relative paths where possible.
-- Preserve existing UI.
-- Preserve existing JavaScript.
-- Test every navigation path.
-- Test responsive layouts.
-- Check all assets after moving files.
-- Fix only integration-related problems during this phase.
-
-### DON'T ❌
-
-- Don't merge all CSS files.
-- Don't merge all JavaScript files.
-- Don't add SQL.
-- Don't add a database.
-- Don't add an API.
-- Don't add backend code.
-- Don't add unnecessary packages.
-- Don't redesign the team portals.
-- Don't replace working functionality unnecessarily.
-- Don't use personal computer paths.
-
----
-
-# 🎯 20. Final Definition
-
-> **Frontend Connectivity** is the integration of independent Skilliant frontend portals through navigation, routing/paths, portal entry points, return navigation, and correct asset handling while preserving each portal's existing frontend implementation.
-
-### Current target
-
-```text
-                    🛡️ ADMIN
-                       │
-        ┌──────────────┼──────────────┐
-        ↓              ↓              ↓
-     👤 USER       🏢 CONTRACTOR    👷 LABOUR
-     PORTAL           PORTAL        PORTAL
-        │              │              │
-        └──────────────┼──────────────┘
-                       ↓
-                    🛡️ ADMIN
-
-                       +
-                       │
-                       ▼
-                🌐 PUBLIC WEBSITE
-```
-
----
-
-## 🏁 Final Project Rule
-
-> **Connect the portals without breaking the portals.**
-
-**Current phase:** 🔗 Frontend Connectivity  
-**Next phase:** ⚙️ Backend / API  
-**Later phase:** 🗄️ SQL / Database
-
-This separation keeps the current frontend integration safe, testable, and maintainable.
-
-
-## Real Admin OTP Delivery
-- Sender EmailJS service: `hunter14112001@gmail.com`
-- Recipient is always the authorized Admin email stored in the Admin Portal.
-- OTP is generated automatically only after authorization succeeds.
-- OTP expires after 60 seconds and previous OTP state is invalidated.
-- EmailJS template must use `{{to_email}}` for To Email and `{{passcode}}` for OTP.
-- Set the template Reply-To to `hunter14112001@gmail.com` if you want replies to go to Hunter.
-- No Gmail password or EmailJS private key is stored in the frontend.
-
-
-## Password Reset / OTP
-- Authorized Admin email for the current frontend build: `meetmhatre2006@gmail.com`.
-- A fresh 6-digit OTP is generated automatically only after the email matches an active Admin record.
-- OTP validity: 60 seconds; every resend invalidates the previous OTP.
-- Email delivery uses the configured EmailJS Gmail service. The connected Gmail account is the sender; the authorized Admin email is the recipient.
-- This build is frontend-only. When SQL/backend is introduced, the authorized-account check and OTP verification must be moved server-side; do not treat localStorage as a secure authentication boundary.
+The current phase is **frontend/static connectivity**. Relative HREF navigation connects the existing portal files; it does not create a shared backend session between separate portals. Shared authentication across portals requires a common backend/authentication service when that phase is implemented.

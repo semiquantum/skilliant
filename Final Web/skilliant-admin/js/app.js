@@ -115,17 +115,10 @@ const App = {
         }
 
         // Logout button
-        document.getElementById('logoutBtn')?.addEventListener('click', (e) => {
-            e.preventDefault();
-            Toast.show('Signing out...', 'info');
-            setTimeout(() => {
-                DataService.logout();
-                this.checkAuth();
-                // Frontend-only cross-portal navigation: Admin logout returns to the
-                // existing Marketing portal without copying/merging its files.
-                const marketingUrl = window.SKILLIANT_MARKETING_URL || '../Marketing/index.html';
-                window.location.href = marketingUrl;
-            }, 600);
+        document.getElementById('logoutBtn')?.addEventListener('click', () => {
+            // Keep the real HREF as the navigation mechanism. This clears the local
+            // Admin session without replacing the link with a JavaScript-only redirect.
+            DataService.logout();
         });
 
         // Fullscreen toggle
