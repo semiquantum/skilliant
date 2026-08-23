@@ -412,6 +412,28 @@ const DataService = {
         }
     },
 
+    // ============================================================
+    // AUTHORIZED ADMIN LOOKUP (used by Forgot Password / OTP)
+    // This always reads the current Admin Management collection.
+    // It is intentionally role-agnostic: Super Admin, Admin, and
+    // Financial Admin accounts can all recover their own passwords
+    // while their record is Active.
+    // ============================================================
+    getAuthorizedAdminByEmail(email) {
+        const normalizedEmail = String(email || '').trim().toLowerCase();
+        if (!normalizedEmail) return null;
+        const admins = this.getCollection(this.KEYS.ADMINS) || [];
+        return admins.find(admin => {
+            const adminEmail = String(admin?.email || '').trim().toLowerCase();
+            const status = String(admin?.status || 'Active').trim().toLowerCase();
+            return adminEmail === normalizedEmail && status === 'active';
+        }) || null;
+    },
+
+    isAuthorizedAdminEmail(email) {
+        return !!this.getAuthorizedAdminByEmail(email);
+    },
+
     // Generic Storage Helpers
     getStorage(key) {
         try {
@@ -426,6 +448,8 @@ const DataService = {
     setStorage(key, data) {
         try {
             localStorage.setItem(key, JSON.stringify(data));
+            // Passwords and Admin records intentionally persist in localStorage in
+            // this frontend-only build, so a normal refresh does not reset them.
         } catch (e) {
             console.error(`DataService: Error writing ${key}`, e);
         }

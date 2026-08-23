@@ -4,6 +4,13 @@
  */
 
 const App = {
+    // External portals remain separate sibling folders. Keep these paths relative so the Admin folder can be committed independently.
+    PORTAL_ROUTES: Object.freeze({
+        marketing: '../Marketing/index.html',
+        user: '../user%20portal%20final/index.html',
+        contractor: '../Contractor%20Portal/skilliant-shruti/skilliant/index.html',
+        labour: '../skilliant-labour-dashboard/index.html'
+    }),
     // ── Registered page modules (4 analytics pages merged into reports) ──
     pages: {
         'dashboard':      DashboardPage,
@@ -115,10 +122,14 @@ const App = {
         }
 
         // Logout button
-        document.getElementById('logoutBtn')?.addEventListener('click', () => {
-            // Keep the real HREF as the navigation mechanism. This clears the local
-            // Admin session without replacing the link with a JavaScript-only redirect.
+        document.getElementById('logoutBtn')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            // Clear the Admin session before leaving. The href on the anchor is also
+            // a real fallback, so navigation still works if JavaScript is interrupted.
             DataService.logout();
+            this.checkAuth();
+            Toast.show('Signed out successfully. Returning to Skilliant.', 'success');
+            window.location.assign(e.currentTarget.getAttribute('href') || '../Marketing/index.html');
         });
 
         // Fullscreen toggle

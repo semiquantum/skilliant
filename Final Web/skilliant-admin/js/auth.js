@@ -213,8 +213,14 @@ const Auth = {
             return this._setRecoveryStatus('error', 'Enter a valid registered Admin email address.', 'fa-circle-exclamation');
         }
 
-        const admins = DataService.getCollection(DataService.KEYS.ADMINS) || [];
-        const found = admins.find(a => String(a.email || '').trim().toLowerCase() === email && a.status !== 'Inactive');
+        // Always resolve the recipient from the CURRENT Admin Management data.
+        // Never hardcode one email: newly-created/edited Admin and Financial Admin
+        // accounts become eligible automatically while their record is Active.
+        const found = typeof DataService.getAuthorizedAdminByEmail === 'function'
+            ? DataService.getAuthorizedAdminByEmail(email)
+            : (DataService.getCollection(DataService.KEYS.ADMINS) || []).find(a =>
+                String(a.email || '').trim().toLowerCase() === email && String(a.status || 'Active').toLowerCase() === 'active'
+              );
         if (!found) {
             this._clearOtpState();
             if (submit) submit.disabled = false;
@@ -239,7 +245,9 @@ const Auth = {
         this._clearOtpState();
         const state = {
             adminId: found.id,
-            email,
+            email: String(found.email || email).trim().toLowerCase(),
+            adminName: found.name || 'Admin',
+            adminRole: found.role || 'Admin',
             otp,
             expiresAt,
             verified: false,

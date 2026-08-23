@@ -129,7 +129,7 @@ const AdminsPage = {
             submitText: 'Create Admin',
             onSubmit: () => {
                 const name = document.getElementById('newAdminName')?.value.trim();
-                const email = document.getElementById('newAdminEmail')?.value.trim();
+                const email = document.getElementById('newAdminEmail')?.value.trim().toLowerCase();
                 const role = document.getElementById('newAdminRole')?.value;
                 const password = document.getElementById('newAdminPassword')?.value;
 
