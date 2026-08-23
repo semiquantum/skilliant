@@ -29,10 +29,6 @@ const App = {
         'admins':         AdminsPage,
         'roles':          RolesPage,
         'reviews':        ReviewsPage,
-        'projects':       ProjectsPage,
-        'attendance':     AttendancePage,
-        'documents':      DocumentsPage,
-        'availability':   AvailabilityPage,
     },
 
     currentPage: 'dashboard',
@@ -212,7 +208,7 @@ const App = {
             dashboard:'view:dashboard', users:'view:users', labour:'view:labour', contractors:'view:contractors',
             categories:'view:categories', skills:'view:skills', bookings:'view:bookings', payments:'view:payments',
             reports:'view:reports', notifications:'view:notifications', support:'view:support', activity:'view:activity',
-            settings:'view:settings', admins:'manage:admins', roles:'manage:roles', reviews:'view:reviews', projects:'view:projects', attendance:'view:attendance', documents:'view:documents', availability:'view:availability'
+            settings:'view:settings', admins:'manage:admins', roles:'manage:roles', reviews:'view:reviews'
         };
         document.querySelectorAll('.nav-item[data-page]').forEach(item => {
             const page = item.dataset.page;
@@ -362,7 +358,7 @@ const App = {
             dashboard:'view:dashboard', users:'view:users', labour:'view:labour', contractors:'view:contractors',
             categories:'view:categories', skills:'view:skills', bookings:'view:bookings', payments:'view:payments',
             reports:'view:reports', notifications:'view:notifications', support:'view:support', activity:'view:activity',
-            settings:'view:settings', admins:'manage:admins', roles:'manage:roles', reviews:'view:reviews', projects:'view:projects', attendance:'view:attendance', documents:'view:documents', availability:'view:availability'
+            settings:'view:settings', admins:'manage:admins', roles:'manage:roles', reviews:'view:reviews'
         };
         const requiredPermission = routePermissions[rawHash];
         if (requiredPermission && !this.hasPermission(requiredPermission)) {

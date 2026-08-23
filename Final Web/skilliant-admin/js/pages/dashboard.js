@@ -13,6 +13,8 @@ const DashboardPage = {
         const session = DataService.getSession();
         const firstName = session ? session.adminName.split(' ')[0] : 'Admin';
 
+        const modulePermissions = { dashboard:'view:dashboard', users:'view:users', labour:'view:labour', contractors:'view:contractors', categories:'view:categories', skills:'view:skills', bookings:'view:bookings', payments:'view:payments', reports:'view:reports', notifications:'view:notifications', support:'view:support', activity:'view:activity', settings:'view:settings', admins:'manage:admins', roles:'manage:roles', reviews:'view:reviews' };
+
         const kpiCardsData = [
             { title: 'Total Customers', value: kpis.totalUsers, subtext: 'Registered clients', trendUp: true, icon: 'fa-solid fa-users', colorClass: 'kpi-icon-blue' },
             { title: 'Skilled Labourers', value: kpis.totalLabour, subtext: 'On platform', trendUp: true, icon: 'fa-solid fa-helmet-safety', colorClass: 'kpi-icon-green' },
@@ -63,6 +65,9 @@ const DashboardPage = {
             ${UI.renderPageHeader('Dashboard Overview', 'Welcome back, ${firstName}. Here is a summary of platform activity.')}
             ${UI.renderKpiCards(kpiCardsData)}
 
+            <!-- Module Center: every Admin module is directly reachable from the dashboard. -->
+            
+
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:1.5rem;" class="mb-6">
                 <!-- Revenue & Booking Chart -->
                 <div class="glass-card animate-slide-up">
@@ -100,7 +105,7 @@ const DashboardPage = {
                     <div class="flex items-center justify-between mb-4">
                         <div>
                             <h3 class="section-title" style="margin-bottom:2px;">User Growth Trajectory</h3>
-                            <p style="font-size:0.8rem;color:var(--text-muted);">Cumulative registrations (last 6 months)</p>
+                            <p style="font-size:0.8rem;color:var(--text-muted);">Monthly registrations (last 6 months)</p>
                         </div>
                         <span class="badge badge-success">Growth</span>
                     </div>
@@ -235,26 +240,25 @@ const DashboardPage = {
 
         ChartsEngine.renderRevenueTrendChart('dashboardRevenueChart', monthLabels, grossData, commData);
 
-        // Calculate cumulative User Growth
+        // Show actual monthly registrations rather than a misleading cumulative flat line.
         const users = DataService.getCollection(DataService.KEYS.USERS);
         const labourers = DataService.getCollection(DataService.KEYS.LABOURS);
         const contractors = DataService.getCollection(DataService.KEYS.CONTRACTORS);
+        const countJoinedInMonth = (rows, year, month) => rows.filter(row => {
+            const value = row?.joinedDate || row?.createdAt || row?.date;
+            if (!value) return false;
+            const date = new Date(value);
+            return !Number.isNaN(date.getTime()) && date.getFullYear() === year && date.getMonth() === month;
+        }).length;
 
         const usersGrowth = [];
         const labourersGrowth = [];
         const contractorsGrowth = [];
-
         for (let i = 5; i >= 0; i--) {
             const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-            const endOfMonth = new Date(d.getFullYear(), d.getMonth() + 1, 0, 23, 59, 59, 999);
-
-            const userCount = users.filter(u => !u.joinedDate || new Date(u.joinedDate) <= endOfMonth).length;
-            const labourCount = labourers.filter(l => !l.joinedDate || new Date(l.joinedDate) <= endOfMonth).length;
-            const contractorCount = contractors.filter(c => !c.joinedDate || new Date(c.joinedDate) <= endOfMonth).length;
-
-            usersGrowth.push(userCount);
-            labourersGrowth.push(labourCount);
-            contractorsGrowth.push(contractorCount);
+            usersGrowth.push(countJoinedInMonth(users, d.getFullYear(), d.getMonth()));
+            labourersGrowth.push(countJoinedInMonth(labourers, d.getFullYear(), d.getMonth()));
+            contractorsGrowth.push(countJoinedInMonth(contractors, d.getFullYear(), d.getMonth()));
         }
 
         ChartsEngine.renderUserGrowthChart('dashboardUserGrowthChart', monthLabels, usersGrowth, labourersGrowth, contractorsGrowth);

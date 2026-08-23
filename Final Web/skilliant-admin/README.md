@@ -1,39 +1,79 @@
-# Skilliant Admin Portal — Admin-Only Connected Build
+# Skilliant Admin Portal — 3-Way Connectivity (Admin Only)
 
-This package contains **only `skilliant-admin/`**. Do not copy or merge Marketing, User, Contractor, or Labour source files into this folder.
+Only `skilliant-admin/` is included. Marketing and DISC Digital User Portal files are not copied or modified.
 
 ## Portal connectivity
-The Admin Portal uses portable relative HTML `href` links to the existing sibling portals in the repository:
+The Admin sidebar contains only these portal links:
 
-- Marketing: `../Marketing/index.html`
-- User Portal: `../user%20portal%20final/index.html`
-- Contractor Portal: `../Contractor%20Portal/skilliant-shruti/skilliant/index.html`
-- Labour Portal: `../skilliant-labour-dashboard/index.html`
-- Admin logout: clears the Admin session and returns to `../Marketing/index.html`
+- **Skilliant Admin** — `#dashboard`
+- **Marketing Portal** — `../Marketing/index.html`
+- **DISC Digital User Portal** — `../user%20portal%20final/index.html`
 
-These paths are intentionally relative. **Never replace them with a Windows path such as `C:\Users\...`.**
+These are relative `href` links. No Windows-specific paths are used.
 
-## Required repository layout
-When this folder is committed, the repository should keep the existing structure:
+The Dashboard does not show a separate module/portal center.
 
+## Repository structure
 ```text
 Final Web/
 ├── Marketing/
-├── skilliant-admin/          # this folder
-├── user portal final/
-├── Contractor Portal/
-│   └── skilliant-shruti/
-│       └── skilliant/
-└── skilliant-labour-dashboard/
+├── skilliant-admin/
+└── user portal final/
 ```
 
-Only the `skilliant-admin` folder is changed by this package. The other portals remain untouched.
+Keep the existing sibling folders unchanged.
 
-## Local testing
-Because the Admin links point to sibling folders, test the **parent `Final Web` folder**, not the Admin folder alone.
+## Local test
+From the `Final Web` parent folder:
 
 ```cmd
-cd "...\Final Web"
+npx serve .
+```
+
+Open:
+
+```text
+http://localhost:3000/skilliant-admin/
+```
+
+## Commit only Admin
+```cmd
+git add "Final Web/skilliant-admin"
+git commit -m "Connect Admin with Marketing and DISC Digital User Portal"
+git push origin main
+```
+
+## External Portal Connectivity
+
+The Admin Portal keeps all other portal source files outside this folder. It uses relative `href` links to the existing sibling portals:
+
+- `../Marketing/index.html` — Marketing Portal
+- `../user%20portal%20final/index.html` — DISC Digital User Portal
+- `../Contractor%20Portal/skilliant-shruti/skilliant/index.html` — Contractor Portal
+- `../skilliant-labour-dashboard/index.html` — Labour Portal
+
+The Admin sidebar does **not** contain a self-link to Skilliant Admin. The Admin logout action clears the Admin session and returns to `../Marketing/index.html`.
+
+Keep the repository structure unchanged when testing or downloading as ZIP. Do not copy these portal folders into `skilliant-admin`.
+
+
+## Current Connectivity Scope
+
+This Admin Portal package changes **only `skilliant-admin`**. The Marketing, DISC Digital User, Contractor, and Labour portal source files are not copied into this folder. Navigation uses relative `href` links to the existing sibling portal folders in the repository.
+
+Connected portals from Admin:
+- Marketing Portal
+- DISC Digital User Portal
+- Contractor Portal
+- Labour Portal
+
+Admin logout clears the Admin session and redirects to `../Marketing/index.html`.
+
+## Local Test
+
+Run the server from the parent `Final Web` directory so sibling portal paths resolve:
+
+```cmd
 npx serve .
 ```
 
@@ -43,25 +83,8 @@ Then open:
 http://localhost:3000/skilliant-admin/
 ```
 
-Do not double-click the Admin `index.html` for connectivity testing.
+Do not open the Admin `index.html` with `file:///` when testing portal connectivity.
 
-## Authentication / password reset
-- Admin login uses the Admin records stored by the existing frontend `DataService`.
-- Forgot Password checks the current active Admin records; it does not hard-code a single Admin email.
-- A fresh 6-digit OTP is generated only after an authorized active Admin is found.
-- OTP validity is 60 seconds.
-- EmailJS sends the OTP automatically when the configured service/template is available.
-- The new password is persisted in the frontend Admin data store (`localStorage`) so it survives refresh in this frontend-only phase.
+## User Data Cleanup
 
-> This is still a frontend-only implementation. For production security, password hashes, OTPs, sessions, and authorization must be moved to a backend/database.
-
-## GitHub commit
-Commit only this folder when updating the existing repository:
-
-```cmd
-git add "Final Web/skilliant-admin"
-git commit -m "Fix Admin portal connectivity and authentication"
-git push origin main
-```
-
-When you later download the complete repository ZIP, keep all sibling portal folders in their existing locations.
+The Admin data layer normalizes legacy user records at startup, prevents duplicate demo records from appearing, converts missing booking/spend values to safe defaults, and keeps View/Edit/Suspend/Activate/Delete/CSV/Print actions connected to the same LocalStorage data source.

@@ -175,12 +175,12 @@ const UI = {
     },
 
     renderControlsBar(searchId, placeholder, filters = [], actionButtonHtml = '', exportConfig = null) {
-        const csvBtn = exportConfig
-            ? `<button class="btn btn-outline btn-sm" onclick="${exportConfig.csvFn}()" title="Export CSV"><i class="fa-solid fa-file-csv"></i> CSV</button>`
-            : `<button class="btn btn-outline btn-sm" title="Export CSV (configure exportConfig)"><i class="fa-solid fa-file-csv"></i> CSV</button>`;
-        const pdfBtn = exportConfig
-            ? `<button class="btn btn-outline btn-sm" onclick="${exportConfig.pdfFn}()" title="Print / Export PDF"><i class="fa-solid fa-print"></i> Print</button>`
-            : `<button class="btn btn-outline btn-sm" onclick="window.print()" title="Print"><i class="fa-solid fa-print"></i> Print</button>`;
+        const csvBtn = exportConfig?.csvFn
+            ? `<button type="button" class="btn btn-outline btn-sm" onclick="${exportConfig.csvFn}()" title="Export CSV"><i class="fa-solid fa-file-csv"></i> CSV</button>`
+            : '';
+        const pdfBtn = exportConfig?.pdfFn
+            ? `<button type="button" class="btn btn-outline btn-sm" onclick="${exportConfig.pdfFn}()" title="Print / Export PDF"><i class="fa-solid fa-print"></i> Print</button>`
+            : `<button type="button" class="btn btn-outline btn-sm" onclick="window.print()" title="Print"><i class="fa-solid fa-print"></i> Print</button>`;
 
         return `
             <div class="controls-bar glass-card mb-4" style="padding:1rem 1.5rem;">

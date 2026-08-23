@@ -117,7 +117,7 @@ const DataService = {
                 id: 'ADM-001',
                 name: 'Meet Mhatre',
                 email: 'meetmhatre2006@gmail.com',
-                password: this.hashPassword('meet2006'),
+                password: this.hashPassword('meet2006..'),
                 profilePhoto: 'MM',
                 role: 'Super Admin',
                 lastLogin: '',
@@ -138,6 +138,9 @@ const DataService = {
         this.seedExtendedOperations();
         this.normalizeExtendedOperations();
 
+        // Repair legacy/demo records once before the UI renders. This prevents
+        // undefined fields from leaking into tables and keeps CRUD actions stable.
+        this.normalizeCoreCollections();
         // Normalize seeded/contact phone numbers to the required 10-digit format.
         this.normalizePhoneData();
         this.ensureDay5ModulePermissions();
@@ -380,35 +383,59 @@ const DataService = {
         const availability=this.getCollection(this.KEYS.AVAILABILITY)||[];availability.forEach(a=>{const person=labourById.get(a.ownerId)||contractorById.get(a.ownerId);a.ownerName=clean(a.ownerName,person?.name||'Professional');a.ownerType=clean(a.ownerType,labourById.has(a.ownerId)?'Labourer':'Contractor');a.location=clean(a.location,person?.city||'Not specified');a.slots=clean(a.slots,'09:00–18:00');if(!['Available','Unavailable','Busy'].includes(a.status))a.status='Available';a.nextAvailable=clean(a.nextAvailable,'Today')});this.setStorage(this.KEYS.AVAILABILITY,availability);
     },
 
-    // Safely migrate admin email/name without clearing localStorage
+    // Safely migrate the primary Admin identity without overwriting a password
+    // that was already changed through Forgot Password / Admin Settings.
     migrateAdminEmail() {
         const admins = this.getCollection(this.KEYS.ADMINS) || [];
         let changed = false;
         let primary = admins.find(a => a.id === 'ADM-001');
         if (!primary) {
-            primary = { id:'ADM-001', name:'Meet Mhatre', email:'meetmhatre2006@gmail.com', password:this.hashPassword('meet2006'), profilePhoto:'MM', role:'Super Admin', lastLogin:'', status:'Active', phone:'9876543200', createdAt:new Date().toISOString() };
-            admins.unshift(primary); changed = true;
-        }
-        // One-time credential migration for the supplied Super Admin account.
-        const migrationKey = 'skilliant_superadmin_credentials_v4';
-        if (localStorage.getItem(migrationKey) !== 'done') {
-            primary.name = 'Meet Mhatre';
-            primary.email = 'meetmhatre2006@gmail.com';
-            primary.password = this.hashPassword('meet2006');
-            primary.profilePhoto = 'MM';
-            primary.role = 'Super Admin';
-            primary.status = 'Active';
-            localStorage.setItem(migrationKey, 'done');
+            primary = {
+                id: 'ADM-001',
+                name: 'Meet Mhatre',
+                email: 'meetmhatre2006@gmail.com',
+                password: this.hashPassword('meet2006..'),
+                profilePhoto: 'MM',
+                role: 'Super Admin',
+                lastLogin: '',
+                status: 'Active',
+                phone: '9876543200',
+                createdAt: new Date().toISOString()
+            };
+            admins.unshift(primary);
             changed = true;
         }
-        const cleaned = admins.filter(a => !(a.id !== 'ADM-001' && ['alex@skilliant.com','admin@skilliant.com','NeetMatra26@gmail.com'].includes(a.email)));
+
+        // Keep the canonical Super Admin identity, but NEVER reset an existing
+        // password here. This was the cause of valid reset passwords being lost
+        // after a refresh/reload in earlier builds.
+        if (primary.name !== 'Meet Mhatre') { primary.name = 'Meet Mhatre'; changed = true; }
+        if (primary.email !== 'meetmhatre2006@gmail.com') { primary.email = 'meetmhatre2006@gmail.com'; changed = true; }
+        if (!primary.password) { primary.password = this.hashPassword('meet2006..'); changed = true; }
+        if (primary.profilePhoto !== 'MM') { primary.profilePhoto = 'MM'; changed = true; }
+        if (primary.role !== 'Super Admin') { primary.role = 'Super Admin'; changed = true; }
+        if (primary.status !== 'Active') { primary.status = 'Active'; changed = true; }
+
+        // One-time compatibility migration for the OLD seeded password only.
+        // If the admin already has a custom/reset password, preserve it exactly.
+        const legacyPasswordHash = this.hashPassword('meet2006');
+        const legacyPlain = 'meet2006';
+        const migrationKey = 'skilliant_superadmin_credentials_v5';
+        if (localStorage.getItem(migrationKey) !== 'done') {
+            if (primary.password === legacyPasswordHash || primary.password === legacyPlain) {
+                primary.password = this.hashPassword('meet2006..');
+                changed = true;
+            }
+            localStorage.setItem(migrationKey, 'done');
+        }
+
+        const cleaned = admins.filter(a => !(a.id !== 'ADM-001' && ['alex@skilliant.com','admin@skilliant.com','NeetMatra26@gmail.com'].includes(String(a.email || '').trim())));
         if (changed || cleaned.length !== admins.length) this.setStorage(this.KEYS.ADMINS, cleaned);
+
         const session = this.getSession();
         if (session && session.adminId === 'ADM-001') {
-            session.adminEmail = 'meetmhatre2006@gmail.com';
-            session.adminName = 'Meet Mhatre';
-            session.profilePhoto = 'MM';
-            this.setStorage(this.KEYS.SESSION, session);
+            const next = { ...session, adminEmail: primary.email, adminName: primary.name, profilePhoto: primary.profilePhoto, role: primary.role };
+            this.setStorage(this.KEYS.SESSION, next);
         }
     },
 
@@ -461,6 +488,64 @@ const DataService = {
     validatePhone(phone) {
         // Skilliant demo/mobile format: exactly 10 digits, beginning with 6-9.
         return /^[6-9]\d{9}$/.test(String(phone || '').trim());
+    },
+
+    normalizeCoreCollections() {
+        const normalizeDate = value => {
+            if (!value) return new Date().toISOString().slice(0, 10);
+            const d = new Date(value);
+            return Number.isNaN(d.getTime()) ? new Date().toISOString().slice(0, 10) : value;
+        };
+        const users = this.getCollection(this.KEYS.USERS) || [];
+        const seenEmails = new Set();
+        const cleanUsers = [];
+        users.forEach((u, index) => {
+            const email = String(u.email || '').trim().toLowerCase();
+            const name = String(u.name || 'Customer').trim() || 'Customer';
+            const id = String(u.id || `USR-${String(index + 1).padStart(3, '0')}`);
+            // Preserve the record but make all display/CRUD fields deterministic.
+            const normalized = {
+                ...u,
+                id,
+                name,
+                email,
+                phone: String(u.phone || '').trim(),
+                totalBookings: Number.isFinite(Number(u.totalBookings)) ? Number(u.totalBookings) : 0,
+                spent: typeof u.spent === 'number' ? `$${u.spent.toFixed(2)}` : (String(u.spent || '$0.00').toLowerCase() === 'undefined' ? '$0.00' : String(u.spent || '$0.00')),
+                joinedDate: normalizeDate(u.joinedDate || u.createdAt),
+                status: ['Active', 'Suspended'].includes(u.status) ? u.status : 'Active'
+            };
+            // Remove exact duplicate/legacy records created by older demo builds.
+            // Keep the first valid account so existing customer data is preserved.
+            const duplicateEmail = email && seenEmails.has(email);
+            const invalidDemoRecord = (
+                /^meet$/i.test(name) &&
+                (!email || email === 'meetmhatre2006@gmail.com')
+            ) || (
+                /^1{8,}$/.test(normalized.phone) &&
+                (!normalized.totalBookings || normalized.totalBookings === 0)
+            );
+            if (duplicateEmail || invalidDemoRecord) return;
+            if (email) seenEmails.add(email);
+            cleanUsers.push(normalized);
+        });
+        this.setStorage(this.KEYS.USERS, cleanUsers);
+
+        const collections = [
+            [this.KEYS.LABOURS, 'Labourer'],
+            [this.KEYS.CONTRACTORS, 'Contractor']
+        ];
+        collections.forEach(([key, fallbackName]) => {
+            const list = this.getCollection(key) || [];
+            list.forEach((item, index) => {
+                item.id = String(item.id || `${fallbackName.slice(0, 3).toUpperCase()}-${String(index + 1).padStart(3, '0')}`);
+                item.name = String(item.name || fallbackName).trim() || fallbackName;
+                item.email = String(item.email || '').trim().toLowerCase();
+                item.phone = String(item.phone || '').trim();
+                if (!item.status || String(item.status).toLowerCase() === 'undefined') item.status = 'Active';
+            });
+            this.setStorage(key, list);
+        });
     },
 
     normalizePhoneData() {
@@ -580,13 +665,15 @@ const DataService = {
 
     // --- AUTHENTICATION & SESSION ---
     login(email, password, rememberMe = false) {
-        const admins = this.getCollection(this.KEYS.ADMINS);
-        const adminUser = admins.find(a => a.email.toLowerCase() === email.toLowerCase());
+        const normalizedEmail = String(email ?? '').trim().toLowerCase();
+        const suppliedPassword = String(password ?? '');
+        const admins = this.getCollection(this.KEYS.ADMINS) || [];
+        const adminUser = admins.find(a => String(a.email || '').trim().toLowerCase() === normalizedEmail);
 
         if (!adminUser) {
             return { success: false, message: 'No account found with that email address.' };
         }
-        if (!this.checkPassword(password, adminUser.password)) {
+        if (!this.checkPassword(suppliedPassword, adminUser.password)) {
             return { success: false, message: 'Incorrect password. Please try again.' };
         }
         if (adminUser.status !== 'Active') {
@@ -848,8 +935,12 @@ const DataService = {
         const session=this.getSession();
         if(!session) return false;
         if(session.role==='Super Admin') return true;
-        const roles=this.ensureDay5ModulePermissions();
-        const role=roles.find(r=>r.title===session.role);
+        let roles=this.getCollection(this.KEYS.ROLES)||[];
+        let role=roles.find(r=>r.title===session.role);
+        if(!role){
+            roles=this.ensureDay5ModulePermissions();
+            role=roles.find(r=>r.title===session.role);
+        }
         return !!role?.permissions?.includes(permission);
     },
     requirePermission(permission, message='You do not have permission to perform this action.') {

@@ -74,7 +74,12 @@ const ChartsEngine = {
                 },
                 scales: {
                     x: { grid: { display: false } },
-                    y: { grid: { color: this._color('--border-color', '#E8DED1') }, ticks: { callback: v => '$' + v } }
+                    y: {
+                        beginAtZero: true,
+                        suggestedMax: Math.max(1, ...(grossData || []), ...(commissionData || [])),
+                        grid: { color: this._color('--border-color', '#E8DED1') },
+                        ticks: { callback: v => '$' + v.toLocaleString() }
+                    }
                 }
             }
         });
@@ -106,7 +111,7 @@ const ChartsEngine = {
                 plugins: { legend: { display: false } },
                 scales: {
                     x: { grid: { display: false } },
-                    y: { grid: { color: this._color('--border-color', '#E8DED1') }, ticks: { stepSize: 1 } }
+                    y: { beginAtZero: true, suggestedMax: Math.max(1, ...(usersData || []), ...(labourData || []), ...(contractorData || [])), grid: { color: this._color('--border-color', '#E8DED1') }, ticks: { stepSize: 1, precision: 0 } }
                 }
             }
         });

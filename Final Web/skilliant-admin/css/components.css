@@ -835,3 +835,51 @@ input:focus + .slider                { box-shadow: 0 0 0 3px rgba(37,99,235,0.18
 .role-card-footer{border-top:1px solid var(--border-color);padding-top:.75rem;display:flex;align-items:center;justify-content:space-between;gap:.75rem;color:var(--text-light);font-size:.78rem;font-weight:600}
 .permission-editor{display:grid;gap:1rem}.permission-editor>p{font-size:.85rem;line-height:1.5}.permission-options{display:grid;gap:.4rem}.permission-option{display:flex;align-items:center;gap:.55rem;padding:.45rem;border-radius:8px;font-size:.82rem;cursor:pointer}.permission-option:hover{background:var(--bg-body)}.permission-option input{accent-color:var(--accent-gold)}.permission-warning{display:flex;align-items:center;gap:.5rem;color:var(--danger);font-size:.8rem}
 @media(min-width:901px){.activity-toolbar{grid-template-columns:minmax(220px,2fr) repeat(5,minmax(120px,1fr));}}
+
+/* ============================================================
+   CRUD ACTIONS + RESPONSIVE TABLE HARDENING
+   ============================================================ */
+.table-actions,
+.data-table td:last-child > div[style*="display: flex"] {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: .45rem;
+    align-items: center;
+}
+.table-actions .btn,
+.data-table td:last-child .btn {
+    white-space: nowrap;
+    min-height: 34px;
+    cursor: pointer;
+}
+.data-table td:last-child .btn:disabled {
+    cursor: not-allowed;
+    opacity: .55;
+}
+.confirm-dialog { text-align:center; padding:.5rem .25rem; }
+.confirm-dialog .confirm-icon {
+    width:52px;height:52px;border-radius:50%;display:grid;place-items:center;margin:0 auto .8rem;
+    background:rgba(220,38,38,.10);color:#dc2626;font-size:1.1rem;
+}
+.confirm-dialog h3 { margin:0 0 .45rem; color:var(--text-main); }
+.confirm-dialog p { margin:0; color:var(--text-muted); line-height:1.55; font-size:.88rem; }
+
+@media (max-width: 900px) {
+    .controls-bar { display:flex; flex-direction:column; align-items:stretch !important; gap:.75rem; }
+    .controls-bar .header-search { max-width:none !important; width:100%; }
+    .controls-bar .filter-group { display:flex; flex-wrap:wrap; width:100%; }
+    .controls-bar .filter-group > * { flex:1 1 150px; }
+    .controls-bar .filter-group > div[style*="border-left"] { border-left:0 !important; padding-left:0 !important; width:100%; }
+    .data-table { min-width:900px; }
+    .table-responsive { -webkit-overflow-scrolling:touch; }
+}
+
+@media (max-width: 600px) {
+    .controls-bar { padding:.8rem !important; }
+    .controls-bar .filter-group { flex-direction:column; }
+    .controls-bar .filter-group > * { width:100%; flex:1 1 auto; }
+    .controls-bar .filter-group > div[style*="border-left"] { display:grid !important; grid-template-columns:1fr 1fr; gap:.5rem !important; }
+    .controls-bar .filter-group > div[style*="border-left"] .btn { width:100%; justify-content:center; }
+    .table-pagination { flex-direction:column; gap:.75rem; align-items:stretch !important; }
+    .table-pagination > div:last-child { justify-content:center; }
+}

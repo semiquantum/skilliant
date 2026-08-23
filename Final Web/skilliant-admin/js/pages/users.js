@@ -13,10 +13,15 @@ const UsersPage = {
 
         // Apply filters
         const filteredUsers = users.filter(u => {
-            const matchesSearch = u.name.toLowerCase().includes(this.state.search.toLowerCase()) ||
-                u.email.toLowerCase().includes(this.state.search.toLowerCase()) ||
-                u.phone.includes(this.state.search) ||
-                u.id.toLowerCase().includes(this.state.search.toLowerCase());
+            const name = String(u.name || '');
+            const email = String(u.email || '');
+            const phone = String(u.phone || '');
+            const id = String(u.id || '');
+            const query = String(this.state.search || '').toLowerCase();
+            const matchesSearch = name.toLowerCase().includes(query) ||
+                email.toLowerCase().includes(query) ||
+                phone.includes(this.state.search || '') ||
+                id.toLowerCase().includes(query);
             const matchesStatus = !this.state.status || u.status === this.state.status;
             return matchesSearch && matchesStatus;
         });
@@ -44,16 +49,16 @@ const UsersPage = {
                 <td>${UI.renderBadge(u.status)}</td>
                 <td>
                     <div style="display: flex; gap: 0.5rem;">
-                        <button class="btn btn-outline btn-sm" onclick="UsersPage.viewDetails('${u.id}')">
+                        <button type="button" class="btn btn-outline btn-sm" onclick="UsersPage.viewDetails('${u.id}')">
                             <i class="fa-solid fa-eye"></i> View
                         </button>
-                        <button class="btn btn-outline btn-sm" onclick="UsersPage.editUserModal('${u.id}')">
+                        <button type="button" class="btn btn-outline btn-sm" onclick="UsersPage.editUserModal('${u.id}')">
                             <i class="fa-solid fa-pen"></i> Edit
                         </button>
-                        <button class="btn btn-outline btn-sm" onclick="UsersPage.toggleStatus('${u.id}')">
+                        <button type="button" class="btn btn-outline btn-sm" onclick="UsersPage.toggleStatus('${u.id}')">
                             <i class="fa-solid fa-ban"></i> ${u.status === 'Active' ? 'Suspend' : 'Activate'}
                         </button>
-                        <button class="btn btn-outline btn-sm text-danger" onclick="UsersPage.deleteUser('${u.id}')">
+                        <button type="button" class="btn btn-outline btn-sm text-danger" onclick="UsersPage.deleteUser('${u.id}')">
                             <i class="fa-solid fa-trash"></i> Delete
                         </button>
                     </div>
@@ -269,12 +274,19 @@ const UsersPage = {
         const u = users.find(x => x.id === id);
         if (!u) return;
 
-        if (confirm(`Are you sure you want to permanently delete customer account: ${u.name}?`)) {
-            DataService.deleteItem(DataService.KEYS.USERS, 'id', id);
-            DataService.logActivity(`Deleted customer account ${u.name}`);
-            Toast.show(`Customer account ${u.name} deleted.`, 'info');
-            App.refreshCurrentPage();
-        }
+        ModalManager.open({
+            title: 'Delete Customer Account',
+            bodyHtml: `<div class="confirm-dialog"><div class="confirm-icon danger"><i class="fa-solid fa-trash"></i></div><h3>Delete ${UI.escapeHtml(u.name)}?</h3><p>This permanently removes the customer account from the Admin Portal. This action cannot be undone.</p></div>`,
+            submitText: 'Delete Account',
+            submitBtnClass: 'btn-danger',
+            onSubmit: () => {
+                DataService.deleteItem(DataService.KEYS.USERS, 'id', id);
+                DataService.logActivity(`Deleted customer account ${u.name}`, {entityType:'user', entityId:id, severity:'warning'});
+                Toast.show(`Customer account ${u.name} deleted.`, 'success');
+                ModalManager.close();
+                App.refreshCurrentPage();
+            }
+        });
     },
 
     exportCSV() {
