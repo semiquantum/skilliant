@@ -1,0 +1,13 @@
+﻿{
+  "name": "skilliant",
+  "version": "1.0.0",
+  "description": "Skilliant - Skilled Labour Finding Platform with Twilio Verify OTP",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["labour", "tradespeople", "twilio-verify", "otp"],
+  "author": "Skilliant",
+  "license": "MIT"
+}
