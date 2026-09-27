@@ -1,640 +1,328 @@
-# 🚀 Skilliant Admin Portal
+# Skilliant Admin Portal
 
-A modern and responsive administrative management portal for **Skilliant — Online Labour Finding Platform**, designed to provide centralized control over users, labourers, contractors, bookings, payments, reports, analytics, notifications, support, administration, and platform settings.
+## Overview
 
-## ✨ Key Features
+Skilliant Admin Portal is the central administration interface for the **Skilliant Online Labour Finding Platform**. It provides authorized administrators with a single place to manage users, labour profiles, contractors, categories, skills, bookings, payments, reports, notifications, support, activity logs, settings, administrators, and roles.
 
-- 🏠 **Dashboard** — Platform KPIs, financial overview, charts, analytics, and recent activity
-- 👥 **User Management** — Manage customer profiles, account status, and user actions
-- 👷 **Labour Management** — Manage labourers, skills, availability, verification, and records
-- 🏢 **Contractor Management** — Manage contractor profiles, companies, locations, contacts, and verification
-- 🗂️ **Categories & Skills** — Create, edit, search, and manage platform categories and professional skills
-- 📅 **Booking Management** — Create, view, edit, search, filter, cancel, and manage bookings
-- 💳 **Payments & Escrow** — Manage payments, escrow, commissions, payouts, and refunds
-- 📊 **Reports & Analytics** — Revenue, booking performance, user growth, financial insights, and platform analytics
-- 📥 **Data Export** — Export supported reports and administrative data
-- 🔔 **Notifications** — Centralized notification management with read/unread tracking and filtering
-- 🎫 **Support Tickets** — Create, assign, prioritize, reply, resolve, reopen, and manage support requests
-- 📝 **Activity Logs** — Track important administrative actions with searchable and filterable audit records
-- 👤 **Admin Management** — Manage administrator accounts, roles, status, and authorized account information
-- 🔐 **Role & Permission Management** — Control administrator access using role-based and action-level permissions
-- ⚙️ **Website Settings** — Manage platform, business, notification, appearance, localization, and maintenance settings
-- 🔍 **Search & Filtering** — Consistent search and filtering across major administration modules
-- 🪟 **Interactive Modals** — Add, view, edit, verify, assign, confirm, reply, resolve, and delete workflows
-- 📱 **Responsive Design** — Optimized for desktop, laptop, tablet, and mobile devices
-- ♿ **Accessible Frontend** — Semantic HTML, keyboard-friendly controls, ARIA support, focus states, and accessible interactions
-- 🌗 **Light & Dark Mode** — Consistent theme experience across the administration portal
+## Main Modules
 
-## 💰 Management Flow
-
-```text
-Booking → Payment → Escrow → Commission / Payout → Revenue → Reports → Analytics → Export
-```
-
-The operational and financial modules are connected through centralized application data so that relevant administrative changes can be reflected across related sections.
-
-## 🔐 Role Management
-
-### 👑 Super Admin
-
-Full administrative access to platform management, administrator management, roles, permissions, website settings, financial administration, operational controls, activity logs, and other sensitive system operations.
-
-### 🛠️ Admin
-
-Controlled access to day-to-day platform operations. Admin users cannot access sensitive system-level functions such as administrator management, role configuration, permission management, platform-wide settings, or restricted financial operations.
-
-### 💰 Financial Admin
-
-Focused access to financial operations including payments, escrow, payouts, refunds, revenue, and financial reporting.
-
-### 🔑 Permission System
-
-Permissions are managed at both module and action level.
-
-```text
-VIEW:USERS
-CREATE:USERS
-EDIT:USERS
-SUSPEND:USERS
-
-VIEW:LABOUR
-CREATE:LABOUR
-EDIT:LABOUR
-VERIFY:LABOUR
-SUSPEND:LABOUR
-
-VIEW:CONTRACTORS
-CREATE:CONTRACTORS
-EDIT:CONTRACTORS
-VERIFY:CONTRACTORS
-
-VIEW:BOOKINGS
-CREATE:BOOKINGS
-EDIT:BOOKINGS
-CANCEL:BOOKINGS
-
-VIEW:PAYMENTS
-REFUND:PAYMENTS
-MANAGE:PAYOUTS
-
-VIEW:SUPPORT
-CREATE:SUPPORT
-REPLY:SUPPORT
-ASSIGN:SUPPORT
-RESOLVE:SUPPORT
-
-VIEW:ACTIVITY
-EXPORT:ACTIVITY
-
-MANAGE:ADMINS
-MANAGE:ROLES
-MANAGE:PERMISSIONS
-MANAGE:SETTINGS
-```
-
-Sensitive system-level permissions are reserved for the **Super Admin**.
-
-## 📝 Activity & Audit System
-
-Important administrative operations are recorded in the Activity Logs section.
-
-The system can track actions such as:
-
-- 🔐 Login and logout
-- 👤 Administrator creation and updates
-- 👑 Role changes
-- 🔑 Permission changes
-- 👥 User changes
-- 👷 Labourer changes
-- 🏢 Contractor changes
-- 📅 Booking changes
-- 💳 Payment operations
-- 💸 Payout and refund operations
-- 🎫 Support ticket operations
-- 🔔 Notification operations
-- ⚙️ Website setting changes
-- 📊 Report exports
-
-```text
-Administrator Action
-        ↓
-Permission Check
-        ↓
-Data Update
-        ↓
-Activity Log
-        ↓
-Notification
-        ↓
-UI Update
-```
-
-## 🎫 Support Ticket Management
-
-The Support Ticket module provides a complete administrative workflow for handling support requests.
-
-```text
-Open
-  ↓
-In Progress
-  ↓
-Waiting for User
-  ↓
-Resolved
-  ↓
-Closed
-```
-
-Ticket management includes:
-
-- 🎫 Ticket creation
-- 🔍 Search and filtering
-- 👤 Assignment
-- ⚡ Priority management
-- 🔄 Status management
-- 💬 Replies
-- 📝 Internal notes
-- ✅ Resolution
-- 🔓 Reopening
-- 📜 Ticket history
-- 📝 Activity logging
-
-Priority levels include **Low, Medium, High, and Urgent**.
-
-## 🔔 Notification Management
-
-The notification system provides centralized administrative notifications.
-
-- 🔔 View notifications
-- 🔍 Search and filter
-- 👁️ Read / unread status
-- ✅ Mark as read
-- 📩 Mark as unread
-- ✅ Mark all as read
-- 🗑️ Delete notifications
-- 🧹 Clear read notifications
-- 🔢 Dynamic notification count
-- 📋 View notification details
-
-Important administrative operations can generate corresponding notifications.
-
-## ⚙️ Website Settings
-
-The Website Settings module provides centralized configuration for the platform.
-
-### General Settings
-
-- Platform name
-- Company information
-- Support email
-- Support phone
-- Address
-- Branding
-
-### Business Settings
-
-- Commission configuration
-- Working hours
-- Currency
-- Labour approval settings
-
-### Notification Settings
-
-- Email notifications
-- Booking notifications
-- Payment notifications
-- Support notifications
-- Administrative notifications
-
-### Appearance
-
-- Light mode
-- Dark mode
-- Theme preferences
-
-### Maintenance
-
-- Maintenance mode
-- Maintenance message
-- Platform availability
-
-## 🎨 UI & Design
-
-The portal follows a clean and professional administrative interface with:
-
-- Responsive sidebar and navigation
-- Modern cards and data tables
-- KPI dashboards
-- Interactive charts
-- Consistent buttons and status indicators
-- Reusable forms and management modals
-- Search and filtering controls
-- Light and dark appearance modes
-- Responsive layouts
-- Accessible frontend components
-- Consistent spacing and visual hierarchy
-
-## 🌟 Golden Luxury Theme
-
-The interface uses a warm **Gold + Linen + Espresso** visual system instead of the typical blue or neon dashboard style.
-
-### ☀️ Light Mode
-
-```text
-Background:      #FDFBF7
-Text:            #2B231D
-Gold:            #C5A059
-Secondary Gold:  #8E6F3E
-```
-
-### 🌙 Dark Mode
-
-```text
-Background:      #1B1613
-Text:            #EFEAE4
-Gold:            #DBC193
-Secondary Gold:  #725B38
-```
-
-## ♿ Accessibility
-
-The frontend is designed with accessibility in mind.
-
-- Semantic HTML structure
-- Proper form labels
-- Keyboard-friendly controls
-- Visible focus states
-- ARIA attributes where required
-- Accessible navigation
-- Keyboard-friendly modals
-- Responsive touch targets
-- Accessible status and notification feedback
-- Reduced-motion support
-
-## 🛠️ Technology Stack
-
-- 🌐 **HTML5** — Semantic application structure
-- 🎨 **CSS3** — Responsive layouts, themes, components, and styling
-- ⚡ **Vanilla JavaScript ES6+** — Application logic, interactions, validation, and state management
-- 📊 **Chart.js** — Dashboard charts and analytics
-- 🎯 **Font Awesome / Material Icons** — Interface icons
-- 💾 **Browser LocalStorage** — Frontend data persistence
-- 🔧 **Git** — Version control
-- 🐙 **GitHub** — Source code management
-
-## 📊 Data & Functionality
-
-The portal provides structured management for:
-
-- Users and labourers
+- Dashboard
+- Users
+- Labour
 - Contractors
-- Categories and skills
+- Categories
+- Skills
 - Bookings
-- Payments and escrow
-- Payouts and refunds
-- Revenue and analytics
-- Reports and exports
+- Payments
+- Reports
 - Notifications
-- Support tickets
-- Activity logs
-- Administrators
-- Roles and permissions
-- Website settings
+- Support
+- Activity Logs
+- Settings
+- Admin Management
+- Role Management
 
-The application uses a centralized data service to keep data operations, persistence, activity logging, and notifications consistent across modules.
+## Platform Connectivity
 
-## 🏗️ Application Architecture
+The Admin Portal is designed to work with the wider Skilliant platform:
 
-```text
-┌─────────────────────────┐
-│       index.html        │
-└────────────┬────────────┘
-             │
-             ▼
-┌─────────────────────────┐
-│         app.js          │
-│   Routing / Session     │
-└────────────┬────────────┘
-             │
-      ┌──────┼──────┐
-      ▼      ▼      ▼
-   Pages  Components Sidebar
-      │      │      │
-      └──────┼──────┘
-             ▼
-┌─────────────────────────┐
-│      DataService        │
-│ Data / State / Logs     │
-└────────────┬────────────┘
-             │
-             ▼
-┌─────────────────────────┐
-│     LocalStorage        │
-└─────────────────────────┘
-```
+- **Marketing / Public Website** — public-facing entry point
+- **User Portal** — customer/user activities
+- **Labour Portal** — labour-provider activities
+- **Contractor Portal** — contractor activities
+- **Admin Portal** — centralized administrative management
 
-## 📂 Project Structure
+Navigation between these interfaces is separate from backend data synchronization. Shared authentication and shared live data require the corresponding Supabase/backend configuration to be deployed and configured correctly.
+
+## Core Data Relationships
 
 ```text
-skilliant-admin/
-│
-├── assets/
-│   ├── images/
-│   └── icons/
-│
-├── css/
-│   ├── variables.css
-│   ├── reset.css
-│   ├── layout.css
-│   ├── components.css
-│   ├── animations.css
-│   └── responsive.css
-│
-├── js/
-│   ├── app.js
-│   ├── sidebar.js
-│   ├── components.js
-│   │
-│   ├── pages/
-│   │   ├── dashboard.js
-│   │   ├── users.js
-│   │   ├── labour.js
-│   │   ├── contractors.js
-│   │   ├── categories.js
-│   │   ├── skills.js
-│   │   ├── bookings.js
-│   │   ├── payments.js
-│   │   ├── reports.js
-│   │   ├── notifications.js
-│   │   ├── support.js
-│   │   ├── activity.js
-│   │   ├── settings.js
-│   │   ├── admins.js
-│   │   └── roles.js
-│   │
-│   └── services/
-│       └── dataService.js
-│
-├── index.html
-├── package.json
-└── README.md
+Users
+  │
+  ├── Bookings ─── Payments
+  │                  │
+  │                  └── Wallet / Transactions
+  │
+  ├── Support
+  └── Notifications
+
+Labour ──────── Bookings
+Contractors ─── Bookings
+Categories ─── Skills ─── Labour
+Bookings ────── Reports
+Payments ────── Reports
+Users ───────── Reports
+Notifications ── Activity Logs
 ```
 
-## 💾 Data Storage
+## Authentication and Security
 
-The current frontend implementation uses **Browser LocalStorage** for persistence.
+The portal supports:
 
-Centralized data operations handle:
+- Supabase Authentication
+- Email/password authentication
+- Google OAuth
+- Authorized administrator accounts
+- Super Admin and Admin role handling
+- Email OTP verification
+- Password-reset OTP verification
+- Password reset
+- Role-based administrative access
+- Supabase Row Level Security (RLS)
+- Protected administrative backend functions
+
+### Password Reset
 
 ```text
-Create
-  ↓
-Read
-  ↓
-Update
-  ↓
-Delete
-  ↓
-Persist
-  ↓
-Log Activity
-  ↓
-Update UI
+Enter Admin Email
+      ↓
+Check Authorized Admin Account
+      ↓
+Request OTP
+      ↓
+Verify OTP
+      ↓
+Enter New Password
+      ↓
+Reset Password
+      ↓
+Login
 ```
 
-This architecture keeps individual modules from maintaining separate and inconsistent copies of application data.
+An unregistered or unauthorized email must not be allowed to obtain administrative access through password reset.
 
-## 🔐 Authentication & Session
+## Backend / Supabase
 
-The portal includes administrator authentication and session management.
+The application is designed to use Supabase for authentication and administrative data persistence. The frontend should contain only public client-side configuration. Private credentials must remain on the server/Edge Function side.
 
-The active session determines:
+Expected backend capabilities include:
 
-- Current administrator
-- Current role
-- Current permissions
-- Authorized navigation
-- Authorized actions
+- Create Admin
+- Delete Admin
+- List Admins
+- Update Admin
+- Request Email OTP
+- Verify Email OTP
+- Request Password OTP
+- Verify Password OTP
+- Reset Password
 
-After successful sign-in, the administrator's role and permissions are applied immediately without requiring a manual browser refresh.
+## Environment Configuration
 
-> **Security Note:** The current implementation is a frontend application using browser storage. Production deployment should use secure server-side authentication, password hashing, HTTPS, backend authorization, and persistent database storage.
+Example public frontend configuration:
 
-## 🔎 Search & Filtering
+```env
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+VITE_DEMO_MODE=false
+```
 
-Major management modules provide consistent search and filtering functionality.
+Do not place private Supabase service-role credentials, OTP secrets, or other privileged credentials in frontend environment variables.
 
-Supported filtering includes:
-
-- Keyword search
-- Status
-- Priority
-- Role
-- Date
-- Category
-- Administrator
-- Action
-- Entity
-
-## 🪟 Interactive Management
-
-Reusable modal-based workflows are available for administrative operations:
-
-**Create · View · Edit · Delete · Verify · Assign · Reply · Resolve · Reopen · Reset Password · Permissions · Confirmation**
-
-Destructive operations require appropriate authorization and confirmation.
-
-## 📱 Responsive Design
-
-The portal is optimized for:
+Typical backend secrets include:
 
 ```text
-Desktop
-   ↓
-Laptop
-   ↓
-Tablet
-   ↓
-Mobile
+OTP_HASH_SECRET
+EMAILJS_SERVICE_ID
+EMAILJS_TEMPLATE_ID
+EMAILJS_PUBLIC_KEY
 ```
 
-Responsive features include:
+## Running Locally
 
-- Mobile navigation
-- Responsive tables
-- Responsive cards
-- Stacked forms
-- Responsive filters
-- Responsive modals
-- Touch-friendly controls
+### Requirements
 
-## 🔄 Administrative State Flow
-
-```text
-User Action
-    ↓
-Validation
-    ↓
-Permission Check
-    ↓
-DataService
-    ↓
-LocalStorage
-    ↓
-Activity Log
-    ↓
-Notification
-    ↓
-UI Refresh
-```
-
-This ensures that important changes are reflected consistently across the administration portal.
-
-## 🚀 Getting Started
-
-### Prerequisites
-
+- Node.js
+- npm
 - Modern web browser
-- Visual Studio Code
-- Git
-- Node.js (if using the provided development script)
+- Supabase project for live authentication/data functionality
+- Configured email service for OTP functionality
 
-### Clone Repository
-
-```bash
-git clone <repository-url>
-```
-
-### Open Project
-
-```bash
-cd skilliant-admin
-```
-
-### Run Locally
-
-The frontend can be opened directly through:
-
-```text
-index.html
-```
-
-Or, if the project contains an npm start script:
+### Installation
 
 ```bash
 npm install
-npm start
 ```
 
-## 🧪 Testing Checklist
+### Development
 
-| Module | Verification |
-|--------|--------------|
-| 🔐 Authentication | Login, logout, session and role loading |
-| 🏠 Dashboard | KPIs, charts and activity |
-| 👥 Users | Search, filter, view and edit |
-| 👷 Labour | Search, verification and management |
-| 🏢 Contractors | Search, verification and management |
-| 🗂️ Categories | Create, edit and delete |
-| 🛠️ Skills | Create, edit and delete |
-| 📅 Bookings | CRUD, search, filter and status |
-| 💳 Payments | Payment and financial operations |
-| 📊 Reports | Analytics and export |
-| 🔔 Notifications | Read, unread, filter and delete |
-| 🎫 Support | Assignment, priority, reply and resolution |
-| 📝 Activity Logs | Search, filter and audit tracking |
-| 👤 Admin Management | Administrator management |
-| 🔐 Roles | Role and permission control |
-| ⚙️ Settings | Platform configuration |
-| 📱 Responsive UI | Desktop, tablet and mobile |
-| ♿ Accessibility | Keyboard and accessible controls |
+```bash
+npm run dev
+```
 
-## 🐛 Bug Fixes & Reliability
+### Production Build
 
-The portal includes centralized handling for:
+```bash
+npm run build
+```
 
-- Form validation
-- Duplicate record prevention
-- Permission checks
-- Route authorization
-- Confirmation dialogs
-- Error states
-- Empty states
-- Toast feedback
-- Activity logging
-- Notification updates
-- LocalStorage persistence
-- Responsive layout handling
+### Preview
 
-## 🔒 Security Scope
+```bash
+npm run preview
+```
 
-The current version is designed as a **frontend administrative prototype / project implementation**.
+## Testing
 
-For a production environment, the following should be implemented on the server side:
+Run:
 
-- Secure authentication
-- Password hashing
-- Server-side RBAC
-- API authorization
-- Database persistence
-- HTTPS
-- Rate limiting
-- Secure password recovery
-- Persistent audit logs
-- Secure payment integration
+```bash
+npm test
+```
 
-Client-side permissions should never be considered a replacement for server-side authorization in a production system.
+The automated validation checks JavaScript syntax, local references, authentication/OTP files, environment configuration, Git-ignore configuration, navigation routes, Supabase security configuration, administrator safeguards, button/controller wiring, inline button handlers, and duplicate report-export handlers.
 
-## 🔮 Future Enhancements
+Static validation does not replace a live deployment test. Real Google OAuth, Supabase authentication, database operations, and email delivery depend on correct external service configuration.
 
-- 🌐 Backend API integration
-- 🗄️ PostgreSQL / MongoDB database
-- 🔐 Server-side authentication and RBAC
-- 📧 Email and OTP verification
-- 🔔 Real-time notifications
-- 📱 Push notifications
-- 📊 Advanced analytics
-- 📥 Advanced report generation
-- ☁️ Cloud deployment
-- 💳 Production payment gateway
-- 📝 Persistent audit infrastructure
+## Functionality Policy
 
-## 📌 Project Status
+The active build exposes implemented functionality rather than fake demo buttons. Unreachable legacy page implementations have been removed from the active build.
 
-### 🟢 Completed
+Production demo mode is disabled:
 
-The Skilliant Admin Portal currently provides the core administrative modules required for centralized platform management:
+```env
+VITE_DEMO_MODE=false
+```
+
+## Project Structure
 
 ```text
-Dashboard
-   │
-   ├── User Management
-   ├── Labour Management
-   ├── Contractor Management
-   ├── Categories & Skills
-   ├── Booking Management
-   │
-   ├── Payments & Escrow
-   ├── Reports & Analytics
-   │
-   ├── Notifications
-   ├── Support Tickets
-   ├── Activity Logs
-   │
-   ├── Administrator Management
-   ├── Roles & Permissions
-   └── Website Settings
+Skilliant_Admin/
+├── index.html
+├── package.json
+├── README.md
+├── .env
+├── .gitignore
+├── css/
+├── js/
+│   ├── app.js
+│   ├── auth.js
+│   ├── dataService.js
+│   └── pages/
+│       ├── dashboard.js
+│       ├── users.js
+│       ├── labour.js
+│       ├── contractors.js
+│       ├── categories.js
+│       ├── skills.js
+│       ├── bookings.js
+│       ├── payments.js
+│       ├── reports.js
+│       ├── notifications.js
+│       ├── support.js
+│       ├── activity.js
+│       ├── settings.js
+│       ├── admins.js
+│       └── roles.js
+├── supabase/
+│   └── functions/
+└── scripts/
+    └── test.cjs
 ```
 
-## 📄 License
+## Deployment
 
-Developed for **Skilliant — Online Labour Finding Platform**.
+The Admin Portal can be deployed on Vercel or another compatible hosting provider.
 
-Intended for educational, internship, demonstration, and prototype purposes.
+For Vercel:
 
----
+1. Import the repository/project.
+2. Set the required environment variables.
+3. Configure the build command.
+4. Deploy.
+5. Configure Supabase authentication redirect URLs.
+6. Configure Google OAuth redirect URLs if Google login is enabled.
+7. Deploy and configure required Supabase Edge Functions and backend secrets.
+8. Test authentication, OTP, database access, and administrative workflows.
 
-<p align="center">
-  <strong>🚀 Skilliant Admin Portal</strong><br>
-  Manage • Monitor • Analyze • Control
-</p>
+Do not commit private credentials to GitHub.
+
+## Git Workflow
+
+Repository:
+
+```text
+https://github.com/semiquantum/skilliant
+```
+
+Use the `meet` branch for Admin Portal work and preserve existing history:
+
+```bash
+git checkout meet
+git pull origin meet
+
+git add skilliant-admin
+git commit -m "Update Skilliant Admin Portal"
+git push origin meet
+```
+
+Do not push these changes to `main` unless explicitly required.
+
+## Production Verification
+
+Before production use, verify:
+
+- Supabase URL and public key
+- Supabase Authentication settings
+- Google OAuth configuration, if enabled
+- Authentication redirect URLs
+- Supabase database tables
+- RLS policies
+- Supabase Edge Functions
+- Edge Function secrets
+- Email/OTP service
+- Production environment variables
+- CORS/allowed origins where applicable
+
+Never expose service-role keys, database passwords, private API keys, OTP hashing secrets, or other server-side credentials in the frontend.
+
+## Troubleshooting
+
+### Login does not work
+
+Check Supabase environment variables, Auth configuration, the authorized admin record, browser console, network requests, and Supabase authentication logs.
+
+### Google Sign-In does not work
+
+Check Google OAuth provider configuration, Google Cloud OAuth credentials, Supabase redirect URLs, production domain, and authorized redirect URIs.
+
+### OTP is not received
+
+Check Edge Function deployment, email service configuration, backend secrets, email template/service identifiers, and Supabase Function logs.
+
+### Data does not synchronize
+
+Check the authenticated session, Supabase URL/key, database tables, RLS policies, Edge Functions, browser Network tab, and Supabase logs.
+
+### Buttons do not respond
+
+Check the browser console, required JavaScript files, controller registration, event-handler errors, and deployment asset paths. Then run:
+
+```bash
+npm test
+```
+
+## Final Checklist
+
+- [ ] `npm install` completes successfully
+- [ ] `npm test` passes
+- [ ] `npm run build` succeeds
+- [ ] `.env` is not committed
+- [ ] private credentials are not exposed
+- [ ] Supabase is configured
+- [ ] RLS policies are enabled
+- [ ] Edge Functions are deployed
+- [ ] OTP service is configured
+- [ ] Google OAuth is configured if required
+- [ ] authorized Admin account exists
+- [ ] password reset is tested
+- [ ] module navigation is tested
+- [ ] cross-module operations are tested with real backend data
+- [ ] production environment variables are configured
+- [ ] final deployment is tested
+
+## Version
+
+**Skilliant Admin Portal v1.4.0**
+
+Central administration interface for the Skilliant Online Labour Finding Platform.
